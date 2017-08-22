@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>活动详情</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+    <header class="course-swiper-wrap">
+        <div id="swiper-container" class="swiper-container hp100">
+            <div id="top-swiper" class="swiper-wrapper"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </header>
+    <div class="course-content">
+        <div class="course-name-info am-flexbox am-flexbox-justify-between">
+            <h1 id="title"></h1>
+            <div class="remain-number">还剩<span id="remainNum"></span>人</div>
+        </div>
+        <div class="course-time pb">
+            <span id="datetime"></span>
+        </div>
+        <div class="course-time pb">
+            <span id="slogan"></span>
+        </div>
+        <div class="am-flexbox course-item none-border" id="contact"></div>
+    </div>
+    <div class="am-whitespace-sm"></div>
+    <div class="detail-header">
+        <div class="header-split">
+            <span>活动详情</span>
+        </div>
+    </div>
+    <div class="detail-description" id="description"></div>
+    <div class="am-whitespace-xxl"></div>
+    <div class="default-home"><a href="../index.html"></a></div>
+    <footer class="normal-footer">
+        <span class="foot-label">金额：</span>
+        <span class="foot-unit">¥</span>
+        <span class="foot-price" id="amount"></span>
+        <button id="buyBtn" class="am-button am-button-primary fr">购买</button>
+    </footer>
+
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/notice/Activity']);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>推荐</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+    <div class="invitation-wrap">
+        <img src="../../images/invitation.png" class="invitation-bg">
+        <div id="qrCode" class="qr-code"></div>
+        <p class="invite-title" id="title">您的邀请码</p>
+        <div class="active-note" id="activeNote">
+            <div class="am-flexbox">
+                <div class="am-flexbox-item"></div>
+                <div class="act-note">活动说明</div>
+                <div class="am-flexbox-item"></div>
+            </div>
+        </div>
+        <div class="act-desc" id="desc">
+            <p>获客的直接对象是<span>会员</span>，</p>
+            <p>只要发展的会员上一节课就有<span id="rate"></span>的提成，</p>
+            <p>直接<span>现金方式</span></p>
+        </div>
+    </div>
+    <link rel="import" href="../footer.html?__inline">
+    <script src="../../js/lib/qrcode.js"></script>
+    <script>
+        require(['app/controller/invitation/Invitation']);
+    </script>
+</body>
+
+</html>

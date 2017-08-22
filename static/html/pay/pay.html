@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>支付</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+    <div class="recharge-wrapper">
+        <div class="recharge-pay">
+            <div class="title border-bottom-1px">支付方式</div>
+            <div class="pay-type-list" id="payType">
+                <div class="pay-item border-bottom-1px active">
+                    <i class="icon-title icon-re"></i>
+                    <span>余额支付 (余额：¥<label id="remainAmount">0</label>)</span>
+                    <i class="chose-icon"></i>
+                </div>
+                <div class="pay-item border-bottom-1px">
+                    <i class="icon-title icon-wx"></i>
+                    <span>微信支付</span>
+                    <i class="chose-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="normal-footer">
+        <span class="foot-label">金额：</span>
+        <span class="foot-unit">¥</span>
+        <span class="foot-price" id="price"></span>
+        <button class="am-button am-button-primary fr" id="payBtn">确认支付</button>
+    </footer>
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/pay/Pay']);
+    </script>
+</body>
+
+</html>

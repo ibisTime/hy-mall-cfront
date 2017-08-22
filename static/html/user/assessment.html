@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>评价</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+    <div class="assessment-wrap" id="wrapper"></div>
+    <div class="am-whitespace-sm"></div>
+    <div class="assessment-text">
+        <textarea placeholder="说说他的优点跟美中不足的地方吧" id="content"></textarea>
+    </div>
+    <div class="assessment-button">
+        <button class="am-button am-button-primary" id="applyBtn">提交</button>
+    </div>
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/user/Assessment']);
+    </script>
+</body>
+
+</html>

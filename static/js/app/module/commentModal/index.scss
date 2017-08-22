@@ -1,0 +1,77 @@
+.am-modal-wrapper {
+    .am-modal-mask {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        height: 100%;
+        z-index: 999;
+        background-color: rgba(0,0,0,.4);
+    }
+
+    .am-modal-wrap {
+        position: fixed;
+        overflow: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 100%;
+        z-index: 999;
+        -webkit-overflow-scrolling: touch;
+        outline: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .am-modal {
+            position: relative;
+            height: auto;
+            max-width: 6rem;
+
+            .am-modal-content {
+                position: relative;
+                background-color: #fff;
+                border: 0;
+                background-clip: padding-box;
+                text-align: left;
+                height: 100%;
+                overflow: hidden;
+
+                .am-modal-body {
+                    font-size: 0.28rem;
+                    height: 100%;
+                    overflow: auto;
+                    line-height: 1.2;
+
+                    .assessment-text {
+                        height: auto;
+                        line-height: 1.3;
+                        color: #999;
+                        font-size: 0.3rem;
+                    }
+                }
+
+                .am-modal-footer {
+                    text-align: center;
+                    padding-top: 0.1rem;
+                    padding-bottom: 0.4rem;
+
+                    .close-button {
+                        display: inline-block;
+                        width: 0.5rem;
+                        height: 0.5rem;
+                        background: url("/static/images/close.png") center no-repeat;
+                        background-size: contain;
+                    }
+                }
+            }
+
+            &.am-modal-transparent .am-modal-content {
+                border-radius: 0.14rem;
+                height: auto;
+            }
+        }
+    }
+}

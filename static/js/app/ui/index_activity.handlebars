@@ -1,0 +1,16 @@
+{{#each items}}
+    <a href="./notice/activity.html?code={{code}}" class="hot-item hot-item-activity">
+        <div class="act-adv-img">
+            <img src="{{formatBigRectImage pic}}"/>
+        </div>
+        <div class="hot-item-cont">
+            <div class="act-title am-flexbox am-flexbox-align-middle am-flexbox-justify-between">
+                <h1 class="am-flexbox-item t-3dot">{{title}}</h1>
+                <span>{{formatDate startDatetime}}</span>
+            </div>
+            <div class="hot-item-time hot-item-time1">
+                <span class="twoline-ellipsis">{{slogan}}</span>
+            </div>
+        </div>
+    </a>
+{{/each}}

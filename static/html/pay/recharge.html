@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>充值</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+    <div class="recharge-wrapper">
+        <form id="formWrapper" class="recharge-top">
+            <div class="title">充值金额</div>
+            <div class="amount">
+                <div class="am-flexbox">
+                    <span>¥</span>
+                    <input type="number" id="amount" name="amount" placeholder="请输入充值金额">
+                </div>
+            </div>
+        </form>
+        <div class="am-whitespace-sm"></div>
+        <div class="recharge-pay">
+            <div class="title border-bottom-1px">支付方式</div>
+            <div class="pay-type-list">
+                <div class="pay-item border-bottom-1px active">
+                    <i class="icon-title icon-wx"></i>
+                    <span>微信支付</span>
+                    <i class="chose-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="recharge-btn">
+            <button class="am-button am-button-primary" id="sbtn">充值</button>
+        </div>
+    </div>
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/pay/Recharge']);
+    </script>
+</body>
+
+</html>

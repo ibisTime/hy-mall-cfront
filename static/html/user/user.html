@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>我的</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+    <a href="./set.html" class="user-top-wrap am-flexbox am-flexbox-dir-column">
+        <div class="top-infos">
+            <div class="top-img"><img id="userImg" /></div>
+            <p class="top-nickname" id="nickname"></p>
+            <p class="top-mobile" id="mobile"></p>
+        </div>
+        <i class="right-arrow right-arrow-white"></i>
+    </a>
+    <div class="user-amount-wrap am-flexbox am-flexbox-dir-column am-flexbox-align-middle">
+        <div class="am-flexbox wp100">
+            <a href="./rmb-account.html" class="user-amount am-flexbox-item tc">
+                余额：<span class="unit-span">¥</span><span class="amount-span" id="cnyAmount">0.00</span>
+            </a>
+            <div class="border-e"></div>
+            <a href="./jf-account.html" class="user-amount am-flexbox-item tc">
+                积分：<span class="amount-span" id="jfAmount">0.00</span>
+            </a>
+        </div>
+    </div>
+    <div class="am-whitespace-sm"></div>
+    <div class="user-list-wrap">
+        <div class="user-list-item border-bottom-1px am-flexbox am-flexbox-justify-between">
+            <a href="./course-orders.html" class="am-flexbox am-flexbox-item" id="courseWrap">
+                <img src="../../images/course-order.png"/>
+                <span>我的课程订单</span>
+            </a>
+            <i class="right-arrow"></i>
+        </div>
+        <div class="user-list-item border-bottom-1px am-flexbox am-flexbox-justify-between">
+            <a href="./coach-orders.html" class="am-flexbox am-flexbox-item" id="coachWrap">
+                <img src="../../images/coach-order.png"/>
+                <span>我的私教订单</span>
+            </a>
+            <i class="right-arrow"></i>
+        </div>
+        <div class="user-list-item border-bottom-1px am-flexbox am-flexbox-justify-between">
+            <a href="./activity-orders.html" class="am-flexbox am-flexbox-item" id="activityWrap">
+                <img src="../../images/activity.png"/>
+                <span>我参与的活动</span>
+            </a>
+            <i class="right-arrow"></i>
+        </div>
+        <div class="user-list-item border-bottom-1px am-flexbox am-flexbox-justify-between">
+            <a href="./child-member.html" class="am-flexbox am-flexbox-item">
+                <img src="../../images/users.png"/>
+                <span>我的获客</span>
+            </a>
+            <i class="right-arrow"></i>
+        </div>
+    </div>
+    <div class="am-whitespace-sm"></div>
+    <div class="user-list-wrap">
+        <div class="user-list-item border-bottom-1px am-flexbox am-flexbox-justify-between">
+            <a href="../notice/aboutus.html" class="am-flexbox am-flexbox-item">
+                <img src="../../images/aboutus.png"/>
+                <span>关于我们</span>
+            </a>
+            <i class="right-arrow"></i>
+        </div>
+        <!-- <div id="logout" class="user-list-item border-bottom-1px am-flexbox am-flexbox-justify-between">
+            <div class="am-flexbox am-flexbox-item">
+                <img src="../../images/aboutus.png"/>
+                <span>退出登录</span>
+            </div>
+            <i class="right-arrow"></i>
+        </div> -->
+    </div>
+
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/user/User']);
+    </script>
+</body>
+
+</html>
