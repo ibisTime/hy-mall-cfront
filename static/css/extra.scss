@@ -67,9 +67,6 @@ label.error {
     a {
         color: #999;
 
-        &.active {
-            color: $primary-color;
-        }
     }
 
     img {
@@ -79,6 +76,7 @@ label.error {
     p {
         font-size: 0.22rem;
         line-height: 1;
+        color: #3d3d3d;
     }
 }
 
@@ -296,54 +294,25 @@ label.error {
     }
 }
 
-.week-wrap {
-    background: #fff;
-    padding: 0.44rem 0.3rem;
-
-    .week-days,
-    .week-titles {
-        margin-bottom: 0.2rem;
-    }
-
-    .week-titles span {
-        font-size: 0.24rem;
-        padding: 0.1rem 0.3rem;
-
-        &.active {
-            color: $primary-color;
-        }
-    }
-
-    .week-days span {
-        font-size: 0.28rem;
-        padding: 0.1rem 0.3rem;
-
-        &.active {
-            color: #fff;
-            background: url("../images/time-chose.png") no-repeat center;
-            background-size: contain;
-        }
-    }
-}
-
 .user-top-wrap {
-    height: 3.6rem;
+    height: 2.46rem;
     background: url("../images/user-bg.png") no-repeat center;
     background-size: cover;
     position: relative;
 
     .top-infos {
-        text-align: center;
-        margin: auto;
+        width: 100%;
+        padding-top: .6rem;
+        padding-left: .3rem;
 
         .top-img {
             width: 1.2rem;
             height: 1.2rem;
             border-radius: 50%;
-            border: 0.06rem solid rgba(255,255,255,0.4);
+            border: 0.02rem solid rgba(255,255,255,0.7);
             overflow: hidden;
             line-height: 1;
-            margin: 0 auto;
+            margin-right: .2rem;
 
             img {
                 width: 100%;
@@ -352,16 +321,16 @@ label.error {
         }
 
         .top-nickname {
-            font-size: 0.32rem;
-            color: #fff;
+            font-size: 0.34rem;
+            color: #484848;
             padding-top: 0.3rem;
             line-height: 1;
         }
 
         .top-mobile {
             font-size: 0.26rem;
-            color: #fff;
-            padding-top: 0.26rem;
+            color: #484848;
+            padding-top: 0.14rem;
             line-height: 1;
         }
     }
@@ -375,25 +344,33 @@ label.error {
 .user-amount-wrap {
     background: #fff;
     font-size: 0.3rem;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
 
     .user-amount {
+        overflow: hidden;
+        
         .unit-span {
             font-size: 0.28rem;
             color: $primary-color;
         }
 
         .amount-span {
-            font-size: 0.34rem;
-            color: $primary-color;
+            line-height: 1;
+            font-size: 0.44rem;
+            color: #484848;
+        }
+        
+        .amount-p {
+            line-height: 1;
+            font-size: 0.24rem;
+            color: #666;
+            margin-top: .15rem;
         }
     }
 
     .border-e {
         width: 1px;
         background: $border-color;
-        height: 0.7rem;
+        height: 1.6rem;
     }
 }
 
@@ -1017,6 +994,7 @@ label.error {
     }
 }
 
+//推荐
 .invitation-wrap {
     position: fixed;
     top: 0;
@@ -1249,6 +1227,7 @@ label.error {
     }
 }
 
+//订单详情
 .confirm-order-wrapper {
     .confirm-head {
         padding: 0 0.3rem;
@@ -1501,4 +1480,19 @@ label.error {
         background: url("../images/home.png") center no-repeat;
         background-size: 0.48rem;
     }
+}
+
+.acecu-avatar-div {
+    position: absolute;
+    right: .8rem;
+    width: .84rem;
+    height: .84rem;
+    top: .1rem;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.acecu-avatar-div img {
+    border-radius: 50%;
+    width: 100% !important;
 }

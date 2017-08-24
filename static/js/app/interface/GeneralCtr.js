@@ -5,7 +5,7 @@ define([
     return {
         // 获取微信sdk初始化的参数
         getInitWXSDKConfig() {
-            return Ajax.get("807910", {
+            return Ajax.get("805952", {
                 url: location.href.split('#')[0]
             }, true);
         },
@@ -17,11 +17,11 @@ define([
             }, true);
         },
         // 发送短信
-        sendCaptcha(bizType, mobile, sendCode = '805904') {
+        sendCaptcha(bizType, mobile, sendCode = '805950') {
             return Ajax.post(sendCode, {
                 bizType,
                 mobile,
-                "kind": "f1"
+                "kind": "C"
             });
         },
         // 获取转化汇率
@@ -46,16 +46,16 @@ define([
             }, refresh);
         },
         // 查询数据字典列表
-        getDictList(parentKey, code = "807706") {
+        getDictList(parentKey,code) {
             return Ajax.get(code, {parentKey});
         },
         // 查询user系统参数
         getUserSysConfig(ckey, refresh) {
-            return Ajax.get("807717", {ckey}, refresh);
+            return Ajax.get("805917", {ckey}, refresh);
         },
         // 分页查询user系统参数
         getPageUserSysConfig(config = {start: 1, limit: 100}, refresh) {
-            return Ajax.get("807715", config, refresh);
+            return Ajax.get("805915", config, refresh);
         },
         // 查询account系统参数
         getAccountSysConfig(key, refresh) {

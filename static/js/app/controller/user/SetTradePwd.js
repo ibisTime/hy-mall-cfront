@@ -43,7 +43,7 @@ define([
       onkeyup: false
     });
     smsCaptcha.init({
-      bizType: "805045"
+      bizType: "805066"
     });
     $("#setTradePwd").on("click", function() {
       if (_formWrapper.valid()) {

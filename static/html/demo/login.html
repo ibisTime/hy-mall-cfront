@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <link rel="stylesheet" href="../css/base.css">
+    <title>登录</title>
+</head>
+<body class="bg_f5">
+<div class="m20">
+    <div class="mt10 bg_fff login_input b_e6">
+        <div class="wp100 b_e6_b p_r">
+            <div class="l_icon tc"><img class="va-m" src="../../images/m-icon.png"/></div>
+            <input placeholder="请输入手机号码" type="tel" id="mobile"/>
+            <span class="warning">手机号不能为空</span>
+            <span class="warning">格式错误</span>
+        </div>
+        <div class="wp100 p_r">
+            <div class="l_icon tc"><img class="va-m" src="../../images/p-icon.png"/></div>
+            <input placeholder="请输入密码" type="password" id="password"/>
+            <span class="warning">密码不能为空</span>
+        </div>
+    </div>
+    <div class="mt30 clearfix">
+        <div class="wp100">
+            <input type="button" class="lh3_5rem wp100 bg_f64444 t_white b_radius4 s_13" value="登录" id="loginBtn"/>
+        </div>
+        <div class="wp100 pt20 s_12">
+            <a class="fl t_666" id="fdPwd" href="#">忘记密码</a><a class="fr t_666" href="./register.html">注册新用户</a>
+        </div>
+    </div>
+</div>
+<div class="tc pt20"><img class="wp40" style="opacity: .7;" src="../../images/logo.png"/></div>
+<div class="wp100 pt35">
+    <div class="tc b_bd_b p_r">
+        <p class="wp100 otherLogin tc">
+            <samp class="bg_f5 inline_block plr10">其他登录方式</samp>
+        </p>
+    </div>
+    <a class="tc inline_block wp100 pt35" id="wxLogin">
+        <img class="h50" src="data:image/png;base64,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">
+    </a>
+</div>
+<link rel="import" href="../footer.html?__inline">
+<script>
+    require(['app/controller/Login']);
+</script>
+</body>
+</html>

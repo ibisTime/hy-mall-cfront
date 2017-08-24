@@ -8,11 +8,11 @@ define([
          * @param config: {code,mobile?,smsCaptcha?,userReferee?}
          */
         wxLogin(config) {
-            return Ajax.post("805151", config);
+            return Ajax.post("805170", config);
         },
         // 获取用户详情
         getUser(refresh) {
-            return Ajax.get("805056", {
+            return Ajax.get("805121", {
                 "userId": base.getUserId()
             }, refresh);
         },
@@ -21,7 +21,7 @@ define([
          * @param config: {code,mobile?,smsCaptcha?,userReferee}
          */
         getPageChildren(config, refresh) {
-            return Ajax.get("805054", {
+            return Ajax.get("805120", { 
                 userReferee: base.getUserId(),
                 ...config
             }, refresh);
@@ -36,7 +36,7 @@ define([
         },
         // 设置支付密码
         setTradePwd(tradePwd, smsCaptcha) {
-            return Ajax.post('805045', {
+            return Ajax.post('805066', {
                 tradePwd,
                 smsCaptcha,
                 tradePwdStrength: base.calculateSecurityLevel(tradePwd),
@@ -45,9 +45,16 @@ define([
         },
         // 修改手机号
         changeMobile(newMobile, smsCaptcha) {
-            return Ajax.post("805047", {
+            return Ajax.post("805061", {
                 newMobile,
                 smsCaptcha,
+                userId: base.getUserId()
+            });
+        },
+        // 修改头像
+        changePhoto(photo) {
+            return Ajax.post("805080", {
+                photo,
                 userId: base.getUserId()
             });
         },

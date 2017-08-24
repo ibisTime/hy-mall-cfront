@@ -9,47 +9,12 @@ define([
   init();
 
   function init() {
-    // $("#logout").click(function() {
-    //     base.clearSessionUser();
-    //     location.reload(true);
-    // });
     Foot.addFoot(3);
     base.showLoading("加载中...", 1);
     $.when(
       getUserInfo(),
       getAccount()
     ).then(base.hideLoading);
-    getUnfinishedOrders();
-  }
-  // 获取未完成的订单数量
-  function getUnfinishedOrders() {
-    UserCtr.getUnfinishedOrders()
-      .then((data) => {
-        if (data.activityCount) {
-          $("#activityWrap")
-            .append(
-              `<span class="am-badge am-badge-not-a-wrapper">
-                            <sup class="am-badge-text">${data.activityCount}</sup>
-                        </span>`
-            );
-        }
-        if (data.orgCourseCount) {
-          $("#courseWrap")
-            .append(
-              `<span class="am-badge am-badge-not-a-wrapper">
-                            <sup class="am-badge-text">${data.orgCourseCount}</sup>
-                        </span>`
-            );
-        }
-        if (data.perCourseCount) {
-          $("#coachWrap")
-            .append(
-              `<span class="am-badge am-badge-not-a-wrapper">
-                            <sup class="am-badge-text">${data.perCourseCount}</sup>
-                        </span>`
-            );
-        }
-      });
   }
   // 获取账户信息
   function getAccount() {
@@ -57,11 +22,13 @@ define([
       .then(function(data) {
         data.forEach(function(d, i) {
           if (d.currency == "CNY") {
-            $("#cnyAmount").text(base.formatMoney(
-              d.amount));
+          	
+            $("#cnyAmount").text(base.formatMoney(d.amount));
+            
           } else if (d.currency == "JF") {
-            $("#jfAmount").text(base.formatMoney(
-              d.amount));
+          	
+            $("#jfAmount").text(base.formatMoney(d.amount));
+            
           }
         })
       });
@@ -71,8 +38,7 @@ define([
     return UserCtr.getUser().then(function(
       data) {
       $("#nickname").text(data.nickname);
-      $("#userImg").attr("src", base.getAvatar(
-        data.userExt.photo));
+      $("#userImg").attr("src", base.getAvatar(data.photo));
       $("#mobile").text(data.mobile);
     });
   }

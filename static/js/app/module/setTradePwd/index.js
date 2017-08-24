@@ -81,7 +81,7 @@ define([
             _showMsg("还未绑定手机号");
             return false;
           },
-          bizType: "805045",
+          bizType: "805066",
           id: "set-trade-pwd-getVerification",
           mobile: "setTradePwdMobile"
         });

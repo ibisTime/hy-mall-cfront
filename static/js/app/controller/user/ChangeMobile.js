@@ -28,7 +28,7 @@ define([
             checkInfo: function () {
                 return $("#newMobile").valid();
             },
-            bizType: "805047",
+            bizType: "805061",
             id: "getVerification",
             mobile: "newMobile"
         });

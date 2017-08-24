@@ -133,9 +133,13 @@ define([
             CookieUtil.set("userId", data.userId);
             CookieUtil.set("token", data.token);
         },
+        setSessionQiniuUrl: function(data) {
+            sessionStorage.setItem("qiniuUrl", data);
+        },
         clearSessionUser: function() {
             CookieUtil.del("userId"); //userId
             CookieUtil.del("token"); //token
+            CookieUtil.del("qiniuUrl"); //qiniuUrl
         },
         isLogin: function() {
             return !!Base.getUserId();
@@ -173,6 +177,12 @@ define([
                 return "/static/images/avatar.png";
             }
             return Base.getImg(pic, "?imageMogr2/auto-orient/thumbnail/!200x200r");
+        },
+        getWXAvatar: function(pic){
+            if(!pic) {
+                return "/static/images/avatar.png";
+            }
+            return Base.getImg(pic, "?imageMogr2/auto-orient/thumbnail/!65x65r");
         },
         // 获取分享的图片
         getShareImg: function(pic) {

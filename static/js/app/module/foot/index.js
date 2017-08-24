@@ -3,10 +3,10 @@ define([
 ], function ($) {
     var tmpl = __inline("index.html");
     var activeImgs = [
-        __uri('../../../../images/home1.png'),
-        __uri('../../../../images/course1.png'),
-        __uri('../../../../images/tuijian1.png'),
-        __uri('../../../../images/mine1.png')
+        __uri('../../../../images/home_on.png'),
+        __uri('../../../../images/mall_on.png'),
+        __uri('../../../../images/lease_on.png'),
+        __uri('../../../../images/user_on.png')
     ];
 
     return {

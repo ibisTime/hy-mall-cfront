@@ -27,13 +27,19 @@ define([
         return;
       }
       base.showLoading("登录中...");
-      wxLogin({
-        code,
-        mobile,
-        smsCaptcha,
-        userReferee,
-        companyCode: SYSTEM_CODE
-      });
+      
+      $.when(
+      	wxLogin({
+	        code,
+	        mobile,
+	        smsCaptcha,
+	        userReferee,
+	        companyCode: SYSTEM_CODE
+	      }),
+	      getQiniuUrl()
+      )
+      
+      
     } else { // 已登陆
       location.href = "../index.html";
     }
@@ -55,6 +61,13 @@ define([
         }
       });
   }
+  //获取七牛地址
+  function getQiniuUrl(){
+			GeneralCtr.getUserSysConfig('qiniu_domain').then(function(data) {
+	        base.setSessionQiniuUrl('http://'+data.cvalue+'/');
+	    });
+  }
+  
   // 微信登录
   function wxLogin(param) {
     UserCtr.wxLogin(param).then(function(data) {
