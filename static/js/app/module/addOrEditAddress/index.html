@@ -1,0 +1,41 @@
+<div id="addOrEditAddressContainer" class="right-left-cont">
+    <div class="right-left-cont-title">
+        <div class="right-left-cont-back"></div>
+        <div class="right-left-cont-title-name">新增收货地址</div>
+    </div>
+    <form id="addOrEditAddressForm" class="form-wrapper">
+        <input id="userId" name="userId" type="hidden" />
+        <input name="type" id="type" type="hidden" value="C">
+        <input name="currency" id="currency" type="hidden" value="CNY">
+        <input name="bankCode" id="bankCode" type="hidden">
+        <div class="form-item border-bottom-1px">
+            <div class="am-flexbox">
+                <span class="item-title">收件人名称</span>
+                <input type="text" placeholder="请输入收件人名称" id="addressee" name="addressee" class="input-item"/>
+            </div>
+        </div>
+        <div class="form-item border-bottom-1px">
+            <div class="am-flexbox">
+                <span class="item-title">手机号</span>
+                <input type="tel" placeholder="请输入手机号" id="mobile" name="mobile" class="input-item"/>
+            </div>
+        </div>
+        <div class="form-item border-bottom-1px" id="cityWrap">
+            <div class="am-flexbox">
+                <span class="item-title">所在地区</span>
+                <input type="text" disabled="disabled" placeholder="" id="city" name="city" class="input-item"/>
+            </div>
+        </div>
+        <div class="form-item border-bottom-1px">
+            <div class="am-flexbox">
+                <span class="item-title">详细地址</span>
+                <input type="text" placeholder="详细地址(街道、小区、大厦)" id="detailAddress" name="detailAddress" class="input-item"/>
+            </div>
+        </div>
+    </form>
+    <div class="primary-wrap">
+        <a id="addOrEditAddressBtn" class="am-button am-button-primary">
+            <span>确定</span>
+        </a>
+    </div>
+</div>

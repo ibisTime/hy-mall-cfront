@@ -316,7 +316,6 @@ label.error {
 
             img {
                 width: 100%;
-                height: 100%;
             }
         }
 
@@ -378,7 +377,7 @@ label.error {
     font-size: 0.3rem;
 
     .user-list-item {
-        height: 1.12rem;
+        height: 1rem;
         padding-left: 0.36rem;
         padding-right: 0.36rem;
         @include border-bottom-1px($border-color);
@@ -1493,6 +1492,14 @@ label.error {
 }
 
 .acecu-avatar-div img {
-    border-radius: 50%;
     width: 100% !important;
+}
+
+#addOrEditAddressForm {
+    .form-item {
+        .item-title {
+            width: 1.7rem;
+            font-size: 0.28rem;
+        }
+    }
 }

@@ -5,43 +5,32 @@ define([
     'app/module/qiniu',
   	'app/interface/UserCtr',
 ], function(base, Ajax, Validate, qiniu, UserCtr) {
-	var token, nickname, mobile, identityFlag;
+	var token, nickname, mobile;
+	
 	init();
 	function init(){
+		
+    	base.showLoading("加载中...", 1);
 		UserCtr.getUser()
 			.then(function(data){
 				$("#showAvatar").attr("src", base.getWXAvatar(data.photo));
-				nickname = data.nickname;
-				$("#nick").text(nickname);
+				base.hideLoading();
 				
 				addListener();
 				initUpload();
 			}, function(){
+				
+				base.hideLoading();
 				base.showMsg("用户信息获取失败");
 			});
 	}
 
 	function addListener(){
-		$("#nickWrap").on("click", function(){
-			ChangeNickName.showNickCont();
-		});
-		$("#mobileWrap").on("click", function(){
-			if(mobile)
-				ChangeMobile.showMobileCont();
-			else
-				BindMobile.showMobileCont();
-		});
-        $("#identityWrap").on("click", function(){
-			Identity.showIdentity();
-		});
-		// $("#changPwdWrap").on("click", function(){
-		// 	ChangePwd.showCont();
-		// });
   	}
 
 	function initUpload(){
 		qiniu.getQiniuToken()
-			.then(function(data){
+			.then((data) =>{
 				token = data.uploadToken;
 				qiniu.uploadInit({
 					token: token,
@@ -59,14 +48,15 @@ define([
 						uploadAvatar(url, key);
 					}
 				});
-			}, function(){
-				base.showMsg("token获取失败");
-			})
+			}, () => {})
 	}
 	function uploadAvatar(url, photo){
+		
+    	base.showLoading("上传中...", 1);
 		UserCtr.changePhoto(photo).then(function(res){
-				$("#showAvatar").attr("src", url);
-		}, function(){
-		});
+			$("#showAvatar").attr("src", url);
+			
+			base.hideLoading();
+		}, base.hideLoading());
 	}
 });

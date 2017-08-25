@@ -59,6 +59,7 @@ define([
                 code: $(this).attr("data-code")
             });
         });
+        
     }
     function showLoading() {
         $("#loadingWrap").removeClass("hidden");

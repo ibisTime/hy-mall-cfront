@@ -45,7 +45,7 @@ define([
                         //只允许上传图片文件 （注意，extensions中，逗号后面不要加空格）
                         {
                             title: "图片文件",
-                            extensions: "jpg,gif,png,bmp"
+                            extensions: "jpg,jpeg,gif,png,bmp"
                         }
             //             , {
                         //  title: '文件',
@@ -99,7 +99,7 @@ define([
                     },
                     'Error': function(up, err, errTip) {
                         //上传出错时,处理相关的事情
-                        //printLog('on Error');
+						//debugger;
                     },
                     'UploadComplete': function() {
                             //队列文件处理完毕后,处理相关的事情

@@ -4,6 +4,8 @@ define([
   'app/module/smsCaptcha',
   'app/interface/UserCtr'
 ], function(base, Validate, smsCaptcha, UserCtr) {
+	var tradePwd = 0;
+	
   init();
 
   function init() {
@@ -13,6 +15,8 @@ define([
         base.hideLoading();
         $("#mobile").val(data.mobile);
         $("#modelMobile").val(data.mobile);
+        tradePwd = data.tradePwdStrength;
+        
         addListeners();
       });
   }
@@ -43,15 +47,33 @@ define([
       onkeyup: false
     });
     smsCaptcha.init({
-      bizType: "805066"
+      bizType: tradePwd?"805067":"805066"
     });
+    
     $("#setTradePwd").on("click", function() {
       if (_formWrapper.valid()) {
-        setTradePwd();
+      	
+      	if(tradePwd){
+      		changeTradePwd();
+      	}else{
+        	setTradePwd();
+      	}
       }
     });
   }
-
+	
+	function changeTradePwd() {
+    base.showLoading("设置中...");
+    UserCtr.changeTradePwd($("#tradePwd").val(), $("#smsCaptcha").val())
+      .then(function() {
+        base.hideLoading();
+        base.showMsg("支付密码设置成功！");
+        setTimeout(function() {
+          history.back();
+        }, 500);
+      });
+  }
+	
   function setTradePwd() {
     base.showLoading("设置中...");
     UserCtr.setTradePwd($("#tradePwd").val(), $("#smsCaptcha").val())

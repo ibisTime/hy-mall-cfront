@@ -43,6 +43,14 @@ define([
                 userId: base.getUserId()
             });
         },
+        // 重置支付密码
+        changeTradePwd(newTradePwd, smsCaptcha) {
+            return Ajax.post("805067", {
+                newTradePwd,
+                smsCaptcha,
+                userId: base.getUserId()
+            });
+        },
         // 修改手机号
         changeMobile(newMobile, smsCaptcha) {
             return Ajax.post("805061", {
@@ -107,6 +115,21 @@ define([
             return Ajax.get("622920", {
                 applyUser: base.getUserId()
             });
-        }
+        },
+        // 列表查询收货地址
+        getAddressList(){
+            return Ajax.get("805165",{userId: base.getUserId()},true);
+        },
+        // 详情收货地址
+        getAddressDetail(code){
+            return Ajax.get("805166",{code},true);
+        },
+        // 详情收货地址
+        addAddress(code) {
+            return Ajax.post("805160", {
+                userId: base.getUserId(),
+                ...config
+            });
+        },
     };
 })
