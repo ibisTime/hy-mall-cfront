@@ -117,8 +117,8 @@ define([
             });
         },
         // 列表查询收货地址
-        getAddressList(){
-            return Ajax.get("805165",{userId: base.getUserId()},true);
+        getAddressList(refresh){
+            return Ajax.get("805165",{userId: base.getUserId()},refresh);
         },
         // 详情收货地址
         getAddressDetail(code){

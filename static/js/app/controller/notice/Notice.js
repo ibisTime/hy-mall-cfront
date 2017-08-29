@@ -27,7 +27,6 @@ define([
     	GeneralCtr.getPageSysNotice(config, refresh)
             .then(function(data) {
                 base.hideLoading();
-                hideLoading();
                 var lists = data.list;
                 var totalCount = +data.totalCount;
                 if (totalCount <= config.limit || lists.length < config.limit) {
@@ -43,7 +42,7 @@ define([
                     $("#loadAll").removeClass("hidden");
                 }
                 canScrolling = true;
-        	}, hideLoading);
+        	}, base.hideLoading);
     }
     function addListener() {
         $(window).off("scroll").on("scroll", function() {
@@ -53,12 +52,5 @@ define([
                 getPageNotice();
             }
         });
-    }
-    function showLoading() {
-        $("#loadingWrap").removeClass("hidden");
-    }
-
-    function hideLoading() {
-        $("#loadingWrap").addClass("hidden");
     }
 });

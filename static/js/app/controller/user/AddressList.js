@@ -21,7 +21,7 @@ define([
 	
 	//收货地址列表
 	function getAddressList(){
-		 UserCtr.getAddressList()
+		UserCtr.getAddressList(true)
         .then(function(data){
             var html = "";
             if(data.length){
@@ -123,6 +123,6 @@ define([
 	
 	//
     function doError(cc) {
-        $(cc).replaceWith('<div style="text-align: center;line-height: 3;">暂无数据</div>');
+        $(cc).html('<div style="text-align: center;line-height: 3;">暂无数据</div>');
     }
 });
