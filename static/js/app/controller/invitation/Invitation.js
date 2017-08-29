@@ -13,7 +13,7 @@ define([
         createQRCode();
         weixin.initShare({
             title: document.title,
-            desc: "自玩自健",
+            desc: "户外电商",
             link: location.href,
             imgUrl: base.getShareImg()
         });

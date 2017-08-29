@@ -124,12 +124,27 @@ define([
         getAddressDetail(code){
             return Ajax.get("805166",{code},true);
         },
-        // 详情收货地址
-        addAddress(code) {
+        // 新增收货地址
+        addAddress(config) {
             return Ajax.post("805160", {
                 userId: base.getUserId(),
                 ...config
             });
+        },
+        // 修改收货地址
+        editAddress(config) {
+            return Ajax.post("805162", {
+                userId: base.getUserId(),
+                ...config
+            });
+        },
+        // 设置默认收货地址
+        setDefaultAddress(code) {
+            return Ajax.get("805163",{code},true);
+        },
+        // 设置默认收货地址
+        deleteAddress(code) {
+            return Ajax.get("805161",{code},true);
         },
     };
 })

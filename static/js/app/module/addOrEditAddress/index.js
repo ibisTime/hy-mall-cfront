@@ -35,14 +35,25 @@ define([
             getAddress()
         ).then(function (data) {
             loading.hideLoading();
+            $("#isDefault").val(data.isDefault);
             $("#addressee").val(data.addressee);
             $("#mobile").val(data.mobile);
+			$("#city").val(data.province + ' ' + data.city + ' ' + data.district);
+			$("#city").attr("data-prv",data.province);
+			$("#city").attr("data-city",data.city);
+			$("#city").attr("data-area",data.district);
+			$("#detailAddress").val(data.detailAddress);
+    		getPicker();
         })
     }
     // 添加收货地址
     function addAddress(){
         loading.createLoading("保存中...");
         var param = $("#addOrEditAddressForm").serializeObject();
+        param.isDefault = 0;
+        param.province = $("#city").attr("data-prv");
+		param.city =$("#city").attr("data-city");
+		param.district =$("#city").attr("data-area");
         UsertCtr.addAddress(param)
             .then(function(){
                 loading.hideLoading();
@@ -55,7 +66,18 @@ define([
     function editAddress() {
         loading.createLoading("保存中...");
         var param = $("#addOrEditAddressForm").serializeObject();
+        param.province = $("#city").attr("data-prv");
+		param.city =$("#city").attr("data-city");
+		param.district =$("#city").attr("data-area");
         param.code = defaultOpt.code;
+        
+        UsertCtr.editAddress(param)
+            .then(function(){
+                loading.hideLoading();
+                ModuleObj.hideCont(defaultOpt.success);
+            }, function(msg){
+                defaultOpt.error && defaultOpt.error(msg || "修改收货地址失败");
+            });
     }
 
     // 根据code获取收货地址详情
@@ -100,7 +122,10 @@ define([
 		  var text2 = second[selectedIndex[1]].text;
 		  var text3 = third[selectedIndex[2]] ? third[selectedIndex[2]].text : '';
 		
-			_nameEl.children("#city").val(text1 + ' ' + text2 + ' ' + text3);
+			$("#city").val(text1 + ' ' + text2 + ' ' + text3);
+			$("#city").attr("data-prv",text1);
+			$("#city").attr("data-city",text2);
+			$("#city").attr("data-area",text3);
 		});
 		
 		picker.on('picker.change', function (index, selectedIndex) {
@@ -158,8 +183,8 @@ define([
 		});
 		
 		picker.on('picker.valuechange', function (selectedVal, selectedIndex) {
-		  console.log(selectedVal);
-		  console.log(selectedIndex);
+//		  console.log(selectedVal);
+//		  console.log(selectedIndex);
 		});
 		
 		$("#cityWrap").on('click', function () {
@@ -256,9 +281,14 @@ define([
                     left: "100%"
                 }, 200, function () {
                     wrap.hide();
-                    func && func($("#bankName").find("option:selected").text());
+                    func && func();
+                    $("#isDefault").val("");
                     $("#addressee").val("");
+                    $("#mobile").val("");
+                    $("#city").val("");
+                    $("#detailAddress").val("");
                     wrap.find("label.error").remove();
+                    $('.picker').remove();
                 });
             }
             return this;

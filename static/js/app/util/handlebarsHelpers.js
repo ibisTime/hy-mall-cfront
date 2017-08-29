@@ -85,6 +85,6 @@ define(['Handlebars'], function(Handlebars) {
         }
         return (data.province || "") + (data.city || "") + (data.area || "") + data.address;
     });
-
+    
     return Handlebars;
 });

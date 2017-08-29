@@ -5,9 +5,7 @@
     </div>
     <form id="addOrEditAddressForm" class="form-wrapper">
         <input id="userId" name="userId" type="hidden" />
-        <input name="type" id="type" type="hidden" value="C">
-        <input name="currency" id="currency" type="hidden" value="CNY">
-        <input name="bankCode" id="bankCode" type="hidden">
+        <input name="isDefault" id="isDefault" type="hidden">
         <div class="form-item border-bottom-1px">
             <div class="am-flexbox">
                 <span class="item-title">收件人名称</span>
@@ -23,7 +21,7 @@
         <div class="form-item border-bottom-1px" id="cityWrap">
             <div class="am-flexbox">
                 <span class="item-title">所在地区</span>
-                <input type="text" disabled="disabled" placeholder="" id="city" name="city" class="input-item"/>
+                <input type="text" disabled="disabled" placeholder="选择省、市、区" id="city"  name="city" class="input-item"/>
             </div>
         </div>
         <div class="form-item border-bottom-1px">
@@ -34,7 +32,7 @@
         </div>
     </form>
     <div class="primary-wrap">
-        <a id="addOrEditAddressBtn" class="am-button am-button-primary">
+        <a id="addOrEditAddressBtn" class="am-button am-button-red">
             <span>确定</span>
         </a>
     </div>
