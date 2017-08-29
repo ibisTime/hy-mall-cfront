@@ -1,14 +1,14 @@
 {{#each items}}
-    <a class="mall-item" href="./mallDetail.html">
-		<div class="mall-item-img fl" style="background-image: url('/static/images/图层-50@2x.png');">
+    <a class="mall-item" href="./mallDetail.html?code={{code}}">
+		<div class="mall-item-img fl" style="background-image: url('{{formatImage advPic}}');">
 			<div class="hot">热销中</div>
 		</div>
 		<div class="mall-item-con fr">
-			<p class="name">商品名称商品名称 商品名称 商品名称 商品名称</p>
-			<samp class="slogan">广告语</samp>
+			<p class="name">{{name}}</p>
+			<samp class="slogan">{{slogan}}</samp>
 			<div class="price">
-				<samp class="samp1"><i>￥</i>69.6</samp>
-				<samp class="samp2">市场参考价: ￥99.6</samp>
+				<samp class="samp1"><i>￥</i>{{defaultProductPrice1}}</samp>
+				<samp class="samp2">市场参考价: ￥{{defaultProductOPrice}}</samp>
 			</div>
 		</div>
 	</a>

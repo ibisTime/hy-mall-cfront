@@ -85,6 +85,21 @@ define(['Handlebars'], function(Handlebars) {
         }
         return (data.province || "") + (data.city || "") + (data.area || "") + data.address;
     });
+    Handlebars.registerHelper('defaultProductPrice1', function(options) {
+        var data = +options.data.root.items[options.data.index].productSpecsList[0].price1;
+        
+        return data / 1000;
+    });
+    Handlebars.registerHelper('defaultProductPrice2', function(options) {
+        var data = +options.data.root.items[options.data.index].productSpecsList[0].price2;
+        
+        return data / 1000;
+    });
+    Handlebars.registerHelper('defaultProductOPrice', function(options) {
+        var data = +options.data.root.items[options.data.index].productSpecsList[0].originalPrice;
+        
+        return data / 1000;
+    });
     
     return Handlebars;
 });

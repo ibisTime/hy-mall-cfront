@@ -1702,6 +1702,7 @@ label.error {
             position: absolute;
             left: 0;
             bottom: 0;
+            line-height: 1;
             
             .samp1{
                 color: #ff5000;
@@ -1860,6 +1861,10 @@ label.error {
 .detail{
     width: 100%;
     overflow: hidden;
+    
+    p{
+        line-height: 1.8;
+    }
     
     img{
         max-width: 100%;

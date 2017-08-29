@@ -1,8 +1,9 @@
 define([
     'app/controller/base',
     'app/module/foot',
-    'app/util/handlebarsHelpers'
-], function(base, Foot, Handlebars) {
+    'app/util/handlebarsHelpers',
+    'app/interface/MallCtr',
+], function(base, Foot, Handlebars, MallCtr) {
     var _navTmpl = __inline('../../ui/category-item.handlebars');
     var _proTmpl = __inline('../../ui/mall-list-item.handlebars');
     var config = {
@@ -17,7 +18,7 @@ define([
         base.showLoading();
         
         $.when(
-        	getPageCategory(),
+        	getListCategory(),
         	getPageProduct()
         )
         
@@ -25,23 +26,26 @@ define([
 	}
 	
 	//获取导航
-	function getPageCategory(){
-		var data = [{},{},{},{},{}]
-        $(".mall-category").append(_navTmpl({items: data}));
-        
+	function getListCategory(){
+		MallCtr.getListCategory(1,true).then((data)=>{
+        	$(".mall-category").append(_navTmpl({items: data}));
+		},()=>{})
         base.hideLoading();
 	}
 	
 	function getPageProduct(refresh){
-//  	GeneralCtr.getPageSysNotice(config, refresh)
-//          .then(function(data) {
+    	MallCtr.getPageProduct(config, refresh)
+            .then(function(data) {
                 base.hideLoading();
-                var lists = [{},{},{},{},{}];
-                var totalCount = 5;//+lists.totalCount;
+                var lists = data.list;
+                var totalCount = data.totalCount;//+lists.totalCount;
                 if (totalCount <= config.limit || lists.length < config.limit) {
                     isEnd = true;
                 }
     			if(lists.length) {
+    				var html = '';
+    				
+    				
                     $("#content").append(_proTmpl({items: lists}));
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
@@ -51,7 +55,7 @@ define([
                     $("#loadAll").removeClass("hidden");
                 }
                 canScrolling = true;
-//      	}, hideLoading);
+        	}, base.hideLoading);
 	}
 	
 	function addListener(){
