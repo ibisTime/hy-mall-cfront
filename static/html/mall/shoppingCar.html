@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>购物车</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+	<div class="carContent">
+		<div class="orderPro-list" id="carProList">
+			<!--<div class="car-item mb20 active">
+				<div class="icon"><i></i></div>
+				<a class="mall-item" href="./mallDetail.html">
+		    		<div class="mall-item-img fl" style="background-image: url('../../images/图层-50@2x.png');"></div>
+		    		<div class="mall-item-con fr">
+		    			<p class="name">商品名称商品名称 商品名称 商品名称 商品名称</p>
+		    			<p class="slogan">商品规格：放大时发生</p>
+		    			<div class="price wp100">
+		    				<samp class="samp1 fl">69.6</samp>
+		    			</div>
+		    		</div>
+		    	</a>
+		    	<div class="productSpecs-number">
+					<div class="subt fl"></div><div class="sum fl">1</div><div class="add fl"></div>
+				</div>
+			</div>-->
+			
+		</div>
+		
+		<div style="height: 1rem;"></div>
+	    <div class="carBottom">
+	    	<div class="left fl">
+	    		<div class="icon fl" id="allCheck"><i></i>全选</div>
+	    		<div class="totalAmount fl"><span class="fl">共计：</span><samp class="fl">￥0<br/>0</samp></div>
+	    	</div>
+	    	<div class="right fr" id="subBtn">确认购买</div>
+	    </div>
+		
+	</div>
+	<div class="carNoData hidden">
+		<img src="../../images/购物车-shopping-cart@2x.png" />
+		<h4>购物车空空如也T.T</h4>
+		<samp>快给我挑点宝贝吧</samp>
+		<div><a class="am-button am-button-primary-48" href="./mall.html">去逛逛</a></div>
+	</div>
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/mall/ShoppingCar']);
+    </script>
+</body>
+
+</html>
+
+

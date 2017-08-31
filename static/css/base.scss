@@ -557,7 +557,7 @@ textarea {
 }
 
 .right-left-cont {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 100%;
     width: 100%;
@@ -678,7 +678,7 @@ button[disabled] {
 
 .am-button-red {
     color: #fff;
-    background-color: #ff0200;
+    background-color: $red-color;
 }
 
 .am-button-inline {
@@ -880,5 +880,12 @@ sup {
 
 .ui-dialog-footer button {
     padding: 6px 20px !important;
+}
+
+.right-left-btn{
+    position: fixed;
+    left: 100%;
+    bottom: 0;
+    z-index: 11;
 }
 

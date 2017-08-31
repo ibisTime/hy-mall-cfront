@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>提交订单</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+	<div class="orderPro-list mb20">
+    	<!--<a class="mall-item" href="./mallDetail.html">
+    		<div class="mall-item-img fl" style="background-image: url('../../images/图层-50@2x.png');"></div>
+    		<div class="mall-item-con fr">
+    			<p class="name">商品名称商品名称 商品名称 商品名称 商品名称</p>
+    			<samp class="slogan">商品规格：放大时发生</samp>
+    			<div class="price wp100">
+    				<samp class="samp1 fl">69.6</samp>
+    				<samp class="samp2 fr">x1</samp>
+    			</div>
+    		</div>
+    	</a>-->
+	</div>
+	
+	<div class="titleWrap" id="toUser">
+		<p class="fl text">配送方式</p>
+		<p class="fr text toUserName"><samp>顺丰快递到付</samp><i class="icon"></i></p>
+	</div>
+	<div class="orderAddress mb20" id="orderAddress">
+		<!--<div class="icon icon-dz"></div>
+		<div class="wp100 over-hide"><samp class="fl addressee">收货人：<span>搜索</span></samp><samp class="fr mobile">1576166357</samp></div>
+		<div class="detailAddress">收货地址： 发的是开发阶段上课连复健科都是垃圾疯狂拉的屎积分卡拉丁是积分来客的</div>
+		<div class="icon icon-more"></div>-->
+	</div>
+	<div class="orderApplyNote">
+		<div class="fl">卖家嘱托</div>
+		<textarea style="resize: none;" placeholder="对本次交易的说明" id="applyNote"></textarea>
+	</div>
+	
+	<div class="submitOrderBottom">
+		<div class="fl amount"><span>实付：</span><samp id="totalAmount"></samp></div>
+		<input type="button" value="提交订单" class="fr am-button am-button-noradius am-button-red" id="subBtn" />
+	</div>
+	
+	<div id="mask" class="mask hidden"></div>
+    <link rel="import" href="../footer.html?__inline">
+	<script src="../js/lib/city.js"></script>
+    <script>
+        require(['app/controller/mall/SubmitOrder']);
+    </script>
+</body>
+
+</html>
+
+

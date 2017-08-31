@@ -85,20 +85,30 @@ define(['Handlebars'], function(Handlebars) {
         }
         return (data.province || "") + (data.city || "") + (data.area || "") + data.address;
     });
-    Handlebars.registerHelper('defaultProductPrice1', function(options) {
-        var data = +options.data.root.items[options.data.index].productSpecsList[0].price1;
+    Handlebars.registerHelper('defaultProductPrice', function(options) {
+    	var data = options.data.root.items[options.data.index];
+    	var price = '';
+    	if(data.type==JFPRODUCTTYPE){
+    		price = options.data.root.items[options.data.index].productSpecsList[0].price2/1000+'积分';
+    	}else{
+    		price = '￥'+options.data.root.items[options.data.index].productSpecsList[0].price1/1000;
+    	}
         
-        return data / 1000;
-    });
-    Handlebars.registerHelper('defaultProductPrice2', function(options) {
-        var data = +options.data.root.items[options.data.index].productSpecsList[0].price2;
-        
-        return data / 1000;
+        return price;
     });
     Handlebars.registerHelper('defaultProductOPrice', function(options) {
         var data = +options.data.root.items[options.data.index].productSpecsList[0].originalPrice;
         
         return data / 1000;
+    });
+    Handlebars.registerHelper('formatLocation', function(options) {
+    	var data = options.data.root.items[options.data.index];
+    	var location='';
+    	if(data.location=='0'){
+    		location = 'hidden';
+    	}
+        
+        return location;
     });
     
     return Handlebars;

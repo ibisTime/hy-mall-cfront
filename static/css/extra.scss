@@ -13,7 +13,19 @@
 .ptb20lr30{
     padding: .2rem .3rem;
 }
-
+.over-hide{
+    overflow: hidden;
+}
+.hook{
+    display:inline-block;
+    width:0;
+    height:100%;
+    overflow:hidden;
+    margin-left:-1px;
+    font-size:0;
+    line-height:0;
+    vertical-align:middle;
+}
 label.error {
     position: absolute;
     right: 0.3rem;
@@ -1134,7 +1146,7 @@ label.error {
                     float: right;
                     background-repeat: no-repeat;
                     background-size: 0.4rem 0.4rem;
-                    @include bg-image('un-select');
+                    @include bg-image('未选择');
                 }
 
                 &.active .chose-icon {
@@ -1526,6 +1538,24 @@ label.error {
     
     .addressWrap-detail{
         padding: .3rem .3rem;
+        position: relative;
+        
+        .icon{
+            width: .6rem;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: .3rem;
+            background-image: url('../images/未选择@3x.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: .34rem;
+            
+            &.active{
+                background-image: url('../images/地址选择@3x.png');
+            }
+        }
+        
     }
     
     .operationWrap{
@@ -1686,17 +1716,18 @@ label.error {
         
         .name{
             display: inline-block;
+            width: 100%;
             max-height: .8rem;
             overflow: hidden;
             font-size: .28rem;
         }
         .slogan{
             display: inline-block;
+            width: 100%;
             max-height: .8rem;
             overflow: hidden;
             font-size: .24rem;
             color: #666;
-            margin-top: .1rem;
         }
         .price{
             position: absolute;
@@ -1705,8 +1736,9 @@ label.error {
             line-height: 1;
             
             .samp1{
-                color: #ff5000;
+                color: $red-color;
                 font-size: .34rem;
+                margin-right: .15rem;
                 
                 i{
                     font-size: .24rem;
@@ -1718,7 +1750,7 @@ label.error {
                 display: inline-block;
                 color: #999;
                 font-size: .24rem;
-                margin-left: .15rem;
+                margin-top: .05rem;
             }
         }
         
@@ -1816,7 +1848,7 @@ label.error {
         
         samp{
             font-size: .36rem;
-            color: #FF5000;
+            color: $red-color;
             display: inline-block;
             line-height: 1;
             float: left;
@@ -1926,10 +1958,505 @@ label.error {
             }
             
             &.buyBtn{
-                background-color: #FF5000;
+                background-color: $red-color;
             }
         }
     }
     
 }
 
+.mask{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: rgba(0,0,0,.3);
+    transition: .3s;
+}
+
+.productSpecs{
+    background-color: #fff;
+    width: 100%;
+    height: 8.2rem;
+    position: fixed;
+    bottom: -8.6rem;
+    left: 0;
+    z-index: 101;
+    transition: .3s;
+    padding: 0 .3rem;
+    
+    &.active{
+        bottom: 0;
+    }
+    
+    .close{
+        width: .46rem;
+        height: .46rem;
+        position: absolute;
+        top: .3rem;
+        right: .3rem;
+        z-index: 9;
+        
+        img{
+            width: 100%;
+        }
+    }
+    
+    .productSpecs-top{
+        width: 100%;
+        height: 2.26rem;
+        padding-left: 2.46rem;
+        position: relative;
+        padding-top: .4rem;
+        border-bottom: 1px solid $border-color;
+        
+        .price{
+            font-size: .34rem;
+            color: $red-color;
+        }
+        
+        .quantity{
+            font-size: .28rem;
+            margin-top: .1rem;
+        }
+        
+        .choice{
+            display: inline-block;
+            font-size: .28rem;
+            margin-top: .1rem;
+            
+            i{
+                font-style: normal;
+                margin-left: .15rem;
+            }
+        }
+        
+    }
+    
+    .productSpecs-img{
+        width: 2.28rem;
+        height: 2.28rem;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: .1rem;
+        border: .04rem solid #fff;
+        position: absolute;
+        top: -.3rem;
+        left: 0;
+    }
+    
+    .productSpecs-middle{
+        width: 100%;
+        height: 5rem;
+        overflow-y: scroll;
+        
+        .productSpecs-spec{
+            border-bottom: 1px solid $border-color;
+            padding-bottom: .1rem;
+            
+            .title{
+                font-size: .28rem;
+                color: #474747;
+                padding: .3rem 0 .2rem;
+            }
+            
+            .spec{
+                overflow: hidden;
+                
+                p{
+                    margin-right: .2rem;
+                    background-color: #f5f5f5;
+                    border-radius: .14rem;
+                    font-size: .24rem;
+                    line-height: .6rem;
+                    padding: 0 .26rem;
+                    margin-bottom: .2rem;
+                    display: inline-block;
+                    overflow: hidden;
+                    
+                    &.active{
+                        color: #fff;
+                        background-color: $red-color;
+                    }
+                } 
+            }
+            
+        }
+        
+    }
+    
+    .productSpecs-btn{
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        
+        .am-button{
+            font-size: .32rem;
+        }
+    }
+}
+
+.productSpecs-number{
+    padding: .3rem 0;
+    overflow: hidden;
+    
+    .title{
+        color: #474747;
+        font-size: .28rem;
+        line-height: .5rem;
+    }
+    
+    .subt,.add{
+        width: .5rem;
+        height: .5rem;
+        background-color: #f5f5f5;
+        border-radius: .06rem;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: .25rem;
+    }
+    
+    .subt{
+        background-image: url('../images/_@3x.png');
+    }
+    .add{
+        background-image: url('../images/+@2x.png');
+    }
+    
+    .sum{
+        font-size: .3rem;
+        line-height: .5rem;
+        padding: 0 .34rem;
+    }
+}
+
+.orderPro-list{
+    width: 100%;
+    padding: 0 .3rem;
+    background-color: #fff;
+    
+    .mall-item{
+        padding: .3rem 0;
+        
+        .mall-item-img{
+            width: 1.8rem;
+            height: 1.8rem;
+        }
+        
+
+        .mall-item-con{
+            width: 4.83rem;
+            height: 1.8rem;
+            
+            .name{
+                font-size: .26rem;
+            }
+            
+            .price {
+                .samp1{
+                    font-size: .3rem;
+                }
+                
+                .samp2 {
+                    font-size: .3rem;
+                    color: #484848;
+                    margin-top: 0;
+                }
+            }
+        }
+        
+    }
+}
+
+.orderTitle{
+    line-height: .9rem;
+}
+.titleWrap{
+    background-color: #fff;
+    width: 100%;
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+    padding: 0 .3rem;
+    
+    .text{
+        line-height: .9rem;
+    }
+    .icon{
+        display: block;
+        float: right;
+        width: .15rem;
+        height: .9rem;
+        margin-left: .2rem;
+        background-image: url('../images/更多-首页@2x.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+}
+
+.orderAddress{
+    width: 100%;
+    background-color: #fff;
+    background-image: url('../images/红蓝@2x.png');
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-size: auto .05rem;
+    padding: .3rem .9rem .35rem .9rem;
+    position: relative;
+    
+    .icon{
+        width: .2rem;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        
+        &.icon-dz{
+            width: .26rem;
+            left: .3rem;
+            background-image: url('../images/收货地址@2x.png');
+        }
+        
+        &.icon-more{
+            right: .3rem;
+            background-image: url('../images/更多-首页@2x.png');
+        }
+    }
+    
+    .addressee, .mobile{
+        font-size: .28rem;
+    }
+    
+    .detailAddress{
+        font-size: .24rem;
+        margin-top: .15rem;
+        line-height: 1.5;
+    }
+    
+    
+}
+
+.orderApplyNote{
+    width: 100%;
+    background-color: #fff;
+    position: relative;
+    padding: .3rem 0 .1rem;
+    
+    div{
+        font-size: .28rem;
+        position: absolute;
+        top: .3rem;
+        left: .3rem;
+    }
+    
+    textarea{
+        width: 100%;
+        height: 1rem;
+        padding: 0 .3rem 0 1.8rem;
+    }
+    
+}
+
+.submitOrderBottom{
+    width: 100%;
+    height: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    
+    
+    .am-button{
+        width: 2.1rem;
+        height: 1rem;
+        font-size: .32rem;
+    }
+    
+    .amount{
+        width: 5.3rem;
+        height: 1rem;
+        padding: 0 .3rem;
+        
+        span{
+            font-size: .26rem;
+            line-height: 1rem;
+        }
+        
+        samp{
+            font-size: .3rem;
+            color: $red-color;
+        }
+    }
+    
+}
+#AddressListContainer{
+    .addressWrap .addressWrap-detail{
+        padding-right: 1rem;
+    }
+}
+.payAmount{
+    color: $primary-color;  
+}
+
+.am-button-primary-48 {
+    font-size: .32rem;
+    color: #484848;
+    background-color: $primary-color;
+}
+
+.btnWrap{
+    padding: 0 .3rem;
+    margin-top: .8rem;
+}
+.carNoData{
+    width: 100%;
+    text-align: center;
+    padding-top: 1rem;
+    line-height: 1;
+    
+    img{
+        width: 1.84rem;
+    }
+    
+    h4{
+        font-size: .36rem;
+        margin-top: .4rem;
+        margin-bottom: .18rem;
+    }
+    
+    samp{
+        font-size: .28rem;
+        color: #999;
+    }
+    
+    div{
+        width: 1.98rem;
+        margin: .4rem auto 0;
+    }
+}
+
+.carContent{
+    .orderPro-list{
+        padding: 0;
+        background: none;
+    }
+}
+.car-item{
+    background-color: #fff;
+    position: relative;
+    padding: 0 .3rem 0 .9rem ;
+    
+    .mall-item{
+        border: none;
+        .mall-item-con{
+            width: 4.25rem;
+            line-height: 1.4;
+            
+            .name{
+                height: .7rem;
+            }
+        }
+    }
+    
+    .icon{
+        position: absolute;
+        top: .3rem;
+        left: 0;
+        width: .9rem;
+        height: 1.8rem;
+        padding-top: .75rem;
+        text-align: center;
+        
+        i{
+            width: .34rem;
+            height: .34rem;
+            display: inline-block;
+            border: 1px solid #eee;
+            border-radius: 50%;
+        }
+    }
+    
+    .productSpecs-number{
+        position: absolute;
+        bottom: 0;
+        right: .3rem;
+    }
+    
+    &.active{
+        .icon i{
+            border: 1px solid $red-color; 
+            background-color: $red-color;
+        }
+    }
+}
+.carBottom{
+    width: 100%;
+    height: 1rem;
+    background-color: #fff;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 99;
+    border-top: 1px solid #eee;
+    
+    .left{
+        overflow: hidden;
+        padding: 0 .2rem;
+        
+        .icon{
+            line-height: 1rem;
+            font-size: .28rem;
+            margin-right: .3rem;
+            padding-left: .1rem;
+            
+            i{
+                width: .34rem;
+                height: .34rem;
+                display: inline-block;
+                border: 1px solid #eee;
+                border-radius: 50%;
+                position: relative;
+                top: .07rem;
+                margin-right: .12rem;
+                
+            }
+            &.active i{
+                border: 1px solid $red-color; 
+                background-color: $red-color;
+            }
+        }
+        
+        .totalAmount{
+            font-size: .28rem;
+            
+            span{
+                display: block;
+                line-height: 1rem; 
+            }
+            samp{
+                display: inline-block;
+                width: 2.7rem;
+                line-height: 1.4;
+                padding-top: .1rem;
+                color: $red-color;
+            }
+        }
+        
+    }
+    
+    .right{
+        width: 2.1rem;
+        height: 1rem;
+        line-height: 1rem;
+        font-size: .32rem;
+        text-align: center;
+        color: #fff;
+        background-color: $red-color;
+    }
+}

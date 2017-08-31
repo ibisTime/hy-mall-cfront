@@ -23,7 +23,6 @@ define([
 	function getAddressList(){
 		UserCtr.getAddressList(true)
         .then(function(data){
-            var html = "";
             if(data.length){
             	var html = '';
             	

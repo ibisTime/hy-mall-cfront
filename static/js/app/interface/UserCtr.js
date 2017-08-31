@@ -117,8 +117,11 @@ define([
             });
         },
         // 列表查询收货地址
-        getAddressList(refresh){
-            return Ajax.get("805165",{userId: base.getUserId()},refresh);
+        getAddressList(refresh,config){
+            return Ajax.get("805165",{
+            	userId: base.getUserId(),
+                ...config
+            },refresh);
         },
         // 详情收货地址
         getAddressDetail(code){
@@ -142,9 +145,17 @@ define([
         setDefaultAddress(code) {
             return Ajax.get("805163",{code},true);
         },
-        // 设置默认收货地址
+        // 删除默认收货地址
         deleteAddress(code) {
             return Ajax.get("805161",{code},true);
+        },
+        // 获取自提点
+        getPagePartner() {
+            return Ajax.get("805120", {
+            	limit: 1000,
+            	start: 1,
+            	kind:'PA'
+            }, true);
         },
     };
 })

@@ -1,140 +1,84 @@
 define([
     'app/controller/base',
-    'app/interface/CourseCtr',
-    'app/interface/CoachCtr',
-    'app/interface/ActivityCtr',
+    'app/interface/MallCtr',
     'app/interface/AccountCtr',
     'app/module/weixin'
-], function(base, CourseCtr, CoachCtr, ActivityCtr, AccountCtr, weixin) {
-    const COURSE_ORDER = "course", COACH_ORDER = "coach", ACTIVITY_ORDER = "activity";
-    const BALANCE_PAY = 0, WX_PAY = 1;
+], function(base, MallCtr, AccountCtr, weixin) {
+    const MALL_ORDER = "mall";
+    const BALANCE_PAY = 1, WX_PAY = 5;
     var code = base.getUrlParam("code"),
         type = base.getUrlParam("type"),
-        pay_type = 0;
+        proType = base.getUrlParam("type"),//商品类型
+        pay_type = 1;
 
     init();
     function init(){
-        if(!type) {
-            base.showMsg("未传入订单类型");
-        } else if(!code) {
+//      if(!type) {
+//          base.showMsg("未传入订单类型");
+//      } else
+        if(!code) {
             base.showMsg("未传入订单编号");
         } else {
             base.showLoading();
-            getAccount();
-            if(type == COURSE_ORDER) {
-                getCourseOrder();
-            } else if(type == COACH_ORDER) {
-                getCoachOrder();
-            } else if(type == ACTIVITY_ORDER) {
-                getActivityOrder();
-            }
+            //获取支付金额
+            if(type == MALL_ORDER) {
+                getMallOrderDetail();
+            } 
             addListener();
         }
     }
-    // 获取账户详情
-    function getAccount() {
-        AccountCtr.getAccount()
-            .then((data) => {
-                data.forEach((account) => {
-                    if (account.currency == "CNY") {
-                        $("#remainAmount").text(base.formatMoney(account.amount));
-                    }
-                });
-            });
-    }
-    // 详情查询课程订单
-    function getCourseOrder() {
-        CourseCtr.getOrder(code)
+    // 详情查询商城订单
+    function getMallOrderDetail() {
+        MallCtr.getOrderDetail(code)
             .then((data) => {
                 base.hideLoading();
-                $("#price").text(base.formatMoney(data.amount));
+                var price = 0;
+                if(!data.amount1&&data.amount2){
+                	price = base.formatMoney(data.amount2)+' 积分'
+                }else if(data.amount1&&!data.amount2){
+                	price = '￥ '+base.formatMoney(data.amount1);
+                }else{
+                	price = '￥ '+base.formatMoney(data.amount1)+' + '+base.formatMoney(data.amount2)+' 积分'
+                }
+                
+                $("#totalAmount").html(price);
             });
     }
-    // 详情查询私教订单
-    function getCoachOrder() {
-        CoachCtr.getOrder(code)
-            .then((data) => {
-                base.hideLoading();
-                $("#price").text(base.formatMoney(data.amount));
-            });
-    }
-    // 详情查询活动订单
-    function getActivityOrder() {
-        ActivityCtr.getOrder(code)
-            .then((data) => {
-                base.hideLoading();
-                $("#price").text(base.formatMoney(data.amount));
-            });
-    }
+    
     function addListener() {
         $("#payType").on("click", ".pay-item", function() {
             var _me = $(this);
             if(!_me.hasClass("active")) {
                 _me.addClass("active").siblings(".active").removeClass("active");
-                pay_type = _me.index();
+                if(_me.index()==0){
+                	pay_type = 1;//余额
+                }else if(_me.index()==1){
+                	pay_type = 5;//微信
+                }
+                
             }
         });
         $("#payBtn").on("click", function(){
             base.showLoading("支付中...");
-            if(pay_type == BALANCE_PAY) {   // 余额支付
-                payByBalance();
-            } else if(pay_type == WX_PAY) {   //微信支付
-                payByWx();
-            }
+            
+            payByBalance();
         });
     }
-    function payByBalance() {
-        if(type == COURSE_ORDER) {  // 课程订单
-            payCourseOrder(code, 1);
-        } else if(type == COACH_ORDER) {   // 私教订单
-            payCoachOrder(code, 1);
-        } else if(type == ACTIVITY_ORDER) { // 活动订单
-            payActivityOrder(code, 1);
-        }
-
+    
+    //判断支付接口调用类型
+    function payByBalance(){
+    	if(type==MALL_ORDER){
+    		payMallOrder(pay_type);
+    	}
     }
-    function payByWx() {
-        if(type == COURSE_ORDER) {  // 课程订单
-            payCourseOrder(code, 5);
-        } else if(type == COACH_ORDER){    //私教订单
-            payCoachOrder(code, 5);
-        } else if(type == ACTIVITY_ORDER) { // 活动订单
-            payActivityOrder(code, 5);
-        }
-    }
-    // 支付课程订单
-    function payCourseOrder(code, payType) {
-        CourseCtr.payOrder(code, payType)
-            .then((data) => {
-                if(pay_type == WX_PAY) {
-                    wxPay(data);
-                } else {
-                    base.hideLoading();
-                    base.showMsg("支付成功");
-                    setTimeout(() => {
-                        location.href = "../user/user.html";
-                    }, 500);
-                }
-            });
-    }
-    // 支付私教订单
-    function payCoachOrder(code, payType) {
-        CoachCtr.payOrder(code, payType)
-            .then((data) => {
-                if(pay_type == WX_PAY) {
-                    wxPay(data);
-                } else {
-                    base.hideLoading();
-                    base.showMsg("支付成功");
-                    setTimeout(() => {
-                        location.href = "../user/user.html";
-                    }, 500);
-                }
-            });
-    }
-    // 支付活动订单
-    function payActivityOrder(code, payType) {
-        ActivityCtr.payOrder(code, payType)
+    
+    // 支付商城订单
+    function payMallOrder(payType) {
+    	var config = {
+    		payType:payType,
+    		codeList:[code]
+    	}
+        MallCtr.payOrder(config,true)
             .then((data) => {
                 if(pay_type == WX_PAY) {
                     wxPay(data);

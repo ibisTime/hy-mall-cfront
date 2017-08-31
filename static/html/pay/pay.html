@@ -8,13 +8,18 @@
 </head>
 
 <body>
-    <div class="recharge-wrapper">
+	<div class="titleWrap mb20">
+		<p class="fl text">支付金额</p>
+		<p class="fr text payAmount" id="totalAmount"></p>
+	</div>
+	
+    <div class="recharge-wrapper mb20">
         <div class="recharge-pay">
             <div class="title border-bottom-1px">支付方式</div>
             <div class="pay-type-list" id="payType">
                 <div class="pay-item border-bottom-1px active">
                     <i class="icon-title icon-re"></i>
-                    <span>余额支付 (余额：¥<label id="remainAmount">0</label>)</span>
+                    <span>余额支付</span>
                     <i class="chose-icon"></i>
                 </div>
                 <div class="pay-item border-bottom-1px">
@@ -25,12 +30,9 @@
             </div>
         </div>
     </div>
-    <footer class="normal-footer">
-        <span class="foot-label">金额：</span>
-        <span class="foot-unit">¥</span>
-        <span class="foot-price" id="price"></span>
-        <button class="am-button am-button-primary fr" id="payBtn">确认支付</button>
-    </footer>
+    
+    <div class="wp100 btnWrap"><button class="am-button am-button-primary-48 wp100" id="payBtn">确认支付</button></div>
+    
     <link rel="import" href="../footer.html?__inline">
     <script>
         require(['app/controller/pay/Pay']);

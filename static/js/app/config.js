@@ -1,6 +1,8 @@
-var SYSTEM_CODE = "CD-CHY000015";
+var SYSTEM_CODE = "CD-CHW000015";
 var PIC_PREFIX = sessionStorage.getItem('qiniuUrl');
 var PIC_SHOW = '?imageMogr2/auto-orient/interlace/1';
+var JFPRODUCTTYPE = 'J01';
+var SYS_USER = 'SYS_USER_HW';
 
 //(function() {
 //// 判断是否登录
