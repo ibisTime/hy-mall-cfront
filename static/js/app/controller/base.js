@@ -167,7 +167,7 @@ define([
                 pic = pic.split(/\|\|/)[0];
             }
             if (!/^http/i.test(pic)) {
-                suffix = suffix || '?imageMogr2/auto-orient';
+                suffix = suffix || '?imageMogr2/auto-orient/interlace/1';
                 pic = PIC_PREFIX + pic + suffix;
             }
             return pic

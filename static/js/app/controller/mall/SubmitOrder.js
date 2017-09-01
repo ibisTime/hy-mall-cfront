@@ -11,15 +11,22 @@ define([
 	var quantity = base.getUrlParam("quantity")||'';
 	var submitType = base.getUrlParam("s");//1为购物车，2为立即下单
 	var totalAmount = {
-		amount1:'',//人民币总价
-		amount2:''//积分总价
+		amount1:0,//人民币总价
+		amount2:0//积分总价
 	};
 	var config = {
 		productSpecsCode: spec,
 		quantity: quantity,
 		toUser:'',
 		applyNote: $("#applyNote").val(),
-		pojo:{}
+		pojo:{
+	    	receiver: "",
+	        reMobile: "",
+	        reAddress: "",
+	        applyUser: base.getUserId(),
+	        companyCode: SYSTEM_CODE,
+	        systemCode: SYSTEM_CODE
+		}
 	}
 	var cartCodeList =[];
     
@@ -75,9 +82,9 @@ define([
     			</div></div></a>`;
     		
     		if(d.type=='JF'){
-    			totalAmount.amount2+=d.price;
+    			totalAmount.amount2+=d.price*d.quantity;
     		}else{
-    			totalAmount.amount1+=d.price;
+    			totalAmount.amount1+=d.price*d.quantity;
     		}
     		cartCodeList.push(d.code)
 		})
@@ -127,14 +134,14 @@ define([
 			if(data.length){
 				html = `<div class="icon icon-dz"></div>
 				<div class="wp100 over-hide"><samp class="fl addressee">收货人：${data[0].addressee}</samp><samp class="fr mobile">${data[0].mobile}</samp></div>
-				<div class="detailAddress">收货地址： ${data[0].province}  ${data[0].city}  ${data[0].district}  ${data[0].district}</div>
+				<div class="detailAddress">收货地址： ${data[0].province}  ${data[0].city}  ${data[0].district}  ${data[0].detailAddress}</div>
 				<div class="icon icon-more"></div>`
 				
 				$(".orderAddress").html(html).attr('data-code',data[0].code)
 				config.pojo ={
 			    	receiver: data[0].addressee,
 			        reMobile: data[0].mobile,
-			        reAddress: data[0].province+' '+data[0].city+' '+data[0].district+' '+data[0].district,
+			        reAddress: data[0].province+' '+data[0].city+' '+data[0].district+' '+data[0].detailAddress,
 			        applyUser: base.getUserId(),
 			        companyCode: SYSTEM_CODE,
 			        systemCode: SYSTEM_CODE
@@ -151,6 +158,7 @@ define([
 			base.hideLoading();
 			$("#mask").removeClass('hidden');
 			base.showMsg('下单成功！',1200)
+			
 			setTimeout(function(){
 				location.href = '../pay/pay.html?code='+data+'&type=mall';
 			},800)
@@ -164,6 +172,7 @@ define([
 			base.hideLoading();
 			$("#mask").removeClass('hidden');
 			base.showMsg('下单成功！',1200)
+			
 			setTimeout(function(){
 				location.href = '../pay/pay.html?code='+data+'&type=mall';
 			},800)
@@ -183,6 +192,12 @@ define([
             	if(to){
             		$("#toUser").attr('data-toUser',to)
             		$("#toUser").find('.toUserName').children('samp').html(toName)
+            		
+            		if(to==SYS_USER){
+            			$('#orderAddress').removeClass('hidden')
+            		}else{
+            			$('#orderAddress').addClass('hidden')
+            		}
             	}
             }
         });
@@ -198,7 +213,15 @@ define([
 			config.toUser = $("#toUser").attr('data-toUser')
 			var param={}
 			if(submitType=='1'){
+				
 				param.pojo = config.pojo;
+				
+        		if($("#toUser").attr('data-toUser')!=SYS_USER){
+					param.pojo.receiver = '';
+					param.pojo.reMobile = '';
+					param.pojo.reAddress = '';
+        		};
+				
 				param.toUser = config.toUser;
 				param.cartCodeList=cartCodeList
 				

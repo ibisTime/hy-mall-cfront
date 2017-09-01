@@ -27,7 +27,8 @@ define([
 			    			<p class="name">${d.product.name}</p>
 			    			<p class="slogan specsName" data-sName='${d.productSpecs.name}'>商品规格：${d.productSpecs.name}</p>
 			    			<div class="price wp100">
-			    				<samp class="samp1 fl" data-price='${d.productSpecs.price2 ? d.productSpecs.price2: d.productSpecs.price1}'>${d.productSpecs.price2 ? base.formatMoney(d.productSpecs.price2)+'积分' : '￥'+base.formatMoney(d.productSpecs.price1)}</samp>
+			    				<samp class="samp1 fl" data-price='${d.productSpecs.price2 ? d.productSpecs.price2: d.productSpecs.price1}'
+			    				>${d.productSpecs.price2 ? base.formatMoney(d.productSpecs.price2)+'积分' : '￥'+base.formatMoney(d.productSpecs.price1)}</samp>
 			    			</div>
 			    		</div>
 			    	</a>
@@ -44,6 +45,30 @@ define([
 	
 	//获取选中的商品的总价
 	function getTotalAmount(){
+		var totalAmount = {//总价
+			amount1: 0,//人民币总价
+			amount2:0//积分总价
+		}
+		$("#carProList .car-item").each(function(i, d){
+			if($(this).hasClass('active')){
+				//选中商品数据
+				var carProList={
+					code: $(this).attr('data-code'),//购物车编号
+					price: $(this).find('.samp1').attr('data-price'),//价格
+					quantity: $(this).find('.sum').html(),//数量
+					type: $(this).attr('data-type'),//商品类型
+				}
+				
+				
+				if(carProList.type=='CNY'){
+					totalAmount.amount1+= carProList.price*carProList.quantity
+				}else{
+					totalAmount.amount2+= carProList.price*carProList.quantity
+				}
+			}
+		})
+		
+		$("#totalAmount").html('￥'+base.formatMoney(totalAmount.amount1)+'<br/>'+base.formatMoney(totalAmount.amount2)+'积分')
 	}
 	
 	//购买
@@ -55,12 +80,14 @@ define([
 				
 				if($(this).hasClass('active')){
 					
+					//下架商品
 					if($(this).attr('data-status')==4){
 						base.showMsg('商品：'+$(this).find('.name').html()+'已下架，不能购买');
 						flag = true;
 						return false;
 					}
 					
+					//选中商品数据
 					var carProList={
 						code: $(this).attr('data-code'),//购物车编号
 						productCode: $(this).find('.mall-item').attr('data-pcode'),//商品编号
@@ -75,6 +102,8 @@ define([
 					carSubProInfo.push(carProList)
 				}
 			})
+			
+			//无下架商品跳转支付
 			if(!flag){
 				sessionStorage.setItem('carSubProInfo',JSON.stringify(carSubProInfo))
 			
@@ -116,12 +145,6 @@ define([
 			getTotalAmount();
 		})
 		
-		
-		//商品规格-立即下单
-		$('#productSpecs').on('click', '.purchaseBtn', function(){
-			location.href = './submitOrder.html?s=2&code='+code+'&spec='+$("#productSpecs .spec p.active").attr('data-code')+'&quantity='+$('#productSpecs .productSpecs-number .sum').html();
-		})
-		
 		//全选
 		$("#allCheck").click(function(){
 			
@@ -148,6 +171,7 @@ define([
 			getTotalAmount();
 		})
 		
+		//确认购买按钮
 		$("#subBtn").click(function(){
 			carPlaceOrder();
 		})

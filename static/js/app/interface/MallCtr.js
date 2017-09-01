@@ -51,5 +51,27 @@ define([
                 userId: base.getUserId()
             }, true);
         },
+        // 我的订单分页查
+        getPageOrders(config, refresh) {
+            return Ajax.get("808068", {
+                applyUser: base.getUserId(),
+                ...config
+            }, refresh);
+        },
+        // 取消订单
+        cancelOrder(code) {
+            return Ajax.get("808053", {
+                userId: base.getUserId(),
+            	code
+            }, true);
+        },
+        // 确认收货
+        confirmOrder(code) {
+            return Ajax.get("808057", {
+                updater: base.getUserId(),
+            	code,
+            	remark:'用户确认收货'
+            }, true);
+        },
     };
 })

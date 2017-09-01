@@ -29,7 +29,7 @@ define([
 			
 			if(strs.length>1){
 				strs.forEach(function(d, i){
-					html+='<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('+ base.getImg(d) + '"></div></div>';
+					html+='<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('+ base.getImg(d) + ')"></div></div>';
 				})
 				$("#top-swiper").html(html);
 				var mySwiper = new Swiper('#swiper-container', {

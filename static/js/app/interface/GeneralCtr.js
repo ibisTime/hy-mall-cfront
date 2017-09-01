@@ -38,7 +38,7 @@ define([
         getPageSysNotice(config, refresh) {
             return Ajax.get("804040", {
                 "pushType": 41,
-                "toKind": 1,
+                "toKind": 'C',
                 "channelType": 4,
                 "status": 1,
                 "fromSystemCode": SYSTEM_CODE,
@@ -71,7 +71,7 @@ define([
         },
         // 查询banner列表
         getBanner(refresh) {
-            return Ajax.get("806051", {
+            return Ajax.get("805806", {
                 type: "2"
             }, refresh);
         },

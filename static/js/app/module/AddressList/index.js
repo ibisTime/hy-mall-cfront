@@ -9,12 +9,12 @@ define([
     var tmpl = __inline("index.html");
     var defaultOpt = {};
     var pojoConfig = {
-    	"receiver": "",
-        "reMobile": "",
-        "reAddress": "",
-        "applyUser": base.getUserId(),
-        "companyCode": SYSTEM_CODE,
-        "systemCode": SYSTEM_CODE
+    	receiver: "",
+        reMobile: "",
+        reAddress: "",
+        applyUser: base.getUserId(),
+        companyCode: SYSTEM_CODE,
+        systemCode: SYSTEM_CODE
     }
     var firstAdd = true;
 
@@ -81,14 +81,14 @@ define([
 			
 			html = `<div class="icon icon-dz"></div>
 				<div class="wp100 over-hide"><samp class="fl addressee">收货人：${_thisData.find('.addressee').html()}</samp><samp class="fr mobile">${_thisData.find('.mobile').html()}</samp></div>
-				<div class="detailAddress">收货地址： ${_thisData.find('.province').html()}  ${_thisData.find('.city').html()}  ${_thisData.find('.district').html()}  ${_thisData.find('.district').html()}</div>
+				<div class="detailAddress">收货地址： ${_thisData.find('.province').html()}  ${_thisData.find('.city').html()}  ${_thisData.find('.district').html()}  ${_thisData.find('.detailAddress').html()}</div>
 				<div class="icon icon-more"></div>`
 			
 			$("#orderAddress").html(html).attr('data-code',_thisData.attr('data-code'));
 			pojoConfig.receiver = _thisData.find('.addressee').html();
         	pojoConfig.reMobile = _thisData.find('.mobile').html()
-        	pojoConfig.reAddress = _thisData.find('.province').html()+' '+_thisData.find('.city').html()+' '+_thisData.find('.district').html()+' '+_thisData.find('.district').html();
-			ModuleObj.hideCont();
+        	pojoConfig.reAddress = _thisData.find('.province').html()+' '+_thisData.find('.city').html()+' '+_thisData.find('.district').html()+' '+_thisData.find('.detailAddress').html();
+			ModuleObj.hideCont(defaultOpt.success);
 		})
 		
 		//设为默认
@@ -156,7 +156,7 @@ define([
             if(firstAdd){
                 var _form = $("#addOrEditAddressForm");
                 wrap.on("click", ".right-left-cont-back", function(){
-                    ModuleObj.hideCont(defaultOpt.hideFn);
+                    ModuleObj.hideCont(defaultOpt.success);
                 });
                 wrap.find(".right-left-cont-title")
                     .on("touchmove", function(e){
