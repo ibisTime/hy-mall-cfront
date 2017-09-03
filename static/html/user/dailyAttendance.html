@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>每日签到</title>
+</head>
+
+<body class="bg_fff">
+	<div class=" wp100 sign-in p-r">
+		<div class="tc all-sky">
+	   	  <div class="fs15 green pb15">连续签到</div>
+	   	  <div class="fs30 sky-y inline_block signInNum">0</div>
+	   	  <div class="fs13 green inline_block">天</div>
+	    </div>
+	</div>
+
+	<div class="plr110 ">
+		<input type="button"  value="签到领积分" class="wp100  qiandao fs16" id="btn-signIn">
+	</div>
+
+    <link rel="import" href="../footer.html?__inline">
+    <script src="//api.map.baidu.com/api?v=2.0&ak=GtNrG008U04GONzKSDHiW70GxurUUhlU&s=1"></script>
+    <script data-loader>
+        require(['app/controller/user/DailyAttendance']);
+    </script>
+</body>
+
+</html>

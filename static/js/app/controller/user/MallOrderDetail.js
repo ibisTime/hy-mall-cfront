@@ -1,78 +1,152 @@
 define([
     'app/controller/base',
-    'app/interface/ActivityCtr',
+    'app/interface/MallCtr',
     'app/util/dict'
-], function(base, ActivityCtr, Dict) {
+], function(base, MallCtr, Dict) {
     var code = base.getUrlParam("code"),
-        orderStatus = Dict.get("activityOrderStatus");
+        orderStatus = Dict.get("mallOrderStatus");
 
     init();
+    
     function init(){
         addListener();
         base.showLoading();
-        getOrder();
+        getOrderDetail();
     }
-    function getOrder(refresh) {
-        ActivityCtr.getOrder(code, refresh)
+    
+    function getOrderDetail() {
+        MallCtr.getOrderDetail(code, true)
             .then((data) => {
                 base.hideLoading();
-                $("#code").text(data.code);
-                $("#applyDatetime").text(base.formatDate(data.applyDatetime, "yyyy-MM-dd hh:mm"));
-                // "0": 待付款, "1": "付款成功", "2": "用户取消订单", "3": "平台取消订单",
-                // "4": "退款申请", "5": "退款成功", "6": "退款失败", "7": "活动开始", "8": "已完成"
-                $("#status").text(orderStatus[data.status]);
-                $("#activityTitle").html(`<a class="under" href="../notice/activity.html?code=${data.activityCode}">${data.activityTitle}</a>`);
-                $("#activityBeginDatetime").text(base.formatDate(data.activityBeginDatetime, "yyyy-MM-dd hh:mm"));
-                $("#activityEndDatetime").text(base.formatDate(data.activityEndDatetime, "yyyy-MM-dd hh:mm"));
-                $("#contact").html(`<a href="tel://${data.contact}">${data.contact}</a>`);
-                $("#quantity").text(data.quantity);
-                $("#amount").text(base.formatMoney(data.amount) + "元");
-                if(data.penalty) {
-                    $("#penalty").text(base.formatMoney(data.penalty) + "元")
-                        .closest(".confirm-item").removeClass("hidden");
-                }
-                $("#applyNote").text(data.applyNote || "无");
-                if(data.remark) {
-                    $("#remark").text(data.remark)
-                        .closest(".confirm-item").removeClass("hidden");
-                }
-                if(refresh) {
-                    $(".confirm-btn").find("button").addClass("hidden");
-                }
-                if(status == "0") {
-                    $("#payBtn, #cancelBtn").removeClass("hidden");
-                } else if(status == "1") {
-                    $("#refundBtn").removeClass("hidden");
-                }
+                
+				//商品详情
+                var htmlPro = '';
+				data.productOrderList.forEach(function(d, i){
+					var price = d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)
+					
+					htmlPro += `<a class="mall-item" href="./mallDetail.html?code=${d.productCode}">
+		    		<div class="mall-item-img fl" style="background-image: url('${base.getImg(d.product.advPic)}');"></div>
+		    		<div class="mall-item-con fr">
+		    			<p class="name">${d.product.name}</p>
+		    			<samp class="slogan">商品规格：${d.productSpecsName}</samp>
+		    			<div class="price wp100">
+		    				<samp class="samp1 fl">${price}</samp>
+		    				<samp class="samp2 fr">x${d.quantity}</samp>
+		    			</div></div></a>`;
+				})
+				$(".orderPro-list").html(htmlPro);
+				
+				//配送方式
+				if(data.toUser == SYS_USER){
+					var htmlAddress ='';
+					htmlAddress = `<div class="icon icon-dz"></div>
+					<div class="wp100 over-hide"><samp class="fl addressee">收货人：${data.receiver}</samp><samp class="fr mobile">${data.reMobile}</samp></div>
+					<div class="detailAddress">收货地址： ${data.reAddress}</div>`;
+					
+					$("#orderAddress").html(htmlAddress)
+					$("#orderAddress").removeClass('hidden');
+					
+				}else{
+					$("#toUser .toUserName").html(data.toUser)
+				}
+				//已发货
+				if(data.logisticsCompany){
+					var htmlExpress ='';
+					htmlExpress = `<div class="icon icon-dz"></div>
+					<div class="wp100 over-hide"><samp class="fl addressee">物流公司：${data.logisticsCompany}</samp></div>
+					<div class="wp100 over-hide"><samp class="fl addressee">物流单号：${data.logisticsCode}</samp></div>`;
+					
+					$("#expressDelivery").html(htmlExpress)
+					$("#expressDelivery").removeClass('hidden')
+				}
+				
+				//卖家嘱托
+				$("#applyNote").html(data.applyNote?data.applyNote:'无')
+				
+				
+				//订单信息
+				var htmlOrder = '';
+				htmlOrder = `<p>订单号：${data.code}</p>
+					<p>下单时间：${base.formatDate(data.applyDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
+					<p>下单人：${data.user.nickname}</p>
+					${
+                        data.status == "4"
+                            ? `<p>确认收货时间：${base.formatDate(data.signDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
+                            : data.status =='3'?
+                            `<p>发货时间：${base.formatDate(data.deliveryDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
+                            :''
+                    }`;
+				$("#orderInfo").html(htmlOrder);
+				
+				
+				//按钮
+				//待付款
+				if(data.status=='1'){
+					$('.mallBottom').removeClass('hidden')
+					$("#payBtn").removeClass('hidden')
+					$("#cancelBtn").removeClass('hidden')
+				
+				//待发货
+				}else if(data.status=='2'){
+					$('.mallBottom').removeClass('hidden')
+					$("#reminderBtn").removeClass('hidden')
+					
+				//待收货
+				}else if(data.status=='3'){
+					$('.mallBottom').removeClass('hidden')
+					$("#confirmBtn").removeClass('hidden')
+				}
+				
             });
     }
+
+	function operateSuccess(){
+		setTimeout(function(){
+			location.reload(true)
+		}, 800)
+	}
+
     function addListener(){
+    	//取消订单
         $("#cancelBtn").on("click", function() {
             base.confirm("确定取消订单吗？", "取消", "确认")
                 .then(() => {
                     base.showLoading("取消中...");
-                    ActivityCtr.cancelOrder(code)
+                    MallCtr.cancelOrder(code)
                         .then(() => {
-                            base.showMsg("取消成功");
-                            base.showLoading();
-                            getOrder(true);
+                            base.showMsg("取消成功",1000);
+                            operateSuccess();
                         });
                 }, () => {});
         });
-        $("#refundBtn").on("click", function() {
-            base.confirm('确定申请退款吗')
+        
+        //确认收货
+        $("#confirmBtn").on("click", function() {
+            base.confirm('确认收货吗？')
                 .then(() => {
                     base.showLoading("提交中...");
-                    ActivityCtr.refundOrder(code)
+                    MallCtr.confirmOrder(code)
                         .then(() => {
-                            base.showMsg("申请提交成功");
-                            base.showLoading();
-                            getOrder(true);
+                            base.showMsg("操作成功",1000);
+                            operateSuccess();
                         });
                 }, () => {});
         });
+        
+        //立即支付
         $("#payBtn").on("click", function() {
-            location.href = "../pay/pay.html?type=activity&code=" + code;
+            location.href = "../pay/pay.html?type=mall&code=" + code;
+        });
+        
+    	//催单
+        $("#reminderBtn").on("click", function() {
+//          base.showLoading("操作中...");
+//          
+//          MallCtr.reminderOrder(code)
+//              .then(() => {
+//                  base.showMsg("催单成功",1000);
+//                  operateSuccess();
+//              });
         });
     }
 });

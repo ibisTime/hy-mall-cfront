@@ -49,8 +49,8 @@ define([
     GeneralCtr.getAppId()
       .then(function(data) {
         base.hideLoading();
-        if (data.length) {
-          var appid = data[0].password;
+        if (data) {
+          var appid = data.wx_h5_access_key;
           var redirect_uri = encodeURIComponent(base.getDomain() + "/user/redirect.html?m=" +
             mobile + "&s=" + smsCaptcha);
           location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
@@ -64,7 +64,7 @@ define([
   //获取七牛地址
   function getQiniuUrl(){
 			GeneralCtr.getUserSysConfig('qiniu_domain').then(function(data) {
-	        base.setSessionQiniuUrl('http://'+data.cvalue+'/');
+	        base.setSessionQiniuUrl(data.cvalue+'/');
 	    });
   }
   

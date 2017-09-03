@@ -8,7 +8,13 @@ define([
          * @param config: {code,mobile?,smsCaptcha?,userReferee?}
          */
         wxLogin(config) {
-            return Ajax.post("805170", config);
+            return Ajax.post("805170",{ 
+                type: 'wx_h5',
+                kind: 'C',
+                isNeedMobile: '1',
+                isLoginStatus: '0',
+                ...config
+            });
         },
         // 获取用户详情
         getUser(refresh) {
@@ -157,5 +163,25 @@ define([
             	kind:'PA'
             }, true);
         },
+        //获取签到列表
+        getListDailyAttendance(){
+            return Ajax.get("805102",{
+                userId: base.getUserId()
+            },true);
+        },
+        //连续签到列表查询
+        getSeriesDailyAttendance(dateStart){
+            return Ajax.get("805103",{
+                userId: base.getUserId(),
+                dateStart
+            },true);
+        },
+        //签到
+        DailyAttendance(location){
+            return Ajax.get("805100",{
+                userId: base.getUserId(),
+                location
+            },true);
+        }
     };
 })

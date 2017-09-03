@@ -1,9 +1,8 @@
 define([
     'app/controller/base',
-    'app/module/weixin',
     'app/interface/GeneralCtr',
     'app/util/handlebarsHelpers'
-], function(base, weixin, GeneralCtr, Handlebars) {
+], function(base, GeneralCtr, Handlebars) {
     var _tmpl = __inline('../../ui/notice-item.handlebars');
     var config = {
         start: 1,
@@ -14,12 +13,6 @@ define([
     function init() {
 		getPageNotice();
         addListener();
-        weixin.initShare({
-            title: document.title,
-            desc: "户外电商",
-            link: location.href,
-            imgUrl: base.getShareImg()
-        });
     }
     //公告
     function getPageNotice(refresh) {

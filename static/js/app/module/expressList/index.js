@@ -22,7 +22,7 @@ define([
 	function getPagePartner(){
 		UserCtr.getPagePartner(true)
         .then(function(data){
-            	var html = '<div class="titleWrap" data-userId='+SYS_USER+'><p class="fl text name">顺丰快递到付</p><p class="fr text"><i class="icon"></i></p></div>';
+            	var html = '<div class="titleWrap" data-userId='+SYS_USER+'><p class="fl text name">'+SYS_USERNAME+'</p><p class="fr text"><i class="icon"></i></p></div>';
             	
         		data.list.forEach(function(d, i){
         			html+=`<div class="titleWrap" data-userId='${d.userId}'><p class="fl text name">${d.realName}</p>

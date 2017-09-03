@@ -59,7 +59,7 @@ define([
           checkInfo: function() {
             return $("#bind-mobileSms").valid();
           },
-          bizType: "805151",
+          bizType: "805170",
           id: "bind-getVerification",
           mobile: "bind-mobileSms"
         });

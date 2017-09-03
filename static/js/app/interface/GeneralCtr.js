@@ -11,9 +11,8 @@ define([
         },
         // 获取appId
         getAppId() {
-            return Ajax.get("806031", {
-                account: "ACCESS_KEY",
-                type: "3"
+            return Ajax.get("805918", {
+                type: "wx_h5"
             }, true);
         },
         // 发送短信
@@ -93,6 +92,17 @@ define([
                 itemScoreList,
                 commer: base.getUserId()
             });
-        }
+        },
+        // 分页查询咨询
+        getPageInformation(config, refresh) {
+            return Ajax.get("801005", {
+                status: 1,
+                ...config
+            }, refresh);
+        },
+        // 分页查询咨询
+        getInformationDetail(code) {
+            return Ajax.get("801006", {code}, true);
+        },
     };
 })

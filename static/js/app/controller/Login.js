@@ -76,7 +76,7 @@ define([
                 	Ajax.get('805917',{ckey:'qiniu_domain'},true)
                 ).then(function(response,res) {
                             
-	        				base.setSessionQiniuUrl('http://'+res.cvalue+'/');
+	        				base.setSessionQiniuUrl(res.cvalue+'/');
         					base.setSessionUser(response);
                     });
             }

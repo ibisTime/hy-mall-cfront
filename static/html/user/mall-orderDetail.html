@@ -7,93 +7,35 @@
     <!--SCRIPT_PLACEHOLDER-->
 </head>
 
-<body>
-    <div class="confirm-order-wrapper">
-        <div class="confirm-list">
-            <div class="confirm-item border-bottom-1px">
-                <div class="am-flexbox">
-                    <span class="title">订单编号</span>
-                    <div class="text" id="code"></div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px">
-                <div class="am-flexbox">
-                    <span class="title">下单时间</span>
-                    <div class="text" id="applyDatetime"></div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px">
-                <div class="am-flexbox">
-                    <span class="title">订单状态</span>
-                    <div class="text am-flexbox-item">
-                        <span id="status"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px">
-                <div class="am-flexbox">
-                    <span class="title">活动名称</span>
-                    <div class="text" id="activityTitle"></div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px">
-                <div class="am-flexbox">
-                    <span class="title">开始时间</span>
-                    <div class="text" id="activityBeginDatetime"></div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px">
-                <div class="am-flexbox">
-                    <span class="title">结束时间</span>
-                    <div class="text" id="activityEndDatetime"></div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px">
-                <div class="am-flexbox">
-                    <span class="title">联系电话</span>
-                    <div class="text" id="contact"></div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px">
-                <div class="am-flexbox">
-                    <span class="title">报名人数</span>
-                    <div class="text" id="quantity"></div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px">
-                <div class="am-flexbox">
-                    <span class="title">订单金额</span>
-                    <div class="text" id="amount"></div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px hidden">
-                <div class="am-flexbox">
-                    <span class="title">违约金额</span>
-                    <div class="text amount" id="penalty"></div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px">
-                <div class="am-flexbox am-flexbox-align-top">
-                    <span class="title">特别嘱咐</span>
-                    <div class="text" id="applyNote"></div>
-                </div>
-            </div>
-            <div class="confirm-item border-bottom-1px hidden">
-                <div class="am-flexbox am-flexbox-align-top">
-                    <span class="title">备注信息</span>
-                    <div class="text" id="remark"></div>
-                </div>
-            </div>
-        </div>
-        <div class="confirm-btn">
-            <button id="payBtn" class="am-button am-button-primary hidden">确认支付</button>
-            <button id="cancelBtn" class="am-button am-button-cancel hidden">取消订单</button>
-            <button id="refundBtn" class="am-button am-button-primary hidden">申请退款</button>
-        </div>
-    </div>
+<body class="mallOrderDetailWrap">
+	
+	<div class="orderPro-list mb20"></div>
+	
+	<div class="titleWrap" id="toUser">
+		<p class="fl text">配送方式</p>
+		<p class="fr text toUserName"><samp></samp></p>
+	</div>
+	
+	<div class="orderAddress hidden b_e_b" id="orderAddress"></div>
+	<div class="orderAddress hidden orderExpress" id="expressDelivery"></div>
+	
+	<div class="orderApplyNote mt20">
+		<div class="fl title">卖家嘱托</div>
+		<div class="textarea" id="applyNote"></div>
+	</div>
+	
+	<div class="mt20 orderInfo" id="orderInfo"></div>
+	
+	<div class="mallBottom hidden">
+        <button id="cancelBtn" class="am-button am-button-red cancelBtn fl  hidden">取消订单</button>
+        <button id="payBtn" class="am-button am-button-primary payBtn fr hidden">确认支付</button>
+        <button id="confirmBtn" class="am-button am-button-red confirmBtn wp100 hidden">确认收货</button>
+        <button id="reminderBtn" class="am-button am-button-red reminderBtn wp100 hidden">催一下</button>
+	</div>
+	
     <link rel="import" href="../footer.html?__inline">
     <script>
-        require(['app/controller/user/ActivityOrder']);
+        require(['app/controller/user/MallOrderDetail']);
     </script>
 </body>
 

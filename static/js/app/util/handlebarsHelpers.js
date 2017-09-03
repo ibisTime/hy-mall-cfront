@@ -40,7 +40,7 @@ define(['Handlebars'], function(Handlebars) {
         if (/^http/.test(pic)) {
             return pic;
         }
-        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!400x116r";
+        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/interlace/1";
     });
     Handlebars.registerHelper('formatAvatar', function(pic, options) {
         if (!pic) {

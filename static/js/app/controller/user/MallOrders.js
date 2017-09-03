@@ -9,8 +9,6 @@ define([
     }, isEnd = false, canScrolling = false;
     var orderStatus = Dict.get("mallOrderStatus");
     var currentType = 0,
-        // "0": 待付款, "1": "付款成功", "2": "用户取消订单", "3": "平台取消订单",
-        // "4": "退款申请", "5": "退款成功", "6": "退款失败", "7": "活动开始", "8": "已完成"
         type2Status = {
             "0": "",
             "1": "1",
@@ -64,11 +62,11 @@ define([
     
     //订单列表
     function buildHtml(item) {
-    	var tmplProHtml = '',tmplbtnHtml ='';
+    	var tmplProHtml = '',tmplbtnHtml =' ';
     	
     	item.productOrderList.forEach(function(d, i){
-    		tmplProHtml+=`<a class="mall-item" href="./mall-orderDetail.html?code=${d.code}">
-    		<div class="mall-item-img fl" style="background-image: url('${base.getImg(d.product.advPic)}"></div>
+    		tmplProHtml+=`<a class="mall-item" href="./mall-orderDetail.html?code=${item.code}">
+    		<div class="mall-item-img fl" style="background-image: url('${base.getImg(d.product.advPic)}')"></div>
     		<div class="mall-item-con fr">
     			<p class="name">${d.product.name}</p>
     			<samp class="slogan">商品规格：${d.productSpecsName}</samp>
@@ -79,14 +77,22 @@ define([
     	if(item.status == "1"){
     		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="../pay/pay.html?code=${item.code}&type=mall">立即支付</a>
                             <button class="am-button am-button-small cancel-order" data-code="${item.code}">取消订单</button></div>`
+    	
+    	// 已支付，待发货
     	}else if(item.status == "2"){
     		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red " data-code="${item.code}">待发货</button></div>`
+    	
+    	//已发货
     	}else if(item.status == "3"){
     		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red confirm-order" data-code="${item.code}">确认收货</button></div>`
-    	}else if(item.status == "91"||item.status == "92"||item.status == "93"){
-    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small" data-code="${item.code}">已取消</button></div>`
+    	
+    	// 已收货
     	}else if(item.status == "4"){
     		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red" data-code="${item.code}">已收货</button></div>`
+    	
+    	//91：用户异常 ，92：商户异常， 93：快递异常
+    	}else if(item.status == "91"||item.status == "92"||item.status == "93"){
+    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small" data-code="${item.code}">已取消</button></div>`
     	}
     	
         return `<div class="order-item">
@@ -94,8 +100,7 @@ define([
                         <span>订单编号:${item.code}</span>
                         <span class="fr">${base.formatDate(item.applyDatetime, "yyyy-MM-dd")}</span>
                     </div>
-                    <div class="orderPro-list mb20">`+tmplProHtml+`</div>`+tmplbtnHtml+`
-                </div>`;
+                    <div class="orderPro-list mb20">`+tmplProHtml+`</div>`+tmplbtnHtml+`</div>`;
 
     }
 

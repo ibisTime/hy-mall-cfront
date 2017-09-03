@@ -75,6 +75,7 @@ define([
 	function showProductSpecs(t){
 		//t=1,加入购物车；t=2,立即下单
 		$("#mask").removeClass('hidden');
+		$("#subBtn").removeClass('purchaseBtn').removeClass('addSCarBtn');
 		$("#productSpecs").addClass('active');
 		
 		if(t==1){
@@ -110,9 +111,16 @@ define([
 		},()=>{})
 	}
 	
-	function getSubBtn(){
+	function getSubBtn(t){
+		//t=1,加入购物车；t=2,立即下单
 		if($("#productSpecs .quantity").attr('data-quantity')<1){
 			$("#subBtn").addClass("am-button-disabled").removeClass("am-button-red")
+			
+			if(t==1){
+				$("#subBtn").removeClass('addSCarBtn')
+			}else{
+				$("#subBtn").removeClass('purchaseBtn')
+			}
 		}else{
 			$("#subBtn").removeClass("am-button-disabled").addClass("am-button-red")
 		}

@@ -134,7 +134,7 @@ define([
             CookieUtil.set("token", data.token);
         },
         setSessionQiniuUrl: function(data) {
-            sessionStorage.setItem("qiniuUrl", data);
+            CookieUtil.set("qiniuUrl", data);
         },
         clearSessionUser: function() {
             CookieUtil.del("userId"); //userId

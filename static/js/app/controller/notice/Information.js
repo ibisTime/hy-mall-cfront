@@ -1,10 +1,9 @@
 define([
   'app/controller/base',
-  'app/module/weixin',
-  'app/interface/ActivityCtr',
+  'app/interface/GeneralCtr',
   'app/util/handlebarsHelpers'
-], function(base, weixin, ActivityCtr, Handlebars) {
-  var _tmpl = __inline('../../ui/notice_activity.handlebars');
+], function(base, GeneralCtr, Handlebars) {
+  var _tmpl = __inline('../../ui/information-list-item.handlebars');
   var config = {
       start: 1,
       limit: 15
@@ -15,19 +14,13 @@ define([
   init();
 
   function init() {
-    getPageActivities();
+    getPageInformation();
     addListener();
-    weixin.initShare({
-      title: document.title,
-      desc: "户外电商",
-      link: location.href,
-      imgUrl: base.getShareImg()
-    });
   }
 
-  function getPageActivities(refresh) {
+  function getPageInformation(refresh) {
     base.showLoading();
-    ActivityCtr.getPageActivities(config, refresh)
+    GeneralCtr.getPageInformation(config, refresh)
       .then(function(data) {
         base.hideLoading();
         hideLoading();
@@ -42,7 +35,7 @@ define([
           }));
           isEnd && $("#loadAll").removeClass("hidden");
         } else if (config.start == 1) {
-          $("#content").html('<li class="no-data">暂无活动</li>')
+          $("#content").html('<li class="no-data">暂无资讯</li>')
         } else {
           $("#loadAll").removeClass("hidden");
         }
@@ -56,7 +49,7 @@ define([
           document).scrollTop())) {
         canScrolling = false;
         showLoading();
-        getPageActivities();
+        getPageInformation();
       }
     });
   }

@@ -73,5 +73,13 @@ define([
             	remark:'用户确认收货'
             }, true);
         },
+        // 催单
+        reminderOrder(code) {
+//          return Ajax.get("808057", {
+//              updater: base.getUserId(),
+//          	code,
+//          	remark:'用户确认收货'
+//          }, true);
+        },
     };
 })

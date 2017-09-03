@@ -15,6 +15,11 @@ define([
       getUserInfo(),
       getAccount()
     ).then(base.hideLoading);
+    
+	   $("#logout").click(function() {
+	       base.clearSessionUser();
+	       location.href='./redirect.html'
+	   });
   }
   // 获取账户信息
   function getAccount() {
