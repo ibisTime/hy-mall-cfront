@@ -126,6 +126,10 @@ define([
 			$("#city").attr("data-prv",text1);
 			$("#city").attr("data-city",text2);
 			$("#city").attr("data-area",text3);
+			
+			setTimeout(function(){
+				picker.remove();
+			},1)
 		});
 		
 		picker.on('picker.change', function (index, selectedIndex) {
@@ -135,50 +139,50 @@ define([
 		    secondChange();
 		  }
 		
-		function firstChange() {
-		    second = [];
-		    third = [];
-		    checked[0] = selectedIndex;
-		    var firstCity = city[selectedIndex];
-		    if (firstCity.hasOwnProperty('sub')) {
-		      creatList(firstCity.sub, second);
-		
-		      var secondCity = city[selectedIndex].sub[0]
-		      if (secondCity.hasOwnProperty('sub')) {
-		        creatList(secondCity.sub, third);
-		      } else {
-		        third = [{text: '', value: 0}];
-		        checked[2] = 0;
-		      }
-		    } else {
-		      second = [{text: '', value: 0}];
-		      third = [{text: '', value: 0}];
-		      checked[1] = 0;
-		      checked[2] = 0;
-		    }
-		
-		    picker.refillColumn(1, second);
-		    picker.refillColumn(2, third);
-		    picker.scrollColumn(1, 0)
-		    picker.scrollColumn(2, 0)
-		}
-		
-		function secondChange() {
-		    third = [];
-		    checked[1] = selectedIndex;
-		    var first_index = checked[0];
-		    if (city[first_index].sub[selectedIndex].hasOwnProperty('sub')) {
-		      var secondCity = city[first_index].sub[selectedIndex];
-		      creatList(secondCity.sub, third);
-		      picker.refillColumn(2, third);
-		      picker.scrollColumn(2, 0)
-		    } else {
-		      third = [{text: '', value: 0}];
-		      checked[2] = 0;
-		      picker.refillColumn(2, third);
-		      picker.scrollColumn(2, 0)
-		    }
-		  }
+			function firstChange() {
+			    second = [];
+			    third = [];
+			    checked[0] = selectedIndex;
+			    var firstCity = city[selectedIndex];
+			    if (firstCity.hasOwnProperty('sub')) {
+			      creatList(firstCity.sub, second);
+			
+			      var secondCity = city[selectedIndex].sub[0]
+			      if (secondCity.hasOwnProperty('sub')) {
+			        creatList(secondCity.sub, third);
+			      } else {
+			        third = [{text: '', value: 0}];
+			        checked[2] = 0;
+			      }
+			    } else {
+			      second = [{text: '', value: 0}];
+			      third = [{text: '', value: 0}];
+			      checked[1] = 0;
+			      checked[2] = 0;
+			    }
+			
+			    picker.refillColumn(1, second);
+			    picker.refillColumn(2, third);
+			    picker.scrollColumn(1, 0)
+			    picker.scrollColumn(2, 0)
+			}
+			
+			function secondChange() {
+			    third = [];
+			    checked[1] = selectedIndex;
+			    var first_index = checked[0];
+			    if (city[first_index].sub[selectedIndex].hasOwnProperty('sub')) {
+			      var secondCity = city[first_index].sub[selectedIndex];
+			      creatList(secondCity.sub, third);
+			      picker.refillColumn(2, third);
+			      picker.scrollColumn(2, 0)
+			    } else {
+			      third = [{text: '', value: 0}];
+			      checked[2] = 0;
+			      picker.refillColumn(2, third);
+			      picker.scrollColumn(2, 0)
+			    }
+			}
 		
 		});
 		
@@ -288,7 +292,7 @@ define([
                     $("#city").val("");
                     $("#detailAddress").val("");
                     wrap.find("label.error").remove();
-                    $('.picker').remove();
+                    $(".picker").remove();
                 });
             }
             return this;

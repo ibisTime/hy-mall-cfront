@@ -7,7 +7,7 @@ define([
     init();
 
 	function init(){
-//		base.showLoading();
+		base.showLoading();
 		getCarProductList();
         addListener();
         
@@ -17,28 +17,39 @@ define([
 	function getCarProductList(){
 		MallCtr.getCarProductList().then((data)=>{
 			var html = '';
+			if(data.length){
+				data.forEach(function(d, i){
+					html += `<div class="car-item mb20" data-code=${d.code} data-status=${d.product.status} data-type='${d.productSpecs.price2 ? 'JF' : 'CNY'}'>
+						<div class="icon"><i></i></div>
+						<a class="mall-item" data-pcode='${d.productCode}' href="./mallDetail.html?code=${d.productCode}">
+				    		<div class="mall-item-img fl" data-advPic='${d.product.advPic}' style="background-image: url('${base.getImg(d.product.advPic)}');"></div>
+				    		<div class="mall-item-con fr">
+				    			<p class="name">${d.product.name}</p>
+				    			<p class="slogan specsName" data-sName='${d.productSpecs.name}'>商品规格：${d.productSpecs.name}</p>
+				    			<div class="price wp100">
+				    				<samp class="samp1 fl" data-price='${d.productSpecs.price2 ? d.productSpecs.price2: d.productSpecs.price1}'
+				    				>${d.productSpecs.price2 ? base.formatMoney(d.productSpecs.price2)+'积分' : '￥'+base.formatMoney(d.productSpecs.price1)}</samp>
+				    			</div>
+				    		</div>
+				    	</a>
+				    	<div class="productSpecs-number">
+							<div class="subt fl"></div><div class="sum fl" data-quantity='${d.productSpecs.quantity}'>${d.quantity}</div><div class="add fl"></div>
+						</div>
+						<div class='carProDelete'></div>
+					</div>`;
+				})
+				
+				$("#carProList").html(html);
+				$("#totalAmount").html('￥0.00<br/>0.00积分')
+				
+				$(".carContent").removeClass('hidden')
+				$(".carNoData").addClass('hidden')
+			}else{
+				$(".carContent").addClass('hidden')
+				$(".carNoData").removeClass('hidden')
+			}
 			
-			data.forEach(function(d, i){
-				html += `<div class="car-item mb20" data-code=${d.code} data-status=${d.product.status} data-type='${d.productSpecs.price2 ? 'JF' : 'CNY'}'>
-					<div class="icon"><i></i></div>
-					<a class="mall-item" data-pcode='${d.productCode}' href="./mallDetail.html?code=${d.productCode}">
-			    		<div class="mall-item-img fl" data-advPic='${d.product.advPic}' style="background-image: url('${base.getImg(d.product.advPic)}');"></div>
-			    		<div class="mall-item-con fr">
-			    			<p class="name">${d.product.name}</p>
-			    			<p class="slogan specsName" data-sName='${d.productSpecs.name}'>商品规格：${d.productSpecs.name}</p>
-			    			<div class="price wp100">
-			    				<samp class="samp1 fl" data-price='${d.productSpecs.price2 ? d.productSpecs.price2: d.productSpecs.price1}'
-			    				>${d.productSpecs.price2 ? base.formatMoney(d.productSpecs.price2)+'积分' : '￥'+base.formatMoney(d.productSpecs.price1)}</samp>
-			    			</div>
-			    		</div>
-			    	</a>
-			    	<div class="productSpecs-number">
-						<div class="subt fl"></div><div class="sum fl" data-quantity='${d.productSpecs.quantity}'>${d.quantity}</div><div class="add fl"></div>
-					</div>
-				</div>`;
-			})
-			
-			$("#carProList").html(html)
+			base.hideLoading()
 			
 		},()=>{})
 	}
@@ -49,6 +60,7 @@ define([
 			amount1: 0,//人民币总价
 			amount2:0//积分总价
 		}
+		var flag = 1;// 是否全选
 		$("#carProList .car-item").each(function(i, d){
 			if($(this).hasClass('active')){
 				//选中商品数据
@@ -65,9 +77,15 @@ define([
 				}else{
 					totalAmount.amount2+= carProList.price*carProList.quantity
 				}
+			}else{
+				flag = 0
 			}
 		})
-		
+		if(flag){
+			$("#allCheck").addClass('active');
+		}else{
+			$("#allCheck").removeClass('active');
+		}
 		$("#totalAmount").html('￥'+base.formatMoney(totalAmount.amount1)+'<br/>'+base.formatMoney(totalAmount.amount2)+'积分')
 	}
 	
@@ -83,6 +101,13 @@ define([
 					//下架商品
 					if($(this).attr('data-status')==4){
 						base.showMsg('商品：'+$(this).find('.name').html()+'已下架，不能购买');
+						flag = true;
+						return false;
+					}
+					
+					if($(this).find('.sum').attr('data-quantity')<1){
+						
+						base.showMsg('商品：'+$(this).find('.name').html()+'已无库存，不能购买');
 						flag = true;
 						return false;
 					}
@@ -116,6 +141,15 @@ define([
 		
 	}
 	
+	//编辑购物车商品数量
+	function editCarPro(param){
+		base.showLoading()
+		MallCtr.editCarPro(param).then((data)=>{
+			getTotalAmount();
+			base.hideLoading();
+		},()=>{})
+	}
+	
 	function addListener(){
 		var mySwiper = new Swiper('#swiper-container', {
             'direction': 'horizontal',
@@ -131,8 +165,13 @@ define([
 			if(sum>1){
 				sum--
 			}
+			
+			var param = {
+				code:$(this).parent().parent('.car-item').attr('data-code'),
+				quantity: sum
+			}
+			editCarPro(param)
 			$(this).siblings('.sum').html(sum);
-			getTotalAmount();
 		})
 		
 		//购买数量 加
@@ -141,8 +180,13 @@ define([
 			if(sum<$(this).siblings('.sum').attr('data-quantity')){
 				sum++
 			}
+			
+			var param = {
+				code:$(this).parent().parent('.car-item').attr('data-code'),
+				quantity: sum
+			}
+			editCarPro(param)
 			$(this).siblings('.sum').html(sum);
-			getTotalAmount();
 		})
 		
 		//全选
@@ -176,6 +220,23 @@ define([
 			carPlaceOrder();
 		})
 		
+		//删除商品
+		$("#carProList").on('click', '.carProDelete', function(){
+			base.confirm('确定删除该商品？').then(()=>{
+				base.showLoading();
+				
+				var param={
+					cartCodeList:[]
+				};
+				param.cartCodeList.push($(this).parent('.car-item').attr('data-code'))
+				
+				MallCtr.detailCarPro(param).then(()=>{
+					getCarProductList()
+				},()=>{
+					base.hideLoading()
+				})
+			},()=>{})
+		})
 	}
 	
 	

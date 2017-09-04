@@ -48,6 +48,7 @@ define([
         }
         
     	$("#toUser").attr('data-toUser',SYS_USER)
+    	$("#toUser .toUserName samp").html(SYS_USERNAME)
         base.hideLoading();
         addListener()
 	}
@@ -146,6 +147,8 @@ define([
 			        companyCode: SYSTEM_CODE,
 			        systemCode: SYSTEM_CODE
 			    }
+			}else{
+				$('.no-address').removeClass('hidden')
 			}
 		},()=>{})
 		
@@ -180,36 +183,40 @@ define([
 	}
 	
 	function addListener(){
-		AddressList.addCont({
-            userId: base.getUserId(),
-            success: function(res) {
-            	config.pojo = res;
-            }
-        });
         
-		ExpressList.addCont({
-            success: function(to, toName) {
-            	if(to){
-            		$("#toUser").attr('data-toUser',to)
-            		$("#toUser").find('.toUserName').children('samp').html(toName)
-            		
-            		if(to==SYS_USER){
-            			$('#orderAddress').removeClass('hidden')
-            		}else{
-            			$('#orderAddress').addClass('hidden')
-            		}
-            	}
-            }
-        });
-		
 		//地址
 		$(".orderAddress").click(function(){
+			AddressList.addCont({
+	            userId: base.getUserId(),
+	            success: function(res) {
+	            	config.pojo = res;
+	            	$('.no-address').addClass('hidden')
+	            }
+	        });
 			AddressList.showCont({
 				code: $(this).attr('data-code')
 			});
 		})
 		
+		//未添加地址
+		$('.no-address').click(function(){
+			
+			AddressList.addCont({
+	            userId: base.getUserId(),
+	            success: function(res) {
+	            	config.pojo = res;
+	            	$('.no-address').addClass('hidden')
+	            }
+	        });
+	        
+			AddressList.showCont({
+				code: $(".orderAddress").attr('data-code')
+			});
+		})
+		
+		//提交
 		$("#subBtn").click(function(){
+			
 			config.toUser = $("#toUser").attr('data-toUser')
 			var param={}
 			if(submitType=='1'){
@@ -226,15 +233,37 @@ define([
 				param.cartCodeList=cartCodeList
 				
 				submitOrder2(param)
-			}else{
-				param=config
+			}else {
 				
-				submitOrder1(param)
+				if(config.pojo.receiver){
+					param=config
+				
+					submitOrder1(param)
+				}else if($("#toUser").attr('data-toUser')==SYS_USER){
+					base.showMsg('请选择地址')
+				}
+				
 			}
 		})
 		
 		//配送方式
 		$("#toUser").click(function(){
+			
+			ExpressList.addCont({
+	            success: function(to, toName) {
+	            	if(to){
+	            		$("#toUser").attr('data-toUser',to)
+	            		$("#toUser").find('.toUserName').children('samp').html(toName)
+	            		
+	            		if(to==SYS_USER){
+	            			$('.orderAddressWrap').removeClass('hidden')
+	            		}else{
+	            			$('.orderAddressWrap').addClass('hidden')
+	            		}
+	            	}
+	            }
+	        });
+        
 			ExpressList.showCont({});
 		})
 		

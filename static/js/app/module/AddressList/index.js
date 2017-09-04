@@ -23,7 +23,6 @@ define([
         $("#userId").val(defaultOpt.userId);
         
         getAddressList();
-        addListener();
     }
     
     //收货地址列表
@@ -50,12 +49,12 @@ define([
 					</div></div></div>`
         		})
         		
-            	$("#content").html(html);
+            	$("#AddressListContainerContent").html(html);
             	
             	$("footer").removeClass("hidden");
             	$("#loadAll").removeClass("hidden");
             }else{
-                doError("#content");
+                doError("#AddressListContainerContent");
             }
             
         	base.hideLoading();
@@ -75,7 +74,7 @@ define([
 		})
 		
 		//修改
-		$("#content").on("click", '.addressWrap .addressWrap-detail',function(){
+		$("#AddressListContainerContent").on("click", '.addressWrap .addressWrap-detail',function(){
 			var _thisData = $(this);
 			var html = '';
 			
@@ -92,7 +91,7 @@ define([
 		})
 		
 		//设为默认
-		$("#content").on("click", '.addressWrap .isDefaultBtn',function(){
+		$("#AddressListContainerContent").on("click", '.addressWrap .isDefaultBtn',function(){
 			
 			base.confirm("确定该地址为默认地址？").then(()=>{
 	    		base.showLoading("设置中...", 1);
@@ -104,14 +103,14 @@ define([
 		})
 		
 		//编辑
-		$("#content").on("click", '.addressWrap .editBtn',function(){
+		$("#AddressListContainerContent").on("click", '.addressWrap .editBtn',function(){
     		addOrEditAddress.showCont({
 				code : $(this).attr('data-code')
 			});
 		})
 		
 		//删除
-		$("#content").on("click", '.addressWrap .deleteBtn',function(){
+		$("#AddressListContainerContent").on("click", '.addressWrap .deleteBtn',function(){
 			
 			base.confirm("确认删除该地址？").then(()=>{
 	    		base.showLoading("删除中...", 1);
@@ -154,6 +153,8 @@ define([
             defaultOpt.title && wrap.find(".right-left-cont-title-name").text(defaultOpt.title);
             var that = this;
             if(firstAdd){
+            	
+        		addListener();
                 var _form = $("#addOrEditAddressForm");
                 wrap.on("click", ".right-left-cont-back", function(){
                     ModuleObj.hideCont(defaultOpt.success);

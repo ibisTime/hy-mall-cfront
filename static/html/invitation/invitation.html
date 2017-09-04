@@ -3,28 +3,35 @@
 
 <head>
     <link rel="import" href="../head.html?__inline">
-    <title>推荐</title>
+    <title>我的邀请</title>
     <!--SCRIPT_PLACEHOLDER-->
 </head>
 
-<body>
-    <div class="invitation-wrap">
-        <img src="../../images/invitation.png" class="invitation-bg">
-        <div id="qrCode" class="qr-code"></div>
-        <p class="invite-title" id="title">您的邀请码</p>
-        <div class="active-note" id="activeNote">
-            <div class="am-flexbox">
-                <div class="am-flexbox-item"></div>
-                <div class="act-note">活动说明</div>
-                <div class="am-flexbox-item"></div>
-            </div>
-        </div>
-        <div class="act-desc" id="desc">
-            <p>获客的直接对象是<span>会员</span>，</p>
-            <p>只要发展的会员上一节课就有<span id="rate"></span>的提成，</p>
-            <p>直接<span>现金方式</span></p>
+<body class="invitation-wrap">
+	<a class="invitationBtn invitation-list" href="./invitation-list.html">推荐历史</a>
+	<div class="invitationBtn invitation-share" id="invitationShare">点击邀请好友</div>
+    <div class="invitation-note">
+        <p class="tc">
+        	<img src="../../images/title-left.png" />
+            <samp class="act-note">活动说明</samp>
+        	<img src="../../images/title-right.png" />
+        </p>
+        <div class="invitation-content">
+        	<div class="content">
+        		<p>1.首次邀请5位送5元红包</p>
+        		<p>2.再次邀请15位送20元红包</p>
+        		<p>3.每天好礼送不停。首次放贷送20元现金话费，充值至手机，上不封顶</p>
+        	</div>
+        	<div class="bg"></div>
         </div>
     </div>
+    <div id="mask" class="mask hidden">
+    	<div class="rightArrow">
+    		<img src="../../images/rightArrow.png">
+    		<p>请点击右上角<br/>将它发送给指定朋友<br/>或分享到朋友圈</p>
+    	</div>
+    </div>
+    
     <link rel="import" href="../footer.html?__inline">
     <script src="../../js/lib/qrcode.js"></script>
     <script>

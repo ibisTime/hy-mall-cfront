@@ -37,6 +37,14 @@ define([
         carPlaceOrder(config, refresh) {
             return Ajax.get("808051", config, refresh);
         },
+        //购物车删除商品
+        detailCarPro(config) {
+            return Ajax.get("808041", config, true);
+        },
+        //编辑购物车商品数量
+        editCarPro(config) {
+            return Ajax.get("808042", config, true);
+        },
         //批量支付订单
         payOrder(config, refresh) {
             return Ajax.get("808052", config, refresh);
@@ -75,11 +83,7 @@ define([
         },
         // 催单
         reminderOrder(code) {
-//          return Ajax.get("808057", {
-//              updater: base.getUserId(),
-//          	code,
-//          	remark:'用户确认收货'
-//          }, true);
+            return Ajax.get("808058", {code}, true);
         },
     };
 })

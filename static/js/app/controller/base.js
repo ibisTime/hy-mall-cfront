@@ -251,7 +251,7 @@ define([
                         return true;
                     },
                     cancel: function() {
-                        reject();
+                        reject()
                         return true;
                     },
                     cancelValue: cancelValue || "取消",

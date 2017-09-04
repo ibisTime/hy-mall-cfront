@@ -47,7 +47,9 @@ define([
 					$("#orderAddress").removeClass('hidden');
 					
 				}else{
-					$("#toUser .toUserName").html(data.toUser)
+					$("#toUser .toUserName").html('自提');
+					$("#storeAddress").html('自提地址：'+data.takeAddress)
+					$("#storeAddress").removeClass('hidden');
 				}
 				//已发货
 				if(data.logisticsCompany){
@@ -89,8 +91,11 @@ define([
 				//待发货
 				}else if(data.status=='2'){
 					$('.mallBottom').removeClass('hidden')
-					$("#reminderBtn").removeClass('hidden')
-					
+					$("#reminderBtn").removeClass('hidden').html('催一下')
+					if(data.promptTimes){
+						$("#reminderBtn").removeClass('am-button-red').addClass('am-button-disabled').html('已催单');
+						$("#reminderBtn").off('click')
+					}
 				//待收货
 				}else if(data.status=='3'){
 					$('.mallBottom').removeClass('hidden')
@@ -114,6 +119,7 @@ define([
                     base.showLoading("取消中...");
                     MallCtr.cancelOrder(code)
                         .then(() => {
+                        	base.hideLoading();
                             base.showMsg("取消成功",1000);
                             operateSuccess();
                         });
@@ -127,6 +133,7 @@ define([
                     base.showLoading("提交中...");
                     MallCtr.confirmOrder(code)
                         .then(() => {
+                			base.hideLoading();
                             base.showMsg("操作成功",1000);
                             operateSuccess();
                         });
@@ -140,13 +147,14 @@ define([
         
     	//催单
         $("#reminderBtn").on("click", function() {
-//          base.showLoading("操作中...");
-//          
-//          MallCtr.reminderOrder(code)
-//              .then(() => {
-//                  base.showMsg("催单成功",1000);
-//                  operateSuccess();
-//              });
+            base.showLoading("操作中...");
+            
+            MallCtr.reminderOrder(code)
+                .then(() => {
+                	base.hideLoading();
+                    base.showMsg("催单成功",1000);
+                    operateSuccess();
+                });
         });
     }
 });

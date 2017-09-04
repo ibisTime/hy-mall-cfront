@@ -10,11 +10,12 @@ define([
     var orderStatus = Dict.get("mallOrderStatus");
     var currentType = 0,
         type2Status = {
-            "0": "",
-            "1": "1",
-            "2": "2",
-            "3": "3",
-            "4": "4"
+            "0": [],
+            "1": ['1'],
+            "2": ['2'],
+            "3": ['3'],
+            "4": ['4'],
+            "5": ['91','92','93'],
         };
     const SUFFIX = "?imageMogr2/auto-orient/thumbnail/!150x113r";
 
@@ -28,7 +29,7 @@ define([
     function getPageOrders(refresh) {
                 base.hideLoading();
         return MallCtr.getPageOrders({
-            status: type2Status[currentType],
+            statusList: type2Status[currentType],
             ...config
         }, refresh)
             .then((data) => {
@@ -70,6 +71,10 @@ define([
     		<div class="mall-item-con fr">
     			<p class="name">${d.product.name}</p>
     			<samp class="slogan">商品规格：${d.productSpecsName}</samp>
+    			<div class="price orderList-price">
+    				<p class="samp1">${d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)}</p>
+    				<p class="samp2">x${d.quantity}</p>
+    			</div>
     			</div></a>`
     	})
     	
@@ -100,7 +105,11 @@ define([
                         <span>订单编号:${item.code}</span>
                         <span class="fr">${base.formatDate(item.applyDatetime, "yyyy-MM-dd")}</span>
                     </div>
-                    <div class="orderPro-list mb20">`+tmplProHtml+`</div>`+tmplbtnHtml+`</div>`;
+                    <div class="orderPro-list orderList-pro">`+tmplProHtml+`</div><div class="totalAmout">总价:<samp>
+                    ${item.amount1&&item.amount2
+                    	? '￥'+base.formatMoney(item.amount1)+' + '+base.formatMoney(item.amount2)+'积分'
+                    	:item.amount1?'￥'+base.formatMoney(item.amount1):base.formatMoney(item.amount2)+'积分'}
+                    </samp></div>`+tmplbtnHtml+`</div>`;
 
     }
 

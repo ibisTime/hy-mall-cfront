@@ -4,7 +4,8 @@ define([
     'app/interface/MallCtr',
 ], function(base, Swiper, MallCtr) {
 	var code = base.getUrlParam("code");
-	var type ;
+	var type,
+		btnType;// 1: 加入购物车，2：立即下单
 	
     init();
 
@@ -29,7 +30,7 @@ define([
 			
 			if(strs.length>1){
 				strs.forEach(function(d, i){
-					html+='<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('+ base.getImg(d) + ')"></div></div>';
+					html+=`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(d)}')"></div></div>`;
 				})
 				$("#top-swiper").html(html);
 				var mySwiper = new Swiper('#swiper-container', {
@@ -83,7 +84,7 @@ define([
 		}else{
 			$("#subBtn").html('立即下单').addClass('purchaseBtn')
 		}
-		getSubBtn();
+		getSubBtn(t);
 	}
 	
 	//关闭商品规格面板
@@ -111,18 +112,24 @@ define([
 		},()=>{})
 	}
 	
-	function getSubBtn(t){
+	function getSubBtn(){
 		//t=1,加入购物车；t=2,立即下单
 		if($("#productSpecs .quantity").attr('data-quantity')<1){
 			$("#subBtn").addClass("am-button-disabled").removeClass("am-button-red")
 			
-			if(t==1){
+			if(btnType==1){
 				$("#subBtn").removeClass('addSCarBtn')
 			}else{
 				$("#subBtn").removeClass('purchaseBtn')
 			}
 		}else{
 			$("#subBtn").removeClass("am-button-disabled").addClass("am-button-red")
+			
+			if(btnType==1){
+				$("#subBtn").addClass('addSCarBtn')
+			}else{
+				$("#subBtn").addClass('purchaseBtn')
+			}
 		}
 	}
 	
@@ -137,12 +144,14 @@ define([
 		
 		//立即购买
 		$(".buyBtn").click(function(){
-			showProductSpecs(2)
+			btnType = 2;
+			showProductSpecs(btnType)
 		})
 		
 		//加入购物车
 		$(".addShoppingCarBtn").click(function(){
-			showProductSpecs(1)
+			btnType = 1;
+			showProductSpecs(btnType)
 		})
 		
 		//关闭商品规格

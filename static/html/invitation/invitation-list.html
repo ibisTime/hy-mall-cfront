@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>推荐历史</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+	<div id="content"></div>
+    <div id="loadAll" class="load-all hidden">
+        <img src="../../images/end.png">
+        <span>已经全部加载完毕</span>
+    </div>
+    <link rel="import" href="../footer.html?__inline">
+    <script src="../../js/lib/qrcode.js"></script>
+    <script>
+        require(['app/controller/invitation/InvitationList']);
+    </script>
+</body>
+
+</html>
