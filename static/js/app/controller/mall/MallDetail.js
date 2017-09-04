@@ -2,7 +2,8 @@ define([
     'app/controller/base',
     'swiper',
     'app/interface/MallCtr',
-], function(base, Swiper, MallCtr) {
+    'app/interface/GeneralCtr',
+], function(base, Swiper, MallCtr, GeneralCtr) {
 	var code = base.getUrlParam("code");
 	var type,
 		btnType;// 1: 加入购物车，2：立即下单
@@ -133,6 +134,30 @@ define([
 		}
 	}
 	
+	//收藏
+	function addCollecte(c){
+		base.showLoading();
+		GeneralCtr.addCollecte(c).then(()=>{
+			
+			getProductDetail(c);
+			base.hideLoading();
+		},()=>{
+			base.hideLoading();
+		})
+	}
+	
+	//取消收藏
+	function cancelCollecte(c){
+		base.showLoading();
+		GeneralCtr.cancelCollecte(c).then(()=>{
+			getProductDetail(c);
+			
+			base.hideLoading();
+		},()=>{
+			base.hideLoading();
+		})
+	}
+	
 	function addListener(){
 		var mySwiper = new Swiper('#swiper-container', {
             'direction': 'horizontal',
@@ -203,6 +228,16 @@ define([
 		//商品规格-立即下单
 		$('#productSpecs').on('click', '.purchaseBtn', function(){
 			location.href = './submitOrder.html?s=2&code='+code+'&spec='+$("#productSpecs .spec p.active").attr('data-code')+'&quantity='+$('#productSpecs .productSpecs-number .sum').html();
+		})
+		
+		//收藏
+		$("#collecte").click(function(){
+			
+			if($(this).hasClass('active')){
+				cancelCollecte(code)
+			}else{
+				addCollecte(code)
+			}
 		})
 		
 	}

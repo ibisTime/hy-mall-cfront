@@ -3,6 +3,7 @@ define([
     'app/module/weixin',
     'app/interface/GeneralCtr'
 ], function(base, weixin, GeneralCtr) {
+	var userReferee = base.getUrlParam('userReferee')
 
     init();
     

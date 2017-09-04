@@ -163,24 +163,18 @@ define([
             	kind:'PA'
             }, true);
         },
-        //获取签到列表
-        getListDailyAttendance(){
-            return Ajax.get("805102",{
-                userId: base.getUserId()
-            },true);
-        },
         //连续签到列表查询
         getSeriesDailyAttendance(dateStart){
-            return Ajax.get("805103",{
+            return Ajax.get("805148",{
                 userId: base.getUserId(),
                 dateStart
             },true);
         },
         //签到
-        DailyAttendance(location){
-            return Ajax.get("805100",{
+        dailyAttendance(addr){
+            return Ajax.get("805140",{
                 userId: base.getUserId(),
-                location
+                location:addr
             },true);
         }
     };

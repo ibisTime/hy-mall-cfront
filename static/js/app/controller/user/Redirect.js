@@ -34,6 +34,7 @@ define([
 	        mobile,
 	        smsCaptcha,
 	        userReferee,
+	        userRefereeKind: 'C',
 	        companyCode: SYSTEM_CODE
 	      }),
 	      getQiniuUrl()

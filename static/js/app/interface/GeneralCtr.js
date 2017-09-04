@@ -104,5 +104,22 @@ define([
         getInformationDetail(code) {
             return Ajax.get("801006", {code}, true);
         },
+        // 收藏
+        addCollecte(code){
+        	return Ajax.get("801030", {
+        		entityCode:code,
+        		interacter: base.getUserId(),
+        		type: 2
+        	}, true);
+        },
+        // 取消收藏
+        cancelCollecte(code){
+        	return Ajax.get("801031", {
+        		entityCode:code,
+        		interacter: base.getUserId(),
+        		type: 2
+        	}, true);
+        },
+        
     };
 })

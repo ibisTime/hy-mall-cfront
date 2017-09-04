@@ -1773,7 +1773,9 @@ label.error {
 }
 
 .mallDetail-title{
-    padding: .2rem .3rem;
+    min-height: 1.3rem;
+    padding: .2rem 1rem .2rem .3rem;
+    position: relative;
     
     .name{
         font-size: .32rem;
@@ -1783,6 +1785,24 @@ label.error {
         font-size: .24rem;
         color: #999;
     }
+    
+    .collecte{
+        width: .8rem;
+        height: .8rem;
+        position: absolute;
+        top: .05rem;
+        right: .15rem;
+        z-index: 11;
+        background-image: url('../images/未收藏@2x.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: .5rem;
+        
+        &.active{
+            background-image: url('../images/收藏@2x.png') !important;
+        }
+    }
+    
     .price1{
         overflow: hidden;
         margin: .3rem 0 .28rem;

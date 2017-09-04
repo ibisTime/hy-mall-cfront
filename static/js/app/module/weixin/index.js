@@ -16,6 +16,7 @@ define([
      */
     function _initShare(data, config) {
         wx.config({
+        	debug: true,
             appId: data.appId,
             timestamp: data.timestamp,
             nonceStr: data.nonceStr,
@@ -107,7 +108,7 @@ define([
                 .then((data) => {
                     _initShare(data, config);
                 }, (error) => {
-                    alert("微信sdk初始化失败");
+                    alert(JSON.stringify(error));
                 });
         },
         /*

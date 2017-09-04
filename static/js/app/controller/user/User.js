@@ -45,6 +45,7 @@ define([
       $("#nickname").text(data.nickname);
       $("#userImg").attr("src", base.getAvatar(data.photo));
       $("#mobile").text(data.mobile);
+      $("#invitation").attr('href','../invitation/invitation.html?userReferee='+data.mobile)
     });
   }
 });
