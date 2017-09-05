@@ -13,6 +13,9 @@
 .mr20{
     margin-right: .2rem;
 }
+.pb30{
+    padding-bottom: .3rem;
+}
 .ptb20lr30{
     padding: .2rem .3rem;
 }
@@ -179,31 +182,52 @@ label.error {
 
 .home-content {
     background: #fff;
-    padding-left: 0.15rem;
-    padding-right: 0.15rem;
 
     .hot-title {
-        padding-top: 0.36rem;
-        padding-bottom: 0.32rem;
-        text-align: center;
-        font-size: 0.3rem;
-        color: #484848;
-
-        span {
-            padding-left: 0.12rem;
-            padding-right: 0.12rem;
-            display: inline-block;
-            vertical-align: middle;
+        width: 100%;
+        height: 1rem;
+        overflow: hidden;
+        padding: 0 .3rem;
+        
+        .title{
+            line-height: 1rem;
+            font-size: .3rem;
+            
+            .border{
+                display: inline-block;
+                width: .05rem;
+                height: .3rem;
+                background-color: $primary-color;
+                position: relative;
+                top: .05rem;
+                margin-right: .1rem;
+            }
         }
-
-        img {
-            vertical-align: middle;
-            width: 0.3rem;
+        
+        .more{
+            a{
+                line-height: 1rem;
+                font-size: .26rem;
+                color: #999;
+            }
+            
+            .icon{
+                display: block;
+                float: right;
+                width: .15rem;
+                height: 1rem;
+                margin-left: .2rem;
+                background-image: url('../images/更多-首页@2x.png');
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 100%;
+            }
         }
     }
 
     .hot-content {
         font-size: 0;
+        border-top: 1px solid $border-color;
 
         .hot-item {
             vertical-align: top;
@@ -669,77 +693,6 @@ label.error {
 
     img {
         max-width: 100%;
-    }
-}
-
-.comment-header {
-    padding-right: 0.3rem;
-    width: 100%;
-
-    .hot-stars {
-        font-size: 0.28rem;
-        color: #ffd845;
-
-        span {
-            padding-left: 0.12rem;
-        }
-    }
-
-    .comment-count {
-        font-size: 0.24rem;
-        color: #999;
-        background: url("../images/right.png") no-repeat right center;
-        background-size: 0.15rem;
-
-        span {
-            padding-right: 0.41rem;
-        }
-    }
-}
-
-.comment-list {
-    background: #fff;
-
-    .comment-item {
-        border-top: 1px solid $border-color;
-        padding: 0.22rem 0.3rem;
-
-        .commer-info {
-            .commer-avatar {
-                width: 0.9rem;
-                height: 0.9rem;
-                margin-right: 0.2rem;
-                border-radius: 50%;
-                overflow: hidden;
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-
-            .commer-ext {
-                h1 {
-                    font-size: 0.3rem;
-                    color: #000;
-                }
-
-                .hot-stars {
-                    padding-top: 0.04rem;
-
-                    span {
-                        padding-left: 0.24rem;
-                        color: #c2c2c2;
-                        font-size: 0.24rem;
-                    }
-                }
-            }
-        }
-
-        .comment-cont {
-            font-size: 0.28rem;
-            padding-top: 0.1rem;
-        }
     }
 }
 
@@ -1380,7 +1333,39 @@ label.error {
 }
 
 .detail-description1 {
+    width: 100%;
     padding: 0.3rem;
+    
+    img{
+        max-width: 100%;
+    }
+    
+    #tel{
+        .icon{
+            display: inline-block;
+            width: .4rem;
+            height: .4rem;
+            background-image: url('../images/电话@2x.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+        span{
+            display: inline-block;
+            font-size: .3rem;
+            line-height: .4rem;
+            position: relative;
+            top: -.08rem;
+            margin-left: .1rem;
+        }
+    }
+    
+    #time{
+        color: #666;
+    }
+}
+.detail-description-service{
+    min-height: 9.5rem;
 }
 
 .bank-wrapper {
@@ -1786,23 +1771,6 @@ label.error {
         color: #999;
     }
     
-    .collecte{
-        width: .8rem;
-        height: .8rem;
-        position: absolute;
-        top: .05rem;
-        right: .15rem;
-        z-index: 11;
-        background-image: url('../images/未收藏@2x.png');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: .5rem;
-        
-        &.active{
-            background-image: url('../images/收藏@2x.png') !important;
-        }
-    }
-    
     .price1{
         overflow: hidden;
         margin: .3rem 0 .28rem;
@@ -1840,6 +1808,22 @@ label.error {
     .price2{
         font-size: .22rem;
         color: #999;
+    }
+}
+.collect{
+    width: .8rem;
+    height: .8rem;
+    position: absolute;
+    top: .05rem;
+    right: .15rem;
+    z-index: 11;
+    background-image: url('../images/未收藏@2x.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: .5rem;
+    
+    &.active{
+        background-image: url('../images/收藏@2x.png') !important;
     }
 }
 .mallDetail-detail{
@@ -1903,23 +1887,38 @@ label.error {
     }
     
     .mallBottom-right{
+        width: 4.6rem;
+        height: 1rem;
+        position: relative;
         overflow: hidden;
         
         div{
-            width: 2.3rem;
             height: 1rem;
             line-height: 1rem;
             font-size: .32rem;
             text-align: center;
             float: left;
-            color: #fff;
             
             &.addShoppingCarBtn{
+                width: 2.3rem;
+                color: #fff;
                 background-color: $primary-color;
             }
             
             &.buyBtn{
+                width: 2.3rem;
+                color: #fff;
                 background-color: $red-color;
+            }
+            
+            &.offSelf{
+                width: 100%;
+                background-color: #E5E5E5;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 11;
+                color: #474747;
             }
         }
     }
@@ -2525,21 +2524,22 @@ label.error {
         border-radius: .1rem;
         position: relative;
         
-        .info-tit{
-            width: 100%;
-            padding: 0 .3rem;
-            text-align: center;
-            position: absolute;
-            left: 0;
-            bottom: .2rem;
-            
-            p{
-                display: inline-block;
-                overflow: hidden;
-                text-align: left;
-                color: #fff;
-                font-size: .3rem;
-            }
+    }
+    
+    .info-tit{
+        width: 100%;
+        padding: .25rem .8rem 0 .3rem;
+        text-align: center;
+        position: relative;
+        
+        p{
+            display: inline-block;
+            text-align: left;
+            font-size: .3rem;
+        }
+        
+        .collect{
+            background-size: .4rem;
         }
     }
     
@@ -2704,4 +2704,145 @@ label.error {
             color: #999;
         }
     }
+}
+.starWrap{
+    overflow: hidden;
+    
+    .star{
+        display: block;
+        float: left;
+        width: .4rem;
+        height: .4rem;
+        margin-right: .2rem;
+        background-image: url('../images/星星-灰@2x.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: .36rem;
+        
+        &.active{
+            background-image: url('../images/星星@2x.png');
+        }
+    }
+}
+.comment-item{
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: .2rem;
+    
+    .comment-header{
+        width: 100%;
+        height: 1rem;
+        border-bottom: 1px solid $border-color;
+        overflow: hidden;
+        padding: 0 .3rem 0 1.3rem;
+        position: relative;
+        
+        .pic{
+            width: .76rem;
+            height: .76rem;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: absolute;
+            top: .12rem;
+            left: .3rem;
+        }
+        
+        .comment-star{
+            line-height: 1rem;
+            font-size: .3rem;
+            
+            span{
+                font-size: .28rem;
+                color: #999;
+            }
+        }
+        
+        .starWrap{
+            margin-top: .3rem;
+            margin-left: .2rem;
+        }
+    }
+    
+    .comment-content{
+        width: 100%;
+        height: 2.4rem;
+        padding: .3rem;
+        font-size: .3rem;
+        line-height: 1.6;
+    }
+    
+    .error{
+        border: 1px solid $red-color;
+    }
+}
+.comment-buttom{
+    margin-top: 1rem;
+    padding: 0 .3rem;
+}
+.comment-list{
+    width: 100%;
+    padding: .3rem;
+    margin-bottom: .2rem;
+    background-color: #fff;
+    
+    .head{
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        padding: 0 .3rem 0 .9rem;
+        margin-bottom: .2rem;
+        
+        .pic{
+            width: .7rem;
+            height: .7rem;
+            border-radius: 50%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .nickname{
+            width: 100%;
+            font-size: .26rem;
+        }
+        
+        .starWrap{
+            .star{
+                width: .3rem;
+                height: .3rem;
+                margin-right: 0;
+                background-size: .24rem;
+                
+                &.active{
+                    background-image: url('../images/星星@2x.png');
+                }
+            }
+        }
+        
+    }
+     
+    .time{
+        font-size: .28rem;
+        color: #999;
+        margin-bottom: .1rem;
+    }
+    
+    .con{
+        font-size: .28rem;
+    }
+}
+.allComment{
+    display: block;
+    width: 1.8rem;
+    height: .5rem;
+    line-height: .5rem;
+    border-radius: .25rem;
+    text-align: center;
+    margin: 0 auto;
+    font-size: .22rem;
+    color: $primary-color;
+    border: 1px solid $primary-color;
 }

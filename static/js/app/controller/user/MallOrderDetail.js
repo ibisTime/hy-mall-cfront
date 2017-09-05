@@ -24,7 +24,7 @@ define([
 				data.productOrderList.forEach(function(d, i){
 					var price = d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)
 					
-					htmlPro += `<a class="mall-item" href="./mallDetail.html?code=${d.productCode}">
+					htmlPro += `<a class="mall-item" href="../mall/mallDetail.html?code=${d.productCode}">
 		    		<div class="mall-item-img fl" style="background-image: url('${base.getImg(d.product.advPic)}');"></div>
 		    		<div class="mall-item-con fr">
 		    			<p class="name">${d.product.name}</p>
@@ -100,6 +100,11 @@ define([
 				}else if(data.status=='3'){
 					$('.mallBottom').removeClass('hidden')
 					$("#confirmBtn").removeClass('hidden')
+					
+				//待评价
+				}else if(data.status=='4'){
+					$('.mallBottom').removeClass('hidden')
+					$("#commentBtn").removeClass('hidden')
 				}
 				
             });
@@ -155,6 +160,11 @@ define([
                     base.showMsg("催单成功",1000);
                     operateSuccess();
                 });
+        });
+        
+        //立即评价
+        $("#commentBtn").on("click", function() {
+			location.href='./order-comment.html?code='+code
         });
     }
 });

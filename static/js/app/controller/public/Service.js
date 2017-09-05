@@ -11,18 +11,18 @@ define([
 			.then(function(data){
                 base.hideLoading();
                 data.list.forEach((item) => {
-                    if(item.ckey == "aboutus") {
-                    	$("#description").html(item.note);
+                    if(item.ckey == "custom_center") {
+                    	$("#description").html(item.cvalue);
                         weixin.initShare({
                             title: document.title,
-                            desc: base.clearTag(item.note),
+                            desc: base.clearTag(item.cvalue),
                             link: location.href,
                             imgUrl: base.getShareImg()
                         });
                     } else if(item.ckey == "telephone") {
-                        $("#tel").text(item.note);
-                    } else if(item.ckey == "serviceTime") {
-                        $("#time").text(item.note);
+                        $("#tel span").text(item.cvalue);
+                    } else if(item.ckey == "time") {
+                        $("#time span").text(item.cvalue);
                     }
                 });
 			});

@@ -1,0 +1,17 @@
+{{#each items}}
+    <div class="comment-list mb20">
+		<div class="head">
+			<div class="pic" style="background-image: url('{{formatImage photo}}');"></div>
+			<div class="nickname">{{nickname}}</div>
+			<div class="starWrap">
+				<i data-score='1' data-txt = "非常差" class="star {{formatCommentStar 1}}"></i>
+				<i data-score='2' data-txt = "差" class="star {{formatCommentStar 2}}"></i>
+				<i data-score='3' data-txt = "一般" class="star {{formatCommentStar 3}}"></i>
+				<i data-score='4' data-txt = "好" class="star {{formatCommentStar 4}}"></i>
+				<i data-score='5' data-txt = "非常好" class="star {{formatCommentStar 5}}"></i>
+			</div>
+		</div>
+		<div class="time">{{formatDateTime commentDatetime}}</div>
+		<div class="con">{{content}}</div>
+	</div>
+{{/each}}

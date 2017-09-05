@@ -88,12 +88,13 @@ define(['Handlebars'], function(Handlebars) {
     Handlebars.registerHelper('defaultProductPrice', function(options) {
     	var data = options.data.root.items[options.data.index];
     	var price = '';
-    	if(data.type==JFPRODUCTTYPE){
+    	
+		if(data.type==JFPRODUCTTYPE){
     		price = options.data.root.items[options.data.index].productSpecsList[0].price2/1000+'积分';
     	}else{
     		price = '￥'+options.data.root.items[options.data.index].productSpecsList[0].price1/1000;
     	}
-        
+    
         return price;
     });
     Handlebars.registerHelper('defaultProductOPrice', function(options) {
@@ -110,6 +111,16 @@ define(['Handlebars'], function(Handlebars) {
         
         return location;
     });
+    Handlebars.registerHelper('formatCommentStar', function(score,options) {
+    	var data = options.data.root.items[options.data.index];
+    	var active='';
+    	if(score<=data.score){
+    		active = 'active';
+    	}
+        
+        return active;
+    });
+    
     
     return Handlebars;
 });

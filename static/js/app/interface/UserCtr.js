@@ -176,6 +176,27 @@ define([
                 userId: base.getUserId(),
                 location:addr
             },true);
-        }
+        },
+        // 分页查询我的收藏商品
+        getPageMallCollect(config,refresh){
+            return Ajax.get("808950",{
+            	userId: base.getUserId(),
+                ...config
+            },refresh);
+        },
+        // 分页查询我的收藏租赁商品
+        getPageLeaseCollect(config,refresh){
+            return Ajax.get("805165",{
+            	userId: base.getUserId(),
+                ...config
+            },refresh);
+        },
+        // 分页查询我的收藏资讯
+        getPageNewCollect(config,refresh){
+            return Ajax.get("801008",{
+            	userId: base.getUserId(),
+                ...config
+            },refresh);
+        },
     };
 })

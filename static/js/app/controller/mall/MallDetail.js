@@ -3,24 +3,39 @@ define([
     'swiper',
     'app/interface/MallCtr',
     'app/interface/GeneralCtr',
-], function(base, Swiper, MallCtr, GeneralCtr) {
+    'app/util/handlebarsHelpers',
+], function(base, Swiper, MallCtr, GeneralCtr, Handlebars) {
 	var code = base.getUrlParam("code");
 	var type,
 		btnType;// 1: 加入购物车，2：立即下单
+		
+    var _comTmpl = __inline('../../ui/comment-item.handlebars');
 	
     init();
 
 	function init(){
 		base.showLoading();
+        $.when(
+        	getProductDetail(code),
+        	getPageComment()
+        )
         addListener();
-        getProductDetail(code);
-        
 	}
 	
 	//获取商品详情
 	function getProductDetail(c){
 		
 		MallCtr.getProductDetail(c).then((data)=>{
+			
+			if(data.status=='4'){
+				$(".mallBottom-right .offSelf").removeClass('hidden');
+				$(".mallBottom-right .addShoppingCarBtn").addClass('hidden')
+				$(".mallBottom-right .buyBtn").addClass('hidden')
+			}else{
+				$(".mallBottom-right .addShoppingCarBtn").removeClass('hidden')
+				$(".mallBottom-right .buyBtn").removeClass('hidden')
+				$(".mallBottom-right .offSelf").addClass('hidden');
+			}
 			
 			type = data.type;
 			
@@ -44,6 +59,7 @@ define([
 			}else{
 				$("#top-swiper").html('<div class="swiper-slide"><img class="wp100" src="' + base.getImg(dpic) + '"></div>');
 			}
+			
 			$('title').html(data.name+'-商品详情');
 			$(".mallDetail-title .name").html(data.name)
 			$(".mallDetail-title .slogan").html(data.slogan)
@@ -67,11 +83,34 @@ define([
 					${d.name}  重量: ${d.weight}kg  发货地: ${d.province}</p>`
 			})
 			
+			//收藏
+			data.isCollect=='1'?$("#collect").addClass("active"):$("#collect").removeClass("active")
+			
 			$("#productSpecs .spec").html(specHtml)
 			
 			base.hideLoading();
 		},()=>{})
 	}
+	
+	//获取评价
+	function getPageComment(){
+		GeneralCtr.getPageComment({
+			start: 1,
+        	limit: 1,
+        	entityCode: code
+		}, true).then((data)=>{
+			var lists = data.page.list
+			if(data.page.list.length){
+				
+				$('#commentList').html(_comTmpl({items: lists}))
+				$('.allComment').removeClass('hidden')
+			}else{
+				$('#commentList').html('<li class="no-data">暂无评价</li>')
+				$('.allComment').addClass('hidden')
+			}
+		},()=>{})
+	}
+	
 	
 	//显示商品规格面板
 	function showProductSpecs(t){
@@ -103,6 +142,7 @@ define([
 		$('#productSpecs .productSpecs-number .sum').html(1)
 	}
 	
+	//加入购物车
 	function addShoppingCar(param){
 		base.showLoading();
 		MallCtr.addShoppingCar(param).then(()=>{
@@ -113,6 +153,7 @@ define([
 		},()=>{})
 	}
 	
+	//获取下单方式
 	function getSubBtn(){
 		//t=1,加入购物车；t=2,立即下单
 		if($("#productSpecs .quantity").attr('data-quantity')<1){
@@ -137,7 +178,7 @@ define([
 	//收藏
 	function addCollecte(c){
 		base.showLoading();
-		GeneralCtr.addCollecte(c).then(()=>{
+		GeneralCtr.addCollecte(c,'P').then(()=>{
 			
 			getProductDetail(c);
 			base.hideLoading();
@@ -149,7 +190,7 @@ define([
 	//取消收藏
 	function cancelCollecte(c){
 		base.showLoading();
-		GeneralCtr.cancelCollecte(c).then(()=>{
+		GeneralCtr.cancelCollecte(c,'P').then(()=>{
 			getProductDetail(c);
 			
 			base.hideLoading();
@@ -157,6 +198,7 @@ define([
 			base.hideLoading();
 		})
 	}
+	
 	
 	function addListener(){
 		var mySwiper = new Swiper('#swiper-container', {
@@ -231,7 +273,7 @@ define([
 		})
 		
 		//收藏
-		$("#collecte").click(function(){
+		$("#collect").click(function(){
 			
 			if($(this).hasClass('active')){
 				cancelCollecte(code)
@@ -240,6 +282,10 @@ define([
 			}
 		})
 		
+		//查看所有评价
+		$("#allComment").click(function(){
+			location.href='../public/comment.html?code='+code
+		})
 	}
 	
 	

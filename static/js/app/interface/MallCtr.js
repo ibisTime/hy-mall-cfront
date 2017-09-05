@@ -15,12 +15,16 @@ define([
             return Ajax.get("808025", {
                 status:'3',
                 companyCode: SYSTEM_CODE,
+            	userId: base.getUserId(),
                 ...config
             }, refresh);
         },
         // 详情查询商品
         getProductDetail(code) {
-            return Ajax.get("808026", {code});
+            return Ajax.get("808026", {
+            	code,
+            	userId: base.getUserId()
+            }, true);
         },
         //加入购物车
         addShoppingCar(config, refresh) {
@@ -85,5 +89,12 @@ define([
         reminderOrder(code) {
             return Ajax.get("808058", {code}, true);
         },
+        // 评论订单
+        commentOrder(config){
+            return Ajax.get("808059", {
+                commenter : base.getUserId(),
+                ...config
+            }, true);
+        }
     };
 })

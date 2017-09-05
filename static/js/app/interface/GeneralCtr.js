@@ -74,52 +74,43 @@ define([
                 type: "2"
             }, refresh);
         },
-        /**
-         * 分页查询评论的key列表
-         * @param config {start, limit}
-         */
-        getPageRatekey(config, refresh) {
-            return Ajax.get("622915", {
-                type: 2,
-                ...config
-            }, refresh);
-        },
-        // 评论
-        rating(orderCode, content, itemScoreList) {
-            return Ajax.post("622140", {
-                orderCode,
-                content,
-                itemScoreList,
-                commer: base.getUserId()
-            });
-        },
         // 分页查询咨询
         getPageInformation(config, refresh) {
             return Ajax.get("801005", {
                 status: 1,
+            	userId: base.getUserId(),
                 ...config
             }, refresh);
         },
         // 分页查询咨询
         getInformationDetail(code) {
-            return Ajax.get("801006", {code}, true);
+            return Ajax.get("801006", {
+            	code,
+            	userId: base.getUserId()
+            }, true);
         },
-        // 收藏
-        addCollecte(code){
+        /**
+         * 收藏
+         * @type：类型(P 产品 RP租赁 N 资讯)
+         */
+        addCollecte(code,type){
         	return Ajax.get("801030", {
         		entityCode:code,
         		interacter: base.getUserId(),
-        		type: 2
+        		type: type
         	}, true);
         },
         // 取消收藏
-        cancelCollecte(code){
+        cancelCollecte(code,type){
         	return Ajax.get("801031", {
         		entityCode:code,
         		interacter: base.getUserId(),
-        		type: 2
+        		type: type
         	}, true);
         },
-        
+        // 分页查询评论
+        getPageComment(config, refresh){
+            return Ajax.get("801028", config, refresh);
+        },
     };
 })

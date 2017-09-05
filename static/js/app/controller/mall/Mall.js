@@ -8,7 +8,7 @@ define([
     var _proTmpl = __inline('../../ui/mall-list-item.handlebars');
     var config = {
         start: 1,
-        limit: 5
+        limit: 10
     }, isEnd = false, canScrolling = false;
     
     init();
@@ -43,8 +43,6 @@ define([
                     isEnd = true;
                 }
     			if(lists.length) {
-    				var html = '';
-    				
     				
                     $("#content").append(_proTmpl({items: lists}));
                     isEnd && $("#loadAll").removeClass("hidden");

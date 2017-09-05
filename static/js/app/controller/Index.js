@@ -2,9 +2,16 @@ define([
     'app/controller/base',
     'app/module/foot',
     'swiper',
+    'app/util/handlebarsHelpers',
     'app/interface/GeneralCtr',
     'app/interface/MallCtr',
-], function(base, Foot, Swiper, GeneralCtr, MallCtr) {
+], function(base, Foot, Swiper, Handlebars, GeneralCtr, MallCtr) {
+    var _proTmpl = __inline('../ui/mall-list-item.handlebars');
+    var config = {
+        start: 1,
+        limit: 5,
+        location: '1'
+    };
 
     init();
     
@@ -13,8 +20,11 @@ define([
         
         $.when(
         	getBanner(),
-        	getNotice()
+        	getNotice(),
+        	getPageProduct()
         )
+        
+        addListener()
     }
     
     //banner图
@@ -50,17 +60,33 @@ define([
         }).then(function(data){
 			if(data.list.length){
 				$("#noticeWrap").html(`
-                    <a href="../notice/notice.html" class="am-flexbox am-flexbox-justify-between">
+                    <a href="../public/notice.html" class="am-flexbox am-flexbox-justify-between">
                         <div class="am-flexbox am-flexbox-item">
                             <img src="/static/images/notice.png" alt="">
                             <span class="am-flexbox-item t-3dot">${data.list[0].smsTitle}</span>
                         </div>
                         <i class="right-arrow"></i>
-                    </a>`).removeClass("hidden");
+                    </a>`);
 			}
     	});
     }
-
+    
+    //获取推荐商品
+    function getPageProduct(){
+    	MallCtr.getPageProduct(config, true)
+            .then(function(data) {
+                base.hideLoading();
+                var lists = data.list;
+    			if(lists.length) {
+    				
+                    $("#mallContent").append(_proTmpl({items: lists}));
+    			} else if(config.start == 1) {
+                    $("#mallContent").html('<li class="no-data">暂无推荐商品</li>')
+                }
+        	}, base.hideLoading);
+	}
+	
+    
     function addListener(){
         $("#swiper-container").on("touchstart", ".swiper-slide div", function (e) {
             var touches = e.originalEvent.targetTouches[0],
@@ -84,5 +110,9 @@ define([
 
             }
         });
+        
+        $(".home-content").click(function(){
+        	$(this).children('.hot-content').toggleClass('hidden')
+        })
     }
 });

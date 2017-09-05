@@ -93,11 +93,11 @@ define([
     	
     	// 已收货
     	}else if(item.status == "4"){
-    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red" data-code="${item.code}">已收货</button></div>`
+    		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="./order-comment.html?code=${item.code}">待评价</button></a>`
     	
     	//91：用户异常 ，92：商户异常， 93：快递异常
     	}else if(item.status == "91"||item.status == "92"||item.status == "93"){
-    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small" data-code="${item.code}">已取消</button></div>`
+    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small " data-code="${item.code}">${orderStatus[item.status]}</button></div>`
     	}
     	
         return `<div class="order-item">
@@ -109,7 +109,7 @@ define([
                     ${item.amount1&&item.amount2
                     	? '￥'+base.formatMoney(item.amount1)+' + '+base.formatMoney(item.amount2)+'积分'
                     	:item.amount1?'￥'+base.formatMoney(item.amount1):base.formatMoney(item.amount2)+'积分'}
-                    </samp></div>`+tmplbtnHtml+`</div>`;
+                    </samp></div>`+tmplbtnHtml+`</div></div>`;
 
     }
 
@@ -136,6 +136,8 @@ define([
                 getPageOrders();
             }
         });
+        
+        //取消订单
         $("#orderWrapper").on("click", ".cancel-order", function() {
             var orderCode = $(this).attr("data-code");
             base.confirm("确定取消订单吗？", "取消", "确认")
@@ -150,6 +152,8 @@ define([
                         });
                 }, () => {});
         });
+        
+        //确认收货
         $("#orderWrapper").on("click", ".confirm-order", function() {
             var orderCode = $(this).attr("data-code");
             base.confirm('确认收货吗？')
@@ -164,7 +168,7 @@ define([
                         });
                 }, () => {});
         });
-
+        
         $(window).on("scroll", function() {
             if (canScrolling && !isEnd && ($(document).height() - $(window).height() - 10 <= $(document).scrollTop())) {
                 canScrolling = false;
