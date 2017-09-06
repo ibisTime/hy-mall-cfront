@@ -63,8 +63,6 @@ define([
 			$('title').html(data.name+'-商品详情');
 			$(".mallDetail-title .name").html(data.name)
 			$(".mallDetail-title .slogan").html(data.slogan)
-			$(".mallDetail-title .name").html(data.name)
-			$(".mallDetail-title .name").html(data.name)
 			$("#content").html(data.description)
 			
 			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(data.advPic)+'")')

@@ -5,8 +5,10 @@ define([
     'app/util/handlebarsHelpers',
     'app/interface/GeneralCtr',
     'app/interface/MallCtr',
-], function(base, Foot, Swiper, Handlebars, GeneralCtr, MallCtr) {
+    'app/interface/LeaseCtr',
+], function(base, Foot, Swiper, Handlebars, GeneralCtr, MallCtr, LeaseCtr) {
     var _proTmpl = __inline('../ui/mall-list-item.handlebars');
+    var _leaseTmpl = __inline('../ui/lease-list-item.handlebars');
     var config = {
         start: 1,
         limit: 5,
@@ -21,7 +23,8 @@ define([
         $.when(
         	getBanner(),
         	getNotice(),
-        	getPageProduct()
+        	getPageProduct(),
+        	getPageLeaseProduct()
         )
         
         addListener()
@@ -80,12 +83,26 @@ define([
     			if(lists.length) {
     				
                     $("#mallContent").append(_proTmpl({items: lists}));
-    			} else if(config.start == 1) {
+    			} else{
                     $("#mallContent").html('<li class="no-data">暂无推荐商品</li>')
                 }
         	}, base.hideLoading);
 	}
 	
+	//分页获取推荐的租赁商品
+    function getPageLeaseProduct(){
+    	LeaseCtr.getPageLeaseProduct(config, true)
+            .then(function(data) {
+                base.hideLoading();
+                var lists = data.list;
+    			if(lists.length) {
+    				
+                    $("#leaseContent").append(_leaseTmpl({items: lists}));
+    			} else{
+                    $("#leaseContent").html('<li class="no-data">暂无推荐租赁</li>')
+                }
+        	}, base.hideLoading);
+	}
     
     function addListener(){
         $("#swiper-container").on("touchstart", ".swiper-slide div", function (e) {

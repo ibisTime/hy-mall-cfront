@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>租赁详情</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+	<div class="detail-swiper leaseDetail-swiper">
+    	<div id="swiper-container" class="swiper-container">
+            <div id="top-swiper" class="swiper-wrapper" style="display: -webkit-box;display: -moz-box;">
+            	<!--<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('/static/images/图层-50@2x.png');"></div></div>-->
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    
+    <div class="detail-title leaseDetail-title bg_fff wp100 ">
+    	<p class="name"></p>
+    	<samp class="slogan"></samp>
+    	<p class="price1">
+    		<samp id="price"></samp>
+    	</p>
+    	<p class="price2"  id="orPrice"></p>
+    	
+    	<div class="collect" id="collect"></div>
+    </div>
+    
+    <div class="mallDetail-detail bg_fff">
+    	<div class="title">商品详情</div>
+    	<div id="content" class="detail ptb20lr30"></div>
+    </div>
+    
+    <div class="mallDetail-detail bg_fff pb30">
+    	<div class="title">评价</div>
+    	<div id="commentList" class="detail">
+    		<!--<div class="comment-list">
+    			<div class="head">
+    				<div class="pic" style="background-image: url('../../images/avatar.png');"></div>
+    				<div class="nickname">名称</div>
+    				<div class="starWrap">
+						<i data-score='1' data-txt = "非常差" class="star"></i>
+						<i data-score='2' data-txt = "差" class="star"></i>
+						<i data-score='3' data-txt = "一般" class="star"></i>
+						<i data-score='4' data-txt = "好" class="star"></i>
+						<i data-score='5' data-txt = "非常好" class="star"></i>
+					</div>
+    			</div>
+    			<div class="time">2017-11-11</div>
+    			<div class="con">打发斯蒂芬垃圾毒素</div>
+    		</div>-->
+    	</div>
+    	<div class="allComment hidden" id="allComment">查看全部评价</div>
+    </div>
+    
+    <div style="height: 1.3rem;"></div>
+    <div class="leaseBottom">
+		<div class="am-button am-button-red hidden leaseBottomBtn1" id="subBtn">预约租赁</div>
+		<div class="am-button am-button-disabled hidden leaseBottomBtn2">已下架</div>
+	</div>
+	
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/lease/LeaseDetail']);
+    </script>
+</body>
+
+</html>

@@ -186,7 +186,7 @@ define([
         },
         // 分页查询我的收藏租赁商品
         getPageLeaseCollect(config,refresh){
-            return Ajax.get("805165",{
+            return Ajax.get("810950",{
             	userId: base.getUserId(),
                 ...config
             },refresh);

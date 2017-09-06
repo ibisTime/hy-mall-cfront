@@ -8,7 +8,32 @@
 </head>
 
 <body>
-	
+	<div class="course-orders-wrap am-tabs lease-wrap" id="orderWrapper">
+		<div id="search" class="search">
+			<div class="searchWrap">
+				<div class="fl searchIcon"><img src="../../images/搜索@2x.png" /></div>
+				<input class="fl searchText" type="text" placeholder="请输入您感兴趣的商品" />
+			</div>
+		</div>
+		
+        <div id="am-tabs-bar" class="am-tabs-bar">
+        	<div class="scroll-content lease-category">
+	            <div class="am-tabs-ink-bar am-tabs-ink-bar-animated hidden" style="width: 1.82rem;"><div class="border"></div></div>
+	            <div class="am-tabs-tab" id="allCategory">全部</div>
+            </div>
+        </div>
+        
+        <div id="am-tabs-content" class="am-tabs-content am-tabs-content-animated" style="transform: translateX(0%) translateZ(0px); touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+			<div class="am-tabs-tabpane">
+                <div class="lease-list" id="content">
+                </div>
+                <div id="loadAll" class="load-all hidden">
+                    <img src="../../images/end.png">
+                    <span>已经全部加载完毕</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <link rel="import" href="../footer.html?__inline">
     <script>

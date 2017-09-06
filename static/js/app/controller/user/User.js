@@ -40,10 +40,9 @@ define([
   }
   // 获取用户信息
   function getUserInfo() {
-    return UserCtr.getUser().then(function(
-      data) {
+    return UserCtr.getUser().then(function(data) {
       $("#nickname").text(data.nickname);
-      $("#userImg").attr("src", base.getAvatar(data.photo));
+      $("#userImg").css({"background-image":"url('"+base.getAvatar(data.photo)+"')"});
       $("#mobile").text(data.mobile);
       $("#invitation").attr('href','../invitation/invitation.html?userReferee='+data.mobile)
     });

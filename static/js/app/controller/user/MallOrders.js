@@ -1,8 +1,9 @@
 define([
     'app/controller/base',
     'app/util/dict',
-    'app/interface/MallCtr'
-], function(base, Dict, MallCtr) {
+    'app/module/scroll',
+    'app/interface/MallCtr',
+], function(base, Dict, scroll, MallCtr) {
     var config = {
         start: 1,
         limit: 10
@@ -17,14 +18,39 @@ define([
             "4": ['4'],
             "5": ['91','92','93'],
         };
-    const SUFFIX = "?imageMogr2/auto-orient/thumbnail/!150x113r";
+    var myScroll;
 
     init();
+    
     function init(){
-        addListener();
+    	initScroll()
         base.showLoading();
         getPageOrders();
+        addListener();
     }
+    
+    //导航滑动
+    function initScroll() {
+        var width = 0;
+        var _wrap = $("#am-tabs-bar");
+        _wrap.find('.am-tabs-tab').each(function () {
+            width += this.clientWidth;
+        });
+        _wrap.find('.scroll-content').css('width', width+1 + 'px');
+        myScroll = scroll.getInstance().getScrollByParam({
+            id: 'am-tabs-bar',
+            param: {
+                scrollX: true,
+                scrollY: false,
+                eventPassthrough: true,
+                snap: true,
+                hideScrollbar: true,
+                hScrollbar: false,
+                vScrollbar: false
+            }
+        });
+    }
+    
     // 分页查询订单
     function getPageOrders(refresh) {
                 base.hideLoading();
@@ -123,12 +149,14 @@ define([
                 _this.addClass("am-tabs-tab-active")
                     .siblings(".am-tabs-tab-active").removeClass("am-tabs-tab-active");
                 _tabsInkBar.css({
-                    "-webkit-transform": "translate3d(" + index * 1.25 + "rem, 0px, 0px)",
-                    "-moz-transform": "translate3d(" + index * 1.25 + "rem, 0px, 0px)",
-                    "transform": "translate3d(" + index * 1.25 + "rem, 0px, 0px)"
+                    "-webkit-transform": "translate3d(" + index * 1.5 + "rem, 0px, 0px)",
+                    "-moz-transform": "translate3d(" + index * 1.5 + "rem, 0px, 0px)",
+                    "transform": "translate3d(" + index * 1.5 + "rem, 0px, 0px)"
                 });
                 _tabpanes.eq(index).removeClass("am-tabs-tabpane-inactive")
                     .siblings().addClass("am-tabs-tabpane-inactive");
+                    
+                myScroll.myScroll.scrollToElement(_this[0], 200, true);
                 // 当前选择查看的订单tab的index
                 currentType = index;
                 config.start = 1;

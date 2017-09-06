@@ -90,17 +90,17 @@ define(['Handlebars'], function(Handlebars) {
     	var price = '';
     	
 		if(data.type==JFPRODUCTTYPE){
-    		price = options.data.root.items[options.data.index].productSpecsList[0].price2/1000+'积分';
+    		price = (options.data.root.items[options.data.index].productSpecsList[0].price2/1000).toFixed(2)+'积分';
     	}else{
-    		price = '￥'+options.data.root.items[options.data.index].productSpecsList[0].price1/1000;
+    		price = '￥'+(options.data.root.items[options.data.index].productSpecsList[0].price1/1000).toFixed(2);
     	}
     
         return price;
     });
-    Handlebars.registerHelper('defaultProductOPrice', function(options) {
-        var data = +options.data.root.items[options.data.index].productSpecsList[0].originalPrice;
+    Handlebars.registerHelper('defaultLeaseProductOPrice', function(options) {
+        var data = +options.data.root.items[options.data.index].originalPrice;
         
-        return data / 1000;
+        return (data / 1000).toFixed(2);
     });
     Handlebars.registerHelper('formatLocation', function(options) {
     	var data = options.data.root.items[options.data.index];
@@ -119,6 +119,23 @@ define(['Handlebars'], function(Handlebars) {
     	}
         
         return active;
+    });
+    Handlebars.registerHelper('defaultLeaseProductPrice', function(options) {
+    	var data = options.data.root.items[options.data.index];
+    	var price = '';
+    	
+		if(data.type==JFLEASEPRODUCTTYPE){
+    		price = (options.data.root.items[options.data.index].price2/1000).toFixed(2)+'积分';
+    	}else{
+    		price = '￥'+(options.data.root.items[options.data.index].price1/1000).toFixed(2);
+    	}
+    
+        return price;
+    });
+    Handlebars.registerHelper('defaultProductOPrice', function(options) {
+        var data = +options.data.root.items[options.data.index].productSpecsList[0].originalPrice;
+        
+        return (data / 1000).toFixed(2);
     });
     
     

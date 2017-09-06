@@ -739,10 +739,8 @@ button[disabled] {
 
 .am-tabs {
     .am-tabs-bar {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
+        height: 0.87rem;
+        overflow: hidden;
         position: relative;
         background-color: #fff;
 
