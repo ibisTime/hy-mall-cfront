@@ -21,25 +21,26 @@
 					"<div id='tbody' class='tbody'></div>"
 				$(me.sections).append(html);
 				$(me.sections).find('.headerWrapper').css({
-					"height": "50px",
-					"line-height": "50px",
+					"height": "1rem",
+					"line-height": "1rem",
 					"position": "relative"
 				});
 				$(me.sections).find('.headerTip').css({
 					"text-align": "center",
-					"line-height": "50px",
+					"line-height": "1rem",
 				});
 				$(me.sections).find(me.comfire).css({
-					"height": "20px",
-					"line-height": "20px",
-					"width": "60px",
+					"height": ".52rem",
+					"line-height": ".52rem",
+					"width": "1.1rem",
 					"color": "#ff5400",
 					"position": "absolute",
-					"right": "15px",
+					"right": ".3rem",
 					"text-align": "center",
-					"font-size": "14px",
+					"font-size": ".26rem",
 					"cursor": "pointer",
-					"top": "15px",
+					"top": ".24rem",
+					"border-radius": ".1rem",
 					"border": "1px solid #ff5400"
 
 				});
@@ -104,7 +105,7 @@
 						var mo = b.getMonth() + 1;
 						var da = b.getDate();
 						$('#startDate').html(ye + '-' + mo + '-' + da);
-						b = new Date(b.getTime() + 24 * 3600 * 1000);
+						b = new Date(b.getTime() + 24 * 3600 * 1000 * me.settings.minDays);
 						var ye = b.getFullYear();
 						var mo = b.getMonth() + 1;
 						var da = b.getDate();
@@ -139,6 +140,7 @@
 				me.comeColor = me.settings.comeColor;
 				me.outColor = me.settings.outColor;
 				me.daysnumber = me.settings.daysnumber;
+				me.minDays = me.settings.minDays;
 
 				var strDays = new Date().getDate();
 				var arry = [];
@@ -148,16 +150,16 @@
 					if($(this).text() == strDays) {
 						var r = index;
 						$(this).append('</br><p class="rz">' + me.settings.startName + '</p>');
-						if($(this).next().text() != "") {
-							$(this).next().append('</br><p class="rz">' + me.settings.endName + '</p>');
-						} else {
-							$(".dateTable").eq(1).find("td").each(function(index, el) {
-								if($(this).text() != "") {
-									$(this).append('</br><p class="rz">' + me.settings.endName + '</p>');
-									return false;
-								}
-							});
-						}
+//						if(tds.eq(index+me.minDays).text() != "") {
+//							tds.eq(index+me.minDays).append('</br><p class="rz">' + me.settings.endName + '</p>');
+//						} else {
+//							$(".dateTable").eq(1).find("td").each(function(index, el) {
+//								if($(this).text() != "") {
+//									$(".dateTable").eq(1).find("td").eq(index+me.minDays).append('</br><p class="rz">' + me.settings.endName + '</p>');
+//									return false;
+//								}
+//							});
+//						}
 						me._checkColor(me.comeColor, me.outColor)
 
 					}
@@ -324,7 +326,7 @@
 								var startDayArrayMonth = [];
 								var startDayYear = "";
 								var startDayMonth = "";
-								for(var i = 0; i < me.index; i++) {
+								for(var i = 0; i < 4; i++) {
 									var select = i;
 									startDayArrayYear.push(startDayArrays[select])
 								}
@@ -421,6 +423,7 @@
 		comfireBtn: '.comfire', //确定按钮的class或者id
 		title: '请选择起止日期', //标题名称
 		startName: '开始', //开始时间名称
-		endName: '结束' //开始时间名称
+		endName: '结束', //开始时间名称
+		minDays:'1' //最小天数
 	};
 })(jQuery);

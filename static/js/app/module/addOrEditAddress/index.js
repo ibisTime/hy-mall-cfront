@@ -127,9 +127,6 @@ define([
 			$("#city").attr("data-city",text2);
 			$("#city").attr("data-area",text3);
 			
-			setTimeout(function(){
-				picker.remove();
-			},1)
 		});
 		
 		picker.on('picker.change', function (index, selectedIndex) {

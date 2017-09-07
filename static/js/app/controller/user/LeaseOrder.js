@@ -2,13 +2,14 @@ define([
     'app/controller/base',
     'app/util/dict',
     'app/module/scroll',
-    'app/interface/MallCtr',
-], function(base, Dict, scroll, MallCtr) {
+    'app/interface/LeaseCtr',
+    'app/interface/GeneralCtr'
+], function(base, Dict, scroll, LeaseCtr, GeneralCtr) {
     var config = {
         start: 1,
         limit: 10
     }, isEnd = false, canScrolling = false;
-    var orderStatus = Dict.get("mallOrderStatus");
+    var orderStatus = Dict.get("leaseOrderStatus");
     var currentType = 0,
         type2Status = {
             "0": [],
@@ -16,7 +17,10 @@ define([
             "2": ['2'],
             "3": ['3'],
             "4": ['4'],
-            "5": ['91','92','93'],
+            "5": ['5'],
+            "6": ['6'],
+            "7": ['8'],
+            "8": ['7'],
         };
     var myScroll;
 
@@ -25,7 +29,10 @@ define([
     function init(){
     	initScroll()
         base.showLoading();
-        getPageOrders();
+        $.when(
+        	getPageOrders(),
+        	getBackLogisticsCompany()
+        )
         addListener();
     }
     
@@ -36,7 +43,7 @@ define([
         _wrap.find('.am-tabs-tab').each(function () {
             width += this.clientWidth;
         });
-        _wrap.find('.scroll-content').css('width', width+1 + 'px');
+        _wrap.find('.scroll-content').css('width', width+ 2 + 'px');
         myScroll = scroll.getInstance().getScrollByParam({
             id: 'am-tabs-bar',
             param: {
@@ -54,7 +61,7 @@ define([
     // 分页查询订单
     function getPageOrders(refresh) {
                 base.hideLoading();
-        return MallCtr.getPageOrders({
+        return LeaseCtr.getPageOrders({
             statusList: type2Status[currentType],
             ...config
         }, refresh)
@@ -87,27 +94,37 @@ define([
             }, () => hideLoading());
     }
     
+    //获取物流公司列表
+    function getBackLogisticsCompany(){
+    	GeneralCtr.getDictList('kd_company','808907').then((data)=>{
+    		var html = ''
+    		data.forEach(function(d, i){
+    			html += `<option value='${d.dkey}'>${d.dvalue}</option>`;
+    		})
+    		
+    		$("#backLogisticsCompany").append(html)
+    	},()=>{})
+    }
+    
     //订单列表
     function buildHtml(item) {
     	var tmplProHtml = '',tmplbtnHtml =' ';
     	
-    	item.productOrderList.forEach(function(d, i){
-    		tmplProHtml+=`<a class="mall-item" href="./mall-orderDetail.html?code=${item.code}">
-    		<div class="mall-item-img fl" style="background-image: url('${base.getImg(d.product.advPic)}')"></div>
-    		<div class="mall-item-con fr">
-    			<p class="name">${d.product.name}</p>
-    			<samp class="slogan">商品规格：${d.productSpecsName}</samp>
-    			<div class="price orderList-price">
-    				<p class="samp1">${d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)}</p>
-    				<p class="samp2">x${d.quantity}</p>
-    			</div>
-    			</div></a>`
-    	})
+		tmplProHtml+=`<a class="mall-item" href="./lease-orderDetail.html?code=${item.code}">
+		<div class="mall-item-img fl" style="background-image: url('${base.getImg(item.rproduct.advPic)}')"></div>
+		<div class="mall-item-con fr">
+			<p class="name">${item.rproduct.name}</p>
+			<samp class="slogan">租赁时长：${item.rentDay}天&nbsp;&nbsp;&nbsp;&nbsp;${item.price2 ? base.formatMoney(item.price2)+'积分' : '￥'+base.formatMoney(item.price1)}/天</samp>
+			<div class="amountWrap">
+				<p class='fl amount'>总价: <samp>${item.price2 ? base.formatMoney(item.amount2)+'积分+￥'+base.formatMoney(item.amount1) : '￥'+base.formatMoney(item.price1)}</samp></p>
+				<p class="realDeposit fl">含押金: ￥${base.formatMoney(item.realDeposit)}</p>
+			</div>
+			</div></a>`
     	
     	//待支付
     	if(item.status == "1"){
-    		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="../pay/pay.html?code=${item.code}&type=mall">立即支付</a>
-                            <button class="am-button am-button-small cancel-order" data-code="${item.code}">取消订单</button></div>`
+    		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="../pay/pay.html?code=${item.code}&type=lease">立即支付</a>
+                            <button class="am-button am-button-small cancel-order" data-code="${item.code}">取消预约</button></div>`
     	
     	// 已支付，待发货
     	}else if(item.status == "2"){
@@ -119,24 +136,57 @@ define([
     	
     	// 已收货
     	}else if(item.status == "4"){
-    		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="./order-comment.html?type=mall&code=${item.code}">待评价</button></a>`
+    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red return-order" data-code="${item.code}">待归还</button></div>`
+    	
+    	// 已收货
+    	}else if(item.status == "7"){
+    		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="./order-comment.html?type=lease&code=${item.code}">待评价</button></a>`
     	
     	//91：用户异常 ，92：商户异常， 93：快递异常
     	}else if(item.status == "91"||item.status == "92"||item.status == "93"){
     		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small " data-code="${item.code}">${orderStatus[item.status]}</button></div>`
     	}
     	
-        return `<div class="order-item">
+        return `<div class="order-item leaseOrder-item">
                     <div class="order-item-header">
                         <span>订单编号:${item.code}</span>
                         <span class="fr">${base.formatDate(item.applyDatetime, "yyyy-MM-dd")}</span>
                     </div>
-                    <div class="orderPro-list orderList-pro">`+tmplProHtml+`</div><div class="totalAmout">总价:<samp>
+                    <div class="orderPro-list">`+tmplProHtml+`</div><div class="totalAmout">总价:<samp>
                     ${item.amount1&&item.amount2
                     	? '￥'+base.formatMoney(item.amount1)+' + '+base.formatMoney(item.amount2)+'积分'
                     	:item.amount1?'￥'+base.formatMoney(item.amount1):base.formatMoney(item.amount2)+'积分'}
                     </samp></div>`+tmplbtnHtml+`</div></div>`;
 
+    }
+    
+    //归还租赁
+    function returnOrder(param){
+        base.confirm('确认归还吗？').then(() => {
+	    	base.showLoading("提交中...");
+	        LeaseCtr.returnOrder(param)
+	            .then(() => {
+	                base.showMsg("操作成功");
+	                base.showLoading();
+	                config.start = 1;
+	                dialgoClose();
+	                getPageOrders(true);
+	            });
+        }, () => {});
+    }
+    
+    //弹窗取消
+    function dialgoClose(){
+    	$("#dialog").addClass('hidden');
+            
+        $("#backType option").eq(0).prop("selected", 'selected');
+		$("#backLogisticsCompany option").eq(0).prop("selected", 'selected');
+		$("#backLogisticsCode").val("");
+		$("#backAddress").val("");
+		
+        $(".backLogisticsCompany").removeClass('hidden')
+		$(".backLogisticsCode").removeClass('hidden')
+		$(".backAddress").addClass('hidden')
     }
 
     function addListener(){
@@ -165,13 +215,22 @@ define([
             }
         });
         
+        $(window).on("scroll", function() {
+            if (canScrolling && !isEnd && ($(document).height() - $(window).height() - 10 <= $(document).scrollTop())) {
+                canScrolling = false;
+                var choseIndex = $(".am-tabs-tab-active").index() - 1;
+                showLoading();
+                getPageOrders();
+            }
+        });
+        
         //取消订单
         $("#orderWrapper").on("click", ".cancel-order", function() {
             var orderCode = $(this).attr("data-code");
-            base.confirm("确定取消订单吗？", "取消", "确认")
+            base.confirm("确定取消该预约吗？", "取消", "确认")
                 .then(() => {
                     base.showLoading("取消中...");
-                    MallCtr.cancelOrder(orderCode)
+                    LeaseCtr.cancelOrder(orderCode)
                         .then(() => {
                             base.showMsg("取消成功");
                             base.showLoading();
@@ -187,7 +246,7 @@ define([
             base.confirm('确认收货吗？')
                 .then(() => {
                     base.showLoading("提交中...");
-                    MallCtr.confirmOrder(orderCode)
+                    LeaseCtr.confirmOrder(orderCode)
                         .then(() => {
                             base.showMsg("操作成功");
                             base.showLoading();
@@ -197,15 +256,83 @@ define([
                 }, () => {});
         });
         
-        $(window).on("scroll", function() {
-            if (canScrolling && !isEnd && ($(document).height() - $(window).height() - 10 <= $(document).scrollTop())) {
-                canScrolling = false;
-                var choseIndex = $(".am-tabs-tab-active").index() - 1;
-                showLoading();
-                getPageOrders();
-            }
+        //归还方式选择
+        $("#backType").on('change',function(){
+        	//上门取件
+        	if($(this).val()== 1){
+        		$(".backLogisticsCompany").addClass('hidden')
+        		$(".backLogisticsCode").addClass('hidden')
+        		$(".backAddress").removeClass('hidden')
+        	//快递
+        	}else{
+        		$(".backLogisticsCompany").removeClass('hidden')
+        		$(".backLogisticsCode").removeClass('hidden')
+        		$(".backAddress").addClass('hidden')
+        	}
+        })
+        
+        //归还按钮
+        $("#orderWrapper").on("click", ".return-order", function() {
+            var orderCode = $(this).attr("data-code");
+            $("#dialog #confirm").attr('data-code', orderCode)
+            $("#dialog").removeClass('hidden');
         });
+        
+        //归还弹窗-取消
+        $("#dialog #canlce").click(function(){
+            dialgoClose();
+        })
+        
+        //归还弹窗-确认
+        $("#dialog #confirm").click(function(){
+        	//上门取件
+        	if($("#backType").val()==1){
+        		
+        		if($("#backAddress").val()=='' && !$("#backAddress").val()){
+	        		$(".backAddress .error").removeClass('hidden');
+	        	}else{
+	        		var param = {
+			    		code: $(this).attr('data-code'),
+						backType: 1,
+			    		backAddress: $("#backAddress").val()
+			    	}
+	        		returnOrder(param)
+	        	}
+        	//邮递
+        	}else{
+        		if($("#backLogisticsCompany").val()=='' && !$("#backLogisticsCode").val()){
+        			console.log($("#backLogisticsCompany").val())
+	        		$(".backLogisticsCompany .error").removeClass('hidden');
+	        	}else if($("#backLogisticsCode").val()=='' && !$("#backLogisticsCode").val()){
+	        		$(".backLogisticsCode .error").removeClass('hidden');
+	        	}else{
+	        		var param = {
+			    		code: $(this).attr('data-code'),
+						backType: 2,
+						backLogisticsCode: $("#backLogisticsCode").val(),
+						backLogisticsCompany: $("#backLogisticsCompany").val(),
+			    	}
+	        		returnOrder(param)
+	        	}
+        		
+        	}
+        	
+        })
+        
+        $("#backLogisticsCode").focus(function(){
+        	$(".backLogisticsCode .error").addClass('hidden');
+        })
+        
+        $("#backAddress").focus(function(){
+        	$(".backAddress .error").addClass('hidden');
+        })
+        
+        $("#backLogisticsCompany").change(function(){
+        	$(".backLogisticsCompany .error").addClass('hidden');
+        })
+        
     }
+    
     function showLoading() {
         $("#loadingWrap").removeClass("hidden");
     }

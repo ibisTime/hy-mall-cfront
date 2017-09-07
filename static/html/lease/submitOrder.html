@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<div class="orderPro-list mb20"></div>
+	<div class="orderPro-list leaseOrderPro-list mb20"></div>
 	
 	<div class="titleWrap lease-titleWrap">
 		<p class="fl text tit">租赁日期</p>
@@ -21,8 +21,7 @@
 	</div>
 	<div class="titleWrap lease-titleWrap">
 		<p class="fl text tit">产品数量</p>
-		<div class="fr text">
-			<i class="icon fr"></i>
+		<div class="fr text pr30">
 			<div class="productSpecs-number fr">
 				<div class="add fr"></div><div class="sum fr">1</div><div class="subt fr"></div>
 			</div>
@@ -41,18 +40,67 @@
 		</div>
 		<div class="no-address hidden" id="addAddress"><img src="../../images/no-address.png"/><p>还没有收货地址，点击添加</p></div>
 	</div>
-	<div class="orderApplyNote">
-		<div class="fl title">卖家嘱托</div>
+	
+	<div class="leaseSubmit-info mt20">
+		<div class="wrap">
+			<p class="fl tit">租金</p>
+			<p class="fr" id="rent"></p>
+		</div>
+		<div class="wrap wrap1">
+			<p class="fl">租期</p>
+			<p class="fr">天</p>
+			<p class="fr" id="rentDay"></p>
+		</div>
+		<div class="wrap">
+			<p class="fl">押金</p>
+			<p class="fr" id="deposit"></p>
+		</div>
+		<div class="wrap wrap1">
+			<p class="fl">芝麻信用减免</p>
+			<p class="fr primary-color">立即绑定</p>
+		</div>
+		<div class="wrap">
+			<p class="fl">费用合计</p>
+			<p class="fr" id="totalAmount"></p>
+		</div>
+	</div>
+	
+	<div class="orderApplyNote mt20">
+		<div class="fl title">下单说明</div>
 		<textarea style="resize: none;" class="textarea" placeholder="对本次交易的说明" id="applyNote"></textarea>
 	</div>
 	
-	<div class="submitOrderBottom">
-		<div class="fl amount"><span>实付：</span><samp id="totalAmount"></samp></div>
+	<div style="height: 1.2rem;"></div>
+	<div class="submitOrderBottom lease-submitOrderBottom">
+		<div class="fl">
+			<div class="amount"><span>实付：</span><samp id="totalAmount2"></samp></div>
+			<div class="amount1" id="totalAmount3"></div>
+		</div>
 		<input type="button" value="提交订单" class="fr am-button am-button-noradius am-button-red" id="subBtn" />
 	</div>
 	
-	<div id="mask" class="mask hidden"></div>
 	<div id="calendar"></div>
+	
+	<!--弹窗-->
+    <div class="lease-dialog hidden" id="dialog">
+        <div class="am-modal-mask"></div>
+        <div class="am-modal-wrap">
+            <div role="document" class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-header">
+                    	<img src="../../images/包装@2x.png" />
+                    	<p>包装清单</p>
+                    </div>
+                    <div class="am-modal-body packingList-wrap">
+                    </div>
+                    <div class="am-modal-footer">
+                    	<div class="am-button am-button-primary-48" id="close">我知道了</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
 	
     <link rel="import" href="../footer.html?__inline">
     <script src="../js/lib/date/date.js"></script>

@@ -69,15 +69,15 @@ define([
 				//订单信息
 				var htmlOrder = '';
 				htmlOrder = `<p>订单号：${data.code}</p>
+					<p>订单状态：${orderStatus[data.status]}</p>
 					<p>下单时间：${base.formatDate(data.applyDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
-					<p>下单人：${data.user.nickname}</p>
 					${
                         data.status == "4"
                             ? `<p>确认收货时间：${base.formatDate(data.signDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
                             : data.status =='3'?
                             `<p>发货时间：${base.formatDate(data.deliveryDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
                             :''
-                    }`;
+                   }</p>`;
 				$("#orderInfo").html(htmlOrder);
 				
 				
@@ -90,12 +90,15 @@ define([
 				
 				//待发货
 				}else if(data.status=='2'){
-					$('.mallBottom').removeClass('hidden')
-					$("#reminderBtn").removeClass('hidden').html('催一下')
 					if(data.promptTimes){
 						$("#reminderBtn").removeClass('am-button-red').addClass('am-button-disabled').html('已催单');
 						$("#reminderBtn").off('click')
+					}else{
+						$("#reminderBtn").html('催一下')
 					}
+					
+					$('.mallBottom').removeClass('hidden')
+					$("#reminderBtn").removeClass('hidden')
 				//待收货
 				}else if(data.status=='3'){
 					$('.mallBottom').removeClass('hidden')
@@ -164,7 +167,7 @@ define([
         
         //立即评价
         $("#commentBtn").on("click", function() {
-			location.href='./order-comment.html?code='+code
+			location.href='./order-comment.html?type=mall&code='+code
         });
     }
 });

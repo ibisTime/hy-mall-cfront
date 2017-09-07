@@ -1,10 +1,11 @@
 define([
     'app/controller/base',
     'app/interface/MallCtr',
+    'app/interface/LeaseCtr',
     'app/interface/AccountCtr',
     'app/module/weixin'
-], function(base, MallCtr, AccountCtr, weixin) {
-    const MALL_ORDER = "mall";
+], function(base, MallCtr, LeaseCtr, AccountCtr, weixin) {
+    const MALL_ORDER = "mall",LEASE_ORDER = "lease";
     const BALANCE_PAY = 1, WX_PAY = 5;
     var code = base.getUrlParam("code"),
         type = base.getUrlParam("type"),
@@ -13,23 +14,43 @@ define([
 
     init();
     function init(){
-//      if(!type) {
-//          base.showMsg("未传入订单类型");
-//      } else
         if(!code) {
             base.showMsg("未传入订单编号");
         } else {
             base.showLoading();
-            //获取支付金额
+            //获取商城订单支付金额
             if(type == MALL_ORDER) {
                 getMallOrderDetail();
+            
+            //获取租赁订单支付金额
+            } else if(type == LEASE_ORDER) {
+                getLeaseOrderDetail();
             } 
             addListener();
         }
     }
+    
     // 详情查询商城订单
     function getMallOrderDetail() {
         MallCtr.getOrderDetail(code)
+            .then((data) => {
+                base.hideLoading();
+                var price = 0;
+                if(!data.amount1&&data.amount2){
+                	price = base.formatMoney(data.amount2)+' 积分'
+                }else if(data.amount1&&!data.amount2){
+                	price = '￥ '+base.formatMoney(data.amount1);
+                }else{
+                	price = '￥ '+base.formatMoney(data.amount1)+' + '+base.formatMoney(data.amount2)+' 积分'
+                }
+                
+                $("#totalAmount").html(price);
+            });
+    }
+    
+    // 详情查询租赁订单
+    function getLeaseOrderDetail() {
+        LeaseCtr.getOrderDetail(code)
             .then((data) => {
                 base.hideLoading();
                 var price = 0;
@@ -69,6 +90,8 @@ define([
     function payByBalance(){
     	if(type==MALL_ORDER){
     		payMallOrder(pay_type);
+    	}else if(type==LEASE_ORDER){
+    		payLeaseOrder(pay_type)
     	}
     }
     
@@ -86,11 +109,32 @@ define([
                     base.hideLoading();
                     base.showMsg("支付成功");
                     setTimeout(() => {
-                        location.href = "../user/user.html";
+                        location.replace("../user/user.html");
                     }, 500);
                 }
             });
     }
+    
+    // 支付租赁订单
+    function payLeaseOrder(payType) {
+    	var config = {
+    		payType:payType,
+    		codeList:[code]
+    	}
+        LeaseCtr.payOrder(config,true)
+            .then((data) => {
+                if(pay_type == WX_PAY) {
+                    wxPay(data);
+                } else {
+                    base.hideLoading();
+                    base.showMsg("支付成功");
+                    setTimeout(() => {
+                        location.replace("../user/user.html");
+                    }, 500);
+                }
+            });
+    }
+    
     function wxPay(data) {
         if (data && data.signType) {
             weixin.initPay(data, () => {

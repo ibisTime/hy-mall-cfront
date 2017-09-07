@@ -13,8 +13,14 @@
 .mr20{
     margin-right: .2rem;
 }
+.ml30{
+    margin-left: .3rem;
+}
 .pb30{
     padding-bottom: .3rem;
+}
+.pr30{
+    padding-right: .3rem;
 }
 .ptb20lr30{
     padding: .2rem .3rem;
@@ -2270,7 +2276,7 @@ label.error {
     bottom: 0;
     left: 0;
     background-color: #fff;
-    
+    border-top: 1px solid $border-color;
     
     .am-button{
         width: 2.1rem;
@@ -2963,6 +2969,7 @@ label.error {
 
 .leaseDetail-title{
     min-height: 2.4rem;
+    border-bottom: 1px solid $border-color;
 }
 .lease-submit-item{
     position: relative;
@@ -2971,6 +2978,7 @@ label.error {
         position: absolute;
         bottom: .30rem;
         left: 2.1rem;
+        z-index: 11;
         color: #FFC300;
         font-size: .26rem;
         line-height: 2;
@@ -2980,7 +2988,14 @@ label.error {
 
 .lease-titleWrap{
     position: relative;
-    
+    .text{
+        img{
+            height: .32rem;
+            margin-right: .1rem;
+            position: relative;
+            top: .05rem;
+        }
+    }
     .leaseDate{
         width: 5.4rem;
         text-align: right;
@@ -2999,3 +3014,177 @@ label.error {
     }
 }
 
+.lease-dialog{
+    .am-modal-header{
+        img{
+            height: .48rem;
+        }
+        p{
+            font-size: .32rem;
+            color: #ffae00;
+            margin-top: .1rem;
+        }
+    }
+    .am-button-primary-48{
+        font-size: .28rem;
+    }
+    
+    .packingList{
+        width: 100%;
+        overflow: hidden;
+        padding: 0 .2rem;
+        margin-bottom: .15rem;
+        
+        .dot{
+            display: inline-block;
+            width: .1rem;
+            height: .1rem;
+            border-radius: 50%;
+            background-color: $primary-color;
+            position: relative;
+            top: .15rem;
+            margin-right: .3rem;
+        }
+        .name{
+            display: inline-block;
+            width: 3.5rem;
+            font-size: .26rem;
+            text-align: left;
+        }
+        .quantity{
+            font-size: .26rem;
+        }
+        
+    }
+}
+.leaseOrderPro-list{
+    height: 2.4rem;
+    .slogan{
+        i{
+            font-style: normal;
+        }
+    }
+}
+.leaseSubmit-info{
+    background-color: #fff;
+    width: 100%;
+    overflow: hidden;
+    padding: .1rem .3rem;
+    
+    .wrap{
+        width: 100%;
+        overflow: hidden;
+        padding: .1rem 0;
+        
+        p{
+            font-size: .28rem;
+        }
+        
+        &.wrap1{
+            border-bottom: 1px solid $border-color;
+            padding-bottom: .2rem;
+            margin-bottom: .1rem;
+        }
+        
+        .primary-color{
+            color: $primary-color;
+        }
+    }
+}
+.lease-submitOrderBottom{
+    .amount{
+        height: auto;
+        color: $red-color;
+        margin-top: .1rem;
+        
+        span {
+            line-height: 1;
+            font-size: .3rem;
+        }
+    }
+    
+    .amount1{
+        padding: 0 .3rem;
+        font-size: .22rem;
+        color: #999;
+    }
+}
+.leaseOrder-item{
+    .amountWrap{
+        line-height: 1;
+        margin-top: .05rem;
+        
+        .amount{
+            font-size: .28rem;
+            margin-right: .1rem;
+            
+            samp{
+                color: $red-color;
+            }
+        }
+        .realDeposit{
+            font-size: .24rem;
+            line-height: 1.3;
+            color: #999;
+        }
+    }
+    
+}
+.return-dialog{
+    .am-modal-header{
+        padding-bottom: .1rem !important;
+        p{
+            font-size: .3rem;
+            line-height: 2;
+        }
+    }
+    .am-modal-body{
+        height: 2.4rem !important;
+    }
+    .am-modal-footer{
+        padding: .4rem 1rem !important;
+        
+        .am-button{
+            width: 1.5rem;
+        }
+    }
+    .am-button-cancel{
+        color: #bbb;
+        border: 1px solid #bbb;
+    }
+    .wrap{
+        overflow: hidden;
+        padding: 0 0 .1rem;
+        
+        .tit{
+            display: inline-block;
+            width: 1.5rem;
+            line-height: .62rem;
+            text-align: left;
+        }
+        .conWrap{
+            width: 3.4rem;
+            height: .62rem;
+            border-bottom: 1px solid $border-color;
+            padding: .1rem 0;
+            position: relative;
+            
+            .error{
+                font-size: .24rem;
+                display: inline-block;
+                color: $red-color;
+                line-height: .62rem;
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+            
+            .con{
+                font-size: .26rem;
+                color: #484848;
+            }
+        }
+        
+        
+    }
+}
