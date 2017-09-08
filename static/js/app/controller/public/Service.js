@@ -21,6 +21,7 @@ define([
                         });
                     } else if(item.ckey == "telephone") {
                         $("#tel span").text(item.cvalue);
+                        $("#tel").attr('href','tel://'+item.cvalue)
                     } else if(item.ckey == "time") {
                         $("#time span").text(item.cvalue);
                     }

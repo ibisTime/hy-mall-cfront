@@ -51,7 +51,7 @@ define([
 				$("#top-swiper").html(html);
 				var mySwiper = new Swiper('#swiper-container', {
 	                'direction': 'horizontal',
-	                'loop': true,
+	                'loop': false,
 		            'autoplayDisableOnInteraction': false,
 	                // 如果需要分页器
 	                'pagination': '.swiper-pagination'

@@ -18,7 +18,7 @@ define([
         base.hideLoading();
         var html = '';
         
-        html=`<div class="info-pic" style="background-image: url('${base.getImg(data.pic)}');"></div>
+        html=`<div class="info-pic" style="background-image: url('${base.getImg(data.advPic)}');"></div>
         		<div class="info-tit">
         			<p>${data.title}</p>
     					<div class="collect ${data.isCollect=='1'?'active':''}" id="collect"></div></div>

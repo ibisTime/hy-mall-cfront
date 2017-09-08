@@ -14,7 +14,7 @@ define([
 	};
 	var config = {
 		productCode: code,
-		applyNote: $("#applyNote").val(),
+		applyNote: '',
         applyUser: base.getUserId(),
     	receiver: "",
         reMobile: "",
@@ -235,6 +235,7 @@ define([
 		//提交
 		$("#subBtn").click(function(){
 			
+			config.applyNote = $("#applyNote").val();
 			config.bookDatetime = $("#startDate").html();
 			config.rentDay = $("#rentDay").html();
 			config.quantity = $('.productSpecs-number .sum').html()

@@ -2240,7 +2240,7 @@ label.error {
     }
     
     .detailAddress{
-        font-size: .24rem;
+        font-size: .26rem;
         margin-top: .15rem;
         line-height: 1.5;
     }
@@ -2259,12 +2259,14 @@ label.error {
         position: absolute;
         top: .3rem;
         left: .3rem;
+        z-index: 11;
     }
     
     .textarea{
         width: 100%;
         height: 1rem;
         padding: 0 .3rem 0 1.8rem;
+        font-size: .26rem;
     }
     
 }
@@ -3187,4 +3189,7 @@ label.error {
         
         
     }
+}
+.mall-list-content{
+    margin-top: 1rem;
 }

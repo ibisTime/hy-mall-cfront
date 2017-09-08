@@ -620,6 +620,10 @@ textarea {
             flex: 1;
             font-size: 0.3rem;
             color: #333;
+            
+            &:disabled{
+                color: #333;
+            }
         }
 
         .item-button {

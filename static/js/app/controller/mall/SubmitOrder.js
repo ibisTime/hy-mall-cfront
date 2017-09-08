@@ -18,11 +18,11 @@ define([
 		productSpecsCode: spec,
 		quantity: quantity,
 		toUser:'',
-		applyNote: $("#applyNote").val(),
 		pojo:{
 	    	receiver: "",
 	        reMobile: "",
 	        reAddress: "",
+			applyNote: '',
 	        applyUser: base.getUserId(),
 	        companyCode: SYSTEM_CODE,
 	        systemCode: SYSTEM_CODE
@@ -91,7 +91,12 @@ define([
 		})
     			
 		$(".orderPro-list").html(html);
-		$("#totalAmount").html('￥'+base.formatMoney(totalAmount.amount1) +'+'+ base.formatMoney(totalAmount.amount2)+'积分' )
+		if(carSubProInfo.length>1){
+			$("#totalAmount").html('￥'+base.formatMoney(totalAmount.amount1) +'+'+ base.formatMoney(totalAmount.amount2)+'积分' )
+		}else{
+			$("#totalAmount").html(carSubProInfo[0].type=='JF' ? base.formatMoney(totalAmount.amount2)+'积分' : '￥'+base.formatMoney(totalAmount.amount1))
+		}
+		
 		
 	}
 	
@@ -122,7 +127,7 @@ define([
     			</div></div></a>`;
     			
 			$(".orderPro-list").html(html);
-			$("#totalAmount").html(type==JFPRODUCTTYPE ? base.formatMoney(totalAmount.amount2)+'积分' : '￥'+base.formatMoney(totalAmount.amount1))
+			$("#totalAmount").html(type==JFPRODUCTTYPE ? base.formatMoney(totalAmount.amount2*quantity)+'积分' : '￥'+base.formatMoney(totalAmount.amount1*quantity))
 			
 		},()=>{})
 	}
@@ -216,7 +221,7 @@ define([
 		
 		//提交
 		$("#subBtn").click(function(){
-			
+			config.pojo.applyNote = $("#applyNote").val();
 			config.toUser = $("#toUser").attr('data-toUser')
 			var param={}
 			if(submitType=='1'){
@@ -253,11 +258,13 @@ define([
 	            success: function(to, toName) {
 	            	if(to){
 	            		$("#toUser").attr('data-toUser',to)
-	            		$("#toUser").find('.toUserName').children('samp').html(toName)
 	            		
 	            		if(to==SYS_USER){
+	            			$("#toUser").find('.toUserName').children('samp').html(toName)
 	            			$('.orderAddressWrap').removeClass('hidden')
 	            		}else{
+	            			
+	            			$("#toUser").find('.toUserName').children('samp').html('自提：'+toName)
 	            			$('.orderAddressWrap').addClass('hidden')
 	            		}
 	            	}
