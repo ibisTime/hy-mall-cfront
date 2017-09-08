@@ -2,21 +2,16 @@ define([
     'app/controller/base',
     'app/util/ajax',
 	'app/interface/UserCtr',
-], function(base, Ajax, UserCtr) {
+    'app/module/signInDate',
+], function(base, Ajax, UserCtr, SignInDate) {
 
     init();
 
     function init() {
-        if (!base.isLogin())
-            base.goLogin();
-        else {
-//          base.initLocation(initData, initData);
-			initData()
-        }
-    }
-
-    function initData() {
-        getData();
+		$.when(
+			getData(),
+			getPageSignIn()
+		)
         addListener();
     }
 	
@@ -30,30 +25,53 @@ define([
             base.hideLoading();
 
             if (data.todaySign) {
-                $("#btn-signIn").val("明天再来").addClass("a-qiandao");
+                $("#btn-signIn").addClass("a-qiandao").find('p').html("明天再来");
             }
             
             $(".signInNum").html(data.days);
         });
     }
-
+    
+    //分页获取签到记录
+	function getPageSignIn(){
+		UserCtr.getPageSignIn().then((data)=>{
+			var nowDate = new Date();
+			var nowMonth = nowDate.getMonth()+1;
+	        var signList=[];
+	        
+			data.list.forEach(function(d, i){
+				if(nowMonth==base.formatDate(d.signDatetime,'MM')){
+					signList.push(base.formatDate(d.signDatetime,'dd'))
+				}
+			})
+			
+	   		calUtil.init(signList); 
+		})
+	}
+	
     function addListener() {
+    	//签到
         $("#btn-signIn").click(function() {
-            if (!base.isLogin()) {
-                base.goLogin();
-                return;
-            }
             var addr = getAddr();
             base.showLoading("签到中...");
             
             UserCtr.dailyAttendance(addr).then((data)=> {
                 base.hideLoading();
-                var num = $(".signInNum").text();
-                num = +num + 1;
-                $(".signInNum").text(num);
-                $("#btn-signIn").val("明天再来").addClass("a-qiandao");
+                base.showMsg('签到成功',1200)
+                
+                setTimeout(function(){
+                	location.reload(true)
+                },800)
             },()=>{});
         });
+        
+        $(".signRule").click(function(){
+        	$("#dialog").removeClass('hidden')
+        })
+        
+        $("#dialog #close").click(function(){
+        	$("#dialog").addClass('hidden')
+        })
     }
 
     function getAddr() {

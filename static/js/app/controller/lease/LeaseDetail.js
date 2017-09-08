@@ -47,9 +47,8 @@ define([
 				})
 				$("#top-swiper").html(html);
 				var mySwiper = new Swiper('#swiper-container', {
-	                'direction': 'horizontal',
-	                'loop': false,
-		            'autoplayDisableOnInteraction': false,
+		            'paginationClickable' :true,
+		            'preventClicksPropagation': true,
 	                // 如果需要分页器
 	                'pagination': '.swiper-pagination'
 	            });

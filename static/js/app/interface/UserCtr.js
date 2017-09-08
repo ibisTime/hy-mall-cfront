@@ -163,6 +163,14 @@ define([
             	kind:'PA'
             }, true);
         },
+        // 分页获取签到记录
+        getPageSignIn() {
+            return Ajax.get("805145", {
+            	limit: 31,
+            	start: 1,
+                userId: base.getUserId(),
+            }, true);
+        },
         //连续签到列表查询
         getSeriesDailyAttendance(dateStart){
             return Ajax.get("805148",{

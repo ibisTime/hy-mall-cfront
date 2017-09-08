@@ -6,7 +6,7 @@ define([
         // 获取微信sdk初始化的参数
         getInitWXSDKConfig() {
             return Ajax.get("805952", {
-                url: location.href.split('#')[0]
+                url: encodeURIComponent(location.href.split('#')[0])
             }, true);
         },
         // 获取appId

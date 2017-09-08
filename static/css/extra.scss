@@ -2632,34 +2632,65 @@ label.error {
         }
     }
 }
-.sign-in{
-    background: url(../images/signBg.png) no-repeat center;
-    height: 8.6rem;
-    background-size: 100%;
+.signInWrap-bg{
+    width: 100%;
+    height: 4.3rem;
+    background-image: url('../images/signBg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    
+    .signInWrap{
+        width: 2.38rem;
+        height: 2.38rem;
+        border-radius: 50%;
+        position: absolute;
+        top: .4rem;
+        left: 50%;
+        margin-left: -1.19rem;
+        background-color: #ffcd29;
+        
+        .bg{
+            width: 1.96rem;
+            height: 1.96rem;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: .2rem auto 0;
+            background-color: #fff;
+            
+        }
+        
+        p{
+            text-align: center;
+            font-size: .28rem;
+            line-height: 1.96rem;
+        }
+    }
+    .a-qiandao p{
+        color: $primary-color;
+    }
+    .signRule{
+        position: absolute;
+        top: .2rem;
+        right: 0;
+        padding: .2rem .3rem;
+        z-index: 11;
+    }
+    
 }
-.sky-y{
-    color: #ffa902;
-}
-.all-sky{
-    position: absolute;
-    left: 50%;
-    top: 1.95rem;
-    margin-left: -.6rem;
- }
-.plr110{
-    padding:0 2.2rem;
-}
-.qiandao{
-    line-height:.88rem;
-    background:#ffa902;
-    border-radius:.44rem;
-    color:#ffffff;
-}
-.a-qiandao{
-    line-height:.88rem;
-    background:#e6e6e6 !important;
-    border-radius:.44rem;
-    color:#ffffff;
+.continuousSignIn{
+    width: 100%;
+    line-height: 1;
+    font-size: .28rem;
+    text-align: center;
+    color: $primary-color;
+    
+    samp{
+        font-size: .28rem;
+        color: $primary-color;
+    }
+    
 }
 
 .orderList-pro{
@@ -3027,9 +3058,6 @@ label.error {
             margin-top: .1rem;
         }
     }
-    .am-button-primary-48{
-        font-size: .28rem;
-    }
     
     .packingList{
         width: 100%;
@@ -3192,4 +3220,87 @@ label.error {
 }
 .mall-list-content{
     margin-top: 1rem;
+}
+
+//签到日历
+.calendar{
+    width: 100%;
+    .sign_main{
+        width: 100%;
+        padding: .2rem .5rem;
+    }
+    .calendar_month_span{
+        font-size: .36rem;
+        text-align: center;
+        padding: .3rem 0;
+    }
+    
+    .sign{
+        width: 100%;
+        
+        table{
+            width: 100%;
+            
+            thead th{
+                height: .5rem;
+                background-color: #f2f2f2;
+                font-size: .28rem;
+                font-weight: normal;
+                
+                &:first-child{
+                    border-radius: .25rem 0 0 .25rem;
+                }
+                &:last-child{
+                    border-radius: 0 .25rem .25rem 0;
+                }
+            }
+            
+            tbody td{
+                text-align: center;
+                padding: .24rem 0;
+                
+                div{
+                    font-size: .28rem;
+                    width: .5rem;
+                    height: .5rem;
+                    line-height: .5rem;
+                    position: relative;
+                }
+                &.on{
+                    div{
+                        color: $primary-color;
+                        border: .02rem solid $primary-color;
+                        border-radius: 50%;
+                        
+                        i{
+                            display: block;
+                            width: .22rem;
+                            height: .22rem;
+                            position: absolute;
+                            top: -.06rem;
+                            right: -.1rem;
+                            background-image: url('../images/打勾-签到@2x.png');
+                            background-position: center;
+                            background-repeat: no-repeat;
+                            background-size: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+}
+.signIn-dialog{
+    .am-modal-header{
+        border-bottom: 1px solid $border-color;
+        
+        p{
+            font-size: .3rem;
+        }
+    }
+    .am-modal-body{
+        padding: .2rem .6rem 0;
+    }
+    
 }

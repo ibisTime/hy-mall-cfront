@@ -943,21 +943,24 @@ sup {
         border-radius: .2rem;
         height: auto;
         padding-top: 0;
+    }
+    .am-modal-header{
+        padding: .3rem .3rem .2rem;
+    }
+    .am-modal-body {
+        font-size: .28rem;
+        color: #888;
+        height: 100%;
+        max-height: 4.6rem;
+        overflow-y: scroll;
+        padding: .1rem .6rem;
+    }
+    .am-modal-footer{
+        overflow: hidden;
+        padding: .4rem .58rem;
         
-        .am-modal-header{
-            padding: .3rem .3rem .2rem;
-        }
-        .am-modal-body {
+        .am-button-primary-48{
             font-size: .28rem;
-            color: #888;
-            height: 100%;
-            max-height: 4.6rem;
-            overflow-y: scroll;
-            padding: .1rem .6rem;
-        }
-        .am-modal-footer{
-            overflow: hidden;
-            padding: .4rem .58rem;
         }
     }
 }

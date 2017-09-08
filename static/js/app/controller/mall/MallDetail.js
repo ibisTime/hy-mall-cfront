@@ -50,9 +50,8 @@ define([
 				})
 				$("#top-swiper").html(html);
 				var mySwiper = new Swiper('#swiper-container', {
-	                'direction': 'horizontal',
-	                'loop': false,
-		            'autoplayDisableOnInteraction': false,
+		            'paginationClickable' :true,
+		            'preventClicksPropagation': true,
 	                // 如果需要分页器
 	                'pagination': '.swiper-pagination'
 	            });
@@ -199,14 +198,6 @@ define([
 	
 	
 	function addListener(){
-		var mySwiper = new Swiper('#swiper-container', {
-            'direction': 'horizontal',
-            'loop': false,
-            'autoplayDisableOnInteraction': false,
-            // 如果需要分页器
-            'pagination': '.swiper-pagination'
-        });
-		
 		//立即购买
 		$(".buyBtn").click(function(){
 			btnType = 2;

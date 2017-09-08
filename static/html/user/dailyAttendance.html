@@ -7,18 +7,39 @@
 </head>
 
 <body class="bg_fff">
-	<div class=" wp100 sign-in p-r">
-		<div class="tc all-sky">
-	   	  <div class="fs15 green pb15">连续签到</div>
-	   	  <div class="fs30 sky-y inline_block signInNum">0</div>
-	   	  <div class="fs13 green inline_block">天</div>
-	    </div>
+	<div class="signInWrap-bg">
+		<div class="signInWrap" id="btn-signIn">
+			<div class="bg">
+				<p>签到领积分</p>
+			</div>
+		</div>
+		
+		<div class="signRule">签到规则</div>
 	</div>
-
-	<div class="plr110 ">
-		<input type="button"  value="签到领积分" class="wp100  qiandao fs16" id="btn-signIn">
-	</div>
-
+	
+	<div class="continuousSignIn"><p>已连续签到<samp class="signInNum">0</samp>天</p></div>
+	
+	<div class="calendar" id="calendar"></div>
+	
+	<!--弹窗-->
+    <div class="signIn-dialog hidden" id="dialog">
+        <div class="am-modal-mask"></div>
+        <div class="am-modal-wrap">
+            <div role="document" class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-header">
+                    	<p>签到规则</p>
+                    </div>
+                    <div class="am-modal-body">
+                    </div>
+                    <div class="am-modal-footer">
+                    	<div class="am-button am-button-primary-48" id="close">我知道了</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <link rel="import" href="../footer.html?__inline">
     <script data-loader>
         require(['app/controller/user/DailyAttendance']);
