@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>学生信用信息上传</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body class="bg_fff">
+	<div class="styCredit-wrap">
+		<div class="txt">
+            <span>学信网图片：</span>
+        </div>
+	    <div id="uploadContainer" class="wp100 picWrap">
+	    	<div id="uploadBtn" class="wp100 hp100">
+	            <div class="wp100 hp100 pic" id="xuexinPic"></div>
+	            <div class="addxuexinPic"></div>
+	        </div>
+	    </div>
+	    
+		<div class="am-button am-button-primary-48 subBtn" id="subBtn">提交申请</div>
+	</div>
+    <link rel="import" href="../footer.html?__inline">
+    <script type="text/javascript" src="../../js/lib/qiniu/plupload.full.min.js"></script>
+    <script type="text/javascript" src="../../js/lib/qiniu/qiniu.min.js"></script>
+    <script>
+        require(['app/controller/credit/StudentCreditAccredit']);
+    </script>
+</body>
+
+</html>

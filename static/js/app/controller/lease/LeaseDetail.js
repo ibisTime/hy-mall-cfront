@@ -3,8 +3,9 @@ define([
     'swiper',
     'app/interface/LeaseCtr',
     'app/interface/GeneralCtr',
+    'app/interface/UserCtr',
     'app/util/handlebarsHelpers',
-], function(base, Swiper, LeaseCtr, GeneralCtr, Handlebars) {
+], function(base, Swiper, LeaseCtr, GeneralCtr, UserCtr, Handlebars) {
 	var code = base.getUrlParam("code");
 	var type ;
 	
@@ -16,7 +17,9 @@ define([
 		base.showLoading();
         $.when(
         	getLeaseProductDetail(code),
-        	getPageComment()
+        	getPageComment(),
+        	getJmExplain(),
+        	getZmCreditDetail()
         )
         addListener();
     }
@@ -113,6 +116,37 @@ define([
 		})
 	}
 	
+	function getJmExplain(){
+		LeaseCtr.getJmExplain('myj').then((data)=>{
+			var html = '';
+			html = `<h3>芝麻分减免说明</h3>
+					<p>1.芝麻分大于等于${data.myj_zima_score1}时可减免￥${data.myj_amount1}</p>
+					<p>2.芝麻分大于等于${data.myj_zima_score2}时可减免￥${data.myj_amount2}</p>
+					<p>3.芝麻分大于等于${data.myj_zima_score3}时可减免￥${data.myj_amount3}</p>
+					<h3>学生减免说明</h3>
+					<p>1.学生可减免${data.myj_std_amount}</p>
+					<h3>老用户减免说明</h3>
+					<p>1.用户租赁${data.myj_rent_times}次后可减免￥${data.myj_rent_amount}</p>
+					<samp>押金最多减免每件租赁商品原价${data.yj_min_rate*100}%</samp>`
+			
+			$("#dialog .jmExplain-content").html(html)
+		},()=>{
+			base.hideLoading();
+		})
+	}
+	
+	function getZmCreditDetail(){
+		UserCtr.getCreditDetail('zm_score').then((data)=>{
+			if(data.result){
+				
+				$("#isAccredit").attr('href','../credit/zhiMaCredit.html')
+				$("#isAccredit samp").html('已授权芝麻信用')
+			}else{
+				$("#isAccredit").attr('href','../credit/zhiMaCreditAccredit.html')
+				$("#isAccredit samp").html('立即授权免押金')
+			}
+		})
+	}
 	
     function addListener(){
     	
@@ -135,5 +169,17 @@ define([
 		$("#subBtn").click(function(){
 			location.href = './submitOrder.html?code='+code;
 		})
+		
+		//减免说明
+		
+		$("#jmDialog").click(function(){
+        	$("#dialog").removeClass('hidden')
+        })
+        
+        $("#dialog #close").click(function(){
+        	$("#dialog").addClass('hidden')
+        })
+		
+		
     }
 });

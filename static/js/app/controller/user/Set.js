@@ -13,7 +13,7 @@ define([
     	base.showLoading("加载中...", 1);
 		UserCtr.getUser()
 			.then(function(data){
-				$("#showAvatar").attr("src", base.getWXAvatar(data.photo));
+				$("#showAvatar").css("background-image", "url('"+base.getWXAvatar(data.photo)+"')");
 				base.hideLoading();
 				
 				addListener();
@@ -45,6 +45,7 @@ define([
 					},
 					fileUploaded: function(up, url, key){
 						$(".upload-progress-wrap").hide().find(".upload-progress").css("width", 0);
+						$("#showAvatar").css("background-image", "url('"+url+"')");
 						uploadAvatar(url, key);
 					}
 				});
@@ -54,9 +55,8 @@ define([
 		
     	base.showLoading("上传中...", 1);
 		UserCtr.changePhoto(photo).then(function(res){
-			$("#showAvatar").attr("src", url);
-			
 			base.hideLoading();
+			base.showMsg('头像修改成功')
 		}, base.hideLoading());
 	}
 });

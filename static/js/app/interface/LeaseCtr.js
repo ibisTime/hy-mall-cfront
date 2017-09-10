@@ -73,6 +73,22 @@ define([
                 commenter : base.getUserId(),
                 ...config
             }, true);
-        }
+        },
+        // 减免说明
+        getJmExplain(type){
+            return Ajax.get("810918", {
+                type: type
+            }, true);
+        },
+        /**
+         * 获取可减免金额
+         * @param config: {productPrice,quantity}
+         */
+        getLeaseProJmAmount(config){
+            return Ajax.get("810059", {
+                userId : base.getUserId(),
+                ...config
+            }, true);
+        },
     };
 })

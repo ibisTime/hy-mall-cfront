@@ -73,19 +73,14 @@ define([
 			totalAmount.deposit = data.deposit;
 			if(type==JFLEASEPRODUCTTYPE){
     			totalAmount.price2=data.price2;
+    			
+    			getAmount();
     		}else{
     			totalAmount.price1=data.price1;
+    			
+    			getLeaseProJmAmount(totalAmount.price1,1);
     		}
-    		var amount = type==JFLEASEPRODUCTTYPE 
-    				? base.formatMoney(totalAmount.price2*data.minRentDays)+'积分+￥' + base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html())
-    				: '￥'+base.formatMoney(totalAmount.price1*data.minRentDays+totalAmount.deposit*$('.productSpecs-number .sum').html())
-			var amount1 = type==JFLEASEPRODUCTTYPE 
-					? base.formatMoney(totalAmount.price2*data.minRentDays)+'积分'
-    				: '￥'+base.formatMoney(totalAmount.price1*data.minRentDays)
-			
-			$("#totalAmount").html(amount)
-			$("#totalAmount2").html(amount)
-			$("#totalAmount3").html('租金：'+ amount1+ ' 押金：￥'+base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html()))
+    		
 			
 			setLeaseDate();
 		},()=>{})
@@ -106,7 +101,7 @@ define([
             comeoutColor : "#fff6b6",        //起租和寄回之间的颜色
 			title: '请选择租赁日期', //标题名称
 			startName: '起租', //开始时间名称
-			endName: '寄回', //开始时间名称
+			endName: '截止', //开始时间名称
 			minDate:'5',
             callback :function(){//回调函数
             	var start=$("#startDate").html();
@@ -120,7 +115,11 @@ define([
 				var days=parseInt(time/(1000 * 60 * 60 * 24));
 				$("#rentDay").html(days)
 				
-				getAmount();
+				if(type==JFLEASEPRODUCTTYPE){
+	    			getAmount();
+	    		}else{
+	    			getLeaseProJmAmount(totalAmount.price1,1);
+	    		}
             }  , 
             comfireBtn:'.comfire'//确定按钮的class或者id
         });
@@ -175,12 +174,26 @@ define([
 		},()=>{})
 	}
 	
+	//获取减免金额
+	function getLeaseProJmAmount(productPrice,quantity){
+		
+		LeaseCtr.getLeaseProJmAmount({
+			productPrice:productPrice,
+			quantity:quantity
+		}).then((data)=>{
+			$("#jmAmount").html('￥'+base.formatMoney(data.jmyjAmount)).attr('data-jmAmount',data.jmyjAmount);
+			
+			getAmount();
+		},()=>{})
+	}
+	
+	//获取金额
 	function getAmount(){
 		var days = $("#rentDay").html();
 		
 		var amount = type==JFLEASEPRODUCTTYPE 
 				? base.formatMoney(totalAmount.price2*$('.productSpecs-number .sum').html()*days)+'积分 + ￥' + base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html())
-				: '￥'+base.formatMoney(totalAmount.price1*$('.productSpecs-number .sum').html()*days+totalAmount.deposit*$('.productSpecs-number .sum').html())
+				: '￥'+base.formatMoney(totalAmount.price1*$('.productSpecs-number .sum').html()*days+totalAmount.deposit*$('.productSpecs-number .sum').html()-$("#jmAmount").attr('data-jmAmount'))
 		
 		var amount1 = type==JFLEASEPRODUCTTYPE 
 				? base.formatMoney(totalAmount.price2*$('.productSpecs-number .sum').html()*days)+'积分'
@@ -188,7 +201,7 @@ define([
 		
 		$("#totalAmount").html(amount)
 		$("#totalAmount2").html(amount)
-		$("#totalAmount3").html('租金：'+ amount1 +' 押金：￥'+base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html()))
+		$("#totalAmount3").html('租金：'+ amount1 +' 押金：￥'+base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html()-$("#jmAmount").attr('data-jmAmount')))
 		
 	}
 	
@@ -300,7 +313,13 @@ define([
 				sum--
 			}
 			$('.productSpecs-number .sum').html(sum);
-			getAmount();
+			
+			if(type==JFLEASEPRODUCTTYPE){
+    			getAmount();
+    		}else{
+    			getLeaseProJmAmount(totalAmount.price1,$('.productSpecs-number .sum').html());
+    		}
+			
 		})
 		
 		//购买数量 加
@@ -310,7 +329,7 @@ define([
 				sum++
 //			}
 			$('.productSpecs-number .sum').html(sum);
-			getAmount();
+			getLeaseProJmAmount(totalAmount.price1,$('.productSpecs-number .sum').html());
 		})
 		
 		

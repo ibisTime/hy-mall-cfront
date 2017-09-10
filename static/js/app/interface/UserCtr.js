@@ -206,5 +206,37 @@ define([
                 ...config
             },refresh);
         },
+        /**
+         * 查询用户芝麻信用
+         */
+        getZhiMaCredit(){
+            return Ajax.get("805196",{
+            	userId: base.getUserId()
+            },true);
+        },
+        /**
+         * 获取授权芝麻信用链接
+         * @param config: {idNo,realName}
+         */
+        getZhiMaCreditAccreditUrl(config){
+            return Ajax.get("805195",{
+            	userId: base.getUserId(),
+                ...config
+            },true);
+        },
+        //学信网图片上传
+        getStuCreditImg(url){
+            return Ajax.get("805210",{
+            	userId: base.getUserId(),
+            	xuexinPic: url
+            },true);
+        },
+        //根据用户编号查询认证记录
+        getCreditDetail(type){
+            return Ajax.get("805218",{
+            	type: type,
+            	userId: base.getUserId()
+            },true);
+        },
     };
 })

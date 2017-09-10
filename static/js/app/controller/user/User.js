@@ -38,6 +38,7 @@ define([
         })
       });
   }
+  
   // 获取用户信息
   function getUserInfo() {
     return UserCtr.getUser().then(function(data) {

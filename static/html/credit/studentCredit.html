@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>芝麻信用</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body class="bg_fff">
+	<div class="styCredit-wrap styCreditAccredit-wrap">
+		
+		<div class="titleWrap lease-titleWrap">
+			<p class="fl text tit">审核：</p>
+			<p class="fr text ">
+				<samp class="status"></samp>
+			</p>
+		</div>
+		
+		<div class="txt">
+            <span>学信网图片：</span>
+        </div>
+	    <div class="wp100 picWrap">
+	        <div class="wp100 hp100 pic" id="xuexinPic"></div>
+	    </div>
+	    
+	    <div class="ptb20lr30 hidden" id="subBtn">
+			<a href="./studentCreditAccredit.html" class="am-button am-button-primary-48 subBtn">审核未通过，请重新申请</a>
+	    </div>
+	</div>
+	
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/credit/StudentCredit']);
+    </script>
+</body>
+
+</html>

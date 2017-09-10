@@ -1457,6 +1457,9 @@ label.error {
     top: .1rem;
     overflow: hidden;
     border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 .acecu-avatar-div img {
@@ -2277,6 +2280,7 @@ label.error {
     position: fixed;
     bottom: 0;
     left: 0;
+    z-index: 99;
     background-color: #fff;
     border-top: 1px solid $border-color;
     
@@ -2313,7 +2317,7 @@ label.error {
 }
 
 .am-button-primary-48 {
-    font-size: .32rem;
+    font-size: .28rem;
     color: #484848;
     background-color: $primary-color;
 }
@@ -3304,3 +3308,228 @@ label.error {
     }
     
 }
+.zmCredit-form{
+    padding: .7rem .7rem 0;
+    
+    .logo{
+        padding: .4rem .2rem;
+    }
+    .tit{
+        font-size: .28rem;
+        color: $primary-color;
+        line-height: 3;
+        margin-top: .5rem;
+    }
+    form{
+        width: 100%;
+        border: 1px solid $border-color;
+        
+        .wrap{
+            padding: .3rem 0;
+            border-bottom: 1px solid #F5F5F5;
+            position: relative;
+            
+            input{
+                width: 100%;
+                font-size: .28rem;
+                line-height: 1.5;
+                padding: 0 .3rem;
+            }
+            
+            &:last-child{
+                border-bottom: none;
+            }
+        }
+        
+    }
+    
+    .am-button{
+        margin-top: 1.5rem;
+    }
+}
+.zmCredit{
+    height: 4rem;
+    text-align: center;
+    color: #fff;
+    padding-top: .7rem;
+    
+    .tit{
+        color: #fff;
+        font-size: .26rem;
+    }
+    .zmCreditScore{
+        font-size: 1rem;
+        margin: .5rem 0 1rem;
+    }
+    
+    .txt{
+        color: #fff;
+        font-size: .28rem;
+    }
+}
+.zmCredit-info{
+    width: 100%;
+    padding: 0 .4rem;
+    margin-top: .9rem;
+    
+    .wrap{
+        background-color: #fff;
+        padding: .3rem .3rem;
+        border: 1px solid #ccc;
+        box-shadow: .06rem .06rem .06rem .06rem rgba(190,190,190,.1);
+        
+        h3{
+            color: $primary-color;
+            font-weight: normal;
+            font-size: .3rem;
+            line-height: 2;
+        }
+        
+        p{
+            font-size: .28rem;
+            line-height: 1.6;
+            margin-top: .2rem;
+            text-indent: 2em;
+        }
+    }
+}
+
+.styCredit-wrap{
+    padding: 0 .3rem;
+    
+    .txt{
+        font-size: .3rem;
+        padding: .35rem 0 .15rem;
+    }
+    
+    .picWrap{
+        height: 3rem;
+        margin-top: .2rem;
+        position: relative;
+        
+        .pic{
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+        
+        .addxuexinPic{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: .04rem dashed $border-color;
+            border-radius: .1rem;
+            background-image: url('../images/添加图片.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 1.6rem;
+        }
+    }
+    
+    .subBtn{
+        margin-top: 2rem;
+    }
+}
+.styCreditAccredit-wrap{
+    padding: 0;
+    
+    .txt{
+        padding: .35rem .3rem .15rem;
+    }
+    .picWrap{
+        padding: 0 .3rem;
+    }
+}
+
+.jmExplain-content{
+    padding-top: .4rem !important;
+    text-align: left;
+    line-height: 2;
+    
+    h3{
+        font-size: .3rem;
+        color: $primary-color;
+        font-weight: normal;
+        margin: .1rem 0;
+    }
+    
+    p{
+        padding-left: .2rem;
+        font-size: .28rem;
+    }
+    
+    samp{
+        display: inline-block;
+        color: $red-color;
+        font-size: .28rem;
+        padding-left: .2rem;
+        margin-top: .2rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

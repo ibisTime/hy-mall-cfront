@@ -4,7 +4,7 @@ fis.hook('amd', {
         'Handlebars': 'lib/handlebars.runtime-v3.0.3',
         'IScroll': "lib/iscroll/iscroll",
         'iScroll': "lib/iscroll/iscroll1",
-        'jweixin': 'lib/jweixin-1.0.0',
+        'jweixin': 'lib/jweixin-1.2.0',
         'jValidate': "lib/validate/jquery.validate",
         'jquery': "lib/jquery-2.1.4",
         'picker': "lib/picker/picker.min.js",

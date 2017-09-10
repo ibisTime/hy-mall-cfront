@@ -27,20 +27,20 @@
     	
     	<div class="collect" id="collect"></div>
     </div>
-	<div class="titleWrap lease-titleWrap">
-		<p class="fl text tit">服务说明：</p>
-		<p class="fl text ml30"><img src="../../images/芝麻信用@2x.png" />芝麻信用免押</p>
+	<div class="titleWrap lease-titleWrap" id="jmDialog">
+		<p class="fl text tit">减免说明：</p>
 		<p class="fr text ">
+			<samp><img src="../../images/芝麻信用@2x.png">芝麻信用减免&nbsp;&nbsp;&nbsp;&nbsp;学生减免</samp>
 			<i class="icon"></i>
 		</p>
 	</div>
-	<div class="titleWrap lease-titleWrap">
+	<a class="titleWrap lease-titleWrap" id="isAccredit">
 		<p class="fl text tit">芝麻信用：</p>
-		<p class="fl text ml30">立即授权免押金</p>
 		<p class="fr text ">
+			<samp></samp>
 			<i class="icon"></i>
 		</p>
-	</div>
+	</a >
 	
     <div class="mallDetail-detail bg_fff">
     	<div class="title">商品详情</div>
@@ -74,6 +74,25 @@
 		<div class="am-button am-button-red hidden leaseBottomBtn1" id="subBtn">预约租赁</div>
 		<div class="am-button am-button-disabled hidden leaseBottomBtn2">已下架</div>
 	</div>
+	
+	<!--弹窗-->
+    <div class="signIn-dialog hidden" id="dialog">
+        <div class="am-modal-mask"></div>
+        <div class="am-modal-wrap">
+            <div role="document" class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-header">
+                    	<p>减免说明</p>
+                    </div>
+                    <div class="am-modal-body jmExplain-content">
+                    </div>
+                    <div class="am-modal-footer">
+                    	<div class="am-button am-button-primary-48" id="close">我知道了</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 	
     <link rel="import" href="../footer.html?__inline">
     <script>

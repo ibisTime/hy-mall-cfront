@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>芝麻信用授权</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body class="bg_fff">
+	<div class="zmCredit-form">
+		<div class="logo"><img class="wp100" src="../../images/芝麻信用Logo.png"/></div>
+		
+		<p class="tit">请输入您的支付宝实名认证信息</p>
+		
+		<form id="zmCredit-form">
+			<div class="wrap"><input type="text" id="realName" name='realName' placeholder="请输入真实姓名"></div>
+			<div class="wrap"><input type="text" id="idNo" name="idNo" placeholder="请输入身份证号"/></div>
+		</form>
+		<div class="am-button am-button-primary-48" id="subBtn">确认授权</div>
+		
+	</div>
+	
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/credit/ZhiMaCreditAccredit']);
+    </script>
+</body>
+
+</html>
