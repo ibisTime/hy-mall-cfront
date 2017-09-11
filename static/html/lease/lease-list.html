@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>租赁</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+	<div class="course-orders-wrap am-tabs lease-wrap" id="orderWrapper">
+		<div id="search" class="search">
+			<div class="searchWrap">
+				<div class="fl searchIcon"><img src="../../images/搜索@2x.png" /></div>
+				<input class="fl searchText" type="text" placeholder="请输入您感兴趣的商品" />
+			</div>
+		</div>
+        
+        <div class="lease-list-content list-content" id="content">
+        </div>
+        <div id="loadAll" class="load-all hidden">
+            <img src="../../images/end.png">
+            <span>已经全部加载完毕</span>
+        </div>
+    </div>
+
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/lease/LeaseList']);
+    </script>
+</body>
+
+</html>

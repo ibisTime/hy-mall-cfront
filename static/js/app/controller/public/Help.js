@@ -1,8 +1,7 @@
 define([
     'app/controller/base',
-    'app/module/weixin',
     'app/interface/GeneralCtr'
-], function(base, weixin, GeneralCtr) {
+], function(base, GeneralCtr) {
     init();
 
 	function init(){

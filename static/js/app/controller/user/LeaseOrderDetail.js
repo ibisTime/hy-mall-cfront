@@ -31,10 +31,11 @@ define([
 						<div class="mall-item-img fl" style="background-image: url('${base.getImg(data.rproduct.advPic)}')"></div>
 						<div class="mall-item-con fr">
 							<p class="name">${data.rproduct.name}</p>
+							<samp class="slogan">数量：${data.quantity}</samp>
 							<samp class="slogan">租赁时长：${data.rentDay}天&nbsp;&nbsp;&nbsp;&nbsp;${data.price2 ? base.formatMoney(data.price2)+'积分' : '￥'+base.formatMoney(data.price1)}/天</samp>
 							<div class="amountWrap">
-								<p class='fl amount'>总价: <samp>${data.price2 ? base.formatMoney(data.amount2)+'积分+￥'+base.formatMoney(data.amount1) : '￥'+base.formatMoney(data.price1)}</samp></p>
-								<p class="realDeposit fl">含押金: ￥${base.formatMoney(data.realDeposit)}</p>
+								<p class='fl amount'>总价: <samp>${data.price2 ? base.formatMoney(data.amount2)+'积分+￥'+base.formatMoney(data.amount1) : '￥'+base.formatMoney(data.amount1)}</samp></p>
+								<p class="realDeposit fl">含押金: ${'￥'+base.formatMoney(data.realDeposit)}</p>
 							</div>
 							</div></a>`;
 					    			

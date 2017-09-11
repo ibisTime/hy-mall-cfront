@@ -27,17 +27,28 @@ define([
 		
 		MallCtr.getProductDetail(c).then((data)=>{
 			
+			type = data.type;
+			
 			if(data.status=='4'){
 				$(".mallBottom-right .offSelf").removeClass('hidden');
 				$(".mallBottom-right .addShoppingCarBtn").addClass('hidden')
 				$(".mallBottom-right .buyBtn").addClass('hidden')
 			}else{
-				$(".mallBottom-right .addShoppingCarBtn").removeClass('hidden')
-				$(".mallBottom-right .buyBtn").removeClass('hidden')
+				if(type==JFPRODUCTTYPE){
+//					$(".mallBottom-right .addShoppingCarBtn").removeClass("addShoppingBg").addClass("addShoppingBg-disabled").off("click")
+
+					$(".mallBottom-right .buyBtn").removeClass('hidden').css('width','100%')
+				}else{
+					
+					$(".mallBottom-right .addShoppingCarBtn").removeClass('hidden')
+					$(".mallBottom-right .buyBtn").removeClass('hidden')
+				}
+				
+				
 				$(".mallBottom-right .offSelf").addClass('hidden');
 			}
 			
-			type = data.type;
+			
 			
 			var dpic = data.pic;
 	        var strs= []; //定义一数组 
@@ -83,7 +94,9 @@ define([
 			//收藏
 			data.isCollect=='1'?$("#collect").addClass("active"):$("#collect").removeClass("active")
 			
-			$("#productSpecs .spec").html(specHtml)
+			$("#productSpecs .spec").html(specHtml);
+			
+			
 			
 			base.hideLoading();
 		},()=>{})
@@ -205,7 +218,7 @@ define([
 		})
 		
 		//加入购物车
-		$(".addShoppingCarBtn").click(function(){
+		$(".addShoppingBg").click(function(){
 			btnType = 1;
 			showProductSpecs(btnType)
 		})

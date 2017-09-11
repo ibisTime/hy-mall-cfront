@@ -96,7 +96,7 @@ define([
     		<div class="mall-item-img fl" style="background-image: url('${base.getImg(d.product.advPic)}')"></div>
     		<div class="mall-item-con fr">
     			<p class="name">${d.product.name}</p>
-    			<samp class="slogan">商品规格：${d.productSpecsName}</samp>
+    			<samp class="slogan">${d.productSpecsName}</samp>
     			<div class="price orderList-price">
     				<p class="samp1">${d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)}</p>
     				<p class="samp2">x${d.quantity}</p>

@@ -110,15 +110,12 @@ define([
     function buildHtml(item) {
     	var tmplProHtml = '',tmplbtnHtml =' ';
     	
-		tmplProHtml+=`<a class="mall-item" href="./lease-orderDetail.html?code=${item.code}">
+		tmplProHtml+=`<a class="mall-item leaseOrder-item" href="./lease-orderDetail.html?code=${item.code}">
 		<div class="mall-item-img fl" style="background-image: url('${base.getImg(item.rproduct.advPic)}')"></div>
 		<div class="mall-item-con fr">
 			<p class="name">${item.rproduct.name}</p>
+			<samp class="slogan">数量：${item.quantity}</samp>
 			<samp class="slogan">租赁时长：${item.rentDay}天&nbsp;&nbsp;&nbsp;&nbsp;${item.price2 ? base.formatMoney(item.price2)+'积分' : '￥'+base.formatMoney(item.price1)}/天</samp>
-			<div class="amountWrap">
-				<p class='fl amount'>总价: <samp>${item.price2 ? base.formatMoney(item.amount2)+'积分+￥'+base.formatMoney(item.amount1) : '￥'+base.formatMoney(item.price1)}</samp></p>
-				<p class="realDeposit fl">含押金: ￥${base.formatMoney(item.realDeposit)}</p>
-			</div>
 			</div></a>`
     	
     	//待支付
@@ -152,11 +149,12 @@ define([
                         <span>订单编号:${item.code}</span>
                         <span class="fr">${base.formatDate(item.applyDatetime, "yyyy-MM-dd")}</span>
                     </div>
-                    <div class="orderPro-list">`+tmplProHtml+`</div><div class="totalAmout">总价:<samp>
+                    <div class="orderPro-list">`+tmplProHtml+`</div><div class="totalAmout"><p>总价:<samp>
                     ${item.amount1&&item.amount2
                     	? '￥'+base.formatMoney(item.amount1)+' + '+base.formatMoney(item.amount2)+'积分'
                     	:item.amount1?'￥'+base.formatMoney(item.amount1):base.formatMoney(item.amount2)+'积分'}
-                    </samp></div>`+tmplbtnHtml+`</div></div>`;
+                    </samp></p><p class="realDeposit">含押金: ${'￥'+base.formatMoney(item.realDeposit)}</p>
+                    </div>`+tmplbtnHtml+`</div></div>`;
 
     }
     

@@ -8,15 +8,9 @@ define([
 
   var mobile = base.getUrlParam("m");
   var smsCaptcha = base.getUrlParam("s");
-  var userReferee = base.getUrlParam("userReferee");
-
-  if (!userReferee) {
-    userReferee = sessionStorage.getItem("userReferee") || "";
-  } else {
-    sessionStorage.setItem("userReferee", userReferee);
-  }
-
-  init();
+  var userReferee = sessionStorage.getItem("userReferee") || "";
+	
+init();
 
   function init() {
     var code = base.getUrlParam("code");
@@ -28,18 +22,19 @@ define([
       }
       base.showLoading("登录中...");
       
-      $.when(
-      	wxLogin({
+      var param = {
 	        code,
 	        mobile,
 	        smsCaptcha,
 	        userReferee,
 	        userRefereeKind: 'C',
 	        companyCode: SYSTEM_CODE
-	      }),
+	      }
+//    base.showMsg(code,100000)
+      $.when(
+      	wxLogin(param),
 	      getQiniuUrl()
       )
-      
       
     } else { // 已登陆
       location.href = "../index.html";
@@ -71,6 +66,7 @@ define([
   
   // 微信登录
   function wxLogin(param) {
+  	
     UserCtr.wxLogin(param).then(function(data) {
       base.hideLoading();
       if (data.userId == null || data.userId == "") {
@@ -84,7 +80,7 @@ define([
       } else {
         base.setSessionUser(data);
         var returnFistUrl = sessionStorage.getItem("l-return");
-        if (returnFistUrl) {
+        if (!userReferee && returnFistUrl) {
           sessionStorage.removeItem("l-return");
           location.href = returnFistUrl;
         } else {

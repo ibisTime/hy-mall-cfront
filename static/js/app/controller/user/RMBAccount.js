@@ -117,7 +117,7 @@ define([
         // 提现
         $("#withdrawBtn").click(() => {
             if(tradepwdFlag) {
-                location.replace("./withdraw.html");
+                location.replace("./withdraw.html?currency=CNY");
             } else {
                 base.confirm("您还未设置支付密码，无法提现。<br/>点击确认前往设置")
                     .then(() => {

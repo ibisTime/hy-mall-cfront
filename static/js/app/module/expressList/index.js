@@ -8,6 +8,8 @@ define([
     var defaultOpt = {};
     var toUser = "";
     var toUserName = "" ;
+    var toUserAddress = "";
+    var toMobile = "";
     var firstAdd = true;
 
     function initData(){
@@ -25,7 +27,7 @@ define([
             	var html = '<div class="titleWrap" data-userId='+SYS_USER+'><p class="fl text name">'+SYS_USERNAME+'</p><p class="fr text"><i class="icon"></i></p></div>';
             	
         		data.list.forEach(function(d, i){
-        			html+=`<div class="titleWrap" data-userId='${d.userId}'><p class="fl text name">${d.realName}</p>
+        			html+=`<div class="titleWrap" data-userId="${d.userId}" data-address="${d.province+d.city+d.area+' '+d.address}" data-mobile="${d.remark}"><p class="fl text name">${d.realName}</p>
         			<p class="fr text"><i class="icon"></i></p></div>`
         		})
         		
@@ -38,6 +40,8 @@ define([
 	function addListener(){
 		$("#expressList").on('click', '.titleWrap',function(){
     		toUser = $(this).attr('data-userId');
+    		toUserAddress = $(this).attr('data-address');
+    		toMobile = $(this).attr('data-mobile');
     		toUserName = $(this).find(".name").html();
     		ModuleObj.hideCont(defaultOpt.success);
     	})
@@ -104,7 +108,7 @@ define([
                     left: "100%"
                 }, 200, function () {
                     wrap.hide();
-                    func && func(toUser, toUserName);
+                    func && func({toUser:toUser, toUserName:toUserName, toUserAddress: toUserAddress,toMobile:toMobile});
                     wrap.find("label.error").remove();
                 });
                 

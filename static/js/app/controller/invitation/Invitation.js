@@ -9,13 +9,24 @@ define([
     
     function init(){
     	addListener()
+    	
+    	getUserSysConfig()
+    	
         weixin.initShare({
             title: document.title,
             desc: "户外电商",
             link: location.href,
             imgUrl: base.getShareImg()
         });
+        
     }
+    
+	//推荐活动说明
+	function getUserSysConfig(){
+		GeneralCtr.getUserSysConfig('userref_rule', true).then((data)=>{
+			$(".content").html(data.cvalue)
+		})
+	}
     
     function addListener(){
     	

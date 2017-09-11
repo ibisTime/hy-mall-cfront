@@ -36,7 +36,7 @@
 	</div>
 	<a class="titleWrap lease-titleWrap" id="isAccredit">
 		<p class="fl text tit">芝麻信用：</p>
-		<p class="fr text ">
+		<p class="fr text" id="zhiMaCreditt">
 			<samp></samp>
 			<i class="icon"></i>
 		</p>
@@ -75,8 +75,8 @@
 		<div class="am-button am-button-disabled hidden leaseBottomBtn2">已下架</div>
 	</div>
 	
-	<!--弹窗-->
-    <div class="signIn-dialog hidden" id="dialog">
+	<!--减免说明弹窗-->
+    <div class="signIn-dialog hidden dialog" id="jMdialog">
         <div class="am-modal-mask"></div>
         <div class="am-modal-wrap">
             <div role="document" class="am-modal">
@@ -87,7 +87,29 @@
                     <div class="am-modal-body jmExplain-content">
                     </div>
                     <div class="am-modal-footer">
-                    	<div class="am-button am-button-primary-48" id="close">我知道了</div>
+                    	<div class="am-button am-button-primary-48 close">我知道了</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--弹窗-->
+    <div class="signIn-dialog zhiMaCreditt-dialog hidden dialog" id="zMdialog">
+        <div class="am-modal-mask"></div>
+        <div class="am-modal-wrap">
+            <div role="document" class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-body">
+                    	<div class="title"><i></i>芝麻信用<i></i></div>
+                    	<div class="packingList-wrap">
+                    		<div class="packingList"><i class="dot fl"></i><p class="name fl">授权芝麻信用后，您在体验产品时，可根据您的芝麻信用等级减免产品押金。</p></div>
+                    		<div class="packingList"><i class="dot fl"></i><p class="name fl">免押金只免除免押额范围内的押金，不免预约费用，不可提现。</p></div>
+                    	</div>
+                    </div>
+                    <div class="am-modal-footer">
+                    	<a href='../credit/zhiMaCreditAccredit.html' class="am-button am-button-primary-48 close">马上去绑定</a>
+                    	<div class="am-button am-button-small mt20 close">我知道了</div>
                     </div>
                 </div>
             </div>

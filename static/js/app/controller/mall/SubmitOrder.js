@@ -76,7 +76,7 @@ define([
     		<div class="mall-item-img fl" style="background-image: url('${base.getImg(d.advPic)}');"></div>
     		<div class="mall-item-con fr">
     			<p class="name">${d.name}</p>
-    			<samp class="slogan">商品规格：${d.specsName}</samp>
+    			<samp class="slogan">${d.specsName}</samp>
     			<div class="price wp100">
     				<samp class="samp1 fl">${d.type=='JF' ? base.formatMoney(d.price)+'积分' : '￥'+base.formatMoney(d.price)}</samp>
     				<samp class="samp2 fr">x${d.quantity}</samp>
@@ -120,7 +120,7 @@ define([
     		<div class="mall-item-img fl" style="background-image: url('${base.getImg(data.advPic)}');"></div>
     		<div class="mall-item-con fr">
     			<p class="name">${data.name}</p>
-    			<samp class="slogan">商品规格：${specName}</samp>
+    			<samp class="slogan">${specName}</samp>
     			<div class="price wp100">
     				<samp class="samp1 fl">${price}</samp>
     				<samp class="samp2 fr">x${quantity}</samp>
@@ -143,7 +143,7 @@ define([
 				<div class="detailAddress">收货地址： ${data[0].province}  ${data[0].city}  ${data[0].district}  ${data[0].detailAddress}</div>
 				<div class="icon icon-more"></div>`
 				
-				$(".orderAddress").html(html).attr('data-code',data[0].code)
+				$("#orderAddress").html(html).attr('data-code',data[0].code)
 				config.pojo ={
 			    	receiver: data[0].addressee,
 			        reMobile: data[0].mobile,
@@ -190,12 +190,14 @@ define([
 	function addListener(){
         
 		//地址
-		$(".orderAddress").click(function(){
+		$("#orderAddress").click(function(){
 			AddressList.addCont({
 	            userId: base.getUserId(),
 	            success: function(res) {
-	            	config.pojo = res;
-	            	$('.no-address').addClass('hidden')
+	            	if(res.receiver){
+	            		config.pojo = res;
+	            		$('.no-address').addClass('hidden')
+	            	}
 	            }
 	        });
 			AddressList.showCont({
@@ -209,13 +211,15 @@ define([
 			AddressList.addCont({
 	            userId: base.getUserId(),
 	            success: function(res) {
-	            	config.pojo = res;
-	            	$('.no-address').addClass('hidden')
+	            	if(res.receiver){
+	            		config.pojo = res;
+	            		$('.no-address').addClass('hidden')
+	            	}
 	            }
 	        });
 	        
 			AddressList.showCont({
-				code: $(".orderAddress").attr('data-code')
+				code: $("#orderAddress").attr('data-code')
 			});
 		})
 		
@@ -246,6 +250,14 @@ define([
 					submitOrder1(param)
 				}else if($("#toUser").attr('data-toUser')==SYS_USER){
 					base.showMsg('请选择地址')
+				}else{
+					param=config;
+					
+					param.pojo.receiver = '';
+					param.pojo.reMobile = '';
+					param.pojo.reAddress = '';
+					
+					submitOrder1(param)
 				}
 				
 			}
@@ -255,18 +267,25 @@ define([
 		$("#toUser").click(function(){
 			
 			ExpressList.addCont({
-	            success: function(to, toName) {
-	            	if(to){
-	            		$("#toUser").attr('data-toUser',to)
+	            success: function(res) {
+	            	if(res.toUser){
+	            		$("#toUser").attr('data-toUser',res.toUser)
+	            		var html = '';
 	            		
-	            		if(to==SYS_USER){
-	            			$("#toUser").find('.toUserName').children('samp').html(toName)
-	            			$('.orderAddressWrap').removeClass('hidden')
+	            		html = `<div class="icon icon-dz"></div>
+							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp><samp class="fr mobile">${res.toMobile}</samp></div>
+							<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
+	            		
+	            		if(res.toUser==SYS_USER){
+	            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
+	            			$('#orderAddress').removeClass('hidden');
+	            			$("#toStore").addClass("hidden").html('');
 	            		}else{
-	            			
-	            			$("#toUser").find('.toUserName').children('samp').html('自提：'+toName)
-	            			$('.orderAddressWrap').addClass('hidden')
+	            			$("#toUser").find('.toUserName').children('samp').html('自提')
+	            			$('#orderAddress').addClass('hidden');
+	            			$("#toStore").html(html).removeClass("hidden");
 	            		}
+	            		
 	            	}
 	            }
 	        });

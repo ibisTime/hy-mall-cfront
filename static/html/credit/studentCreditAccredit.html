@@ -9,8 +9,9 @@
 
 <body class="bg_fff">
 	<div class="styCredit-wrap">
-		<div class="txt">
-            <span>学信网图片：</span>
+		<div class="txt over-hide">
+            <span class="fl">学信网图片：</span>
+            <div class="styCredit-rules fr">查看认证引导 >></div>
         </div>
 	    <div id="uploadContainer" class="wp100 picWrap">
 	    	<div id="uploadBtn" class="wp100 hp100">
@@ -21,6 +22,26 @@
 	    
 		<div class="am-button am-button-primary-48 subBtn" id="subBtn">提交申请</div>
 	</div>
+	
+	<!--弹窗-->
+    <div class="signIn-dialog student-dialog" id="dialog">
+        <div class="am-modal-mask"></div>
+        <div class="am-modal-wrap">
+            <div role="document" class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-header">
+                    	<p>学信网学生认证引导</p>
+                    </div>
+                    <div class="am-modal-body student-dialog-content">
+                    </div>
+                    <div class="am-modal-footer">
+                    	<div class="am-button am-button-primary-48" id="close">关闭</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <link rel="import" href="../footer.html?__inline">
     <script type="text/javascript" src="../../js/lib/qiniu/plupload.full.min.js"></script>
     <script type="text/javascript" src="../../js/lib/qiniu/qiniu.min.js"></script>

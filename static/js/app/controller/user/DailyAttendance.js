@@ -2,15 +2,17 @@ define([
     'app/controller/base',
     'app/util/ajax',
 	'app/interface/UserCtr',
+	'app/interface/GeneralCtr',
     'app/module/signInDate',
-], function(base, Ajax, UserCtr, SignInDate) {
+], function(base, Ajax, UserCtr, GeneralCtr, SignInDate) {
 
     init();
 
     function init() {
 		$.when(
 			getData(),
-			getPageSignIn()
+			getPageSignIn(),
+			getUserSysConfig()
 		)
         addListener();
     }
@@ -25,7 +27,7 @@ define([
             base.hideLoading();
 
             if (data.todaySign) {
-                $("#btn-signIn").addClass("a-qiandao").find('p').html("明天再来");
+                $("#btn-signIn").addClass("a-qiandao").find('.txt').html("已签到");
             }
             
             $(".signInNum").html(data.days);
@@ -49,20 +51,31 @@ define([
 		})
 	}
 	
+	//签到规则
+	function getUserSysConfig(){
+		GeneralCtr.getUserSysConfig('sign_rule', true).then((data)=>{
+			$(".signIn-dialog-content").html(data.cvalue)
+		})
+	}
+	
     function addListener() {
     	//签到
         $("#btn-signIn").click(function() {
-            var addr = getAddr();
-            base.showLoading("签到中...");
-            
-            UserCtr.dailyAttendance(addr).then((data)=> {
-                base.hideLoading();
-                base.showMsg('签到成功',1200)
-                
-                setTimeout(function(){
-                	location.reload(true)
-                },800)
-            },()=>{});
+        	
+        	if(!$(this).hasClass('a-qiandao')){
+        		var addr = getAddr();
+	            base.showLoading("签到中...");
+	            
+	            UserCtr.dailyAttendance(addr).then((data)=> {
+	                base.hideLoading();
+	                base.showMsg('签到成功',1000)
+	                $("#btn-signIn").addClass("a-qiandao").find('.txt').html("签到成功");
+					getPageSignIn();	                	
+	                	
+	            },()=>{});
+        	}else{
+        		base.showMsg('今日已签到，请明日再来哦')
+        	}
         });
         
         $(".signRule").click(function(){

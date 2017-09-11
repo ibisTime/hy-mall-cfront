@@ -147,5 +147,12 @@ define([
                 
             }
         });
+        
+        
+		$("#search .searchIcon").click(function(){
+			location.href = './lease-list.html?searchVal='+$("#search .searchText").val()
+		})
+		
+		
     }
 });

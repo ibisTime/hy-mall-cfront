@@ -41,7 +41,7 @@ define([
             $("#realName").val(data.realName);
             $("#bindMobile").val(data.bindMobile);
             $("#bankcardNumber").val(data.bankcardNumber);
-            $("#subbranch").val(data.subbranch);
+            $("#payCardInfo").val(data.payCardInfo);
         })
     }
     // 添加银行卡
@@ -125,7 +125,7 @@ define([
                         bankName: {
                             required: true
                         },
-                        subbranch: {
+                        payCardInfo: {
                             required: true,
                             isNotFace: true,
                             maxlength: 255
@@ -185,7 +185,7 @@ define([
                     wrap.hide();
                     func && func($("#bankcardNumber").val(), $("#bankName").find("option:selected").text());
                     $("#realName").val("");
-                    $("#subbranch").val("");
+                    $("#payCardInfo").val("");
                     $("#bankcardNumber").val("");
                     wrap.find("label.error").remove();
                 });

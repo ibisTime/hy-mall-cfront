@@ -129,7 +129,7 @@ define([
 					<p>1.用户租赁${data.myj_rent_times}次后可减免￥${data.myj_rent_amount}</p>
 					<samp>押金最多减免每件租赁商品原价${data.yj_min_rate*100}%</samp>`
 			
-			$("#dialog .jmExplain-content").html(html)
+			$("#jMdialog .jmExplain-content").html(html)
 		},()=>{
 			base.hideLoading();
 		})
@@ -137,14 +137,15 @@ define([
 	
 	function getZmCreditDetail(){
 		UserCtr.getCreditDetail('zm_score').then((data)=>{
-			if(data.result){
-				
-				$("#isAccredit").attr('href','../credit/zhiMaCredit.html')
-				$("#isAccredit samp").html('已授权芝麻信用')
-			}else{
-				$("#isAccredit").attr('href','../credit/zhiMaCreditAccredit.html')
-				$("#isAccredit samp").html('立即授权免押金')
-			}
+//			if(data.result){
+//				
+//				$("#isAccredit").attr('href','../credit/zhiMaCredit.html')
+//				$("#zhiMaCreditt samp").html('已授权芝麻信用')
+//			}else{
+				$("#isAccredit").attr('href','javascript:void(0)')
+				$("#zhiMaCreditt").addClass("bindZhiMa");
+				$("#zhiMaCreditt samp").html('立即授权免押金')
+//			}
 		})
 	}
 	
@@ -173,13 +174,15 @@ define([
 		//减免说明
 		
 		$("#jmDialog").click(function(){
-        	$("#dialog").removeClass('hidden')
+        	$("#jMdialog").removeClass('hidden')
         })
         
-        $("#dialog #close").click(function(){
-        	$("#dialog").addClass('hidden')
+        $(".dialog .close").click(function(){
+        	$('.dialog').addClass('hidden')
         })
 		
-		
+		$("#isAccredit").on('click', '.bindZhiMa', function(){
+        	$("#zMdialog").removeClass('hidden')
+		})
     }
 });

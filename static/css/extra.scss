@@ -31,16 +31,6 @@
 .over-hide{
     overflow: hidden;
 }
-.hook{
-    display:inline-block;
-    width:0;
-    height:100%;
-    overflow:hidden;
-    margin-left:-1px;
-    font-size:0;
-    line-height:0;
-    vertical-align:middle;
-}
 label.error {
     position: absolute;
     right: 0.3rem;
@@ -442,14 +432,17 @@ label.error {
         width: 6rem;
         color: #fff;
         line-height: 1;
+        padding-left: 0;
 
         .amount-tip {
             font-size: 0.24rem;
+            text-align: center;
         }
 
         .remain-amount {
             font-size: 0.54rem;
             padding-top: 0.3rem;
+            text-align: center;
         }
 
         .am-flexbox {
@@ -513,6 +506,7 @@ label.error {
         .flow-content {
             .f-transAmount {
                 font-size: 0.36rem;
+                line-height: 1;
 
                 &.f-trans-red {
                     color: $primary-color;
@@ -524,8 +518,9 @@ label.error {
             }
 
             .flow-remark {
+                line-height: 1;
                 font-size: 0.24rem;
-                padding-top: 0.04rem;
+                padding-top: 0.2rem;
             }
         }
     }
@@ -938,32 +933,30 @@ label.error {
         }
     }
     
+    .invitationBtn-wrap{
+        position: absolute;
+        top: 6.2rem;
+        left: .3rem;
+        width: 6.9rem;
+        padding: 0 .3rem;
+    }
     .invitationBtn{
         border: .03rem solid #383737;
         background-color: #ff5000;
         overflow: hidden;
         color: #fff;
         text-align: center;
-        position: absolute;
+        width: 2.6rem;
+        height: .7rem;
+        line-height: .7rem;
+        border-radius: .4rem;
+        font-size: .3rem;
         
         &.invitation-list{
-            width: 1.30rem;
-            height: .46rem;
-            line-height: .46rem;
-            border-radius: .23rem;
-            font-size: .22rem;
-            top: .22rem;
-            right: .3rem;
         }
         
         &.invitation-share{
-            width: 5.74rem;
-            height: .96rem;
-            line-height: .96rem;
-            border-radius: .48rem;
-            font-size: .36rem;
-            top: 6.2rem;
-            left: .78rem;
+            
         }
     }
     
@@ -1593,6 +1586,7 @@ label.error {
     } 
     
 }
+
 .mall-category {
     background: #fff;;
     padding: .2rem 0;
@@ -1924,7 +1918,14 @@ label.error {
             &.addShoppingCarBtn{
                 width: 2.3rem;
                 color: #fff;
+            }
+            
+            &.addShoppingBg{
                 background-color: $primary-color;
+            }
+            
+            &.addShoppingBg-disabled{
+                background-color: #ddd;
             }
             
             &.buyBtn{
@@ -2130,13 +2131,16 @@ label.error {
             height: 1.8rem;
         }
         
-
         .mall-item-con{
             width: 4.83rem;
             height: 1.8rem;
+            line-height: 1.4;
             
             .name{
                 font-size: .26rem;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                min-height: auto;
             }
             
             .price {
@@ -2662,17 +2666,37 @@ label.error {
             overflow: hidden;
             margin: .2rem auto 0;
             background-color: #fff;
+            line-height: 1;
+            padding: .48rem 0;
             
         }
         
         p{
+            display: inline-block;
+            width: 100%;
+            height: .28rem;
             text-align: center;
             font-size: .28rem;
-            line-height: 1.96rem;
+            line-height: 1;
         }
-    }
-    .a-qiandao p{
-        color: $primary-color;
+        samp{
+            display: inline-block;
+            line-height: 1;
+            width: 100%;
+            text-align: center;
+            font-size: .36rem;
+            color: $primary-color;
+            margin-top: .12rem;
+        }
+        span{
+            display: inline-block;
+            line-height: 1;
+            width: 100%;
+            text-align: center;
+            font-size: .24rem;
+            margin-top: .08rem;
+        }
+        
     }
     .signRule{
         position: absolute;
@@ -2915,6 +2939,7 @@ label.error {
             line-height: .9rem;
         }
     }
+    
     .am-tabs-content{
         margin-top: 2.1rem;
     }
@@ -3013,12 +3038,12 @@ label.error {
     
     .packingList-btn{
         position: absolute;
-        bottom: .30rem;
+        bottom: .26rem;
         left: 2.1rem;
         z-index: 11;
         color: #FFC300;
         font-size: .26rem;
-        line-height: 2;
+        line-height: .6rem;
         padding-right: .2rem;
     }
 }
@@ -3063,6 +3088,8 @@ label.error {
         }
     }
     
+}
+.packingList-wrap{
     .packingList{
         width: 100%;
         overflow: hidden;
@@ -3144,6 +3171,17 @@ label.error {
     }
 }
 .leaseOrder-item{
+    
+    .name{
+        margin-bottom: .2rem;
+    }
+    .realDeposit{
+        font-size: .24rem;
+        line-height: 1.3;
+        color: #999 !important;
+    }
+}
+.leaseOrderDetail-item{
     .amountWrap{
         line-height: 1;
         margin-top: .05rem;
@@ -3156,14 +3194,17 @@ label.error {
                 color: $red-color;
             }
         }
-        .realDeposit{
-            font-size: .24rem;
-            line-height: 1.3;
-            color: #999;
-        }
     }
-    
+    .realDeposit{
+        font-size: .24rem;
+        line-height: 1.3;
+        color: #999 !important;
+    }
+    .mall-item .mall-item-con{
+        height: auto;
+    }
 }
+
 .return-dialog{
     .am-modal-header{
         padding-bottom: .1rem !important;
@@ -3222,8 +3263,13 @@ label.error {
         
     }
 }
-.mall-list-content{
+.list-content{
     margin-top: 1rem;
+}
+.lease-list-content{
+    .no-data{
+        background-color: #fff;
+    }
 }
 
 //签到日历
@@ -3431,6 +3477,13 @@ label.error {
     .subBtn{
         margin-top: 2rem;
     }
+    
+    .styCredit-rules{
+        font-size: .28rem;
+        color: $primary-color;
+        text-align: right;
+    }
+    
 }
 .styCreditAccredit-wrap{
     padding: 0;
@@ -3450,8 +3503,8 @@ label.error {
     
     h3{
         font-size: .3rem;
-        color: $primary-color;
         font-weight: normal;
+        color: #484848;
         margin: .1rem 0;
     }
     
@@ -3469,7 +3522,19 @@ label.error {
     }
 }
 
-
+.student-dialog{
+    .am-modal{
+        width: 6.6rem;
+        
+        .am-modal-body{
+            padding: .2rem .3rem;
+            min-height: 6rem;
+        }
+        .am-modal-footer{
+            padding: .4rem .3rem;
+        }
+    }
+}
 
 
 

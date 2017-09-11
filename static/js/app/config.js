@@ -19,14 +19,13 @@ if (!/\/redirect\.html/.test(location.href)) {
 
     // 未登录
     if (!userId) {
-      var reg = new RegExp(
-        "(^|&)userReferee=([^&]*)(&|$)(^|&)userReferee=([^&" +
-        "]*)(&|$)(^|&)userReferee=([^&]*)(&|$)",
-        "i");
+      var reg = new RegExp("(^|&)userReferee=([^&]*)(&|$)", "i");
       var r = window.location.search.substr(1).match(
         reg);
+        
       if (r != null)
         userReferee = decodeURIComponent(r[2]);
+        
       sessionStorage.setItem("userReferee",
         userReferee);
       sessionStorage.setItem("l-return",

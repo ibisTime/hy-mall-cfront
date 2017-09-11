@@ -1,40 +1,34 @@
 define([
     'app/controller/base',
     'app/module/foot',
+    'app/module/scroll',
     'app/util/handlebarsHelpers',
-    'app/interface/MallCtr',
-], function(base, Foot, Handlebars, MallCtr) {
-    var _navTmpl = __inline('../../ui/category-item.handlebars');
-    var _proTmpl = __inline('../../ui/mall-list-item.handlebars');
+    'app/interface/LeaseCtr',
+], function(base, Foot, scroll, Handlebars, LeaseCtr) {
+    var searchVal = base.getUrlParam('searchVal') || "";
+    var _leaseTmpl = __inline('../../ui/lease-list-item.handlebars');
     var config = {
         start: 1,
-        limit: 10
+        limit: 10,
+        name: searchVal
     }, isEnd = false, canScrolling = false;
-    
-    init();
+	var v = 6;
+    var myScroll;
 
-	function init(){
-        Foot.addFoot(1);
-        base.showLoading();
+    init();
+    
+    function init(){
+        Foot.addFoot(2);
+        base.showLoading()
+    	$("#search .searchText").val(searchVal)
+    	getPageLeaseProduct()
         
-        $.when(
-        	getListCategory(),
-        	getPageProduct()
-        )
-        
-        addListener()
-	}
+        addListener();
+    }
 	
-	//获取导航
-	function getListCategory(){
-		MallCtr.getListCategory(1,true).then((data)=>{
-        	$(".mall-category").append(_navTmpl({items: data}));
-		},()=>{})
-        base.hideLoading();
-	}
-	
-	function getPageProduct(refresh){
-    	MallCtr.getPageProduct(config, refresh)
+	//分页获取租赁商品
+	function getPageLeaseProduct(refresh){
+    	LeaseCtr.getPageLeaseProduct(config, refresh)
             .then(function(data) {
                 base.hideLoading();
                 var lists = data.list;
@@ -44,11 +38,11 @@ define([
                 }
     			if(lists.length) {
     				
-                    $("#content").append(_proTmpl({items: lists}));
+                    $("#content").append(_leaseTmpl({items: lists}));
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
-                    $("#content").html('<li class="no-data">暂无商品</li>')
+                    $("#content").html('<li class="no-data">暂无相关租赁产品</li>')
                 } else {
                     $("#loadAll").removeClass("hidden");
                 }
@@ -56,24 +50,20 @@ define([
         	}, base.hideLoading);
 	}
 	
-	function addListener(){
+    function addListener(){
+    	
 		$(window).off("scroll").on("scroll", function() {
             if (canScrolling && !isEnd && ($(document).height() - $(window).height() - 10 <= $(document).scrollTop())) {
                 canScrolling = false;
                 base.showLoading();
-                getPageProduct();
+                getPageLeaseProduct();
             }
         });
         
-		$("#goTop").click(()=>{
-			var speed=200;//滑动的速度
-	        $('body,html').animate({ scrollTop: 0 }, speed);
-	        return false;
+		$("#search .searchIcon").click(function(){
+			location.href = './lease-list.html?searchVal='+$("#search .searchText").val()
 		})
 		
-		$("#search .searchIcon").click(function(){
-			location.href = './mall-list.html?searchVal='+$("#search .searchText").val()
-		})
-	}
-	
-})
+		
+    }
+});

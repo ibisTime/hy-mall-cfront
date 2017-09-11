@@ -6,10 +6,12 @@ define([
 ], function(base, Foot, Handlebars, MallCtr) {
     var _proTmpl = __inline('../../ui/mall-list-item.handlebars');
     var type = base.getUrlParam('type');
+    var searchVal = base.getUrlParam('searchVal') || "";
     var config = {
         start: 1,
         limit: 10,
-        type: type
+        type: type,
+        name: searchVal
     }, isEnd = false, canScrolling = false;
     
     init();
@@ -18,7 +20,8 @@ define([
         Foot.addFoot(1);
         base.showLoading();
         
-    	getPageProduct()
+    	$("#search .searchText").val(searchVal)
+    	getPageProduct();
         addListener()
 	}
 	
@@ -39,7 +42,7 @@ define([
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
-                    $("#content").html('<li class="no-data">暂无商品</li>')
+                    $("#content").html('<li class="no-data">暂无相关商品</li>')
                 } else {
                     $("#loadAll").removeClass("hidden");
                 }
@@ -61,6 +64,11 @@ define([
 	        $('body,html').animate({ scrollTop: 0 }, speed);
 	        return false;
 		})
+		
+		$("#search .searchIcon").click(function(){
+			location.href = './mall-list.html?searchVal='+$("#search .searchText").val()
+		})
+		
 	}
 	
 })

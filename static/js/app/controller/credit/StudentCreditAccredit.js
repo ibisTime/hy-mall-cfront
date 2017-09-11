@@ -3,15 +3,26 @@ define([
   	'app/module/validate',
     'app/module/qiniu',
   	'app/interface/UserCtr',
-], function(base, Validate, qiniu, UserCtr) {
+	'app/interface/GeneralCtr',
+], function(base, Validate, qiniu, UserCtr, GeneralCtr) {
 	
 	init();
 	
 	function init(){
-		initUpload();
+		$.when(
+			getUserSysConfig(),
+			initUpload()
+		)
     	addListener()
 	}
+	//签到规则
+	function getUserSysConfig(){
+		GeneralCtr.getUserSysConfig('xuexin_guide', true).then((data)=>{
+			$(".student-dialog-content").html(data.cvalue)
+		})
+	}
 	
+	//七牛
 	function initUpload(){
 		qiniu.getQiniuToken()
 			.then((data) =>{
@@ -49,13 +60,21 @@ define([
 	}
 	
 	function addListener(){
+        
+        $(".styCredit-rules").click(function(){
+        	$("#dialog").removeClass('hidden')
+        })
+        
+        $("#dialog #close").click(function(){
+        	$("#dialog").addClass('hidden')
+        })
+		
 		$("#subBtn").click(function(){
 			if($('#xuexinPic').attr('data-key')){
 				uploadAvatar($('#xuexinPic').attr('data-key'))
 			}else{
 				base.showMsg('请上传图片')
 			}
-			
 		})
   	}
 });

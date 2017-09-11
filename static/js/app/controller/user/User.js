@@ -34,6 +34,10 @@ define([
           	
             $("#jfAmount").text(base.formatMoney(d.amount));
             
+          } else if (d.currency == "XJK") {
+          	
+            $("#XJKAmount").text(base.formatMoney(d.amount));
+            
           }
         })
       });

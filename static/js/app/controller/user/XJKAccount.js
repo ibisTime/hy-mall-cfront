@@ -1,17 +1,25 @@
 define([
     'app/controller/base',
-    'app/interface/AccountCtr'
-], function(base, AccountCtr) {
+    'app/interface/AccountCtr',
+    'app/interface/UserCtr',
+    'app/module/setTradePwd'
+], function(base, AccountCtr, UserCtr, setTradePwd) {
     var config = {
         start: 1,
         limit: 20
     }, isEnd = false, canScrolling = false;
+    
+    var tradepwdFlag = false;
 
     init();
 
     function init() {
         base.showLoading();
-        getAccount();
+        
+        $.when(
+            getAccount(),
+            getUser()
+        ).then(base.hideLoading);
         addListener();
     }
     // 获取账户信息
@@ -25,6 +33,21 @@ define([
                     }
                 });
                 getPageFlow().then(base.hideLoading);
+            });
+    }
+    function getUser() {
+        return UserCtr.getUser()
+            .then((data) => {
+                if(data.tradepwdFlag != "0"){
+                    tradepwdFlag = true;
+                } else {
+                    setTradePwd.addCont({
+                        mobile: data.mobile,
+                        success: function() {
+                            tradepwdFlag = true;
+                        }
+                    });
+                }
             });
     }
     // 分页查询流水
@@ -90,6 +113,20 @@ define([
                 getPageFlow();
             }
         });
+        
+        
+        // 提现
+        $("#withdrawBtn").click(() => {
+            if(tradepwdFlag) {
+                location.replace("./withdraw.html?currency=XJK");
+            } else {
+                base.confirm("您还未设置支付密码，无法提现。<br/>点击确认前往设置")
+                    .then(() => {
+                        setTradePwd.showCont();
+                    }, () => {});
+            }
+        });
+        
     }
     function showLoading() {
         $("#loadingWrap").removeClass("hidden");

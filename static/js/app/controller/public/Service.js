@@ -1,8 +1,7 @@
 define([
     'app/controller/base',
-    'app/module/weixin',
     'app/interface/GeneralCtr'
-], function(base, weixin, GeneralCtr) {
+], function(base, GeneralCtr) {
     init();
 
 	function init(){
@@ -13,12 +12,6 @@ define([
                 data.list.forEach((item) => {
                     if(item.ckey == "custom_center") {
                     	$("#description").html(item.cvalue);
-                        weixin.initShare({
-                            title: document.title,
-                            desc: base.clearTag(item.cvalue),
-                            link: location.href,
-                            imgUrl: base.getShareImg()
-                        });
                     } else if(item.ckey == "telephone") {
                         $("#tel span").text(item.cvalue);
                         $("#tel").attr('href','tel://'+item.cvalue)

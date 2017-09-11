@@ -69,6 +69,7 @@ define([
 			$("#rent").html(type==JFLEASEPRODUCTTYPE ? base.formatMoney(data.price2)+'积分' : '￥'+base.formatMoney(data.price1)+' /天')
 			$("#rentDay").html(data.minRentDays)
 			$("#deposit").html('￥'+base.formatMoney(data.deposit))
+			$("#overdueRate").html(data.overdueRate)
 			
 			totalAmount.deposit = data.deposit;
 			if(type==JFLEASEPRODUCTTYPE){

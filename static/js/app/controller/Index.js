@@ -12,7 +12,9 @@ define([
     var config = {
         start: 1,
         limit: 5,
-        location: '1'
+        location: '1',
+        orderColumn:'order_no',
+        orderDir:'asc'
     };
 
     init();

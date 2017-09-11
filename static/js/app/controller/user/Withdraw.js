@@ -6,6 +6,7 @@ define([
     'app/module/validate'
 ], function(base, GeneralCtr, AccountCtr, addOrEditBankCard, Validate) {
     var remainAmount = 0, rate;
+    var currencyType = base.getUrlParam('currency') ||""
     init();
     function init() {
         base.showLoading();
@@ -23,17 +24,31 @@ define([
         return GeneralCtr.getPageAccountSysConfig()
             .then((data) => {
                 data.list.forEach((rule) => {
-                    if(rule.ckey == "CUSERMONTIMES") {
-                        $("#rechargeTimes").text(rule.cvalue);
-                    } else if(rule.ckey == "CUSERQXBS") {
-                        $("#times").text(rule.cvalue);
-                    } else if(rule.ckey == "CUSERQXSX") {
-                        $("#toAccount").text(rule.cvalue);
-                    } else if(rule.ckey == "QXDBZDJE") {
-                        $("#maxAmount").text(rule.cvalue);
-                    } else if(rule.ckey == "CUSERQXFL") {   // 提现费率
-                        rate = +rule.cvalue;
-                    }
+                	if(currencyType=='XJK'){
+                		if(rule.ckey == "CUSERMONTIMES_XJK") {
+                        	$("#rechargeTimes").text(rule.cvalue);
+	                    } else if(rule.ckey == "CUSERQXBS_XJK") {
+	                        $("#times").text(rule.cvalue);
+	                    } else if(rule.ckey == "CUSERDZTS_XJK") {
+	                        $("#toAccount").text(rule.cvalue+'天内');
+	                    } else if(rule.ckey == "QXDBZDJE_XJK") {
+	                        $("#maxAmount").text(rule.cvalue);
+	                    } else if(rule.ckey == "CUSERQXFL_XJK") {   // 提现费率
+	                        rate = +rule.cvalue;
+	                    }
+                	}else{
+                		if(rule.ckey == "CUSERMONTIMES") {
+                        	$("#rechargeTimes").text(rule.cvalue);
+	                    } else if(rule.ckey == "CUSERQXBS") {
+	                        $("#times").text(rule.cvalue);
+	                    } else if(rule.ckey == "CUSERDZTS") {
+	                        $("#toAccount").text(rule.cvalue+'天内');
+	                    } else if(rule.ckey == "QXDBZDJE") {
+	                        $("#maxAmount").text(rule.cvalue);
+	                    } else if(rule.ckey == "CUSERQXFL") {   // 提现费率
+	                        rate = +rule.cvalue;
+	                    }
+                	}
                 });
             });
     }
@@ -74,7 +89,7 @@ define([
         AccountCtr.getAccount()
             .then((data) => {
                 data.forEach((account) => {
-                    if(account.currency === "CNY"){
+                    if(account.currency === currencyType){
                         $("#accountNumber").val(account.accountNumber);
                         remainAmount = +account.amount;
                         $("#remainAmount").text(base.formatMoney(account.amount));
