@@ -8,6 +8,7 @@ define([
 ], function(base, Swiper, LeaseCtr, GeneralCtr, UserCtr, Handlebars) {
 	var code = base.getUrlParam("code");
 	var type ;
+	var yj_min_rate = 0;
 	
     var _comTmpl = __inline('../../ui/comment-item.handlebars');
     
@@ -120,15 +121,15 @@ define([
 		LeaseCtr.getJmExplain('myj').then((data)=>{
 			var html = '';
 			html = `<h3>芝麻分减免说明</h3>
-					<p>1.芝麻分大于等于${data.myj_zima_score1}时可减免￥${data.myj_amount1}</p>
-					<p>2.芝麻分大于等于${data.myj_zima_score2}时可减免￥${data.myj_amount2}</p>
-					<p>3.芝麻分大于等于${data.myj_zima_score3}时可减免￥${data.myj_amount3}</p>
+					<p>1.芝麻分大于等于${data.myj_zima_score1}时可减免￥${data.myj_zima_amount1}</p>
+					<p>2.芝麻分大于等于${data.myj_zima_score2}时可减免￥${data.myj_zima_amount2}</p>
+					<p>3.芝麻分大于等于${data.myj_zima_score3}时可减免￥${data.myj_zima_amount3}</p>
 					<h3>学生减免说明</h3>
-					<p>1.学生可减免${data.myj_std_amount}</p>
+					<p>1.学生可减免￥${data.myj_student_amount}</p>
 					<h3>老用户减免说明</h3>
 					<p>1.用户租赁${data.myj_rent_times}次后可减免￥${data.myj_rent_amount}</p>
-					<samp>押金最多减免每件租赁商品原价${data.yj_min_rate*100}%</samp>`
-			
+					<samp>最小押金不得低于产品押金的${data.yj_min_rate*100}%</samp>`
+			yj_min_rate = data.yj_min_rate
 			$("#jMdialog .jmExplain-content").html(html)
 		},()=>{
 			base.hideLoading();
@@ -144,7 +145,7 @@ define([
 //			}else{
 				$("#isAccredit").attr('href','javascript:void(0)')
 				$("#zhiMaCreditt").addClass("bindZhiMa");
-				$("#zhiMaCreditt samp").html('立即授权免押金')
+				$("#zhiMaCreditt samp").html('绑定芝麻信用享受 '+(1-yj_min_rate)*100+'% 押金减免服务')
 //			}
 		})
 	}

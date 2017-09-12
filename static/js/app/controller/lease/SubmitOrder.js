@@ -5,7 +5,8 @@ define([
     'app/interface/UserCtr',
     'app/module/AddressList',
     'app/module/expressList',
-], function(base, Foot, LeaseCtr, UserCtr, AddressList, ExpressList) {
+    'app/module/leaseDate',
+], function(base, Foot, LeaseCtr, UserCtr, AddressList, ExpressList, leaseDate) {
 	var code = base.getUrlParam("code")||'';
 	var totalAmount = {
 		price1:0,//人民币总价
@@ -69,7 +70,7 @@ define([
 			$("#rent").html(type==JFLEASEPRODUCTTYPE ? base.formatMoney(data.price2)+'积分' : '￥'+base.formatMoney(data.price1)+' /天')
 			$("#rentDay").html(data.minRentDays)
 			$("#deposit").html('￥'+base.formatMoney(data.deposit))
-			$("#overdueRate").html(data.overdueRate)
+			$("#dayOverdueFee").html('￥'+base.formatMoney(data.dayOverdueFee))
 			
 			totalAmount.deposit = data.deposit;
 			if(type==JFLEASEPRODUCTTYPE){
@@ -103,7 +104,7 @@ define([
 			title: '请选择租赁日期', //标题名称
 			startName: '起租', //开始时间名称
 			endName: '截止', //开始时间名称
-			minDate:'5',
+			minDays: minRentDays,//最小天数
             callback :function(){//回调函数
             	var start=$("#startDate").html();
 				var end=$("#endDate").html();
@@ -113,7 +114,7 @@ define([
 				var enddate=new Date(end);
 			
 				var time=enddate.getTime()-startdate.getTime();
-				var days=parseInt(time/(1000 * 60 * 60 * 24));
+				var days=parseInt(time/(1000 * 60 * 60 * 24))+1;
 				$("#rentDay").html(days)
 				
 				if(type==JFLEASEPRODUCTTYPE){
@@ -125,18 +126,29 @@ define([
             comfireBtn:'.comfire'//确定按钮的class或者id
         });
 		
-		var b=new Date();
-        //b.setDate(a.getDate()+1)
-        var ye=b.getFullYear();
-        var mo=b.getMonth()+1;
-        var da=b.getDate();
-        $('#startDate').html(ye+'-'+mo+'-'+da);
-          
-        b=new Date(b.getTime()+24*3600*1000*minRentDays);
-        var ye=b.getFullYear();
-        var mo=b.getMonth()+1;
-        var da=b.getDate();
-        $('#endDate').html(ye+'-'+mo+'-'+da);
+		//最小租期为1天时显示 12日-12日
+		if(minRentDays=='1'){
+			var b=new Date();
+	        var ye=b.getFullYear();
+	        var mo=b.getMonth()+1;
+	        var da=b.getDate();
+	        
+	        $('#startDate').html(ye+'-'+mo+'-'+da);
+	        $('#endDate').html(ye+'-'+mo+'-'+da);
+		}else{
+			var b=new Date();
+	        var ye=b.getFullYear();
+	        var mo=b.getMonth()+1;
+	        var da=b.getDate();
+	        $('#startDate').html(ye+'-'+mo+'-'+da);
+	          
+	        b=new Date(b.getTime()+24*3600*1000*minRentDays);
+	        var ye=b.getFullYear();
+	        var mo=b.getMonth()+1;
+	        var da=b.getDate();
+	        $('#endDate').html(ye+'-'+mo+'-'+da);
+		}
+		
 	}
 	
 	//获取默认地址
@@ -150,7 +162,7 @@ define([
 				<div class="detailAddress">收货地址： ${data[0].province}  ${data[0].city}  ${data[0].district}  ${data[0].detailAddress}</div>
 				<div class="icon icon-more"></div>`
 				
-				$(".orderAddress").html(html).attr('data-code',data[0].code)
+				$("#orderAddress").html(html).attr('data-code',data[0].code)
 				config.receiver = data[0].addressee;
 			    config.reMobile = data[0].mobile;
 			    config.reAddress = data[0].province+' '+data[0].city+' '+data[0].district+' '+data[0].detailAddress;
@@ -179,7 +191,7 @@ define([
 	function getLeaseProJmAmount(productPrice,quantity){
 		
 		LeaseCtr.getLeaseProJmAmount({
-			productPrice:productPrice,
+			productCode:code,
 			quantity:quantity
 		}).then((data)=>{
 			$("#jmAmount").html('￥'+base.formatMoney(data.jmyjAmount)).attr('data-jmAmount',data.jmyjAmount);
@@ -209,7 +221,7 @@ define([
 	function addListener(){
         
 		//地址
-		$(".orderAddress").click(function(){
+		$("#orderAddress").click(function(){
 			AddressList.addCont({
 	            userId: base.getUserId(),
 	            success: function(res) {
@@ -242,7 +254,7 @@ define([
 	        });
 	        
 			AddressList.showCont({
-				code: $(".orderAddress").attr('data-code')
+				code: $("#orderAddress").attr('data-code')
 			});
 		})
 		
@@ -276,18 +288,29 @@ define([
 		$("#toUser").click(function(){
 			
 			ExpressList.addCont({
-	            success: function(to, toName) {
-	            	if(to){
-	            		$("#toUser").attr('data-toUser',to)
-	            		$("#toUser").find('.toUserName').children('samp').html(toName)
+	            success: function(res) {
+	            	if(res.toUser){
+	            		$("#toUser").attr('data-toUser',res.toUser)
 	            		
-	            		if(to==SYS_USER){
+	            		//快递
+	            		if(res.toUser==SYS_USER){
 	            			config.receiver = '';
 						    config.reMobile = '';
 						    config.reAddress = '';
-	            			$('.orderAddressWrap').removeClass('hidden')
+						    
+	            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
+	            			$('#toStoreAddress').addClass('hidden')
+	            			$('#orderAddress').removeClass('hidden')
+	            		
+	            		//自提
 	            		}else{
-	            			$('.orderAddressWrap').addClass('hidden')
+							var html = `<div class="icon icon-dz"></div>
+							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp><samp class="fr mobile">${res.toMobile}</samp></div>
+							<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
+							
+	            			$("#toUser").find('.toUserName').children('samp').html("自提")
+							$("#toStoreAddress").html(html).removeClass('hidden')
+	            			$('#orderAddress').addClass('hidden')
 	            		}
 	            	}
 	            }

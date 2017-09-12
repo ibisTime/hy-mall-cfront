@@ -1,3 +1,8 @@
+/**
+ * 日历日期选择
+ * @源：http://www.jq22.com/jquery-info14585
+ * @改：2017.9.12
+ */
 (function($) {
 	"use strict";
 	var calendarSwitch = (function() {
@@ -16,6 +21,7 @@
 				me.index = me.settings.index;
 				me.comfire = me.settings.comfireBtn;
 				me.title = me.settings.title;
+				me.minDays = me.settings.minDays;
 
 				var html = "<div class='headerWrapper'><div class='headerTip'>" + me.title + "</div><div class='comfire'>确定</div></div><table class='dateZone'><tr><td class='colo'>日</td><td>一</td><td>二</td><td>三</td><td>四</td><td>五</td><td class='colo'>六</td></tr></table>" +
 					"<div id='tbody' class='tbody'></div>"
@@ -94,24 +100,32 @@
 					event.preventDefault();
 					var st = $('#startDate').html();
 					var en = $('#endDate').html();
+					
 					if(st) {
 						me._slider(me.sections)
 						me._callback();
 
 					} else {
 						var b = new Date();
-						//b.setDate(a.getDate()+1)
 						var ye = b.getFullYear();
 						var mo = b.getMonth() + 1;
 						var da = b.getDate();
 						$('#startDate').html(ye + '-' + mo + '-' + da);
-						b = new Date(b.getTime() + 24 * 3600 * 1000 * me.settings.minDays);
-						var ye = b.getFullYear();
-						var mo = b.getMonth() + 1;
-						var da = b.getDate();
-						$('#endDate').html(ye + '-' + mo + '-' + da);
+						
+						//最小天数为1时
+						if(me.minDays=='1'){
+							
+							$('#endDate').html(ye + '-' + mo + '-' + da);
+						}else{
+							
+							b = new Date(b.getTime() + 24 * 3600 * 1000 * me.minDays);
+							var ye = b.getFullYear();
+							var mo = b.getMonth() + 1;
+							var da = b.getDate();
+							$('#endDate').html(ye + '-' + mo + '-' + da);
+						}
 
-						// alert("请选择开始结束日期")
+						alert("请选择开始结束日期")
 						me._slider(me.sections)
 						me._callback()
 					}
@@ -135,10 +149,12 @@
 				}
 
 			},
+			//初始选中
 			_initselected: function() {
 				var me = this;
 				me.comeColor = me.settings.comeColor;
 				me.outColor = me.settings.outColor;
+				me.comeoutColor = me.settings.comeoutColor;
 				me.daysnumber = me.settings.daysnumber;
 				me.minDays = me.settings.minDays;
 
@@ -149,20 +165,40 @@
 				tds.each(function(index, element) {
 					if($(this).text() == strDays) {
 						var r = index;
-						$(this).append('</br><p class="rz">' + me.settings.startName + '</p>');
-//						if(tds.eq(index+me.minDays).text() != "") {
-//							tds.eq(index+me.minDays).append('</br><p class="rz">' + me.settings.endName + '</p>');
-//						} else {
-//							$(".dateTable").eq(1).find("td").each(function(index, el) {
-//								if($(this).text() != "") {
-//									$(".dateTable").eq(1).find("td").eq(index+me.minDays).append('</br><p class="rz">' + me.settings.endName + '</p>');
-//									return false;
-//								}
-//							});
-//						}
-						me._checkColor(me.comeColor, me.outColor)
-
+						
+						//最少天数为1时只选中开始时间
+						if(me.minDays=='1'){
+							$(this).append('</br><p class="rz">起/止</p>');
+							$(this).css({
+								'background': me.comeColor,
+								'color': '#fff'
+							});
+						}else{
+							$(this).append('</br><p class="rz">' + me.settings.startName + '</p>');
+							if(tds.eq(index+me.minDays).text() != "") {
+								tds.eq(index+me.minDays).append('</br><p class="rz">' + me.settings.endName + '</p>');
+							} else {
+								$(".dateTable").eq(1).find("td").each(function(index, el) {
+									if($(this).text() != "") {
+										$(".dateTable").eq(1).find("td").eq(index+me.minDays).append('</br><p class="rz">' + me.settings.endName + '</p>');
+										return false;
+									}
+								});
+							}
+							
+							me._checkColor(me.comeColor, me.outColor)
+						}
+						
+						//开始到结束中间的选择颜色
+						for(var i=index+1; i < index+me.minDays; i++) {
+							tds.eq(i).css({
+								'background': me.comeoutColor,
+								'color': '#fff'
+							});
+							
+						}
 					}
+					
 				})
 
 				$('#tbody').find('td').each(function(index, element) {
@@ -199,7 +235,7 @@
 							'background': comeColor,
 							'color': '#fff'
 						});
-					} else {
+					} else if(outColor) {
 						rz.eq(i).closest('td').css({
 							'background': outColor,
 							'color': '#fff'
@@ -220,6 +256,7 @@
 				me.outColor = me.settings.outColor;
 				me.comeoutColor = me.settings.comeoutColor;
 				me.sections = me.selectors.sections;
+				me.minDays = me.settings.minDays;
 
 				var flag = 0;
 				var first;
@@ -241,6 +278,43 @@
 						//x1=$(this).next().offset().left;
 						//y1=$(this).next().offset().top;
 
+						if(me.minDays=='1'){
+							//点击的日期存入input
+							$('#tbody .rz').each(function(index, element) {
+								if($(this).text() == me.settings.startName) {
+									var day = parseInt($(this).parent().text().replace(/[^0-9]/ig, "")) //截取字符串中的数字
+	
+									var startDayArrays = $(this).parents('table').prev('p').text().split('');
+									var startDayArrayYear = [];
+									var startDayArrayMonth = [];
+									var startDayYear = "";
+									var startDayMonth = "";
+									for(var i = 0; i < 4; i++) {
+										var select = i;
+										startDayArrayYear.push(startDayArrays[select])
+									}
+									startDayYear = startDayArrayYear.join('');
+									for(var i = 5; i < 7; i++) {
+										startDayArrayMonth.push(startDayArrays[i])
+									}
+									startDayMonth = startDayArrayMonth.join('');
+									$('#startDate').html(startDayYear + '-' + startDayMonth + '-' + day)
+									
+									$('#endDate').html(startDayYear + '-' + startDayMonth + '-' + day);
+								}
+	
+								startDayArrayYear = [];
+								startDayArrayMonth = [];
+	
+							});
+							var myweek = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+	
+							var st = new Date($('#startDate').html());
+							var en = new Date($('#endDate').html());
+							$('.week').text(myweek[st.getDay()])
+							$('.week1').text(myweek[en.getDay()])
+						}
+						
 						me._checkColor(me.comeColor, me.outColor)
 						flag = 1;
 					}
@@ -371,7 +445,10 @@
 
 								}
 
-								// dateNum();
+							}else if(me.settings.minDays == '1'){
+								//最小为1天时 点击确定结束日期默认为开始时间
+								var x = $('#startDate').html();
+								$('#endDate').html(x);
 							}
 							startDayArrayYear = [];
 							startDayArrayMonth = [];

@@ -3535,7 +3535,48 @@ label.error {
         }
     }
 }
-
+.zhiMaCreditt-dialog{
+    
+    .am-modal{
+        .am-modal-body{
+            .title{
+                width: 100%;
+                text-align: center;
+                font-size: .3rem;
+                line-height: 1;
+                color: $red-color;
+                padding: .4rem 0 .5rem;
+                
+                i{
+                    display: inline-block;
+                    width: 1rem;
+                    height: .02rem;
+                    background-color: $red-color;
+                    position: relative;
+                    top: -.13rem;
+                    
+                    &:nth-of-type(1){
+                        margin-right: .4rem;
+                    }
+                    &:nth-of-type(2){
+                        margin-left: .4rem;
+                    }
+                }
+                
+            }
+        }
+        .am-modal-footer{
+            padding: .4rem .5rem .2rem;
+        }
+    }
+    .packingList-wrap{
+        .packingList{
+            .name{
+                width: 4.1rem;
+            }
+        }
+    }
+}
 
 
 

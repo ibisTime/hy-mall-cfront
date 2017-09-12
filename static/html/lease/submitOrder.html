@@ -38,6 +38,7 @@
 			<div class="detailAddress">收货地址： 发的是开发阶段上课连复健科都是垃圾疯狂拉的屎积分卡拉丁是积分来客的</div>
 			<div class="icon icon-more"></div>-->
 		</div>
+		<div class="orderAddress hidden" id="toStoreAddress"></div>
 		<div class="no-address hidden" id="addAddress"><img src="../../images/no-address.png"/><p>还没有收货地址，点击添加</p></div>
 	</div>
 	
@@ -52,8 +53,8 @@
 			<p class="fr" id="rentDay"></p>
 		</div>
 		<div class="wrap wrap1">
-			<p class="fl">逾期利率</p>
-			<p class="fr" id="overdueRate"></p>
+			<p class="fl">日逾期费用</p>
+			<p class="fr" id="dayOverdueFee"></p>
 		</div>
 		<div class="wrap">
 			<p class="fl">押金</p>
@@ -107,7 +108,6 @@
 	
 	
     <link rel="import" href="../footer.html?__inline">
-    <script src="../js/lib/date/date.js"></script>
 	<script src="../js/lib/city.js"></script>
     <script>
         require(['app/controller/lease/SubmitOrder']);

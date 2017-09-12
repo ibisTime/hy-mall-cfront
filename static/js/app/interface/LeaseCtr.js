@@ -82,10 +82,10 @@ define([
         },
         /**
          * 获取可减免金额
-         * @param config: {productPrice,quantity}
+         * @param config: {productCode,quantity}
          */
         getLeaseProJmAmount(config){
-            return Ajax.get("810059", {
+            return Ajax.get("810060", {
                 userId : base.getUserId(),
                 ...config
             }, true);
