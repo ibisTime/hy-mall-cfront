@@ -100,34 +100,45 @@
 					event.preventDefault();
 					var st = $('#startDate').html();
 					var en = $('#endDate').html();
+					var start,end;
+					start=st.replace(/-/g,"/");
+					var startdate=new Date(start);
+					end=en.replace(/-/g,"/");
+					var enddate=new Date(end);
+				
+					var time=enddate.getTime()-startdate.getTime();
+					var days=parseInt(time/(1000 * 60 * 60 * 24))+1;
 					
-					if(st) {
-						me._slider(me.sections)
-						me._callback();
-
-					} else {
-						var b = new Date();
-						var ye = b.getFullYear();
-						var mo = b.getMonth() + 1;
-						var da = b.getDate();
-						$('#startDate').html(ye + '-' + mo + '-' + da);
-						
-						//最小天数为1时
-						if(me.minDays=='1'){
-							
-							$('#endDate').html(ye + '-' + mo + '-' + da);
-						}else{
-							
-							b = new Date(b.getTime() + 24 * 3600 * 1000 * me.minDays);
+					if(days >= me.minDays){
+						if(st) {
+							me._slider(me.sections)
+							me._callback(true);
+	
+						} else {
+							var b = new Date();
 							var ye = b.getFullYear();
 							var mo = b.getMonth() + 1;
 							var da = b.getDate();
-							$('#endDate').html(ye + '-' + mo + '-' + da);
+							$('#startDate').html(ye + '-' + mo + '-' + da);
+							
+							//最小天数为1时
+							if(me.minDays=='1'){
+								
+								$('#endDate').html(ye + '-' + mo + '-' + da);
+							}else{
+								
+								b = new Date(b.getTime() + 24 * 3600 * 1000 * me.minDays);
+								var ye = b.getFullYear();
+								var mo = b.getMonth() + 1;
+								var da = b.getDate();
+								$('#endDate').html(ye + '-' + mo + '-' + da);
+							}
+	
+							me._slider(me.sections)
+							me._callback(true)
 						}
-
-						alert("请选择开始结束日期")
-						me._slider(me.sections)
-						me._callback()
+					}else{
+						me._callback(false)
 					}
 
 					/* Act on the event */
@@ -244,10 +255,10 @@
 				}
 
 			},
-			_callback: function() {
+			_callback: function(n) {//n true：起止日期相差天数大于或等于最少天数  false：起止日期相差天数少于最少天数
 				var me = this;
 				if(me.settings.callback && $.type(me.settings.callback) === "function") {
-					me.settings.callback();
+					me.settings.callback(n);
 				}
 			},
 			_selectDate: function(arry1) {

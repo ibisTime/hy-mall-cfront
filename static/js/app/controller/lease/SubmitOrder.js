@@ -105,23 +105,28 @@ define([
 			startName: '起租', //开始时间名称
 			endName: '截止', //开始时间名称
 			minDays: minRentDays,//最小天数
-            callback :function(){//回调函数
-            	var start=$("#startDate").html();
-				var end=$("#endDate").html();
-				start=start.replace(/-/g,"/");
-				var startdate=new Date(start);
-				end=end.replace(/-/g,"/");
-				var enddate=new Date(end);
-			
-				var time=enddate.getTime()-startdate.getTime();
-				var days=parseInt(time/(1000 * 60 * 60 * 24))+1;
-				$("#rentDay").html(days)
+            callback :function(n){//回调函数 参数n true：起止日期相差天数大于或等于最少天数  false：起止日期相差天数少于最少天数
+            	if(n){
+            		var start=$("#startDate").html();
+					var end=$("#endDate").html();
+					start=start.replace(/-/g,"/");
+					var startdate=new Date(start);
+					end=end.replace(/-/g,"/");
+					var enddate=new Date(end);
 				
-				if(type==JFLEASEPRODUCTTYPE){
-	    			getAmount();
-	    		}else{
-	    			getLeaseProJmAmount(totalAmount.price1,1);
-	    		}
+					var time=enddate.getTime()-startdate.getTime();
+					var days=parseInt(time/(1000 * 60 * 60 * 24))+1;
+					$("#rentDay").html(days)
+					
+					if(type==JFLEASEPRODUCTTYPE){
+		    			getAmount();
+		    		}else{
+		    			getLeaseProJmAmount(totalAmount.price1,1);
+		    		}
+            	}else{
+            		base.showMsg("租赁时间不能最少于最小租赁天数")
+            	}
+            	
             }  , 
             comfireBtn:'.comfire'//确定按钮的class或者id
         });
@@ -162,12 +167,13 @@ define([
 				<div class="detailAddress">收货地址： ${data[0].province}  ${data[0].city}  ${data[0].district}  ${data[0].detailAddress}</div>
 				<div class="icon icon-more"></div>`
 				
-				$("#orderAddress").html(html).attr('data-code',data[0].code)
+				$("#orderAddress").html(html).attr('data-code',data[0].code).removeClass("hidden")
 				config.receiver = data[0].addressee;
 			    config.reMobile = data[0].mobile;
 			    config.reAddress = data[0].province+' '+data[0].city+' '+data[0].district+' '+data[0].detailAddress;
 			}else{
-				$('.no-address').removeClass('hidden')
+				$('.no-address').removeClass('hidden');
+				$("#orderAddress").addClass('hidden');
 			}
 		},()=>{})
 		
@@ -289,28 +295,35 @@ define([
 			
 			ExpressList.addCont({
 	            success: function(res) {
+					base.showLoading()
 	            	if(res.toUser){
 	            		$("#toUser").attr('data-toUser',res.toUser)
 	            		
 	            		//快递
 	            		if(res.toUser==SYS_USER){
+	            			
+	            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
+	            			$('#toStoreAddress').addClass('hidden')
+	            			$('#orderAddress').removeClass('hidden')
+	            			
+							base.hideLoading()
+	            		//自提
+	            		}else{
 	            			config.receiver = '';
 						    config.reMobile = '';
 						    config.reAddress = '';
 						    
-	            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
-	            			$('#toStoreAddress').addClass('hidden')
-	            			$('#orderAddress').removeClass('hidden')
-	            		
-	            		//自提
-	            		}else{
 							var html = `<div class="icon icon-dz"></div>
 							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp><samp class="fr mobile">${res.toMobile}</samp></div>
 							<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
 							
 	            			$("#toUser").find('.toUserName').children('samp').html("自提")
+	            			
+							$('.no-address').addClass('hidden');
 							$("#toStoreAddress").html(html).removeClass('hidden')
 	            			$('#orderAddress').addClass('hidden')
+	            			
+							base.hideLoading()
 	            		}
 	            	}
 	            }
