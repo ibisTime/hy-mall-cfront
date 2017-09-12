@@ -624,6 +624,10 @@ textarea {
             &:disabled{
                 color: #333;
             }
+            
+            &.placeholder{
+                color: #757575;
+            }
         }
 
         .item-button {

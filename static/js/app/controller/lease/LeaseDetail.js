@@ -5,10 +5,14 @@ define([
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
     'app/util/handlebarsHelpers',
-], function(base, Swiper, LeaseCtr, GeneralCtr, UserCtr, Handlebars) {
+    'app/module/scroll',
+], function(base, Swiper, LeaseCtr, GeneralCtr, UserCtr, Handlebars, scroll) {
 	var code = base.getUrlParam("code");
-	var type ;
-	var yj_min_rate = 0;
+	var type ,
+		yj_min_rate = 0,
+		myScroll,
+		zmScoreFalg = false,
+		studentFalg = false;
 	
     var _comTmpl = __inline('../../ui/comment-item.handlebars');
     
@@ -19,8 +23,7 @@ define([
         $.when(
         	getLeaseProductDetail(code),
         	getPageComment(),
-        	getJmExplain(),
-        	getZmCreditDetail()
+        	getUser()
         )
         addListener();
     }
@@ -120,33 +123,46 @@ define([
 	function getJmExplain(){
 		LeaseCtr.getJmExplain('myj').then((data)=>{
 			var html = '';
-			html = `<h3>芝麻分减免说明</h3>
+			html = `<h3>芝麻分减免说明<a href="${zmScoreFalg ? '../credit/zhiMaCredit.html' : '../credit/zhiMaCreditAccredit.html'}">(点击查看芝麻信用)</a></h3>
 					<p>1.芝麻分大于等于${data.myj_zima_score1}时可减免￥${data.myj_zima_amount1}</p>
 					<p>2.芝麻分大于等于${data.myj_zima_score2}时可减免￥${data.myj_zima_amount2}</p>
 					<p>3.芝麻分大于等于${data.myj_zima_score3}时可减免￥${data.myj_zima_amount3}</p>
-					<h3>学生减免说明</h3>
+					<h3>学生减免说明<a href="${zmScoreFalg ? '../credit/studentCredit.html' : '../credit/studentCreditAccredit.html'}">(点击查看学生信用)</h3>
 					<p>1.学生可减免￥${data.myj_student_amount}</p>
 					<h3>老用户减免说明</h3>
 					<p>1.用户租赁${data.myj_rent_times}次后可减免￥${data.myj_rent_amount}</p>
 					<samp>最小押金不得低于产品押金的${data.yj_min_rate*100}%</samp>`
+			
 			yj_min_rate = data.yj_min_rate
-			$("#jMdialog .jmExplain-content").html(html)
+			
+			$("#jMdialog #jMdialog-content div").html(html)
 		},()=>{
 			base.hideLoading();
 		})
 	}
 	
-	function getZmCreditDetail(){
-		UserCtr.getCreditDetail('zm_score').then((data)=>{
-//			if(data.result){
-//				
-//				$("#isAccredit").attr('href','../credit/zhiMaCredit.html')
-//				$("#zhiMaCreditt samp").html('已授权芝麻信用')
-//			}else{
+	function getUser(){
+		UserCtr.getUser().then((data)=>{
+			if(data.zmScore){
+				zmScoreFalg = true
+				$("#isAccredit").attr('href','../credit/zhiMaCredit.html')
+				$("#zhiMaCreditt samp").html('已授权芝麻信用')
+			}else{
+				
+				zmScoreFalg = false
 				$("#isAccredit").attr('href','javascript:void(0)')
 				$("#zhiMaCreditt").addClass("bindZhiMa");
 				$("#zhiMaCreditt samp").html('绑定芝麻信用享受 '+(1-yj_min_rate)*100+'% 押金减免服务')
-//			}
+			}
+			
+			if(data.gradDatetime){
+				
+				studentFalg = true
+			}else{
+				studentFalg = false
+			}
+			
+			getJmExplain();
 		})
 	}
 	
@@ -173,17 +189,49 @@ define([
 		})
 		
 		//减免说明
-		
+		var touchFalg=false;
 		$("#jmDialog").click(function(){
         	$("#jMdialog").removeClass('hidden')
+        	touchFalg = true
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+			myScroll.myScroll.refresh()
         })
         
         $(".dialog .close").click(function(){
-        	$('.dialog').addClass('hidden')
+        	$('.dialog').addClass('hidden');
+        	touchFalg = false
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
         })
 		
 		$("#isAccredit").on('click', '.bindZhiMa', function(){
         	$("#zMdialog").removeClass('hidden')
+        	touchFalg = true
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
 		})
+		
+		myScroll = scroll.getInstance().getScrollByParam({
+            id: 'jMdialog-content',
+            param: {
+                eventPassthrough: true,
+                snap: true,
+                hideScrollbar: true,
+                hScroll: true,
+                hScrollbar: false,
+                vScrollbar: false
+            }
+        });
+		
     }
 });

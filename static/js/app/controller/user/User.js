@@ -13,7 +13,8 @@ define([
     base.showLoading("加载中...", 1);
     $.when(
       getUserInfo(),
-      getAccount()
+      getAccount(),
+      getUserJmAmount()
     ).then(base.hideLoading);
     
 	   $("#logout").click(function() {
@@ -21,6 +22,7 @@ define([
 	       location.href='./redirect.html'
 	   });
   }
+  
   // 获取账户信息
   function getAccount() {
     return AccountCtr.getAccount()
@@ -43,12 +45,17 @@ define([
       });
   }
   
+  function getUserJmAmount(){
+  	UserCtr.getUserJmAmount().then(function(data) {
+      $("#jmyjAmount").html('当前免押额度为'+base.formatMoney(data.deductAmount)+'元');
+    });
+  }
+  
   // 获取用户信息
   function getUserInfo() {
     return UserCtr.getUser().then(function(data) {
       $("#nickname").text(data.nickname);
       $("#userImg").css({"background-image":"url('"+base.getAvatar(data.photo)+"')"});
-      $("#mobile").text(data.mobile);
       $("#invitation").attr('href','../invitation/invitation.html?userReferee='+data.mobile)
     });
   }

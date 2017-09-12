@@ -5,7 +5,7 @@ define([
 ], function(base, Validate, UserCtr) {
 	var statusList={
 			'0':'审核中',
-			'1':'审核通过，可免押租赁',
+			'1':'审核通过',
 			'2':'审核未通过，请重新申请',
 		}
 	

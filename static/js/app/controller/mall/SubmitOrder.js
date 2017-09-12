@@ -268,24 +268,43 @@ define([
 			
 			ExpressList.addCont({
 	            success: function(res) {
+					base.showLoading()
 	            	if(res.toUser){
 	            		$("#toUser").attr('data-toUser',res.toUser)
-	            		var html = '';
 	            		
-	            		html = `<div class="icon icon-dz"></div>
+	            		//快递
+	            		if(res.toUser==SYS_USER){
+	            			
+	            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
+	            			$('#toStoreAddress').addClass('hidden').html('')
+	            			$('#orderAddress').removeClass('hidden')
+	            			
+	            			if($('#orderAddress').html()){
+								$('.no-address').removeClass('hidden');
+	            			}else{
+								$('.no-address').addClass('hidden');
+	            			}
+	            			
+							base.hideLoading()
+	            		//自提
+	            		}else{
+	            			
+							var html = `<div class="icon icon-dz"></div>
 							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp><samp class="fr mobile">${res.toMobile}</samp></div>
 							<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
-	            		
-	            		if(res.toUser==SYS_USER){
-	            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
-	            			$('#orderAddress').removeClass('hidden');
-	            			$("#toStore").addClass("hidden").html('');
-	            		}else{
-	            			$("#toUser").find('.toUserName').children('samp').html('自提')
-	            			$('#orderAddress').addClass('hidden');
-	            			$("#toStore").html(html).removeClass("hidden");
+							
+	            			$("#toUser").find('.toUserName').children('samp').html("自提")
+	            			
+							$('.no-address').addClass('hidden');
+							$("#toStoreAddress").html(html).removeClass('hidden')
+	            			$('#orderAddress').addClass('hidden')
+	            			
+							base.hideLoading()
 	            		}
 	            		
+	            	}else{
+	            		
+						base.hideLoading();
 	            	}
 	            }
 	        });

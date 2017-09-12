@@ -122,7 +122,7 @@ define([
 		  var text2 = second[selectedIndex[1]].text;
 		  var text3 = third[selectedIndex[2]] ? third[selectedIndex[2]].text : '';
 		
-			$("#city").val(text1 + ' ' + text2 + ' ' + text3);
+			$("#city").html(text1 + ' ' + text2 + ' ' + text3).removeClass("placeholder");
 			$("#city").attr("data-prv",text1);
 			$("#city").attr("data-city",text2);
 			$("#city").attr("data-area",text3);

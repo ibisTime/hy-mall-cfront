@@ -54,7 +54,7 @@ define([
 			base.hideLoading();
 			base.showMsg('提交成功',1200);
 			setTimeout(()=>{
-//				location.replace('./studentCredit.html');
+				location.replace('./studentCredit.html');
 			}, 800)
 		}, base.hideLoading());
 	}

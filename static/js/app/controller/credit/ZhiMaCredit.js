@@ -10,19 +10,23 @@ define([
 	function init(){
 		base.showLoading()
     	Foot.addFoot(3);
-		getZhiMaCredit();
+    	
+    	$.when(
+    		getZhiMaCredit(),
+    		getUserJmAmount()
+    	).then(base.hideLoading(),base.hideLoading())
     	addListener()
 	}
 	
-	function getZhiMaCredit(param){
+	function getUserJmAmount(){
+		UserCtr.getUserJmAmount().then((data)=>{
+			$(".zmCredit .txt").html('当前可免押金额为'+base.formatMoney(data.deductAmount)+'元')
+		})
+	}
+	
+	function getZhiMaCredit(){
 		UserCtr.getZhiMaCredit().then((data)=>{
-			base.hideLoading();
 			$(".zmCredit .zmCreditScore").html(data.zmScore)
-			if(data.zmScore>650){
-				$(".zmCredit .txt").html('当前可免押租赁')
-			}else{
-				$(".zmCredit .txt").html('当前芝麻分过低不可免押租赁')
-			}
 		})
 	}
 

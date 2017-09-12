@@ -62,7 +62,7 @@ define([
 					$("#expressDelivery").removeClass('hidden')
 				}
 				
-				//卖家嘱托
+				//买家嘱托
 				$("#applyNote").html(data.applyNote?data.applyNote:'无')
 				
 				

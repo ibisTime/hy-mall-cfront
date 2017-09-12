@@ -6,7 +6,8 @@ define([
     'app/module/AddressList',
     'app/module/expressList',
     'app/module/leaseDate',
-], function(base, Foot, LeaseCtr, UserCtr, AddressList, ExpressList, leaseDate) {
+    'app/module/scroll',
+], function(base, Foot, LeaseCtr, UserCtr, AddressList, ExpressList, leaseDate, scroll) {
 	var code = base.getUrlParam("code")||'';
 	var totalAmount = {
 		price1:0,//人民币总价
@@ -26,7 +27,9 @@ define([
         takeType:"",
         quantity: ""
 	}
-    var minRentDays = 1,type;
+    var minRentDays = 1,
+    	type,
+    	myScroll;
      
     
     init();
@@ -65,7 +68,7 @@ define([
     			<samp class="slogan">最少租赁时长：<i>${data.minRentDays}</i>天</samp></div></a><div class="packingList-btn" id="packingList">查看包装清单</div></div>`;
     		
 			$(".orderPro-list").html(html);
-			$('#dialog .packingList-wrap').html(packsListHtml);
+			$('#dialog .packingList-wrap div').html(packsListHtml);
 			
 			$("#rent").html(type==JFLEASEPRODUCTTYPE ? base.formatMoney(data.price2)+'积分' : '￥'+base.formatMoney(data.price1)+' /天')
 			$("#rentDay").html(data.minRentDays)
@@ -73,15 +76,10 @@ define([
 			$("#dayOverdueFee").html('￥'+base.formatMoney(data.dayOverdueFee))
 			
 			totalAmount.deposit = data.deposit;
-			if(type==JFLEASEPRODUCTTYPE){
-    			totalAmount.price2=data.price2;
-    			
-    			getAmount();
-    		}else{
-    			totalAmount.price1=data.price1;
-    			
-    			getLeaseProJmAmount(totalAmount.price1,1);
-    		}
+			totalAmount.price1=data.price1;
+			totalAmount.price2=data.price2;
+			
+			getLeaseProJmAmount(1);
     		
 			
 			setLeaseDate();
@@ -118,11 +116,7 @@ define([
 					var days=parseInt(time/(1000 * 60 * 60 * 24))+1;
 					$("#rentDay").html(days)
 					
-					if(type==JFLEASEPRODUCTTYPE){
-		    			getAmount();
-		    		}else{
-		    			getLeaseProJmAmount(totalAmount.price1,1);
-		    		}
+	    			getLeaseProJmAmount(1);
             	}else{
             		base.showMsg("租赁时间不能最少于最小租赁天数")
             	}
@@ -194,13 +188,13 @@ define([
 	}
 	
 	//获取减免金额
-	function getLeaseProJmAmount(productPrice,quantity){
+	function getLeaseProJmAmount(quantity){
 		
 		LeaseCtr.getLeaseProJmAmount({
 			productCode:code,
 			quantity:quantity
 		}).then((data)=>{
-			$("#jmAmount").html('￥'+base.formatMoney(data.jmyjAmount)).attr('data-jmAmount',data.jmyjAmount);
+			$("#jmAmount").html('￥'+base.formatMoney(data.deductAmount)).attr('data-jmAmount',data.deductAmount);
 			
 			getAmount();
 		},()=>{})
@@ -225,7 +219,7 @@ define([
 	}
 	
 	function addListener(){
-        
+       
 		//地址
 		$("#orderAddress").click(function(){
 			AddressList.addCont({
@@ -303,8 +297,13 @@ define([
 	            		if(res.toUser==SYS_USER){
 	            			
 	            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
-	            			$('#toStoreAddress').addClass('hidden')
+	            			$('#toStoreAddress').addClass('hidden').html('')
 	            			$('#orderAddress').removeClass('hidden')
+	            			if($('#orderAddress').html()){
+								$('.no-address').removeClass('hidden');
+	            			}else{
+								$('.no-address').addClass('hidden');
+	            			}
 	            			
 							base.hideLoading()
 	            		//自提
@@ -325,6 +324,8 @@ define([
 	            			
 							base.hideLoading()
 	            		}
+	            	}else{
+						base.hideLoading();
 	            	}
 	            }
 	        });
@@ -333,13 +334,26 @@ define([
 		})
         
         //包装清单弹窗-显示
+		var touchFalg=false;
         $(".orderPro-list").on('click','#packingList',function(){
-        	$("#dialog").removeClass('hidden')
+        	$("#dialog").removeClass('hidden');
+        	touchFalg = true
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
         })
         
         //包装清单弹窗-关闭
         $("#dialog #close").click(function(){
         	$("#dialog").addClass('hidden')
+        	touchFalg = false;
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
         })
         
         
@@ -351,11 +365,7 @@ define([
 			}
 			$('.productSpecs-number .sum').html(sum);
 			
-			if(type==JFLEASEPRODUCTTYPE){
-    			getAmount();
-    		}else{
-    			getLeaseProJmAmount(totalAmount.price1,$('.productSpecs-number .sum').html());
-    		}
+    			getLeaseProJmAmount($('.productSpecs-number .sum').html());
 			
 		})
 		
@@ -366,7 +376,7 @@ define([
 				sum++
 //			}
 			$('.productSpecs-number .sum').html(sum);
-			getLeaseProJmAmount(totalAmount.price1,$('.productSpecs-number .sum').html());
+			getLeaseProJmAmount($('.productSpecs-number .sum').html());
 		})
 		
 		

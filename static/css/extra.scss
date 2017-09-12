@@ -1767,7 +1767,7 @@ label.error {
         background-color: #ccc;
         
         &.swiper-pagination-bullet-active{
-            background-color: $primary-color;
+            background-color: #fff;
         }
     }
     
@@ -2557,21 +2557,48 @@ label.error {
     
     .info-tit{
         width: 100%;
-        padding: .25rem .8rem 0 .3rem;
+        padding: .3rem .8rem .15rem .3rem;
         text-align: center;
         position: relative;
         
         p{
             display: inline-block;
             text-align: left;
-            font-size: .3rem;
+            font-size: .32rem;
         }
         
         .collect{
             background-size: .4rem;
         }
     }
-    
+    .info-time{
+        padding: .08rem 0;
+        border-bottom: 1px solid $border-color;
+        text-align: center;
+        
+        samp{
+            display: inline-block;
+            font-size: .26rem;
+            color: #999;
+        }
+        
+        .infoCollect{
+            margin-left: .2rem;
+            width: 1.6rem;
+            background-image: url('../images/未收藏@2x.png');
+            background-position: center left;
+            background-repeat: no-repeat;
+            background-size: .3rem;
+            padding-left: .4rem;
+            text-align: left;
+            
+            &.active{
+                background-image: url('../images/收藏@2x.png') !important;
+            }
+        }
+        
+        
+    }
     .info-content{
         width: 100%;
         padding: .3rem;
@@ -3090,11 +3117,12 @@ label.error {
     
 }
 .packingList-wrap{
+    
     .packingList{
         width: 100%;
         overflow: hidden;
         padding: 0 .2rem;
-        margin-bottom: .15rem;
+        padding-bottom: .15rem;
         
         .dot{
             display: inline-block;
@@ -3497,7 +3525,9 @@ label.error {
 }
 
 .jmExplain-content{
-    padding-top: .4rem !important;
+    margin-top: .3rem;
+    padding-top: 0 !important;
+    height: 4.3rem !important;
     text-align: left;
     line-height: 2;
     
@@ -3505,7 +3535,12 @@ label.error {
         font-size: .3rem;
         font-weight: normal;
         color: #484848;
-        margin: .1rem 0;
+        padding: .1rem 0;
+        
+        a{
+            color: $primary-color;
+            font-size: .24rem;
+        }
     }
     
     p{
@@ -3518,7 +3553,7 @@ label.error {
         color: $red-color;
         font-size: .28rem;
         padding-left: .2rem;
-        margin-top: .2rem;
+        padding-top: .2rem;
     }
 }
 

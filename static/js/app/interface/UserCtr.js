@@ -238,5 +238,11 @@ define([
             	userId: base.getUserId()
             },true);
         },
+        //查询用户免押额度
+        getUserJmAmount(){
+            return Ajax.get("810059",{
+            	userId: base.getUserId()
+            },true);
+        },
     };
 })

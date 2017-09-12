@@ -21,14 +21,17 @@ define([
         html=`<div class="info-pic" style="background-image: url('${base.getImg(data.advPic)}');"></div>
         		<div class="info-tit">
         			<p>${data.title}</p>
-    					<div class="collect ${data.isCollect=='1'?'active':''}" id="collect"></div></div>
+    				</div>
+    				<div class="info-time">
+    					<samp>${base.formatDate(data.updateDatetime,'yyyy-MM-dd hh:mm:ss')}</samp>
+    					<samp class="infoCollect ${data.isCollect=='1'?'active':''}" id="collect">${data.isCollect=='1'?'取消收藏':'收藏'}</samp>
+    				</div>
         		<div class="info-content">${data.content}</div>`;
         
         $("#content").html(html)
         
       }, base.hideLoading());
   }
-	
 	
 	//收藏
 	function addCollecte(c){

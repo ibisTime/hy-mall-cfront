@@ -145,12 +145,18 @@ define([
     function doWithDraw(param) {
         param.payCardInfo = $("#payCardNo").find("option:selected").attr("data-name");
         param.amount = param.amount * 1000;
-        param.applyNote = base.getUserId() + "用户提现";
+        param.applyNote = "前端用户提现";
         AccountCtr.withDraw(param).then(function() {
             base.hideLoading();
             base.showMsg("申请提交成功");
             setTimeout(function() {
-                location.replace('./rmb-account.html');
+            	
+            	if(currencyType=='XJK'){
+            		location.replace('./rmb-account.html');
+            	}else{
+                	location.replace('./xjk-account.html');
+            	}
+            	
             }, 700);
         });
     }
