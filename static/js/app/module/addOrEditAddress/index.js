@@ -38,7 +38,7 @@ define([
             $("#isDefault").val(data.isDefault);
             $("#addressee").val(data.addressee);
             $("#mobile").val(data.mobile);
-			$("#city").val(data.province + ' ' + data.city + ' ' + data.district);
+			$("#city").html(data.province + ' ' + data.city + ' ' + data.district).removeClass('placeholder');
 			$("#city").attr("data-prv",data.province);
 			$("#city").attr("data-city",data.city);
 			$("#city").attr("data-area",data.district);

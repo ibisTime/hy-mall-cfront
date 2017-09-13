@@ -3,16 +3,19 @@ define([
     'app/util/ajax',
 	'app/interface/UserCtr',
 	'app/interface/GeneralCtr',
+	'app/interface/AccountCtr',
     'app/module/signInDate',
-], function(base, Ajax, UserCtr, GeneralCtr, SignInDate) {
-
+], function(base, Ajax, UserCtr, GeneralCtr, AccountCtr, SignInDate) {
+	var accountNumber;
+	
     init();
 
     function init() {
 		$.when(
 			getData(),
 			getPageSignIn(),
-			getUserSysConfig()
+			getUserSysConfig(),
+			getAccount()
 		)
         addListener();
     }
@@ -51,6 +54,27 @@ define([
 		})
 	}
 	
+	//用户账户
+	function getAccount(){
+		AccountCtr.getAccount()
+	    	.then(function(data) {
+	    	data.forEach(function(d, i) {
+	        	if (d.currency == "JF") {
+	            	accountNumber = d.accountNumber
+	        	}
+	        })
+	    	
+	    	getDailyAttendanceSta()
+	    });
+	}
+	
+	//签到统计
+	function getDailyAttendanceSta(){
+    	UserCtr.getDailyAttendanceSta(accountNumber).then((data)=>{
+    		$("#jfTotalAmount").html(base.formatMoney(data.totalAmount))
+		})
+	}
+	
 	//签到规则
 	function getUserSysConfig(){
 		GeneralCtr.getUserSysConfig('sign_rule', true).then((data)=>{
@@ -71,7 +95,7 @@ define([
 	                base.showMsg('签到成功',1000)
 	                $("#btn-signIn").addClass("a-qiandao").find('.txt').html("签到成功");
 					getPageSignIn();	                	
-	                	
+	                getDailyAttendanceSta();
 	            },()=>{});
         	}else{
         		base.showMsg('今日已签到，请明日再来哦')

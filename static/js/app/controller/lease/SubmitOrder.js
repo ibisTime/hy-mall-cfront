@@ -70,7 +70,7 @@ define([
 			$(".orderPro-list").html(html);
 			$('#dialog .packingList-wrap div').html(packsListHtml);
 			
-			$("#rent").html(type==JFLEASEPRODUCTTYPE ? base.formatMoney(data.price2)+'积分' : '￥'+base.formatMoney(data.price1)+' /天')
+			$("#rent").html(type==JFLEASEPRODUCTTYPE ? base.formatMoney(data.price2)+'积分 /天' : '￥'+base.formatMoney(data.price1)+' /天')
 			$("#rentDay").html(data.minRentDays)
 			$("#deposit").html('￥'+base.formatMoney(data.deposit))
 			$("#dayOverdueFee").html('￥'+base.formatMoney(data.dayOverdueFee))
@@ -127,7 +127,8 @@ define([
 		
 		//最小租期为1天时显示 12日-12日
 		if(minRentDays=='1'){
-			var b=new Date();
+			var b = new Date();
+				b=new Date(b.getTime()+24*3600*1000);
 	        var ye=b.getFullYear();
 	        var mo=b.getMonth()+1;
 	        var da=b.getDate();
@@ -136,12 +137,13 @@ define([
 	        $('#endDate').html(ye+'-'+mo+'-'+da);
 		}else{
 			var b=new Date();
+				b=new Date(b.getTime()+24*3600*1000);
 	        var ye=b.getFullYear();
 	        var mo=b.getMonth()+1;
 	        var da=b.getDate();
 	        $('#startDate').html(ye+'-'+mo+'-'+da);
 	          
-	        b=new Date(b.getTime()+24*3600*1000*minRentDays);
+	        b=new Date(b.getTime()+24*3600*1000*(minRentDays-1));
 	        var ye=b.getFullYear();
 	        var mo=b.getMonth()+1;
 	        var da=b.getDate();
@@ -205,7 +207,7 @@ define([
 		var days = $("#rentDay").html();
 		
 		var amount = type==JFLEASEPRODUCTTYPE 
-				? base.formatMoney(totalAmount.price2*$('.productSpecs-number .sum').html()*days)+'积分 + ￥' + base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html())
+				? base.formatMoney(totalAmount.price2*$('.productSpecs-number .sum').html()*days)+'积分 + ￥' + base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html()-$("#jmAmount").attr('data-jmAmount'))
 				: '￥'+base.formatMoney(totalAmount.price1*$('.productSpecs-number .sum').html()*days+totalAmount.deposit*$('.productSpecs-number .sum').html()-$("#jmAmount").attr('data-jmAmount'))
 		
 		var amount1 = type==JFLEASEPRODUCTTYPE 
@@ -274,9 +276,7 @@ define([
 				config.takeType = '1';
 			}
 			
-			if(config.rentDay<minRentDays){
-				base.showMsg('租赁时间不能最少于最小租赁天数');
-			}else if($("#toUser").attr('data-toUser')==SYS_USER && !config.receiver){
+			if($("#toUser").attr('data-toUser')==SYS_USER && !config.receiver){
 				base.showMsg('请选择地址');
 			}else{
 				submitOrder(config)
@@ -299,10 +299,11 @@ define([
 	            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
 	            			$('#toStoreAddress').addClass('hidden').html('')
 	            			$('#orderAddress').removeClass('hidden')
+	            			
 	            			if($('#orderAddress').html()){
-								$('.no-address').removeClass('hidden');
-	            			}else{
 								$('.no-address').addClass('hidden');
+	            			}else{
+								$('.no-address').removeClass('hidden');
 	            			}
 	            			
 							base.hideLoading()
@@ -313,7 +314,7 @@ define([
 						    config.reAddress = '';
 						    
 							var html = `<div class="icon icon-dz"></div>
-							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp><samp class="fr mobile">${res.toMobile}</samp></div>
+							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp></div>
 							<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
 							
 	            			$("#toUser").find('.toUserName').children('samp').html("自提")

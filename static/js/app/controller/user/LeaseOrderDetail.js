@@ -5,17 +5,20 @@ define([
     'app/interface/GeneralCtr'
 ], function(base, LeaseCtr, Dict, GeneralCtr) {
     var code = base.getUrlParam("code"),
-        orderStatus = Dict.get("leaseOrderStatus");
+        orderStatus = Dict.get("leaseOrderStatus"),
+    	expressDict = Dict.get("expressDict"),
+    	backLogisticsCompanyDict = {};
 
     init();
     
     function init(){
         addListener();
         base.showLoading();
-        $.when(
-        	getOrderDetail(),
-        	getBackLogisticsCompany()
-        )
+        
+        getBackLogisticsCompany().then(()=>{
+        	getOrderDetail();
+        	getReturnAddress();
+        })
     }
     
     function getOrderDetail() {
@@ -27,7 +30,7 @@ define([
                 var htmlPro = '';
 				var price = data.price2 ? base.formatMoney(data.price2)+'积分' : '￥'+base.formatMoney(data.price1)
 				
-				htmlPro += `<a class="mall-item" href="./lease-orderDetail.html?code=${data.code}">
+				htmlPro += `<a class="mall-item" href="../lease/lease-detail.html?code=${data.rproduct.code}">
 						<div class="mall-item-img fl" style="background-image: url('${base.getImg(data.rproduct.advPic)}')"></div>
 						<div class="mall-item-con fr">
 							<p class="name">${data.rproduct.name}</p>
@@ -62,7 +65,7 @@ define([
 				if(data.logisticsCompany){
 					var htmlExpress ='';
 					htmlExpress = `<div class="icon icon-dz"></div>
-					<div class="wp100 over-hide"><samp class="fl addressee">物流公司：${data.logisticsCompany}</samp></div>
+					<div class="wp100 over-hide"><samp class="fl addressee">物流公司：${expressDict[data.logisticsCompany]}</samp></div>
 					<div class="wp100 over-hide"><samp class="fl addressee">物流单号：${data.logisticsCode}</samp></div>`;
 					
 					$("#expressDelivery").html(htmlExpress)
@@ -78,10 +81,9 @@ define([
 						$("#returnStoreAddress").removeClass('hidden');
 					//邮寄
 					}else{
-						
 						var htmlExpress ='';
 						htmlExpress = `<div class="icon icon-dz"></div>
-						<div class="wp100 over-hide"><samp class="fl addressee">物流公司：${data.backLogisticsCompany}</samp></div>
+						<div class="wp100 over-hide"><samp class="fl addressee">物流公司：${backLogisticsCompanyDict[data.backLogisticsCompany]}</samp></div>
 						<div class="wp100 over-hide"><samp class="fl addressee">物流单号：${data.backLogisticsCode}</samp></div>`;
 						
 						$("#returnOrder .text  samp").html('快递');
@@ -92,24 +94,44 @@ define([
 					$("#returnOrder").removeClass('hidden')
 				}
 				
+				
 				//下单说明
 				$("#applyNote").html(data.applyNote?data.applyNote:'无')
 				
+				//归还地址
+				if(data.status =='4' || data.status =='6' ){
+					$("#returnAddress").removeClass('hidden')
+				}
 				
 				//订单信息
 				var htmlOrder = '';
 				htmlOrder = `<p>订单号：${data.code}</p>
 					<p>订单状态：${orderStatus[data.status]}</p>
-					<p>下单时间：${base.formatDate(data.applyDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
-					${
-                        data.status == "4"
-                            ? `<p>确认收货时间：${base.formatDate(data.signDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
-                            : data.status =='3'?
-                            `<p>发货时间：${base.formatDate(data.deliveryDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
-                            :''
-                   }`;
-				$("#orderInfo").html(htmlOrder);
+					<p>下单时间：${base.formatDate(data.applyDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`;
 				
+				if(data.status =='3' || data.status =='4' || data.status =='5' || data.status =='6' || data.status =='7' || data.status =='8' || data.status =='9' ){
+					htmlOrder +=`<p>发货时间：${base.formatDate(data.deliveryDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
+				}
+				if(data.status =='4' || data.status =='5' || data.status =='6' || data.status =='7' || data.status =='8' || data.status =='9' ){
+					htmlOrder +=`<p>确认收货时间：${base.formatDate(data.signDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
+							<p>开始体验时间：${base.formatDate(data.rstartDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
+							<p>结束体验时间：${base.formatDate(data.rendDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
+				}
+				if(data.status =='5' || data.status =='7' || data.status =='8' || data.status =='9' ){
+					htmlOrder +=`<p>归还申请时间：${base.formatDate(data.backApplyDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`;
+				}
+				if(data.status =='7' || data.status =='8' || data.status =='9' ){
+					htmlOrder +=`<p>确认归还时间：${base.formatDate(data.backDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`;
+				}
+				//已逾期
+				if(data.status =='5' || data.status =='6' || data.status =='7' || data.status =='8' || data.status =='9' ){
+					htmlOrder += data.overdueDay?`<p>逾期开始时间：${base.formatDate(data.overdueStartDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
+								${data.status == '8'?`<p>逾期截止时间：${base.formatDate(data.overdueEndDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`:''}
+								<p>已逾期天数：${data.overdueDay}天</p>
+								<p>逾期金额：${base.formatMoney(data.overdueAmount)}元</p>`:''
+				}
+                        
+				$("#orderInfo").html(htmlOrder);
 				
 				//按钮
 				//待付款
@@ -140,6 +162,12 @@ define([
 					$('.mallBottom').removeClass('hidden')
 					$("#returnBtn").removeClass('hidden')
 					
+				//逾期中
+				}else if(data.status=='6'){
+					
+					$('.mallBottom').removeClass('hidden')
+					$("#returnBtn").removeClass('hidden')
+					
 				//待评价
 				}else if(data.status=='7'){
 					$('.mallBottom').removeClass('hidden')
@@ -148,14 +176,20 @@ define([
 				
             });
     }
-
+	
+	function getReturnAddress(){
+		GeneralCtr.getDictList({key:'back_info'},'810917').then((data)=>{
+    		$("#returnAddress .textarea").html(data.cvalue)
+    	},()=>{})
+	}
 
     //获取物流公司列表
     function getBackLogisticsCompany(){
-    	GeneralCtr.getDictList('kd_company','808907').then((data)=>{
+    	return GeneralCtr.getDictList({parentKey:'back_kd_company'},'801907').then((data)=>{
     		var html = ''
     		data.forEach(function(d, i){
     			html += `<option value='${d.dkey}'>${d.dvalue}</option>`;
+    			backLogisticsCompanyDict[d.dkey] = d.dvalue
     		})
     		
     		$("#backLogisticsCompany").append(html)

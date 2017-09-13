@@ -17,7 +17,8 @@ define([
 		base.showLoading();
         $.when(
         	getProductDetail(code),
-        	getPageComment()
+        	getPageComment(),
+        	getPageCarProduct()
         )
         addListener();
 	}
@@ -100,6 +101,19 @@ define([
 			
 			base.hideLoading();
 		},()=>{})
+	}
+	
+	//
+	function getPageCarProduct(){
+		MallCtr.getPageCarProduct({
+	        start: 1,
+	        limit: 1,
+		}).then((data)=>{
+			
+			if(data.list.length){
+				$(".mallBottom-left .shoppingCar").addClass('active')
+			}
+		})
 	}
 	
 	//获取评价

@@ -6,7 +6,7 @@ define([
 	var type= base.getUrlParam('type');//类型(P 产品 RP租赁 N 资讯)
     var config = {
         start: 1,
-        limit: 10
+        limit: 10,
     }, isEnd = false, canScrolling = false;
     
 	var _NewTmpl = __inline('../../ui/information-list-item.handlebars');

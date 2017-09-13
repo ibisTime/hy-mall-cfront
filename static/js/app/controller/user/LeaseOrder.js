@@ -96,7 +96,7 @@ define([
     
     //获取物流公司列表
     function getBackLogisticsCompany(){
-    	GeneralCtr.getDictList('kd_company','808907').then((data)=>{
+    	GeneralCtr.getDictList({parentKey:'back_kd_company'},'801907').then((data)=>{
     		var html = ''
     		data.forEach(function(d, i){
     			html += `<option value='${d.dkey}'>${d.dvalue}</option>`;
@@ -114,8 +114,12 @@ define([
 		<div class="mall-item-img fl" style="background-image: url('${base.getImg(item.rproduct.advPic)}')"></div>
 		<div class="mall-item-con fr">
 			<p class="name">${item.rproduct.name}</p>
-			<samp class="slogan">数量：${item.quantity}</samp>
-			<samp class="slogan">租赁时长：${item.rentDay}天&nbsp;&nbsp;&nbsp;&nbsp;${item.price2 ? base.formatMoney(item.price2)+'积分' : '￥'+base.formatMoney(item.price1)}/天</samp>
+				<samp class="slogan">数量：${item.quantity}</samp>
+				<samp class="slogan">租赁时长：${item.rentDay}天</samp>
+				<samp class="slogan">日租金：${item.price2 ? base.formatMoney(item.price2)+'积分' : '￥'+base.formatMoney(item.price1)}/天</samp>
+				<div class="orderList-price">
+    				<p>${orderStatus[item.status]}</p>
+    			</div>
 			</div></a>`
     	
     	//待支付

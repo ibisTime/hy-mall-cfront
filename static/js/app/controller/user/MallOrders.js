@@ -70,8 +70,8 @@ define([
                 }
                 if(data.list.length) {
                     var html = "";
-                    lists.forEach((item) => {
-                        html += buildHtml(item);
+                    lists.forEach((item, i) => {
+                        html += buildHtml(item, i);
                     });
                     $("#content")[refresh || config.start == 1 ? "html" : "append"](html);
                     isEnd && $("#loadAll").removeClass("hidden");
@@ -88,7 +88,7 @@ define([
     }
     
     //订单列表
-    function buildHtml(item) {
+    function buildHtml(item, i) {
     	var tmplProHtml = '',tmplbtnHtml =' ';
     	
     	item.productOrderList.forEach(function(d, i){
@@ -97,10 +97,8 @@ define([
     		<div class="mall-item-con fr">
     			<p class="name">${d.product.name}</p>
     			<samp class="slogan">${d.productSpecsName}</samp>
-    			<div class="price orderList-price">
-    				<p class="samp1">${d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)}</p>
-    				<p class="samp2">x${d.quantity}</p>
-    			</div>
+    			<samp class="slogan mt10">单价: ${d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)}&nbsp;&nbsp;&nbsp;&nbsp;数量: x${d.quantity}</samp>
+    			${i=='0'?`<div class="orderList-price"><p>${orderStatus[item.status]}</p></div>`:''}
     			</div></a>`
     	})
     	

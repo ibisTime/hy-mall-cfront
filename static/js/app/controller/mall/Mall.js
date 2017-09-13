@@ -8,7 +8,9 @@ define([
     var _proTmpl = __inline('../../ui/mall-list-item.handlebars');
     var config = {
         start: 1,
-        limit: 10
+        limit: 10,
+        orderColumn:'order_no',
+        orderDir:'asc'
     }, isEnd = false, canScrolling = false;
     
     init();
@@ -19,7 +21,8 @@ define([
         
         $.when(
         	getListCategory(),
-        	getPageProduct()
+        	getPageProduct(),
+        	getPageCarProduct()
         )
         
         addListener()
@@ -54,6 +57,18 @@ define([
                 }
                 canScrolling = true;
         	}, base.hideLoading);
+	}
+	
+	function getPageCarProduct(){
+		MallCtr.getPageCarProduct({
+	        start: 1,
+	        limit: 1,
+		}).then((data)=>{
+			
+			if(data.list.length){
+				$(".mallfloatWrap .shoppingCar").addClass('active')
+			}
+		})
 	}
 	
 	function addListener(){

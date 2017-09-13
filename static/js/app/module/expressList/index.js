@@ -9,7 +9,6 @@ define([
     var toUser = "";
     var toUserName = "" ;
     var toUserAddress = "";
-    var toMobile = "";
     var firstAdd = true;
 
     function initData(){
@@ -41,7 +40,6 @@ define([
 		$("#expressList").on('click', '.titleWrap',function(){
     		toUser = $(this).attr('data-userId');
     		toUserAddress = $(this).attr('data-address');
-    		toMobile = $(this).attr('data-mobile');
     		toUserName = $(this).find(".name").html();
     		ModuleObj.hideCont(defaultOpt.success);
     	})
@@ -108,7 +106,7 @@ define([
                     left: "100%"
                 }, 200, function () {
                     wrap.hide();
-                    func && func({toUser:toUser, toUserName:toUserName, toUserAddress: toUserAddress,toMobile:toMobile});
+                    func && func({toUser:toUser, toUserName:toUserName, toUserAddress: toUserAddress});
                     wrap.find("label.error").remove();
                 });
                 

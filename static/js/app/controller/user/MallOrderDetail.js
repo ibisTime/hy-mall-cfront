@@ -4,7 +4,8 @@ define([
     'app/util/dict'
 ], function(base, MallCtr, Dict) {
     var code = base.getUrlParam("code"),
-        orderStatus = Dict.get("mallOrderStatus");
+        orderStatus = Dict.get("mallOrderStatus"),
+    	expressDict = Dict.get("expressDict");
 
     init();
     
@@ -28,7 +29,7 @@ define([
 		    		<div class="mall-item-img fl" style="background-image: url('${base.getImg(d.product.advPic)}');"></div>
 		    		<div class="mall-item-con fr">
 		    			<p class="name">${d.product.name}</p>
-		    			<samp class="slogan">商品规格：${d.productSpecsName}</samp>
+		    			<samp class="slogan">${d.productSpecsName}</samp>
 		    			<div class="price wp100">
 		    				<samp class="samp1 fl">${price}</samp>
 		    				<samp class="samp2 fr">x${d.quantity}</samp>
@@ -55,7 +56,7 @@ define([
 				if(data.logisticsCompany){
 					var htmlExpress ='';
 					htmlExpress = `<div class="icon icon-dz"></div>
-					<div class="wp100 over-hide"><samp class="fl addressee">物流公司：${data.logisticsCompany}</samp></div>
+					<div class="wp100 over-hide"><samp class="fl addressee">物流公司：${expressDict[data.logisticsCompany]}</samp></div>
 					<div class="wp100 over-hide"><samp class="fl addressee">物流单号：${data.logisticsCode}</samp></div>`;
 					
 					$("#expressDelivery").html(htmlExpress)
@@ -70,14 +71,16 @@ define([
 				var htmlOrder = '';
 				htmlOrder = `<p>订单号：${data.code}</p>
 					<p>订单状态：${orderStatus[data.status]}</p>
-					<p>下单时间：${base.formatDate(data.applyDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
-					${
-                        data.status == "4"
-                            ? `<p>确认收货时间：${base.formatDate(data.signDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
-                            : data.status =='3'?
-                            `<p>发货时间：${base.formatDate(data.deliveryDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
-                            :''
-                   }</p>`;
+					<p>下单时间：${base.formatDate(data.applyDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`;
+				
+				
+				if(data.status == "3" ||data.status == "4" || data.status == "5"){
+					htmlOrder += `<p>发货时间：${base.formatDate(data.deliveryDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
+				}
+				if(data.status == "4" || data.status == "5"){
+					htmlOrder += `<p>确认收货时间：${base.formatDate(data.signDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
+				}
+				
 				$("#orderInfo").html(htmlOrder);
 				
 				

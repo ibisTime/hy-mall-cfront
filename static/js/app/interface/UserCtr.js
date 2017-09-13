@@ -185,6 +185,14 @@ define([
                 location:addr
             },true);
         },
+        //签到统计
+        getDailyAttendanceSta(accountNumber){
+            return Ajax.get("802900",{
+                userId: base.getUserId(),
+                bizType:'02',
+                accountNumber
+            },true);
+        },
         // 分页查询我的收藏商品
         getPageMallCollect(config,refresh){
             return Ajax.get("808950",{

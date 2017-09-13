@@ -169,7 +169,7 @@
 				me.daysnumber = me.settings.daysnumber;
 				me.minDays = me.settings.minDays;
 
-				var strDays = new Date().getDate();
+				var strDays = new Date().getDate()+1;
 				var arry = [];
 				var arry1 = [];
 				var tds = $('.dateTable').eq(0).find('td');

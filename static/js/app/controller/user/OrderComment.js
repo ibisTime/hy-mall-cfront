@@ -76,6 +76,8 @@ define([
     	return `<div class="comment-item" data-productCode="${item.productCode}">
 					<div class="comment-header">
 						<div class="fl pic" style="background-image: url('${base.getImg(item.product.advPic)}');"></div>
+						<div class='name'>${item.product.name}</div>
+						<div class='specsName'>${item.productSpecsName}</div>
 						<div class="fl comment-star">
 							<samp class="fl">评价</samp>
 							<div class="starWrap fl" data-score='5'>
@@ -96,7 +98,8 @@ define([
     	return `<div class="comment-item" data-productCode="${item.rproduct.code}">
 					<div class="comment-header">
 						<div class="fl pic" style="background-image: url('${base.getImg(item.rproduct.advPic)}');"></div>
-						<div class="fl comment-star">
+						<div class='name leaseName'>${item.rproduct.name}</div>
+						<div class="fl comment-star lease-comment-star">
 							<samp class="fl">评价</samp>
 							<div class="starWrap fl" data-score='5'>
 								<i data-txt = "非常差" class="star active"></i>

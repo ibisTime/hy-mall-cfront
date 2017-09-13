@@ -11,7 +11,9 @@ define([
         start: 1,
         limit: 10,
         type: type,
-        name: searchVal
+        name: searchVal,
+        orderColumn:'order_no',
+        orderDir:'asc'
     }, isEnd = false, canScrolling = false;
     
     init();

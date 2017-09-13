@@ -125,12 +125,11 @@ button{
     vertical-align: middle;
 }
 .ui-dialog-button {
-    float: right;
     white-space: nowrap;
 }
 .ui-dialog-footer button+button {
     margin-bottom: 0;
-    margin-left: 5px;
+    float: right;
 }
 .ui-dialog-footer button {
     width:auto;
@@ -138,7 +137,6 @@ button{
     display: inline-block;
     padding: 6px 12px;
     _margin-left: 5px;
-    margin-bottom: 0;
     font-size: 14px;
     font-weight: normal;
     line-height: 1.428571429;
@@ -154,6 +152,7 @@ button{
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+    margin: 0 .3rem;
 }
 
 .ui-dialog-footer button:focus {

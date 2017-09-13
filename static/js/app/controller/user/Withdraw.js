@@ -35,6 +35,7 @@ define([
 	                        $("#maxAmount").text(rule.cvalue);
 	                    } else if(rule.ckey == "CUSERQXFL_XJK") {   // 提现费率
 	                        rate = +rule.cvalue;
+	                        $("#qxfl").text(rule.cvalue*100)
 	                    }
                 	}else{
                 		if(rule.ckey == "CUSERMONTIMES") {
@@ -47,6 +48,7 @@ define([
 	                        $("#maxAmount").text(rule.cvalue);
 	                    } else if(rule.ckey == "CUSERQXFL") {   // 提现费率
 	                        rate = +rule.cvalue;
+	                        $("#qxfl").text(rule.cvalue*100)
 	                    }
                 	}
                 });
@@ -152,9 +154,9 @@ define([
             setTimeout(function() {
             	
             	if(currencyType=='XJK'){
-            		location.replace('./rmb-account.html');
+            		location.replace('./xjk-account.html');
             	}else{
-                	location.replace('./xjk-account.html');
+                	location.replace('./rmb-account.html');
             	}
             	
             }, 700);

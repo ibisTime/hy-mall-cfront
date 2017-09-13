@@ -45,8 +45,8 @@ define([
             }, refresh);
         },
         // 查询数据字典列表
-        getDictList(parentKey,code) {
-            return Ajax.get(code, {parentKey});
+        getDictList(config,code) {
+            return Ajax.get(code, config);
         },
         // 查询user系统参数
         getUserSysConfig(ckey, refresh) {

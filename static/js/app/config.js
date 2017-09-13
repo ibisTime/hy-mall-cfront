@@ -4,7 +4,7 @@ var PIC_SHOW = '?imageMogr2/auto-orient/interlace/1';
 var JFPRODUCTTYPE = 'J01';
 var JFLEASEPRODUCTTYPE = 'J04';
 var SYS_USER = 'SYS_USER_HW';
-var SYS_USERNAME = '快递到付';
+var SYS_USERNAME = '顺丰到付';
 
 (function() {
 // 判断是否登录

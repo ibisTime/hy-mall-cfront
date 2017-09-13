@@ -14,6 +14,7 @@ define([
 		UserCtr.getUser()
 			.then(function(data){
 				$("#showAvatar").css("background-image", "url('"+base.getWXAvatar(data.photo)+"')");
+				$("#mobile").text(data.mobile)
 				base.hideLoading();
 				
 				addListener();

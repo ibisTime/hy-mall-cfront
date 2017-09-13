@@ -280,9 +280,9 @@ define([
 	            			$('#orderAddress').removeClass('hidden')
 	            			
 	            			if($('#orderAddress').html()){
-								$('.no-address').removeClass('hidden');
-	            			}else{
 								$('.no-address').addClass('hidden');
+	            			}else{
+								$('.no-address').removeClass('hidden');
 	            			}
 	            			
 							base.hideLoading()
@@ -290,7 +290,7 @@ define([
 	            		}else{
 	            			
 							var html = `<div class="icon icon-dz"></div>
-							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp><samp class="fr mobile">${res.toMobile}</samp></div>
+							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp></div>
 							<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
 							
 	            			$("#toUser").find('.toUserName').children('samp').html("自提")

@@ -10,7 +10,9 @@ define([
     var config = {
         start: 1,
         limit: 10,
-        name: searchVal
+        name: searchVal,
+        orderColumn:'order_no',
+        orderDir:'asc'
     }, isEnd = false, canScrolling = false;
 	var v = 6;
     var myScroll;

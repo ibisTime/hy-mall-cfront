@@ -57,6 +57,13 @@ define([
         getOrderDetail(code) {
             return Ajax.get("808066", {code});
         },
+        // 分页查询购物车商品
+        getPageCarProduct(config) {
+            return Ajax.get("808045", {
+                userId: base.getUserId(),
+            	...config
+            }, true);
+        },
         // 获取购物车商品列表
         getCarProductList() {
             return Ajax.get("808047", {

@@ -31,15 +31,12 @@ define([
           if (d.currency == "CNY") {
           	
             $("#cnyAmount").text(base.formatMoney(d.amount));
-            
           } else if (d.currency == "JF") {
           	
             $("#jfAmount").text(base.formatMoney(d.amount));
-            
           } else if (d.currency == "XJK") {
           	
             $("#XJKAmount").text(base.formatMoney(d.amount));
-            
           }
         })
       });
@@ -47,7 +44,7 @@ define([
   
   function getUserJmAmount(){
   	UserCtr.getUserJmAmount().then(function(data) {
-      $("#jmyjAmount").html('当前免押额度为'+base.formatMoney(data.deductAmount)+'元');
+      $("#jmyjAmount").html('当前减免额度为'+base.formatMoney(data.deductAmount)+'元');
     });
   }
   

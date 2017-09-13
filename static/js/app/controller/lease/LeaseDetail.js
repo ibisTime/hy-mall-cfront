@@ -127,7 +127,7 @@ define([
 					<p>1.芝麻分大于等于${data.myj_zima_score1}时可减免￥${data.myj_zima_amount1}</p>
 					<p>2.芝麻分大于等于${data.myj_zima_score2}时可减免￥${data.myj_zima_amount2}</p>
 					<p>3.芝麻分大于等于${data.myj_zima_score3}时可减免￥${data.myj_zima_amount3}</p>
-					<h3>学生减免说明<a href="${zmScoreFalg ? '../credit/studentCredit.html' : '../credit/studentCreditAccredit.html'}">(点击查看学生信用)</h3>
+					<h3>学生减免说明<a href="${studentFalg ? '../credit/studentCredit.html' : '../credit/studentCreditAccredit.html'}">(点击查看学生信用)</h3>
 					<p>1.学生可减免￥${data.myj_student_amount}</p>
 					<h3>老用户减免说明</h3>
 					<p>1.用户租赁${data.myj_rent_times}次后可减免￥${data.myj_rent_amount}</p>

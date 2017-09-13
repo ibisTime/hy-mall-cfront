@@ -11,21 +11,21 @@ define([
 		base.showLoading()
     	Foot.addFoot(3);
     	
-    	$.when(
-    		getZhiMaCredit(),
-    		getUserJmAmount()
-    	).then(base.hideLoading(),base.hideLoading())
+		getZhiMaCredit();
+		
     	addListener()
 	}
 	
 	function getUserJmAmount(){
 		UserCtr.getUserJmAmount().then((data)=>{
 			$(".zmCredit .txt").html('当前可免押金额为'+base.formatMoney(data.deductAmount)+'元')
+			base.hideLoading()
 		})
 	}
 	
 	function getZhiMaCredit(){
 		UserCtr.getZhiMaCredit().then((data)=>{
+			getUserJmAmount();
 			$(".zmCredit .zmCreditScore").html(data.zmScore)
 		})
 	}

@@ -11,7 +11,7 @@ define([
         base.showLoading();
         UserCtr.getUser().then((data) => {
             base.hideLoading();
-            openId = data.openId;
+            openId = data.h5OpenId;
         });
         addListeners();
     }
