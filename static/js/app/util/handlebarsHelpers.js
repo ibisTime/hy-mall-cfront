@@ -138,6 +138,14 @@ define(['Handlebars'], function(Handlebars) {
         return (data / 1000).toFixed(2);
     });
     
+    Handlebars.registerHelper('formatLeaseIsCollect', function(isCollect,options) {
+    	var active='';
+    	if(isCollect=='1'){
+    		active = 'active';
+    	}
+        
+        return active;
+    });
     
     return Handlebars;
 });

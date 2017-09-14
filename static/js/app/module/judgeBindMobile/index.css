@@ -6,7 +6,7 @@ input, button {
 
 .login-chose-module-container {
     padding: 0 0.3rem;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 100%;
     width: 100%;

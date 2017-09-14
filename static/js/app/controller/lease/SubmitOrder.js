@@ -61,11 +61,14 @@ define([
 				packsListHtml += `<div class="packingList"><i class="dot fl"></i><p class="name fl">${d.name}</p><samp class="quantity fr" id='quantity'>*${d.quantity}</samp></div>`
 			})
 			
-			html = `<div class="lease-submit-item"><a class="mall-item" href="../lease/lease-detail.html?code=${data.code}">
-    		<div class="mall-item-img fl" style="background-image: url('${base.getImg(data.advPic)}');"></div>
-    		<div class="mall-item-con fr">
-    			<p class="name">${data.name}</p>
-    			<samp class="slogan">最少租赁时长：<i>${data.minRentDays}</i>天</samp></div></a><div class="packingList-btn" id="packingList">查看包装清单</div></div>`;
+			html = `<div class="lease-submit-item"><div class="mall-item">
+			    		<a class="mall-item-img fl" style="background-image: url('${base.getImg(data.advPic)}');" href="../lease/lease-detail.html?code=${data.code}"></a>
+			    		<div class="mall-item-con fr">
+			    			<p class="name">${data.name}</p>
+			    			<samp class="slogan">最少租赁时长：<i>${data.minRentDays}</i>天</samp>
+			    		</div></div>
+    					<div class="packingList-btn" id="packingList">查看包装清单</div>
+    				</div>`;
     		
 			$(".orderPro-list").html(html);
 			$('#dialog .packingList-wrap div').html(packsListHtml);
@@ -118,7 +121,7 @@ define([
 					
 	    			getLeaseProJmAmount(1);
             	}else{
-            		base.showMsg("租赁时间不能最少于最小租赁天数")
+            		base.showMsg("租赁天数不能少于最小租赁天数")
             	}
             	
             }  , 
@@ -220,44 +223,53 @@ define([
 		
 	}
 	
+	//地址列表module
+	function addressListAddCont(c){
+		AddressList.addCont({
+            userId: base.getUserId(),
+            success: function(res,dCode) {
+            	
+            	if(res.receiver){
+				    
+            		config.receiver = res.receiver;
+				    config.reMobile = res.reMobile;
+				    config.reAddress = res.reAddress;
+				    
+				   var html = `<div class="icon icon-dz"></div>
+					<div class="wp100 over-hide"><samp class="fl addressee">收货人：${config.receiver}</samp><samp class="fr mobile">${config.reMobile}</samp></div>
+					<div class="detailAddress">收货地址： ${config.reAddress}</div>
+					<div class="icon icon-more"></div>`
+				
+					$("#orderAddress").html(html).attr('data-code',dCode)
+				    $("#orderAddress").removeClass('hidden')
+	            	$('.no-address').addClass('hidden')
+	            	
+            	}else{
+            		config.receiver = '';
+				    config.reMobile = '';
+				    config.reAddress = '';
+				    
+				    $("#orderAddress").addClass('hidden');
+	            	$('.no-address').removeClass('hidden');
+            	}
+            	
+            }
+        });
+		AddressList.showCont({
+			code: c
+		});
+	}
+	
 	function addListener(){
        
 		//地址
 		$("#orderAddress").click(function(){
-			AddressList.addCont({
-	            userId: base.getUserId(),
-	            success: function(res) {
-	            	config.receiver = res.receiver;
-				    config.reMobile = res.reMobile;
-				    config.reAddress = res.reAddress;
-				    config.takeStore = $("#toUser").attr('data-toUser')
-				    
-	            	$('.no-address').addClass('hidden')
-	            }
-	        });
-			AddressList.showCont({
-				code: $(this).attr('data-code')
-			});
+			addressListAddCont($(this).attr('data-code'))
 		})
 		
 		//未添加地址
 		$('.no-address').click(function(){
-			
-			AddressList.addCont({
-	            userId: base.getUserId(),
-	            success: function(res) {
-	            	
-	            	config.receiver = res.receiver;
-				    config.reMobile = res.reMobile;
-				    config.reAddress = res.reAddress;
-				    config.takeStore = $("#toUser").attr('data-toUser')
-	            	$('.no-address').addClass('hidden')
-	            }
-	        });
-	        
-			AddressList.showCont({
-				code: $("#orderAddress").attr('data-code')
-			});
+			addressListAddCont($(this).attr('data-code'))
 		})
 		
 		//提交
@@ -309,10 +321,6 @@ define([
 							base.hideLoading()
 	            		//自提
 	            		}else{
-	            			config.receiver = '';
-						    config.reMobile = '';
-						    config.reAddress = '';
-						    
 							var html = `<div class="icon icon-dz"></div>
 							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp></div>
 							<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`

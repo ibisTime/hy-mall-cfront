@@ -17,9 +17,9 @@ define([
             });
         },
         // 获取用户详情
-        getUser(refresh) {
+        getUser(refresh, userId) {
             return Ajax.get("805121", {
-                "userId": base.getUserId()
+                "userId": userId || base.getUserId()
             }, refresh);
         },
         /**

@@ -15,7 +15,7 @@ define([
         weixin.initShare({
             title: document.title,
             desc: "户外电商",
-            link: location.href,
+            link: SHARE_URL+'index.html?userReferee='+userReferee,
             imgUrl: base.getShareImg()
         });
         

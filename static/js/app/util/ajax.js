@@ -62,6 +62,7 @@ define([
                 });
             }
             return cache[code][cache_url].pipe(function(res) {
+            	
                 if (res.errorCode == "4") {
                     clearSessionUser();
                     sessionStorage.setItem("l-return", location.pathname + location.search);
@@ -70,6 +71,9 @@ define([
                         location.replace("../user/redirect.html");
                     }, 500);
                     return $.Deferred().reject("登录超时，请重新登录");
+                }
+                if(res.errorInfo == "用户状态异常"){
+    				location.replace("../user/isRock.html?isRock=1");
                 }
                 if(res.errorCode != "0"){
                     loading.hideLoading();

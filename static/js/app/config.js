@@ -5,6 +5,7 @@ var JFPRODUCTTYPE = 'J01';
 var JFLEASEPRODUCTTYPE = 'J04';
 var SYS_USER = 'SYS_USER_HW';
 var SYS_USERNAME = '顺丰到付';
+var SHARE_URL = "http://cm.hw.hichengdai.com/";
 
 (function() {
 // 判断是否登录
@@ -19,18 +20,20 @@ if (!/\/redirect\.html/.test(location.href)) {
 
     // 未登录
     if (!userId) {
-      var reg = new RegExp("(^|&)userReferee=([^&]*)(&|$)", "i");
-      var r = window.location.search.substr(1).match(
-        reg);
-        
-      if (r != null)
-        userReferee = decodeURIComponent(r[2]);
-        
-      sessionStorage.setItem("userReferee",
-        userReferee);
-      sessionStorage.setItem("l-return",
-        location.pathname + location.search);
-      location.replace("../user/redirect.html");
+    	var reg = new RegExp("(^|&)userReferee=([^&]*)(&|$)", "i");
+    	var regIsRock = new RegExp("(^|&)isRock=([^&]*)(&|$)", "i");
+    	
+    	var r = window.location.search.substr(1).match(reg);
+      	
+      	if(window.location.search.substr(1).match(regIsRock)!=null){
+      		
+      	}else{
+      		if (r != null)
+    		userReferee = decodeURIComponent(r[2]);
+	    	sessionStorage.setItem("userReferee", userReferee);
+	    	sessionStorage.setItem("l-return", location.pathname + location.search);
+	    	location.replace("../user/redirect.html");
+      	}
     }
 }
 })()

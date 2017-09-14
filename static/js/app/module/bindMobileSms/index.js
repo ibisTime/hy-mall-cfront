@@ -76,7 +76,6 @@ define([
     showMobileCont: function() {
       if (this.hasMobileCont()) {
         var wrap = $("#bindMobileSmsWrap");
-        wrap.css("top", $(window).scrollTop() + "px");
         wrap.show().animate({
           left: 0
         }, 200, function() {

@@ -187,40 +187,52 @@ define([
 		},()=>{})
 	}
 	
+	
+	//地址列表module
+	function addressListAddCont(c){
+		AddressList.addCont({
+            userId: base.getUserId(),
+            success: function(res,dCode) {
+            	if(res.receiver){
+            		config.pojo.receiver = res.receiver;
+				    config.pojo.reMobile = res.reMobile;
+				    config.pojo.reAddress = res.reAddress;
+				    
+				   var html = `<div class="icon icon-dz"></div>
+					<div class="wp100 over-hide"><samp class="fl addressee">收货人：${config.pojo.receiver}</samp><samp class="fr mobile">${config.pojo.reMobile}</samp></div>
+					<div class="detailAddress">收货地址： ${config.pojo.reAddress}</div>
+					<div class="icon icon-more"></div>`
+				
+					$("#orderAddress").html(html).attr('data-code',dCode)
+				    $("#orderAddress").removeClass('hidden')
+	            	$('.no-address').addClass('hidden')
+	            	
+            	}else{
+            		config.pojo.receiver = '';
+				    config.pojo.reMobile = '';
+				    config.pojo.reAddress = '';
+				    
+				    $("#orderAddress").addClass('hidden');
+	            	$('.no-address').removeClass('hidden');
+            	}
+            	
+            }
+        });
+		AddressList.showCont({
+			code: c
+		});
+	}
+	
 	function addListener(){
-        
+       
 		//地址
 		$("#orderAddress").click(function(){
-			AddressList.addCont({
-	            userId: base.getUserId(),
-	            success: function(res) {
-	            	if(res.receiver){
-	            		config.pojo = res;
-	            		$('.no-address').addClass('hidden')
-	            	}
-	            }
-	        });
-			AddressList.showCont({
-				code: $(this).attr('data-code')
-			});
+			addressListAddCont($(this).attr('data-code'))
 		})
 		
 		//未添加地址
 		$('.no-address').click(function(){
-			
-			AddressList.addCont({
-	            userId: base.getUserId(),
-	            success: function(res) {
-	            	if(res.receiver){
-	            		config.pojo = res;
-	            		$('.no-address').addClass('hidden')
-	            	}
-	            }
-	        });
-	        
-			AddressList.showCont({
-				code: $("#orderAddress").attr('data-code')
-			});
+			addressListAddCont($(this).attr('data-code'))
 		})
 		
 		//提交

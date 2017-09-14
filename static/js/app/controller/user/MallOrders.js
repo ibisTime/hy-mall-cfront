@@ -77,7 +77,7 @@ define([
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
                 } else if(config.start == 1) {
-                    $("#content").html('<div class="no-data">暂无订单</div>');
+                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无订单</p></div>');
                     $("#loadAll").addClass("hidden");
                 } else {
                     $("#loadAll").removeClass("hidden");

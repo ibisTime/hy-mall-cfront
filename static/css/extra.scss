@@ -25,6 +25,9 @@
 .pr30{
     padding-right: .3rem;
 }
+.pr60{
+    padding-right: .6rem;
+}
 .ptb20lr30{
     padding: .2rem .3rem;
 }
@@ -355,6 +358,15 @@ label.error {
             color: #484848;
             padding-top: 0.14rem;
             line-height: 1;
+        }
+        
+        .left-img{
+            padding-top: .47rem;
+            margin-right: .3rem;
+            
+            img{
+                height: .3rem;
+            }
         }
     }
 
@@ -1640,12 +1652,14 @@ label.error {
     background-color: #fff;
     border-top: 1px solid #eee;
     padding: .3rem;
+    position: relative; 
     
     &:first-child{
         border: 0;
     }
     
     .mall-item-img{
+        display: block;
         width: 2.4rem;
         height: 2.4rem;
         overflow: hidden;
@@ -1831,7 +1845,7 @@ label.error {
         margin: .2rem 0 0;
         
         samp{
-            font-size: .36rem;
+            font-size: .4rem;
             color: $red-color;
             display: inline-block;
             line-height: 1;
@@ -2521,8 +2535,7 @@ label.error {
             samp{
                 display: inline-block;
                 width: 2.7rem;
-                line-height: 1.4;
-                padding-top: .1rem;
+                line-height: 1rem;
                 color: $red-color;
             }
         }
@@ -3065,18 +3078,20 @@ label.error {
         background-color: transparent !important;
         
         .border{
-            width: .4rem;
+            width: 1.6rem;
             height: 100%;
             margin: 0 auto;
             background-color: $primary-color;
         }
     }
+    
 }
 .lease-item{
     display: block;
     width: 100%;
     background-color: #fff;
     margin-bottom: .2rem;
+    position: relative;
     
     .pic{
         width: 100%;
@@ -3089,6 +3104,7 @@ label.error {
     
     .con{
         width: 100%;
+        min-height: 1.2rem;
         padding: .2rem 2.6rem .2rem .3rem;
         position: relative;
         
@@ -3332,7 +3348,7 @@ label.error {
         }
     }
     .am-modal-body{
-        height: 2.4rem !important;
+        max-height: 6rem !important;
     }
     .am-modal-footer{
         padding: .4rem 1rem !important;
@@ -3377,8 +3393,25 @@ label.error {
                 color: #484848;
             }
         }
+    }
+    
+    
+    .orderApplyNote {
+        padding: .15rem 0;
         
+        .title{
+            top: .15rem;
+            left: 0;
+            color: #484848;
+        }
         
+        .textarea{
+            height: auto;
+            color: #484848;
+            padding-left: 1.5rem;
+            padding-right: 0;
+            font-size: .26rem;
+        }
     }
 }
 .list-content{
@@ -3710,9 +3743,9 @@ label.error {
     margin-top: .3rem;
     
     .am-button{
+        width: 2rem;
         font-size: .28rem;
         background-color: transparent;
-        padding: 0 .3rem;
         display: inline-block;
         color: #fff;
         height: .7rem;
@@ -3721,9 +3754,38 @@ label.error {
         
     }
 }
+.no-data-img{
+    width: 100%;
+    text-align: center;
+    padding-top: 2rem;
+    
+    img{
+        width: 2.1rem;
+        margin-left: .56rem;
+    }
+    
+    p{
+        font-size: .28rem;
+        color: #999;
+        margin-top: .2rem;
+    }
+}
 
-
-
+.isRock-wrap{
+    width: 100%;
+    text-align: center;
+    padding-top: 3rem;
+    
+    img{
+        width: 2.1rem;
+    }
+    
+    p{
+        font-size: .28rem;
+        color: #999;
+        margin-top: .4rem;
+    }
+}
 
 
 

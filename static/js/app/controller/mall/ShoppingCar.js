@@ -40,7 +40,6 @@ define([
 				})
 				
 				$("#carProList").html(html);
-				$("#totalAmount").html('￥0.00<br/>0.00积分')
 				
 				$(".carContent").removeClass('hidden')
 				$(".carNoData").addClass('hidden')
@@ -86,7 +85,7 @@ define([
 		}else{
 			$("#allCheck").removeClass('active');
 		}
-		$("#totalAmount").html('￥'+base.formatMoney(totalAmount.amount1)+'<br/>'+base.formatMoney(totalAmount.amount2)+'积分')
+		$("#totalAmount").html('￥'+base.formatMoney(totalAmount.amount1))
 	}
 	
 	//购买

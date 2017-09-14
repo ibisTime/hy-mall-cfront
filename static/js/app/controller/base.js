@@ -1,8 +1,9 @@
 define([
     'app/util/dialog',
     'app/util/cookie',
-    'app/module/loading'
-], function(dialog, CookieUtil, loading) {
+    'app/module/loading',
+    'app/util/ajax'
+], function(dialog, CookieUtil, loading, Ajax) {
 
     Date.prototype.format = function(format) {
         var o = {
@@ -284,8 +285,26 @@ define([
             s = s.replace(/\"/g, "&quot;");
             s = s.replace(/\n/g, "<br>");
             return s;
+        },
+        isRock: function(){
+        	Ajax.get("805121", {
+                "userId": Base.getUserId()
+            }, true).then(function(data){
+        		if(data.status=='2'){
+        			
+        			Base.showMsg('用户已被锁定，请联系管理员',1200)
+        			
+        			setTimeout(function(){
+        				Base.clearSessionUser();
+        				location.href = '../user/isRock.html?isRock=1'
+        			},800)
+        		}
+        	})
         }
     };
-
+	if (!/\/redirect\.html/.test(location.href)) {
+		Base.isRock()
+	}
+	
     return Base;
 });

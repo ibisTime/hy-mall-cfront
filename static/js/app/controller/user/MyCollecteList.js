@@ -50,7 +50,7 @@ define([
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
-                    $("#content").html('<li class="no-data">暂无收藏</li>')
+                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无收藏</p></div>')
                 } else {
                     $("#loadAll").removeClass("hidden");
                 }
@@ -61,7 +61,7 @@ define([
 	function buildHtmlMall(item){
 		return ` <a class="mall-item" href="../mall/mallDetail.html?code=${item.product.code}">
 				<div class="mall-item-img fl" style="background-image: url('${base.getImg(item.product.advPic)}');">
-					<div class="hot ${item.product.location=='1'?'active':''}">热销中</div>
+					<div class="hot ${item.product.location=='1'?'':'hidden'}">热销中</div>
 				</div>
 				<div class="mall-item-con fr">
 					<p class="name">${item.product.name}</p>
@@ -90,7 +90,7 @@ define([
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
-                    $("#content").html('<li class="no-data">暂无收藏</li>')
+                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无收藏</p></div>')
                 } else {
                     $("#loadAll").removeClass("hidden");
                 }
@@ -126,7 +126,7 @@ define([
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
-                    $("#content").html('<li class="no-data">暂无收藏</li>')
+                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无收藏</p></div>')
                 } else {
                     $("#loadAll").removeClass("hidden");
                 }
@@ -149,7 +149,7 @@ define([
             if (canScrolling && !isEnd && ($(document).height() - $(window).height() - 10 <= $(document).scrollTop())) {
                 canScrolling = false;
                 base.showLoading();
-                getInitData();
+                getInitData(true);
             }
         });
         

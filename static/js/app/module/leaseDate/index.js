@@ -186,12 +186,12 @@
 							});
 						}else{
 							$(this).append('</br><p class="rz">' + me.settings.startName + '</p>');
-							if(tds.eq(index+me.minDays).text() != "") {
-								tds.eq(index+me.minDays).append('</br><p class="rz">' + me.settings.endName + '</p>');
+							if(tds.eq(index+me.minDays-1).text() != "") {
+								tds.eq(index+me.minDays-1).append('</br><p class="rz">' + me.settings.endName + '</p>');
 							} else {
 								$(".dateTable").eq(1).find("td").each(function(index, el) {
 									if($(this).text() != "") {
-										$(".dateTable").eq(1).find("td").eq(index+me.minDays).append('</br><p class="rz">' + me.settings.endName + '</p>');
+										$(".dateTable").eq(1).find("td").eq(index+me.minDays-1).append('</br><p class="rz">' + me.settings.endName + '</p>');
 										return false;
 									}
 								});
@@ -201,7 +201,7 @@
 						}
 						
 						//开始到结束中间的选择颜色
-						for(var i=index+1; i < index+me.minDays; i++) {
+						for(var i=index+1; i < index+me.minDays-1; i++) {
 							tds.eq(i).css({
 								'background': me.comeoutColor,
 								'color': '#fff'

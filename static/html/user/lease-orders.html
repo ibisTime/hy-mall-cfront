@@ -49,13 +49,10 @@
                     		<div class="wrap">
                     			<samp class="fl tit">归还方式：</samp>
                     			<div class="fr conWrap">
-                    				<select class="wp100 con" id="backType" name="backType">
-	                    				<option value='2'>邮寄</option>
-	                    				<option value='1'>上门取件</option>
-	                    			</select>
+                    				<select class="wp100 con" id="backType" name="backType"></select>
                     			</div>
                     		</div>
-                    		<div class="wrap backLogisticsCompany">
+                    		<div class="wrap backLogisticsCompany hidden">
                     			<samp class="fl tit">物流公司：</samp>
                     			<div class="fr conWrap">
                     				<select class="wp100 con" id="backLogisticsCompany" name="backLogisticsCompany">
@@ -64,23 +61,25 @@
 	                    			<samp class="error hidden">请选择物流公司</samp>
                     			</div>
                     		</div>
-                    		<div class="wrap backLogisticsCode">
+                    		<div class="wrap backLogisticsCode hidden">
                     			<samp class="fl tit">物流单号：</samp>
                     			<div class="fr conWrap">
-                    				<input class="wp100 con" type="number" pattern="[0-9]*" id="backLogisticsCode" name="backLogisticsCode" placeholder="请输入物流单号" />
+                    				<input class="wp100 con"  type="number" pattern="[0-9]*"  type="text" id="backLogisticsCode" name="backLogisticsCode" placeholder="请输入物流单号" />
 	                    			<samp class="error hidden">不能为空</samp>
                     			</div>
-
                     		</div>
-                    		<div class="wrap hidden backAddress">
+                    		<div class="wrap hidden backAddress hidden">
                     			<samp class="fl tit">取件地址：</samp>
                     			<div class="fr conWrap">
                     				<input class="wp100 con" type="text" id="backAddress" name="backAddress" placeholder="请输入详细的取件地址" />
 	                    			<samp class="error hidden">不能为空</samp>
                     			</div>
-
                     		</div>
                     	</form>
+                		<div class="orderApplyNote hidden" id="dialog-returnAddress">
+							<div class="fl title">寄还地址：</div>
+							<div class="textarea"></div>
+						</div>
                     </div>
                     <div class="am-modal-footer">
                     	<div class="am-button am-button-small am-button-cancel fl" id="canlce">取消</div>

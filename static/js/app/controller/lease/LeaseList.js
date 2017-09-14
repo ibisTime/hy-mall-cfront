@@ -4,7 +4,8 @@ define([
     'app/module/scroll',
     'app/util/handlebarsHelpers',
     'app/interface/LeaseCtr',
-], function(base, Foot, scroll, Handlebars, LeaseCtr) {
+    'app/interface/GeneralCtr',
+], function(base, Foot, scroll, Handlebars, LeaseCtr, GeneralCtr) {
     var searchVal = base.getUrlParam('searchVal') || "";
     var _leaseTmpl = __inline('../../ui/lease-list-item.handlebars');
     var config = {
@@ -44,7 +45,7 @@ define([
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
-                    $("#content").html('<li class="no-data">暂无相关租赁产品</li>')
+                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无"'+searchVal+'"相关商品</p></div>')
                 } else {
                     $("#loadAll").removeClass("hidden");
                 }
@@ -62,10 +63,45 @@ define([
             }
         });
         
-		$("#search .searchIcon").click(function(){
-			location.href = './lease-list.html?searchVal='+$("#search .searchText").val()
-		})
+		$("#search .searchText").focus(function(){
+    		$(document).keyup(function(event){
+				if(event.keyCode==13){
+					if($("#search .searchText").val()&&$("#search .searchText").val()!=''){
+						location.href = './lease-list.html?searchVal='+$("#search .searchText").val()
+					}
+				}
+			}); 
+    	})
+    	$("#search .searchText").blur(function(){
+			if (window.event.keyCode==13) window.event.keyCode=0 ;
+    	})
 		
+		
+		//收藏
+		$("#content").on('click', '.lease-item .collect',function(){
+			
+			base.showLoading();
+			if($(this).hasClass('active')){
+				//取消收藏
+				GeneralCtr.cancelCollecte($(this).attr('data-code'),'RP').then(()=>{
+					$(this).removeClass('active')
+					base.hideLoading();
+					base.showMsg('取消成功')
+				},()=>{
+					base.hideLoading();
+				})		
+			}else{
+				
+				//收藏
+				GeneralCtr.addCollecte($(this).attr('data-code'),'RP').then(()=>{
+					$(this).addClass('active')
+					base.hideLoading();
+					base.showMsg('收藏成功')
+				},()=>{
+					base.hideLoading();
+				})	
+			}
+		})
 		
     }
 });

@@ -62,7 +62,6 @@ define([
     showCont: function() {
       if (this.hasCont()) {
         var wrap = $("#login-chose-module-container");
-        wrap.css("top", $(window).scrollTop() + "px");
         wrap.show().animate({
           left: 0
         }, 200, function() {

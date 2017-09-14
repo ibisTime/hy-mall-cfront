@@ -130,8 +130,8 @@ define([
             }
         });
         
-        $(".home-content").click(function(){
-        	$(this).children('.hot-content').toggleClass('hidden')
-        })
+//      $(".home-content").click(function(){
+//      	$(this).children('.hot-content').toggleClass('hidden')
+//      })
     }
 });

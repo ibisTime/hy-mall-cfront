@@ -6,7 +6,8 @@ define([
     'app/interface/UserCtr',
     'app/util/handlebarsHelpers',
     'app/module/scroll',
-], function(base, Swiper, LeaseCtr, GeneralCtr, UserCtr, Handlebars, scroll) {
+    'app/module/weixin',
+], function(base, Swiper, LeaseCtr, GeneralCtr, UserCtr, Handlebars, scroll, weixin) {
 	var code = base.getUrlParam("code");
 	var type ,
 		yj_min_rate = 0,
@@ -64,6 +65,15 @@ define([
 			}
 			
 			$('title').html(data.name+'-租赁详情');
+			
+			//微信分享
+	        weixin.initShare({
+	            title: data.name+'-商品详情',
+	            desc: data.slogan,
+	            link: location.href,
+	            imgUrl: base.getImg(data.advPic)
+	        });
+			
 			$(".detail-title .name").html(data.name)
 			$(".detail-title .slogan").html(data.slogan)
 			$("#price").html(type==JFLEASEPRODUCTTYPE ? base.formatMoney(data.price2)+'<i>积分</i>' : '<i>￥</i>'+base.formatMoney(data.price1))
@@ -94,30 +104,6 @@ define([
 				$('.allComment').addClass('hidden')
 			}
 		},()=>{})
-	}
-
-	//收藏
-	function addCollecte(c){
-		base.showLoading();
-		GeneralCtr.addCollecte(c,'RP').then(()=>{
-			
-			getLeaseProductDetail(c);
-			base.hideLoading();
-		},()=>{
-			base.hideLoading();
-		})
-	}
-	
-	//取消收藏
-	function cancelCollecte(c){
-		base.showLoading();
-		GeneralCtr.cancelCollecte(c,'RP').then(()=>{
-			getLeaseProductDetail(c);
-			
-			base.hideLoading();
-		},()=>{
-			base.hideLoading();
-		})
 	}
 	
 	function getJmExplain(){
@@ -171,10 +157,26 @@ define([
 		//收藏
 		$("#collect").click(function(){
 			
+			base.showLoading();
 			if($(this).hasClass('active')){
-				cancelCollecte(code)
+				//取消收藏
+				GeneralCtr.cancelCollecte(code,'RP').then(()=>{
+					$(this).removeClass('active')
+					base.hideLoading();
+					base.showMsg('取消成功')
+				},()=>{
+					base.hideLoading();
+				})		
 			}else{
-				addCollecte(code)
+				
+				//收藏
+				GeneralCtr.addCollecte(code,'RP').then(()=>{
+					$(this).addClass('active')
+					base.hideLoading();
+					base.showMsg('收藏成功')
+				},()=>{
+					base.hideLoading();
+				})	
 			}
 		})
 		

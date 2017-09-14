@@ -7,7 +7,8 @@ define([
     var code = base.getUrlParam("code"),
         orderStatus = Dict.get("leaseOrderStatus"),
     	expressDict = Dict.get("expressDict"),
-    	backLogisticsCompanyDict = {};
+    	backLogisticsCompanyDict = {},
+    	takeType;
 
     init();
     
@@ -21,10 +22,14 @@ define([
         })
     }
     
+    //获取详情
     function getOrderDetail() {
         LeaseCtr.getOrderDetail(code, true)
             .then((data) => {
                 base.hideLoading();
+                
+                takeType = data.takeType;
+                
                 
 				//商品详情
                 var htmlPro = '';
@@ -115,12 +120,13 @@ define([
 				if(data.status =='4' || data.status =='5' || data.status =='6' || data.status =='7' || data.status =='8' || data.status =='9' ){
 					htmlOrder +=`<p>确认收货时间：${base.formatDate(data.signDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
 							<p>开始体验时间：${base.formatDate(data.rstartDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
-							<p>结束体验时间：${base.formatDate(data.rendDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
+							<p>结束体验时间：${base.formatDate(data.rendDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
+							<p>归还截止时间：${base.formatDate(data.overdueStartDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`
 				}
-				if(data.status =='5' || data.status =='7' || data.status =='8' || data.status =='9' ){
+				if(data.status =='5' || data.status =='7' || data.status =='9' ){
 					htmlOrder +=`<p>归还申请时间：${base.formatDate(data.backApplyDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`;
 				}
-				if(data.status =='7' || data.status =='8' || data.status =='9' ){
+				if(data.status =='7' || data.status =='9' ){
 					htmlOrder +=`<p>确认归还时间：${base.formatDate(data.backDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`;
 				}
 				//已逾期
@@ -174,12 +180,37 @@ define([
 					$("#commentBtn").removeClass('hidden')
 				}
 				
+				//takeType 1:自提 , 2: 邮寄
+				
+            	var htmlCackType = '';
+            	
+                if(takeType == '1'){
+                	htmlCackType = '<option value="1">上门取件</option>';
+                	
+	        		$(".backLogisticsCompany").addClass('hidden')
+	        		$(".backLogisticsCode").addClass('hidden')
+	        		$("#dialog-returnAddress").addClass('hidden')
+	        		$(".backAddress").removeClass('hidden')
+                }else{
+                	htmlCackType = '<option value="2">邮寄</option>';
+                	
+                	$(".backLogisticsCompany").removeClass('hidden')
+	        		$(".backLogisticsCode").removeClass('hidden')
+	        		$("#dialog-returnAddress").removeClass('hidden')
+	        		$(".backAddress").addClass('hidden')
+                }
+                
+                $("#backType").html(htmlCackType);
+                
+                
             });
     }
 	
+	//归还邮寄地址
 	function getReturnAddress(){
 		GeneralCtr.getDictList({key:'back_info'},'810917').then((data)=>{
-    		$("#returnAddress .textarea").html(data.cvalue)
+    		$("#returnAddress .textarea").html(data.cvalue);
+    		$("#dialog-returnAddress .textarea").html(data.cvalue);
     	},()=>{})
 	}
 
@@ -299,12 +330,29 @@ define([
         
         //归还按钮
         $("#returnBtn").on("click", function() {
+        	//takeType 1:自提 , 2: 邮寄
             $("#dialog #confirm").attr('data-code', code)
+            $("#dialog #confirm").attr('data-deductType', takeType)
+            
             $("#dialog").removeClass('hidden');
+             var touchFalg = true
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			})
         });
         
         //归还弹窗-取消
         $("#dialog #canlce").click(function(){
+        	 var touchFalg = false
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			})
             dialgoClose();
         })
         
@@ -326,7 +374,6 @@ define([
         	//邮递
         	}else{
         		if($("#backLogisticsCompany").val()=='' && !$("#backLogisticsCode").val()){
-        			console.log($("#backLogisticsCompany").val())
 	        		$(".backLogisticsCompany .error").removeClass('hidden');
 	        	}else if($("#backLogisticsCode").val()=='' && !$("#backLogisticsCode").val()){
 	        		$(".backLogisticsCode .error").removeClass('hidden');

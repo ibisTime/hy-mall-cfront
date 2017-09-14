@@ -17,15 +17,22 @@ define([
     function initData(){
         loading.createLoading();
         $("#userId").val(defaultOpt.userId);
-        // 添加收货地址
-        if(!defaultOpt.code){
+        
+        if(defaultOpt.code){
+	        // 修改收货地址
+	        return getEditInitData();
+        }else{
+        	// 添加收货地址
             return getAddInitData();
         }
-        // 修改收货地址
-        return getEditInitData();
     }
     // 获取添加收货地址初始化数据
     function getAddInitData() {
+    	
+		$("#city").html('请选择省、市、区');
+		$("#city").attr("data-prv",'');
+		$("#city").attr("data-city",'');
+		$("#city").attr("data-area",'');
     	getPicker();
         loading.hideLoading();
     }
@@ -268,7 +275,6 @@ define([
         },
         _showCont: function(){
             var wrap = $("#addOrEditAddressContainer");
-            wrap.css("top", $(window).scrollTop()+"px");
             wrap.show().animate({
                 left: 0
             }, 200, function(){

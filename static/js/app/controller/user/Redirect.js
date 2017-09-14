@@ -30,6 +30,7 @@ init();
 	        userRefereeKind: 'C',
 	        companyCode: SYSTEM_CODE
 	      }
+//    base.hideLoading()
 //    base.showMsg(code,100000)
       $.when(
       	wxLogin(param),

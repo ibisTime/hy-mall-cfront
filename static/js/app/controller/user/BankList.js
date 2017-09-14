@@ -15,7 +15,7 @@ define([
 		getPageBankCard();
         addListener();
     }
-    //公告
+    //获取银行卡
     function getPageBankCard(refresh) {
         base.showLoading();
     	UserCtr.getPageBankCard(config, refresh)
@@ -28,10 +28,13 @@ define([
                     isEnd = true;
                 }
     			if(data.list.length) {
+    				$("#addBtn").addClass('hidden')
                     $("#content")[refresh ? "html" : "append"](_tmpl({items: data.list}));
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
+    				
+    				$("#addBtn").removeClass('hidden')
                     $("#content").html('<li class="no-data">暂无银行卡</li>')
                 } else {
                     $("#loadAll").removeClass("hidden");
@@ -58,6 +61,9 @@ define([
             addOrEditBankCard.showCont({
                 code: $(this).attr("data-code")
             });
+        });
+        $("#addBtn").on("click", function() {
+            addOrEditBankCard.showCont();
         });
         
     }

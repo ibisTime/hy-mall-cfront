@@ -19,7 +19,7 @@ define([
 
             // var dropId = editor.id || (editor.attr && editor.attr('id')) || 'jsForm';
 
-            var multi_selection = option.multi_selection || true;
+            var multi_selection = option.multi_selection;
 
             // 创建上传对象
             var uploader = Qiniu.uploader({

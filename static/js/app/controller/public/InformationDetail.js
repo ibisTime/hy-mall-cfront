@@ -1,7 +1,8 @@
 define([
   'app/controller/base',
   'app/interface/GeneralCtr',
-], function(base, GeneralCtr) {
+    'app/module/weixin',
+], function(base, GeneralCtr, weixin) {
 	var code = base.getUrlParam('code')
 
   init();
@@ -16,6 +17,17 @@ define([
     GeneralCtr.getInformationDetail(c)
       .then(function(data) {
         base.hideLoading();
+        
+        //微信分享
+        weixin.initShare({
+            title: data.title,
+            desc: base.clearTag(data.content),
+            link: location.href,
+            imgUrl: base.getImg(data.pic)
+        });
+        
+			$('title').html(data.title+'-资讯详情');
+        
         var html = '';
         
         html=`<div class="info-pic" style="background-image: url('${base.getImg(data.advPic)}');"></div>

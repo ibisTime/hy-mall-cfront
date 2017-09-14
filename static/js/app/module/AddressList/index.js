@@ -33,20 +33,32 @@ define([
             	var html = '';
             	
         		data.forEach(function(v, i){
-        			html+=`<div class="addressWrap ${v.isDefault==1?'active':''}"><div class="addressWrap-detail wp100" data-code="${v.code}">
-            		<div class="wp100 mb10"><span class="addressee">${v.addressee}</span>
-	            		<span class="mobile">${v.mobile}</span></div>
-	            	<div class="wp100"><span class="province">${v.province}</span>
-			            <span class="city">${v.city}</span>
-			            <span class="district">${v.district}</span>
-			            <span class="detailAddress">${v.detailAddress}</span></div>
-			        <div class="icon ${v.code==defaultOpt.code?'active':''}"></div></div>
-					<div class="operationWrap wp100"><div class="fl">
-						<div class="iconWrap isDefaultBtn" data-code="${v.code}"><i class="icon icon-default"></i><p>${v.isDefault==1?'已设为默认':'设为默认'}</p></div></div>
-						<div class="fr">
-						<div class="fl mr20 iconWrap editBtn" data-code="${v.code}"><i class="icon icon-edit"></i><p>编辑</p></div>
-						<div class="fl iconWrap deleteBtn" data-code="${v.code}"><i class="icon icon-delete"></i><p>删除</p></div>
-					</div></div></div>`
+        			html+=`<div class="addressWrap ${v.isDefault==1?'active':''}">
+        					<div class="addressWrap-detail wp100" data-code="${v.code}">
+            					<div class="wp100 mb10">
+            						<span class="addressee">${v.addressee}</span>
+	            					<span class="mobile">${v.mobile}</span>
+	            				</div>
+	            				<div class="wp100">
+	            					<span class="province">${v.province}</span>
+			            			<span class="city">${v.city}</span>
+			           				<span class="district">${v.district}</span>
+			            			<span class="detailAddress">${v.detailAddress}</span>
+			            		</div>`;
+			        if(defaultOpt.code){
+			        	html+= `<div class="icon xzIcon ${v.code==defaultOpt.code?'active' :''}"></div>`;
+			        }else{
+			        	html+= `<div class="icon xzIcon ${v.isDefault==1?'active':''}"></div>`;
+			        }
+			        html+= `</div>
+							<div class="operationWrap wp100">
+								<div class="fl"><div class="iconWrap isDefaultBtn" data-code="${v.code}"><i class="icon icon-default"></i><p>${v.isDefault==1?'已设为默认':'设为默认'}</p></div></div>
+								<div class="fr">
+									<div class="fl mr20 iconWrap editBtn" data-code="${v.code}"><i class="icon icon-edit"></i><p>编辑</p></div>
+									<div class="fl iconWrap deleteBtn" data-code="${v.code}"><i class="icon icon-delete"></i><p>删除</p></div>
+								</div>
+							</div></div>`;
+					
         		})
         		
             	$("#AddressListContainerContent").html(html);
@@ -199,6 +211,28 @@ define([
         },
         hideCont: function (func){
             if(this.hasCont()){
+            	var falg = false, dCode='';
+            	if($("#AddressListContainerContent .addressWrap").length){
+            		$("#AddressListContainerContent .addressWrap").each(function(i, d){
+	            		if($(this).find('.xzIcon').hasClass('active')){
+	            			dCode = $(this).find('.addressWrap-detail').attr('data-code')
+	            			pojoConfig.receiver = $(this).find('.addressee').html();
+				        	pojoConfig.reMobile = $(this).find('.mobile').html()
+				        	pojoConfig.reAddress = $(this).find('.province').html()+' '+$(this).find('.city').html()+' '+$(this).find('.district').html()+' '+$(this).find('.detailAddress').html();
+				        	
+				        	falg = true
+				        	return false;
+	            		}
+	            	})
+            	}
+            	
+            	if(!falg){
+            		dCode=''
+            		pojoConfig.receiver = '';
+		        	pojoConfig.reMobile = '';
+		        	pojoConfig.reAddress = '';
+            	}
+            	
                 var btnWrap = $(".right-left-btn");
                 btnWrap.animate({
                     left: "100%"
@@ -211,7 +245,7 @@ define([
                     left: "100%"
                 }, 200, function () {
                     wrap.hide();
-                    func && func(pojoConfig);
+                    func && func(pojoConfig,dCode);
                     wrap.find("label.error").remove();
                 });
                 

@@ -169,7 +169,6 @@ define([
         },
         _showCont: function(){
             var wrap = $("#addOrEditBankCardContainer");
-            wrap.css("top", $(window).scrollTop()+"px");
             wrap.show().animate({
                 left: 0
             }, 200, function(){

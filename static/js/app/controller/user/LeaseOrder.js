@@ -31,7 +31,8 @@ define([
         base.showLoading();
         $.when(
         	getPageOrders(),
-        	getBackLogisticsCompany()
+        	getBackLogisticsCompany(),
+        	getReturnAddress()
         )
         addListener();
     }
@@ -84,7 +85,7 @@ define([
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
                 } else if(config.start == 1) {
-                    $("#content").html('<div class="no-data">暂无订单</div>');
+                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无订单</p></div>');
                     $("#loadAll").addClass("hidden");
                 } else {
                     $("#loadAll").removeClass("hidden");
@@ -93,6 +94,13 @@ define([
                 canScrolling = true;
             }, () => hideLoading());
     }
+    
+	//归还邮寄地址
+	function getReturnAddress(){
+		GeneralCtr.getDictList({key:'back_info'},'810917').then((data)=>{
+    		$("#dialog-returnAddress .textarea").html(data.cvalue);
+    	},()=>{})
+	}
     
     //获取物流公司列表
     function getBackLogisticsCompany(){
@@ -135,17 +143,14 @@ define([
     	}else if(item.status == "3"){
     		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red confirm-order" data-code="${item.code}">确认收货</button></div>`
     	
-    	// 已收货
-    	}else if(item.status == "4"){
-    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red return-order" data-code="${item.code}">待归还</button></div>`
+    	// 已收货， 体验中和逾期中
+    	}else if(item.status == "4" || item.status == "6"){
+    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red return-order" data-code="${item.code}" data-takeType="${item.takeType}">待归还</button></div>`
     	
     	// 已收货
     	}else if(item.status == "7"){
     		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="./order-comment.html?type=lease&code=${item.code}">待评价</button></a>`
     	
-    	//91：用户异常 ，92：商户异常， 93：快递异常
-    	}else if(item.status == "91"||item.status == "92"||item.status == "93"){
-    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small " data-code="${item.code}">${orderStatus[item.status]}</button></div>`
     	}
     	
         return `<div class="order-item leaseOrder-item">
@@ -276,12 +281,51 @@ define([
         //归还按钮
         $("#orderWrapper").on("click", ".return-order", function() {
             var orderCode = $(this).attr("data-code");
+            var takeType = $(this).attr("data-takeType");
             $("#dialog #confirm").attr('data-code', orderCode)
+            $("#dialog #confirm").attr('data-deductType', takeType)
+            
+            //takeType 1:自提 , 2: 邮寄
+        	var htmlCackType = '';
+        	
+            if(takeType == '1'){
+            	htmlCackType = '<option value="1">上门取件</option>';
+            	
+        		$(".backLogisticsCompany").addClass('hidden')
+        		$(".backLogisticsCode").addClass('hidden')
+        		$("#dialog-returnAddress").addClass('hidden')
+        		$(".backAddress").removeClass('hidden')
+            }else{
+            	htmlCackType = '<option value="2">邮寄</option>';
+            	
+            	$(".backLogisticsCompany").removeClass('hidden')
+        		$(".backLogisticsCode").removeClass('hidden')
+        		$("#dialog-returnAddress").removeClass('hidden')
+        		$(".backAddress").addClass('hidden')
+            }
+            
+            $("#backType").html(htmlCackType);
+            
             $("#dialog").removeClass('hidden');
+            var touchFalg = true
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			})
         });
         
         //归还弹窗-取消
         $("#dialog #canlce").click(function(){
+        	var touchFalg = false
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			})
+        	
             dialgoClose();
         })
         

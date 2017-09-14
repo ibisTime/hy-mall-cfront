@@ -1,14 +1,17 @@
 {{#each items}}
-    <a class="lease-item" href="../lease/lease-detail.html?code={{code}}">
-		<div class="pic" style="background-image: url('{{formatImage advPic}}');"></div>
-		<div class="con">
-			<p class="name">{{name}}</p>
-			<samp class="slogan">{{slogan}}</samp>
-			
-			<div class="price">
-				<p><i>{{defaultLeaseProductPrice}}</i>/天</p>
-				<samp>原价:￥{{defaultLeaseProductOPrice}}</samp>
+	<div class="lease-item">
+		<a class="wp100" href="../lease/lease-detail.html?code={{code}}">
+			<div class="pic" style="background-image: url('{{formatImage advPic}}');"></div>
+			<div class="con">
+				<p class="name">{{name}}</p>
+				<!--<samp class="slogan">{{slogan}}</samp>-->
+				
+				<div class="price">
+					<p><i>{{defaultLeaseProductPrice}}</i>/天</p>
+					<samp>原价:￥{{defaultLeaseProductOPrice}}</samp>
+				</div>
 			</div>
-		</div>
-	</a>
+		</a>
+    	<div class="collect {{formatLeaseIsCollect isCollect}}" data-code="{{code}}"></div>
+	</div>
 {{/each}}

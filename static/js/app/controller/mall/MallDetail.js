@@ -4,7 +4,8 @@ define([
     'app/interface/MallCtr',
     'app/interface/GeneralCtr',
     'app/util/handlebarsHelpers',
-], function(base, Swiper, MallCtr, GeneralCtr, Handlebars) {
+    'app/module/weixin',
+], function(base, Swiper, MallCtr, GeneralCtr, Handlebars, weixin) {
 	var code = base.getUrlParam("code");
 	var type,
 		btnType;// 1: 加入购物车，2：立即下单
@@ -49,8 +50,6 @@ define([
 				$(".mallBottom-right .offSelf").addClass('hidden');
 			}
 			
-			
-			
 			var dpic = data.pic;
 	        var strs= []; //定义一数组 
 			var html="";
@@ -72,6 +71,15 @@ define([
 			}
 			
 			$('title').html(data.name+'-商品详情');
+			
+			//微信分享
+	        weixin.initShare({
+	            title: data.name+'-商品详情',
+	            desc: data.slogan,
+	            link: location.href,
+	            imgUrl: base.getImg(data.advPic)
+	        });
+			
 			$(".mallDetail-title .name").html(data.name)
 			$(".mallDetail-title .slogan").html(data.slogan)
 			$("#content").html(data.description)
@@ -199,30 +207,6 @@ define([
 		}
 	}
 	
-	//收藏
-	function addCollecte(c){
-		base.showLoading();
-		GeneralCtr.addCollecte(c,'P').then(()=>{
-			
-			getProductDetail(c);
-			base.hideLoading();
-		},()=>{
-			base.hideLoading();
-		})
-	}
-	
-	//取消收藏
-	function cancelCollecte(c){
-		base.showLoading();
-		GeneralCtr.cancelCollecte(c,'P').then(()=>{
-			getProductDetail(c);
-			
-			base.hideLoading();
-		},()=>{
-			base.hideLoading();
-		})
-	}
-	
 	
 	function addListener(){
 		//立即购买
@@ -290,15 +274,33 @@ define([
 		
 		//收藏
 		$("#collect").click(function(){
-			
+			base.showLoading();
 			if($(this).hasClass('active')){
-				cancelCollecte(code)
+				//取消收藏
+				GeneralCtr.cancelCollecte(code,'P').then(()=>{
+					$(this).removeClass('active')
+					base.hideLoading();
+					base.showMsg('取消成功')
+				},()=>{
+					base.hideLoading();
+				})		
 			}else{
-				addCollecte(code)
+				
+				//收藏
+				GeneralCtr.addCollecte(code,'P').then(()=>{
+					$(this).addClass('active')
+					base.hideLoading();
+					base.showMsg('收藏成功')
+				},()=>{
+					base.hideLoading();
+				})	
 			}
 		})
 		
 		//查看所有评价
+		$("#commentList").click(function(){
+			location.href='../public/comment.html?code='+code
+		})
 		$("#allComment").click(function(){
 			location.href='../public/comment.html?code='+code
 		})
