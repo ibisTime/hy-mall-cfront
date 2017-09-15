@@ -23,7 +23,6 @@ define([
 	//签到信息
     function getData() {
         base.showLoading();
-        var userId = base.getUserId();
         var mydate = new Date();
         var nowDate = mydate.format("yyyy-MM-dd");
         UserCtr.getSeriesDailyAttendance(nowDate).then(function(data) {
@@ -82,6 +81,14 @@ define([
 		})
 	}
 	
+	function getSignInNum(){
+		var mydate = new Date();
+        var nowDate = mydate.format("yyyy-MM-dd");
+        UserCtr.getSeriesDailyAttendance(nowDate).then(function(data) {
+            $(".signInNum").html(data.days);
+        });
+	}
+	
     function addListener() {
     	//签到
         $("#btn-signIn").click(function() {
@@ -94,8 +101,13 @@ define([
 	                base.hideLoading();
 	                base.showMsg('签到成功',1000)
 	                $("#btn-signIn").addClass("a-qiandao").find('.txt').html("签到成功");
-					getPageSignIn();	                	
-	                getDailyAttendanceSta();
+	                base.showLoading()
+					$.when(
+						getPageSignIn(),
+	                	getDailyAttendanceSta(),
+	                	getSignInNum()
+					).then(base.hideLoading(),base.hideLoading())
+					
 	            },()=>{});
         	}else{
         		base.showMsg('今日已签到，请明日再来哦')
