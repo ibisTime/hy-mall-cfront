@@ -1753,7 +1753,6 @@ label.error {
         
         &.shoppingCar{
             background-image: url('../images/购物车-白色@2x.png');
-            border-radius: .1rem .1rem 0 0;
             
             &.active{
                 i{
@@ -1774,11 +1773,20 @@ label.error {
         }
         &.goTop{
             background-image: url('../images/置顶@2x.png');
+        }
+        &:first-child{
+            border-radius: .1rem .1rem 0 0;
+        }
+        &:last-child{
             border-radius: 0 0 .1rem .1rem;
         }
     }
 }
-
+.userMallfloatWrap{
+    .mallfloat.customerService{
+        border-radius: .1rem;
+    }
+}
 .mallDetail-top{
     height: .88rem;
     padding: 0 1.5rem;
