@@ -3793,6 +3793,21 @@ label.error {
         color: #999;
         margin-top: .4rem;
     }
+    .service{
+        display: block;
+        font-size: .28rem;
+        color: #999;
+        margin-top: .1rem;
+        
+        i{
+            font-style: normal;
+        }
+        
+        &.service1{
+            margin-top: .3rem;
+        }
+    }
+    
 }
 .goIndex{
     width: .84rem;
@@ -3807,7 +3822,18 @@ label.error {
     }       
 
 }
-
+.leaseRuleBtn-wrap{
+    width: 100%;
+    margin: .4rem 0 .3rem;
+    text-align: center;
+    
+    .leaseRuleBtn{
+        display: inline-block;
+        border: .03rem solid $primary-color;
+        padding: .1rem .3rem;
+        color: $primary-color;
+    }
+}
 
 
 

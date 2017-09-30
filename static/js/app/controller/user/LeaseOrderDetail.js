@@ -185,20 +185,20 @@ define([
             	var htmlCackType = '';
             	
                 if(takeType == '1'){
-                	htmlCackType = '<option value="1">上门取件</option>';
-                	
+	            	htmlCackType = '<option value="1" selected>上门取件</option><option value="2">邮寄</option>';
+	            	
 	        		$(".backLogisticsCompany").addClass('hidden')
 	        		$(".backLogisticsCode").addClass('hidden')
 	        		$("#dialog-returnAddress").addClass('hidden')
 	        		$(".backAddress").removeClass('hidden')
-                }else{
-                	htmlCackType = '<option value="2">邮寄</option>';
-                	
-                	$(".backLogisticsCompany").removeClass('hidden')
+	            }else{
+	            	htmlCackType = '<option value="1">上门取件</option><option value="2" selected>邮寄</option>';
+	            	
+	            	$(".backLogisticsCompany").removeClass('hidden')
 	        		$(".backLogisticsCode").removeClass('hidden')
 	        		$("#dialog-returnAddress").removeClass('hidden')
 	        		$(".backAddress").addClass('hidden')
-                }
+	            }
                 
                 $("#backType").html(htmlCackType);
                 
@@ -319,11 +319,13 @@ define([
         	if($(this).val()== 1){
         		$(".backLogisticsCompany").addClass('hidden')
         		$(".backLogisticsCode").addClass('hidden')
+        		$("#dialog-returnAddress").addClass('hidden')
         		$(".backAddress").removeClass('hidden')
         	//快递
         	}else{
         		$(".backLogisticsCompany").removeClass('hidden')
         		$(".backLogisticsCode").removeClass('hidden')
+        		$("#dialog-returnAddress").removeClass('hidden')
         		$(".backAddress").addClass('hidden')
         	}
         })

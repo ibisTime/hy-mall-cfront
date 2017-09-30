@@ -129,9 +129,57 @@ define([
 
             }
         });
+        //收藏
+		$("#mallContent").on('click', '.mall-item .collect',function(){
+			
+			base.showLoading();
+			if($(this).hasClass('active')){
+				//取消收藏
+				GeneralCtr.cancelCollecte($(this).attr('data-code'),'P').then(()=>{
+					$(this).removeClass('active')
+					base.hideLoading();
+					base.showMsg('取消成功')
+				},()=>{
+					base.hideLoading();
+				})		
+			}else{
+				
+				//收藏
+				GeneralCtr.addCollecte($(this).attr('data-code'),'P').then(()=>{
+					$(this).addClass('active')
+					base.hideLoading();
+					base.showMsg('收藏成功')
+				},()=>{
+					base.hideLoading();
+				})	
+			}
+		})
+		
+		//收藏
+		$("#leaseContent").on('click', '.lease-item .collect',function(){
+			
+			base.showLoading();
+			if($(this).hasClass('active')){
+				//取消收藏
+				GeneralCtr.cancelCollecte($(this).attr('data-code'),'RP').then(()=>{
+					$(this).removeClass('active')
+					base.hideLoading();
+					base.showMsg('取消成功')
+				},()=>{
+					base.hideLoading();
+				})		
+			}else{
+				
+				//收藏
+				GeneralCtr.addCollecte($(this).attr('data-code'),'RP').then(()=>{
+					$(this).addClass('active')
+					base.hideLoading();
+					base.showMsg('收藏成功')
+				},()=>{
+					base.hideLoading();
+				})	
+			}
+		})
         
-//      $(".home-content").click(function(){
-//      	$(this).children('.hot-content').toggleClass('hidden')
-//      })
     }
 });
