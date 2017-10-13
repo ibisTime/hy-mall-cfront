@@ -6,7 +6,17 @@ define([
 ], function(base, Foot, UserCtr, AccountCtr) {
   const SUFFIX =
     "?imageMogr2/auto-orient/thumbnail/!200x200r";
-  init();
+    
+  if(base.getUserId()){
+    	
+    	init();
+    }else{
+    	base.showMsg('登录失效')
+    	setTimeout(function(){
+    		base.clearSessionUser();
+    		base.goLogin()
+    	},800)
+    }
 
   function init() {
     Foot.addFoot(3);

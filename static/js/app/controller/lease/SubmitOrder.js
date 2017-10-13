@@ -1,13 +1,14 @@
 define([
     'app/controller/base',
     'app/module/foot',
+    'app/interface/GeneralCtr',
     'app/interface/LeaseCtr',
     'app/interface/UserCtr',
     'app/module/AddressList',
     'app/module/expressList',
     'app/module/leaseDate',
     'app/module/scroll',
-], function(base, Foot, LeaseCtr, UserCtr, AddressList, ExpressList, leaseDate, scroll) {
+], function(base, Foot, GeneralCtr, LeaseCtr, UserCtr, AddressList, ExpressList, leaseDate, scroll) {
 	var code = base.getUrlParam("code")||'';
 	var totalAmount = {
 		price1:0,//人民币总价
@@ -31,15 +32,24 @@ define([
     	type,
     	myScroll;
      
-    
-    init();
+    if(base.getUserId()){
+    	
+    	init();
+    }else{
+    	base.showMsg('登录失效')
+    	setTimeout(function(){
+    		base.clearSessionUser();
+    		base.goLogin()
+    	},800)
+    }
 
 	function init(){
         base.showLoading(code);
         
     	$.when(
         	getLeaseProductDetail(code),
-        	isDefaultAddress()
+        	isDefaultAddress(),
+        	getLeaseRules()
         )
         
     	$("#toUser").attr('data-toUser',SYS_USER)
@@ -260,6 +270,14 @@ define([
 		});
 	}
 	
+	//获取租赁规则说明
+	function getLeaseRules(){
+		return GeneralCtr.getUserSysConfig('rent_rule',true).then((data)=>{
+			$("#leaseRuleDialog-content").html(data.cvalue)
+		})
+	}
+	
+	
 	function addListener(){
        
 		//地址
@@ -355,7 +373,7 @@ define([
         })
         
         //包装清单弹窗-关闭
-        $("#dialog #close").click(function(){
+        $("#dialog .close").click(function(){
         	$("#dialog").addClass('hidden')
         	touchFalg = false;
         	$('body').on('touchmove',function(e){
@@ -381,15 +399,59 @@ define([
 		//购买数量 加
 		$('.productSpecs-number .add').click(function(){
 			var sum = +$('.productSpecs-number .sum').html()
-//			if(sum<$(".quantity").attr('data-quantity')){
+//			if(sum<$(".quantity").attr('data-quantity')){//库存
 				sum++
 //			}
 			$('.productSpecs-number .sum').html(sum);
 			getLeaseProJmAmount($('.productSpecs-number .sum').html());
 		})
 		
+        //包装清单弹窗-关闭
+        $("#leaseRuleDialog .close").click(function(){
+        	$("#leaseRuleDialog").addClass('hidden')
+        	touchFalg = false;
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        })
+        
+        //租赁规则说明弹窗-显示
+        var touchFalg=false;
+		$("#leaseRuleBtn").click(function(){
+        	$("#leaseRuleDialog").removeClass('hidden')
+        	touchFalg = true
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+			myScroll.myScroll.refresh()
+        })
+       
+        //租赁规则说明弹窗-关闭 
+        $("#leaseRuleDialog .close").click(function(){
+        	$('#leaseRuleDialog').addClass('hidden');
+        	touchFalg = false
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        })
 		
-		
+		myScroll = scroll.getInstance().getScrollByParam({
+            id: 'leaseRuleDialog-content',
+            param: {
+                eventPassthrough: true,
+                snap: true,
+                hideScrollbar: true,
+                hScroll: true,
+                hScrollbar: false,
+                vScrollbar: false
+            }
+        });
 		
 	}
 	

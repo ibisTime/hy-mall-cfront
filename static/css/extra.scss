@@ -65,15 +65,8 @@ label.error {
     font-size: 0.28rem;
     background: #fff;
 
-    > a {
+    a {
         width: 100%;
-
-        span {
-            padding-left: 0.3rem;
-            padding-right: 0.3rem;
-            display: inline-block;
-            vertical-align: middle;
-        }
 
         img {
             width: 0.6rem;
@@ -83,6 +76,27 @@ label.error {
         .right-arrow {
             height: 0.5rem;
         }
+    }
+    
+    .notice-list{
+        width: 6rem;
+        height: .4rem;
+        overflow: hidden;
+        position: relative;
+        
+        .notice-list-wrap{
+            width: 100%;
+            overflow: hidden;
+            line-height: 1;
+            
+            li {
+                padding: 0 0.3rem;
+                display: inline-block;
+                width: 100%;
+                line-height: .4rem;
+            }
+        }
+        
     }
 }
 

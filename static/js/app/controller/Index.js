@@ -61,19 +61,72 @@ define([
     function getNotice(){
     	return GeneralCtr.getPageSysNotice({
             start: 1,
-            limit: 1
+            limit: 5
         }).then(function(data){
 			if(data.list.length){
-				$("#noticeWrap").html(`
-                    <a href="../public/notice.html" class="am-flexbox am-flexbox-justify-between">
-                        <div class="am-flexbox am-flexbox-item">
-                            <img src="/static/images/notice.png" alt="">
-                            <span class="am-flexbox-item t-3dot">${data.list[0].smsTitle}</span>
-                        </div>
-                        <i class="right-arrow"></i>
-                    </a>`);
+				var html = '';
+				
+				data.list.forEach(function(d, i){
+					html += `<li class="am-flexbox-item t-3dot">${d.smsTitle}</li>`
+				})
+				
+				$("#noticeWrap .notice-list-wrap1").html(html);
+				
+				if(data.list.length>1){
+					
+					var noticeList = $('.notice-list')[0];
+			        var noticeList_1 = $('.notice-list-wrap1')[0];
+			        var noticeList_2 = $('.notice-list-wrap2')[0];
+			        noticeList.scrollTop = 0;
+			        
+			        var oBox=$('.notice-list');  
+	    			var oLi=oBox.find('li');  
+				    var iLi=[];  
+				    var iHeight=null;  
+				    var oTime=null;  
+				    var nHeight=null;
+				    var i=0,j=0;
+			        
+			        for(i=0;i<oLi.length;i++){  
+				        iLi.push(-oLi[i].offsetHeight);  
+				    }
+			        
+			        // 克隆
+			        noticeList_2.innerHTML = noticeList_1.innerHTML;
+			        
+			        doMove();  
+			        
+				    function doMove(){  
+				        clearInterval(oTime);  
+				        oTime=setInterval(function(){  
+				            nHeight+=iLi[j];  
+				            if(oBox.offsetTop == -(oBox.offsetHeight/2)){  
+				                oBox.style.top=0;  
+				            }  
+				            else{  
+				                startMove(oBox,nHeight)  
+				            }  
+				            j++;  
+				            if(j>iLi.length){  
+				                j=1;  
+				                nHeight=iLi[0];  
+				                startMove(oBox,nHeight)  
+				            }  
+				  
+				        },2000)  
+				    }  
+				}
+				
+			}else{
+				
+				$("#noticeWrap .notice-list").html('<span class="am-flexbox-item t-3dot">暂无公告</span>');
 			}
     	});
+    }
+    
+    function NoticeStartMove(nList){
+    	clearInterval(nList.oTime); 
+    	
     }
     
     //获取推荐商品

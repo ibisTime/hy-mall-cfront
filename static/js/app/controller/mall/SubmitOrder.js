@@ -30,7 +30,16 @@ define([
 	}
 	var cartCodeList =[];
     
-    init();
+    if(base.getUserId()){
+    	
+    	init();
+    }else{
+    	base.showMsg('登录失效')
+    	setTimeout(function(){
+    		base.clearSessionUser();
+    		base.goLogin()
+    	},800)
+    }
 
 	function init(){
         base.showLoading(code);

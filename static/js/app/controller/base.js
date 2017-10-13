@@ -303,7 +303,9 @@ define([
         }
     };
 	if (!/\/redirect\.html/.test(location.href)) {
-		Base.isRock()
+		if(Base.isLogin()){
+			Base.isRock()
+		}
 	}
 	
     return Base;

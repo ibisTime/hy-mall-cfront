@@ -64,7 +64,7 @@
 			<p class="fr" id="totalAmount"></p>
 		</div>
 		<div class="leaseRuleBtn-wrap">
-			<div class="leaseRuleBtn">租赁服务规则</div>
+			<div class="leaseRuleBtn" id="leaseRuleBtn">租赁服务规则</div>
 		</div>
 	</div>
 	
@@ -98,13 +98,32 @@
                     	<div></div>
                     </div>
                     <div class="am-modal-footer">
-                    	<div class="am-button am-button-primary-48" id="close">我知道了</div>
+                    	<div class="am-button am-button-primary-48 close">我知道了</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-	
+    
+    <!--租赁服务规则弹窗-->
+    <div class="signIn-dialog hidden dialog" id="leaseRuleDialog">
+        <div class="am-modal-mask"></div>
+        <div class="am-modal-wrap">
+            <div role="document" class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-header">
+                    	<p>租赁服务规则</p>
+                    </div>
+                    <div class="am-modal-body jmExplain-content" id="leaseRuleDialog-content">
+                    	<div></div>
+                    </div>
+                    <div class="am-modal-footer">
+                    	<div class="am-button am-button-primary-48 close">我知道了</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 	
     <link rel="import" href="../footer.html?__inline">
 	<script src="../js/lib/city.js"></script>
