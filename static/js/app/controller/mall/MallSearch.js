@@ -5,11 +5,14 @@ define([
     'app/interface/MallCtr',
     'app/interface/GeneralCtr',
 ], function(base, Foot, Handlebars, MallCtr, GeneralCtr) {
-    var _navTmpl = __inline('../../ui/category-item.handlebars');
-    var _proTmpl = __inline('../../ui/mall-list.handlebars');
+    var _proTmpl = __inline('../../ui/mall-list-item.handlebars');
+    var type = base.getUrlParam('type');
+    var searchVal = base.getUrlParam('searchVal') || "";
     var config = {
         start: 1,
         limit: 10,
+        type: type,
+        name: searchVal,
         orderColumn:'order_no',
         orderDir:'asc'
     }, isEnd = false, canScrolling = false;
@@ -20,27 +23,12 @@ define([
         Foot.addFoot(1);
         base.showLoading();
         
-        $.when(
-        	getBigCategoryPage(),
-        	getPageProduct(),
-        	getPageCarProduct()
-        )
-        
+    	$("#search .searchText").val(searchVal)
+    	getPageProduct();
         addListener()
 	}
 	
-	//获取导航
-	function getBigCategoryPage(){
-		MallCtr.getBigCategoryPage(true).then((data)=>{
-        	$(".mall-category").append(_navTmpl({items: data.list}));
-        	if(data.totalCount>12){
-        		$(".mall-category .cate-item:last-child").remove();
-        		$(".mall-category").append('<a href="./mall-list.html" class="cate-item"><div class="icon"><img src="/static/images/allCategory.png"></div><p>全部分类</p></a>')
-        	}
-		},()=>{})
-        base.hideLoading();
-	}
-	
+	//分页获取商品
 	function getPageProduct(refresh){
     	MallCtr.getPageProduct(config, refresh)
             .then(function(data) {
@@ -51,29 +39,18 @@ define([
                     isEnd = true;
                 }
     			if(lists.length) {
+    				var html = '';
     				
                     $("#content").append(_proTmpl({items: lists}));
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
-                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无商品</p></div>')
+                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无'+searchVal+'相关商品</p></div>').removeClass('bg_fff')
                 } else {
                     $("#loadAll").removeClass("hidden");
                 }
                 canScrolling = true;
         	}, base.hideLoading);
-	}
-	
-	function getPageCarProduct(){
-		MallCtr.getPageCarProduct({
-	        start: 1,
-	        limit: 1,
-		}).then((data)=>{
-			
-			if(data.list.length){
-				$(".mallfloatWrap .shoppingCar").addClass('active')
-			}
-		})
 	}
 	
 	function addListener(){
@@ -85,7 +62,12 @@ define([
             }
         });
         
-        //搜索
+		$("#goTop").click(()=>{
+			var speed=200;//滑动的速度
+	        $('body,html').animate({ scrollTop: 0 }, speed);
+	        return false;
+		})
+		
 		$("#search .searchText").focus(function(){
     		$(document).keyup(function(event){
 				if(event.keyCode==13){
@@ -99,6 +81,31 @@ define([
 			if (window.event.keyCode==13) window.event.keyCode=0 ;
     	})
     	
+		//收藏
+		$("#content").on('click', '.mall-item .collect',function(){
+			
+			base.showLoading();
+			if($(this).hasClass('active')){
+				//取消收藏
+				GeneralCtr.cancelCollecte($(this).attr('data-code'),'P').then(()=>{
+					$(this).removeClass('active')
+					base.hideLoading();
+					base.showMsg('取消成功')
+				},()=>{
+					base.hideLoading();
+				})		
+			}else{
+				
+				//收藏
+				GeneralCtr.addCollecte($(this).attr('data-code'),'P').then(()=>{
+					$(this).addClass('active')
+					base.hideLoading();
+					base.showMsg('收藏成功')
+				},()=>{
+					base.hideLoading();
+				})	
+			}
+		})
 		
 	}
 	

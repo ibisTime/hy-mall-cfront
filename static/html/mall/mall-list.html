@@ -9,14 +9,27 @@
 
 <body>
 	
-	<div id="search" class="search">
-		<div class="searchWrap">
-			<div class="fl searchIcon"><img src="../../images/搜索@2x.png" /></div>
-			<input class="fl searchText" type="text" placeholder="请输入您感兴趣的商品" />
-		</div>
-	</div>
+	<header class="wp100" style="background: #f7f7f7;position: fixed;z-index: 999;">
+        <div id="down" class="mall-up-down down-arrow"></div>
+        <div id="allCont" class="hidden bg_fff">
+            <div class="ml-top-fl bg_fff b_e_b">所有分类</div>
+            <div id="allItem" class="bg_fff ml-top-item ">
+                <ul class="clearfix"></ul>
+            </div>
+            <div id="mall-mask" class="mall-mask"></div>
+        </div>
+        <div id="mallWrapper" class="b_e_b">
+            <div id="scroller">
+                <ul></ul>
+            </div>
+        </div>
+    </header>
+    <div style="height: .9rem;"></div>
+    <div class="wp100 mall_list_table" id="mlTable">
+        <ul></ul>
+    </div>
     
-    <div id="content" class="mall-content list-content bg_fff">
+    <div id="content" class="mall-content bg_fff">
     </div>
 	
 	<div id="loadAll" class="load-all hidden">

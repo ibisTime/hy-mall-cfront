@@ -3,21 +3,46 @@ define([
     'app/util/ajax'
 ], function(base, Ajax) {
     return {
-        // 列表查询商品类型
-        getListCategory(type, refresh) {
+        // 获取商品大类列表
+        getBigCategoryList(refresh) {
             return Ajax.get("808007", {
-                status:'1',
-                type
+                parentCode: "0",
+                status: "1",
+                orderColumn: "order_no",
+                orderDir: "asc",
+                type: "1"
+            }, refresh);
+        },
+        // 获取商品大类列表
+        getBigCategoryPage(refresh) {
+            return Ajax.get("808005", {
+                parentCode: "0",
+			    start: 1,
+			    limit: 12,
+                status: "1",
+                orderColumn: "order_no",
+                orderDir: "asc",
+                type: "1"
+            }, refresh);
+        },
+        // 获取商品小类列表
+        getSmallCategoryList(parentCode, refresh) {
+            return Ajax.get("808007", {
+                parentCode,
+                status: "1",
+                orderColumn: "order_no",
+                orderDir: "asc",
+                type: "1"
             }, refresh);
         },
         // 分页获取商品
-        getPageProduct(config, refresh) {
+        getPageProduct(config) {
             return Ajax.get("808025", {
                 status:'3',
                 companyCode: SYSTEM_CODE,
             	userId: base.getUserId(),
                 ...config
-            }, refresh);
+            }, true);
         },
         // 详情查询商品
         getProductDetail(code) {

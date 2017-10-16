@@ -36,9 +36,9 @@ define([
         var width = 0;
         var _wrap = $("#am-tabs-bar");
         _wrap.find('.am-tabs-tab').each(function () {
-            width += this.clientWidth;
+            width += this.clientWidth+1;
         });
-        _wrap.find('.scroll-content').css('width', width+ 1 + 'px');
+        _wrap.find('.scroll-content').css('width', width + 'px');
         myScroll = scroll.getInstance().getScrollByParam({
             id: 'am-tabs-bar',
             param: {

@@ -46,22 +46,18 @@
     </div>
     <div class="home-content">
     	<div class="hot-title-wrap">
-    		<div class="hot-title">
-	        	<div class="fl title"><i class="border"></i>推荐租赁</div>
+    		<div class="hot-title" id="hotTitle">
+	        	<div class="title tc fl active" data-contentType ='1'><div>推荐租赁</div></div>
+	        	<div class="title tc fl"  data-contentType ='2'><div>推荐商品</div></div>
 	        </div>
-	        <div class="fr more"><a href="lease/lease.html">查看更多<i class="icon"></i></a></div>
     	</div>
-        <div class="hot-content clearfix" id="leaseContent"></div>
-    </div>
-    
-    <div class="home-content mt20">
-    	<div class="hot-title-wrap">
-    		<div class="hot-title">
-	        	<div class="fl title"><i class="border"></i>推荐商品</div>
-	        </div>
-        	<div class="fr more"><a href="mall/mall.html">查看更多<i class="icon"></i></a></div>
-        </div>
-        <div class="hot-content clearfix" id="mallContent"></div>
+    	
+        <div class="hot-content clearfix" id="content"></div>
+        
+		<div id="loadAll" class="load-all hidden">
+	        <img src="../images/end.png">
+	        <span>已经全部加载完毕</span>
+	    </div>
     </div>
 	
 	<div class="mallfloatWrap">

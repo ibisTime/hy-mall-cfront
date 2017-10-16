@@ -32,6 +32,12 @@ define([
                 ...config
             }, refresh);
         },
+        //查询一级和二级推荐人接口
+        getPageChildrenLevel(refresh) {
+            return Ajax.get("805122", { 
+                userId: base.getUserId()
+            }, refresh);
+        },
         // 绑定手机号
         bindMobile(mobile, smsCaptcha) {
             return Ajax.post("805151", {

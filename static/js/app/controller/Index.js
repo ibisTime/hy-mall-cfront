@@ -11,11 +11,13 @@ define([
     var _leaseTmpl = __inline('../ui/lease-list-item.handlebars');
     var config = {
         start: 1,
-        limit: 5,
+        limit: 10,
         location: '1',
         orderColumn:'order_no',
         orderDir:'asc'
-    };
+    }, isEnd = false, canScrolling = false;
+    
+    var contentType = 1;//1推荐租赁，2推荐商品
 
     init();
     
@@ -25,8 +27,7 @@ define([
         $.when(
         	getBanner(),
         	getNotice(),
-        	getPageProduct(),
-        	getPageLeaseProduct()
+        	getPageProduct()
         )
         
         addListener()
@@ -67,7 +68,7 @@ define([
 				var html = '';
 				
 				data.list.forEach(function(d, i){
-					html += `<li class="am-flexbox-item t-3dot">${d.smsTitle}</li>`
+					html += `<li class="t-3dot">${d.smsTitle}</li>`
 				})
 				
 				$("#noticeWrap .notice-list-wrap1").html(html);
@@ -77,44 +78,32 @@ define([
 					var noticeList = $('.notice-list')[0];
 			        var noticeList_1 = $('.notice-list-wrap1')[0];
 			        var noticeList_2 = $('.notice-list-wrap2')[0];
+			        var noticeLiH = $('.notice-list-wrap1 li:first-child').outerHeight(true);
 			        noticeList.scrollTop = 0;
-			        
-			        var oBox=$('.notice-list');  
-	    			var oLi=oBox.find('li');  
-				    var iLi=[];  
-				    var iHeight=null;  
-				    var oTime=null;  
-				    var nHeight=null;
-				    var i=0,j=0;
-			        
-			        for(i=0;i<oLi.length;i++){  
-				        iLi.push(-oLi[i].offsetHeight);  
-				    }
 			        
 			        // 克隆
 			        noticeList_2.innerHTML = noticeList_1.innerHTML;
 			        
-			        doMove();  
-			        
-				    function doMove(){  
-				        clearInterval(oTime);  
-				        oTime=setInterval(function(){  
-				            nHeight+=iLi[j];  
-				            if(oBox.offsetTop == -(oBox.offsetHeight/2)){  
-				                oBox.style.top=0;  
-				            }  
-				            else{  
-				                startMove(oBox,nHeight)  
-				            }  
-				            j++;  
-				            if(j>iLi.length){  
-				                j=1;  
-				                nHeight=iLi[0];  
-				                startMove(oBox,nHeight)  
-				            }  
-				  
-				        },2000)  
-				    }  
+	                var setMove1, setMove2;
+	                
+                	setMove1 = setInterval(function(){
+                		if (noticeList.scrollTop >= noticeList_1.scrollHeight) {
+	                        noticeList.scrollTop = 0;
+	                    } else {
+	                    	
+	                		var tmplH =0;
+	                        setMove2 = setInterval(function(){
+		                		if (tmplH >= noticeLiH) {
+			                    	clearInterval(setMove2);
+			                    }else{
+			                        noticeList.scrollTop += 1;
+			                        tmplH += 1;
+			                    }
+		                		
+			                }, 50);
+	                    }
+	                }, 2000);
+	                
 				}
 				
 			}else{
@@ -124,42 +113,66 @@ define([
     	});
     }
     
-    function NoticeStartMove(nList){
-    	clearInterval(nList.oTime); 
-    	
-    }
-    
-    //获取推荐商品
+    //获取首页推荐商品
     function getPageProduct(){
-    	MallCtr.getPageProduct(config, true)
+    	//contentType=1,租赁商品  contentType=2,商品
+    	
+    	if(contentType==2){
+    		//分页获取推荐商品
+	    	MallCtr.getPageProduct(config, true)
+	            .then(function(data) {
+	                base.hideLoading();
+	                var lists = data.list;
+	                var totalCount = data.totalCount;//+lists.totalCount;
+	                if (totalCount <= config.limit || lists.length < config.limit) {
+	                    isEnd = true;
+	                }
+	    			if(lists.length) {
+	    				
+	                    $("#content").append(_proTmpl({items: lists}));
+	                    isEnd && $("#loadAll").removeClass("hidden");
+	                    config.start++;
+	    			} else if(config.start == 1) {
+	                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无推荐商品</p></div>')
+	                } else {
+	                    $("#loadAll").removeClass("hidden");
+	                }
+	                canScrolling = true;
+	        	}, base.hideLoading);
+    	}else{
+    		//分页获取推荐的租赁商品
+    		LeaseCtr.getPageLeaseProduct(config, true)
             .then(function(data) {
                 base.hideLoading();
                 var lists = data.list;
+                var totalCount = data.totalCount;//+lists.totalCount;
+                if (totalCount <= config.limit || lists.length < config.limit) {
+                    isEnd = true;
+                }
     			if(lists.length) {
     				
-                    $("#mallContent").append(_proTmpl({items: lists}));
-    			} else{
-                    $("#mallContent").html('<li class="no-data">暂无推荐商品</li>')
+                    $("#content").append(_leaseTmpl({items: lists}));
+                    isEnd && $("#loadAll").removeClass("hidden");
+                    config.start++;
+    			} else if(config.start == 1) {
+                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无推荐租赁</p></div>')
+                } else {
+                    $("#loadAll").removeClass("hidden");
                 }
+                canScrolling = true;
         	}, base.hideLoading);
-	}
-	
-	//分页获取推荐的租赁商品
-    function getPageLeaseProduct(){
-    	LeaseCtr.getPageLeaseProduct(config, true)
-            .then(function(data) {
-                base.hideLoading();
-                var lists = data.list;
-    			if(lists.length) {
-    				
-                    $("#leaseContent").append(_leaseTmpl({items: lists}));
-    			} else{
-                    $("#leaseContent").html('<li class="no-data">暂无推荐租赁</li>')
-                }
-        	}, base.hideLoading);
+    	}
 	}
     
     function addListener(){
+    	$(window).off("scroll").on("scroll", function() {
+            if (canScrolling && !isEnd && ($(document).height() - $(window).height() - 10 <= $(document).scrollTop())) {
+                canScrolling = false;
+                base.showLoading();
+                getPageProduct();
+            }
+        });
+    	
         $("#swiper-container").on("touchstart", ".swiper-slide div", function (e) {
             var touches = e.originalEvent.targetTouches[0],
                 me = $(this);
@@ -182,7 +195,27 @@ define([
 
             }
         });
-        //收藏
+        
+        //推荐标题点击
+        $("#hotTitle .title").click(function(){
+        	config = {
+		        start: 1,
+		        limit: 10,
+		        location: '1',
+		        orderColumn:'order_no',
+		        orderDir:'asc'
+		    },isEnd = false, canScrolling = false;
+		    
+        	$(this).addClass('active').siblings().removeClass('active')
+        	contentType = $(this).attr('data-contentType');
+        	
+        	$("#content").empty();
+        	
+        	base.showLoading();
+        	getPageProduct();
+        })
+        
+        //商品收藏
 		$("#mallContent").on('click', '.mall-item .collect',function(){
 			
 			base.showLoading();
@@ -208,7 +241,7 @@ define([
 			}
 		})
 		
-		//收藏
+		//租赁收藏
 		$("#leaseContent").on('click', '.lease-item .collect',function(){
 			
 			base.showLoading();

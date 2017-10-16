@@ -6,15 +6,44 @@ define([
         start: 1,
         limit: 10
     }, isEnd = false, canScrolling = false;
+    var refeereLevelData = {
+            "1": ['一级推荐人'],
+            "2": ['二级推荐人']
+        };
+    
     
     init();
     
     function init(){
     	base.showLoading();
-    	getPageChildren()
+    	getPageChildrenLevel()
     	addListener();
     }
     
+    //查询一级和二级推荐人接口
+    function getPageChildrenLevel(refresh){
+    	return UserCtr.getPageChildrenLevel(refresh).then((data)=>{
+                base.hideLoading();
+                if(data.length) {
+                    var html = "";
+                    data.forEach((d, i) => {
+                    	var THtml = '';
+                    	
+                        html += `<div class="invitation-item">
+                        	<div class="pic" style="background-image:url('${base.getImg(d.photo)}')"></div>
+                        	<div class="con"><p>${d.nickname}(${refeereLevelData[d.refeereLevel]})</p><samp>加入时间: ${base.formatDate(d.createDatetime,'yyyy-MM-dd hh:mm:ss')}</samp></div></div>`;
+                    });
+                    $("#content").append(html);
+                } else{
+                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无推荐</p></div>');
+                    $("#loadAll").addClass("hidden");
+                }
+    	},()=>{
+    		base.hideLoading();
+    	})
+    }
+    
+    //分页查询获客
     function getPageChildren(refresh){
     	return UserCtr.getPageChildren(config,refresh).then((data)=>{
                 base.hideLoading();
@@ -28,6 +57,8 @@ define([
                 if(data.list.length) {
                     var html = "";
                     lists.forEach((d, i) => {
+                    	var THtml = '';
+                    	
                         html += `<div class="invitation-item">
                         	<div class="pic" style="background-image:url('${base.getImg(d.photo)}')"></div>
                         	<div class="con"><p>${d.nickname}</p><samp>加入时间: ${base.formatDate(d.createDatetime,'yyyy-MM-dd hh:mm:ss')}</samp></div></div>`;
