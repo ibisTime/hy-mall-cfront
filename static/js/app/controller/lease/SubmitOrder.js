@@ -186,18 +186,18 @@ define([
 				config.receiver = data[0].addressee;
 			    config.reMobile = data[0].mobile;
 			    config.reAddress = data[0].province+' '+data[0].city+' '+data[0].district+' '+data[0].detailAddress;
+			    
+			    configYunFei = {
+					productCode: code,
+		            quantity: $('.productSpecs-number .sum').html(),
+					address:config.reAddress
+				};
+				
+				getYunFei(configYunFei);
 			}else{
 				$('.no-address').removeClass('hidden');
 				$("#orderAddress").addClass('hidden');
 			}
-			
-			configYunFei = {
-				productCode: code,
-	            quantity: $('.productSpecs-number .sum').html(),
-				address:config.reAddress
-			};
-			
-			getYunFei(configYunFei);
 			
 		},()=>{})
 		

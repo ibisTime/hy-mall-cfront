@@ -241,6 +241,7 @@ define([
 						address:config.pojo.reAddress
 					};
 					getYunFei(configYunFei);
+					
 					$("#orderAddress").html(html).attr('data-code',dCode);
 				    $("#orderAddress").removeClass('hidden');
 	            	$('.no-address').addClass('hidden');

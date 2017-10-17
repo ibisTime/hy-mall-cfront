@@ -100,6 +100,12 @@ define([
 			if (window.event.keyCode==13) window.event.keyCode=0 ;
     	})
     	
+		//返回顶部
+        $("#goTop").click(()=>{
+            var speed=200;//滑动的速度
+            $('body,html').animate({ scrollTop: 0 }, speed);
+            return false;
+        })
 		
 	}
 	

@@ -216,7 +216,7 @@ define([
         })
         
         //商品收藏
-		$("#mallContent").on('click', '.mall-item .collect',function(){
+		$("#content").on('click', '.mall-item .collect',function(){
 			
 			base.showLoading();
 			if($(this).hasClass('active')){
@@ -242,7 +242,7 @@ define([
 		})
 		
 		//租赁收藏
-		$("#leaseContent").on('click', '.lease-item .collect',function(){
+		$("#content").on('click', '.lease-item .collect',function(){
 			
 			base.showLoading();
 			if($(this).hasClass('active')){
@@ -266,6 +266,13 @@ define([
 				})	
 			}
 		})
-        
+		
+		//返回顶部
+        $("#goTop").click(()=>{
+            var speed=200;//滑动的速度
+            $('body,html').animate({ scrollTop: 0 }, speed);
+            return false;
+        })
+
     }
 });
