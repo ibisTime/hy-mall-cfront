@@ -61,7 +61,7 @@ define([
 	                'pagination': '.swiper-pagination'
 	            });
 			}else{
-				$("#top-swiper").html('<div class="swiper-slide"><img class="wp100" src="' + base.getImg(dpic) + '"></div>');
+				$("#top-swiper").html(`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(dpic)}')"></div></div>`);
 			}
 			
 			$('title').html(data.name+'-租赁详情');

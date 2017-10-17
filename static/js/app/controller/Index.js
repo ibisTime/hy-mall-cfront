@@ -68,7 +68,7 @@ define([
 				var html = '';
 				
 				data.list.forEach(function(d, i){
-					html += `<li class="t-3dot">${d.smsTitle}</li>`
+					html += `<div class="t-3dot">${d.smsTitle}</div>`
 				})
 				
 				$("#noticeWrap .notice-list-wrap1").html(html);
@@ -78,7 +78,7 @@ define([
 					var noticeList = $('.notice-list')[0];
 			        var noticeList_1 = $('.notice-list-wrap1')[0];
 			        var noticeList_2 = $('.notice-list-wrap2')[0];
-			        var noticeLiH = $('.notice-list-wrap1 li:first-child').outerHeight(true);
+			        var noticeLiH = noticeList_1.scrollHeight/data.list.length;
 			        noticeList.scrollTop = 0;
 			        
 			        // 克隆

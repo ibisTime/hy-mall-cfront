@@ -63,6 +63,12 @@ define([
 					$("#expressDelivery").removeClass('hidden')
 				}
 				
+				//运费
+				if(data.yunfei){
+					$("#yunfei").html('￥'+base.formatMoney(data.yunfei));
+					$(".yunfeiWrap").removeClass('hidden')
+				}
+				
 				//买家嘱托
 				$("#applyNote").html(data.applyNote?data.applyNote:'无')
 				

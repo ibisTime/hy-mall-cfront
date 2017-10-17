@@ -127,6 +127,10 @@ define([
                 commenter : base.getUserId(),
                 ...config
             }, true);
+        },
+        //获取运费
+        getYunfei(config){
+            return Ajax.get("808070", config, true);
         }
     };
 })

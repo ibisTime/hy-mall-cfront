@@ -42,8 +42,8 @@ define([
 							<samp class="slogan">数量：${data.quantity}</samp>
 							<samp class="slogan">租赁时长：${data.rentDay}天&nbsp;&nbsp;&nbsp;&nbsp;${data.price2 ? base.formatMoney(data.price2)+'积分' : '￥'+base.formatMoney(data.price1)}/天</samp>
 							<div class="amountWrap">
-								<p class='fl amount'>总价: <samp>${data.price2 ? base.formatMoney(data.amount2)+'积分+￥'+base.formatMoney(data.amount1) : '￥'+base.formatMoney(data.amount1)}</samp></p>
-								<p class="realDeposit fl">含押金: ${'￥'+base.formatMoney(data.realDeposit)}</p>
+								<p class='fl amount'>总价: <samp>${data.price2 ? base.formatMoney(data.amount2)+'积分+￥'+base.formatMoney(data.amount1+data.yunfei) : '￥'+base.formatMoney(data.amount1+data.yunfei)}</samp></p>
+								<p class="realDeposit fl">含押金: ${'￥'+base.formatMoney(data.realDeposit)} ${data.yunfei?' 运费:￥'+base.formatMoney(data.yunfei)+'':''} </p>
 							</div>
 							</div></a>`;
 					    			
@@ -99,6 +99,11 @@ define([
 					$("#returnOrder").removeClass('hidden')
 				}
 				
+				//运费
+				if(data.yunfei){
+					$("#yunfei").html('￥'+base.formatMoney(data.yunfei));
+					$(".yunfeiWrap").removeClass('hidden')
+				}
 				
 				//下单说明
 				$("#applyNote").html(data.applyNote?data.applyNote:'无')

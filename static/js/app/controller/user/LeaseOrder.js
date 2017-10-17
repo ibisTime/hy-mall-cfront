@@ -169,9 +169,10 @@ define([
                     </div>
                     <div class="orderPro-list">`+tmplProHtml+`</div><div class="totalAmout"><p>总价:<samp>
                     ${item.amount1&&item.amount2
-                    	? '￥'+base.formatMoney(item.amount1)+' + '+base.formatMoney(item.amount2)+'积分'
-                    	:item.amount1?'￥'+base.formatMoney(item.amount1):base.formatMoney(item.amount2)+'积分'}
-                    </samp></p><p class="realDeposit">含押金: ${'￥'+base.formatMoney(item.realDeposit)}</p>
+                    	? '￥'+base.formatMoney(item.amount1+item.yunfei)+' + '+base.formatMoney(item.amount2)+'积分'
+                    	:item.amount1?'￥'+base.formatMoney(item.amount1+item.yunfei):item.yunfei
+                    	?'￥'+base.formatMoney(item.yunfei)+' + '+base.formatMoney(item.amount2)+'积分':base.formatMoney(item.amount2)+'积分'}
+                    </samp></p><p class="realDeposit">含押金: ${'￥'+base.formatMoney(item.realDeposit)} ${item.yunfei?' 运费:￥'+base.formatMoney(item.yunfei)+'':''} </p>
                     </div>`+tmplbtnHtml+`</div></div>`;
 
     }

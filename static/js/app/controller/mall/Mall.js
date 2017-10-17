@@ -10,6 +10,7 @@ define([
     var config = {
         start: 1,
         limit: 10,
+        location:"2",
         orderColumn:'order_no',
         orderDir:'asc'
     }, isEnd = false, canScrolling = false;

@@ -27,7 +27,12 @@ define([
 	        companyCode: SYSTEM_CODE,
 	        systemCode: SYSTEM_CODE
 		}
-	}
+	},
+		configYunFei = {
+			productList: [],
+			address: ""
+		},
+		configYunFeiProductList = [];
 	var cartCodeList =[];
     
     if(base.getUserId()){
@@ -96,16 +101,16 @@ define([
     		}else{
     			totalAmount.amount1+=d.price*d.quantity;
     		}
-    		cartCodeList.push(d.code)
+    		cartCodeList.push(d.code);
+    		configYunFeiProductList.push({
+    			productSpecsCode: d.productSpecsCode,
+	            quantity: d.quantity
+    		})
 		})
     			
 		$(".orderPro-list").html(html);
-		if(carSubProInfo.length>1){
-			$("#totalAmount").html('￥'+base.formatMoney(totalAmount.amount1) +'+'+ base.formatMoney(totalAmount.amount2)+'积分' )
-		}else{
-			$("#totalAmount").html(carSubProInfo[0].type=='JF' ? base.formatMoney(totalAmount.amount2)+'积分' : '￥'+base.formatMoney(totalAmount.amount1))
-		}
 		
+		$("#totalAmount").html( totalAmount.amount2&&totalAmount.amount2!=0 ? '￥'+base.formatMoney(totalAmount.amount1)+'+'+base.formatMoney(totalAmount.amount2)+'积分': '￥'+base.formatMoney(totalAmount.amount1))
 		
 	}
 	
@@ -115,7 +120,7 @@ define([
 			
 			var html = '';
 			var specName,price;
-			var type = data.type
+			var type = data.category
 			
 			data.productSpecsList.forEach(function(d, i){
 				if(d.code==spec){
@@ -161,6 +166,22 @@ define([
 			        companyCode: SYSTEM_CODE,
 			        systemCode: SYSTEM_CODE
 			    }
+				if(submitType==2){
+					configYunFei = {
+						productList: [{
+				            productSpecsCode: spec,
+				            quantity: quantity
+				    	}],
+						address:config.pojo.reAddress
+					};
+				}else{
+					configYunFei = {
+						productList: configYunFeiProductList,
+						address:config.pojo.reAddress
+					};
+				}
+				
+				getYunFei(configYunFei);
 			}else{
 				$('.no-address').removeClass('hidden')
 			}
@@ -207,14 +228,22 @@ define([
 				    config.pojo.reMobile = res.reMobile;
 				    config.pojo.reAddress = res.reAddress;
 				    
-				   var html = `<div class="icon icon-dz"></div>
+					var html = `<div class="icon icon-dz"></div>
 					<div class="wp100 over-hide"><samp class="fl addressee">收货人：${config.pojo.receiver}</samp><samp class="fr mobile">${config.pojo.reMobile}</samp></div>
 					<div class="detailAddress">收货地址： ${config.pojo.reAddress}</div>
 					<div class="icon icon-more"></div>`
-				
-					$("#orderAddress").html(html).attr('data-code',dCode)
-				    $("#orderAddress").removeClass('hidden')
-	            	$('.no-address').addClass('hidden')
+					
+					configYunFei = {
+						productList: [{
+				            productSpecsCode: spec,
+				            quantity: quantity
+				    	}],
+						address:config.pojo.reAddress
+					};
+					getYunFei(configYunFei);
+					$("#orderAddress").html(html).attr('data-code',dCode);
+				    $("#orderAddress").removeClass('hidden');
+	            	$('.no-address').addClass('hidden');
 	            	
             	}else{
             		config.pojo.receiver = '';
@@ -230,6 +259,31 @@ define([
 		AddressList.showCont({
 			code: c
 		});
+	}
+	
+	//获取运费
+	function getYunFei(params){
+		if($("#toUser").attr('data-toUser')!=SYS_USER){
+			$('.yunfeiWrap').addClass('hidden')
+			if(submitType == 2){
+				$("#totalAmount").html( totalAmount.amount2&&totalAmount.amount2!=0 ? base.formatMoney(totalAmount.amount2*quantity)+'积分': '￥'+base.formatMoney(totalAmount.amount1*quantity))
+			}else{
+				$("#totalAmount").html( totalAmount.amount2&&totalAmount.amount2!=0 ? '￥'+base.formatMoney(totalAmount.amount1)+'+'+base.formatMoney(totalAmount.amount2)+'积分': '￥'+base.formatMoney(totalAmount.amount1))
+			}
+		}else{
+			MallCtr.getYunfei(params).then((data)=>{
+				
+				$('.yunfeiWrap').removeClass('hidden')
+				$("#yunfei samp").html('￥'+base.formatMoney(data.expressFee));
+				
+				if(submitType == 2){
+					$("#totalAmount").html( totalAmount.amount2&&totalAmount.amount2!=0 ? '￥'+base.formatMoney(totalAmount.amount1*quantity+data.expressFee)+'+'+base.formatMoney(totalAmount.amount2*quantity)+'积分': '￥'+base.formatMoney(totalAmount.amount1*quantity+data.expressFee))
+				}else{
+					$("#totalAmount").html( totalAmount.amount2&&totalAmount.amount2!=0 ? '￥'+base.formatMoney(totalAmount.amount1+data.expressFee)+'+'+base.formatMoney(totalAmount.amount2)+'积分': '￥'+base.formatMoney(totalAmount.amount1+data.expressFee))
+				}
+	
+			},()=>{})
+		}
 	}
 	
 	function addListener(){
@@ -306,6 +360,7 @@ define([
 								$('.no-address').removeClass('hidden');
 	            			}
 	            			
+							getYunFei(configYunFei);
 							base.hideLoading()
 	            		//自提
 	            		}else{
@@ -320,6 +375,7 @@ define([
 							$("#toStoreAddress").html(html).removeClass('hidden')
 	            			$('#orderAddress').addClass('hidden')
 	            			
+							getYunFei(configYunFei);
 							base.hideLoading()
 	            		}
 	            		

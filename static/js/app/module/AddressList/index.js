@@ -95,6 +95,8 @@ define([
 				<div class="detailAddress">收货地址： ${_thisData.find('.province').html()}  ${_thisData.find('.city').html()}  ${_thisData.find('.district').html()}  ${_thisData.find('.detailAddress').html()}</div>
 				<div class="icon icon-more"></div>`
 			
+			_thisData.parent('.addressWrap').siblings('.addressWrap').find('.xzIcon').removeClass('active');
+			_thisData.find('.xzIcon').addClass('active')
 			$("#orderAddress").html(html).attr('data-code',_thisData.attr('data-code'));
 			pojoConfig.receiver = _thisData.find('.addressee').html();
         	pojoConfig.reMobile = _thisData.find('.mobile').html()

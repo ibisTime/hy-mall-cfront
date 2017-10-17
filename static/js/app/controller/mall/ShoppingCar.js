@@ -21,7 +21,7 @@ define([
 				data.forEach(function(d, i){
 					html += `<div class="car-item mb20" data-code=${d.code} data-status=${d.product.status} data-type='${d.productSpecs.price2 ? 'JF' : 'CNY'}'>
 						<div class="icon"><i></i></div>
-						<a class="mall-item" data-pcode='${d.productCode}' href="./mallDetail.html?code=${d.productCode}">
+						<a class="mall-item" data-pcode='${d.productCode}' data-pscode='${d.productSpecs.code}' href="./mallDetail.html?code=${d.productCode}">
 				    		<div class="mall-item-img fl" data-advPic='${d.product.advPic}' style="background-image: url('${base.getImg(d.product.advPic)}');"></div>
 				    		<div class="mall-item-con fr">
 				    			<p class="name">${d.product.name}</p>
@@ -115,6 +115,7 @@ define([
 					var carProList={
 						code: $(this).attr('data-code'),//购物车编号
 						productCode: $(this).find('.mall-item').attr('data-pcode'),//商品编号
+						productSpecsCode: $(this).find('.mall-item').attr('data-pscode'),//商品规格编号
 						advPic: $(this).find('.mall-item-img').attr('data-advPic'),//商品图片
 						name: $(this).find('.name').html(),//商品名
 						specsName: $(this).find('.specsName').attr('data-sName'),//规格名称

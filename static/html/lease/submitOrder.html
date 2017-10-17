@@ -57,7 +57,17 @@
 		</div>
 		<div class="wrap wrap1">
 			<p class="fl">可减免金额</p>
-		<p class="fr primary-color" id="jmAmount" data-jmAmount='0'>￥0.00</p>
+			<p class="fr primary-color" id="jmAmount" data-jmAmount='0'>￥0.00</p>
+		</div>
+		<div class="yunfeiWrap">
+			<div class="wrap">
+				<p class="fl">总重量</p>
+				<p class="fr" id="weight">0</p>
+			</div>
+			<div class="wrap wrap1">
+				<p class="fl">运费</p>
+				<p class="fr" id="yunfei">￥0.00</p>
+			</div>
 		</div>
 		<div class="wrap">
 			<p class="fl">费用合计</p>
@@ -74,10 +84,10 @@
 	</div>
 	
 	<div style="height: 1.2rem;"></div>
-	<div class="submitOrderBottom lease-submitOrderBottom">
+	<div class="submitOrderBottom">
 		<div class="fl">
 			<div class="amount"><span>实付：</span><samp id="totalAmount2"></samp></div>
-			<div class="amount1" id="totalAmount3"></div>
+<!--			<div class="amount1" id="totalAmount3"></div>-->
 		</div>
 		<input type="button" value="提交订单" class="fr am-button am-button-noradius am-button-red" id="subBtn" />
 	</div>

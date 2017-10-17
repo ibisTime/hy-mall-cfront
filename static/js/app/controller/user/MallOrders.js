@@ -140,9 +140,10 @@ define([
                     </div>
                     <div class="orderPro-list orderList-pro">`+tmplProHtml+`</div><div class="totalAmout">总价:<samp>
                     ${item.amount1&&item.amount2
-                    	? '￥'+base.formatMoney(item.amount1)+' + '+base.formatMoney(item.amount2)+'积分'
-                    	:item.amount1?'￥'+base.formatMoney(item.amount1):base.formatMoney(item.amount2)+'积分'}
-                    </samp></div>`+tmplbtnHtml+`</div></div>`;
+                    	? '￥'+base.formatMoney(item.amount1+item.yunfei)+' + '+base.formatMoney(item.amount2)+'积分'
+                    	:item.amount1?'￥'+base.formatMoney(item.amount1+item.yunfei):item.yunfei
+                    	?'￥'+base.formatMoney(item.yunfei)+' + '+base.formatMoney(item.amount2)+'积分':base.formatMoney(item.amount2)+'积分'}
+                    </samp>${item.yunfei?'<span>(含运费:￥'+base.formatMoney(item.yunfei)+')</span>':''}</div>`+tmplbtnHtml+`</div></div>`;
 
     }
 

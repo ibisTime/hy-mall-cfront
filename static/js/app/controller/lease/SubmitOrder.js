@@ -13,7 +13,8 @@ define([
 	var totalAmount = {
 		price1:0,//人民币总价
 		price2:0,//积分总价
-		deposit:0 //押金
+		deposit:0, //押金
+		yunfei:0 // 运费
 	};
 	var config = {
 		productCode: code,
@@ -27,7 +28,12 @@ define([
         takeStore: "",
         takeType:"",
         quantity: ""
-	}
+	},
+		configYunFei = {
+			productCode: '',
+			quantity: '',
+			address: ''
+		};
     var minRentDays = 1,
     	type,
     	myScroll;
@@ -87,13 +93,13 @@ define([
 			$("#rentDay").html(data.minRentDays)
 			$("#deposit").html('￥'+base.formatMoney(data.deposit))
 			$("#dayOverdueFee").html('￥'+base.formatMoney(data.dayOverdueFee))
+			$('#weight').html(data.weight+'kg')
 			
 			totalAmount.deposit = data.deposit;
 			totalAmount.price1=data.price1;
 			totalAmount.price2=data.price2;
 			
 			getLeaseProJmAmount(1);
-    		
 			
 			setLeaseDate();
 		},()=>{})
@@ -184,6 +190,15 @@ define([
 				$('.no-address').removeClass('hidden');
 				$("#orderAddress").addClass('hidden');
 			}
+			
+			configYunFei = {
+				productCode: code,
+	            quantity: $('.productSpecs-number .sum').html(),
+				address:config.reAddress
+			};
+			
+			getYunFei(configYunFei);
+			
 		},()=>{})
 		
 	}
@@ -220,18 +235,36 @@ define([
 		var days = $("#rentDay").html();
 		
 		var amount = type==JFLEASEPRODUCTTYPE 
-				? base.formatMoney(totalAmount.price2*$('.productSpecs-number .sum').html()*days)+'积分 + ￥' + base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html()-$("#jmAmount").attr('data-jmAmount'))
-				: '￥'+base.formatMoney(totalAmount.price1*$('.productSpecs-number .sum').html()*days+totalAmount.deposit*$('.productSpecs-number .sum').html()-$("#jmAmount").attr('data-jmAmount'))
-		
-		var amount1 = type==JFLEASEPRODUCTTYPE 
-				? base.formatMoney(totalAmount.price2*$('.productSpecs-number .sum').html()*days)+'积分'
-				: '￥'+base.formatMoney(totalAmount.price1*$('.productSpecs-number .sum').html()*days)
+				? base.formatMoney(totalAmount.price2*$('.productSpecs-number .sum').html()*days)+'积分 + ￥' + base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html()-$("#jmAmount").attr('data-jmAmount')+totalAmount.yunfei)
+				: '￥'+base.formatMoney(totalAmount.price1*$('.productSpecs-number .sum').html()*days+totalAmount.deposit*$('.productSpecs-number .sum').html()-$("#jmAmount").attr('data-jmAmount')+totalAmount.yunfei)
 		
 		$("#totalAmount").html(amount)
 		$("#totalAmount2").html(amount)
-		$("#totalAmount3").html('租金：'+ amount1 +' 押金：￥'+base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html()-$("#jmAmount").attr('data-jmAmount')))
+		
+//		var amount1 = type==JFLEASEPRODUCTTYPE 
+//				? base.formatMoney(totalAmount.price2*$('.productSpecs-number .sum').html()*days)+'积分'
+//				: '￥'+base.formatMoney(totalAmount.price1*$('.productSpecs-number .sum').html()*days)
+//		$("#totalAmount3").html('租金：'+ amount1 +' 押金：￥'+base.formatMoney(totalAmount.deposit*$('.productSpecs-number .sum').html()-$("#jmAmount").attr('data-jmAmount')))
 		
 	}
+	
+	//获取运费
+	function getYunFei(params){
+		if($("#toUser").attr('data-toUser')!=SYS_USER){
+			$('.yunfeiWrap').addClass('hidden')
+			totalAmount.yunfei = 0;
+			getAmount();
+		}else{
+			LeaseCtr.getYunfei(params).then((data)=>{
+				totalAmount.yunfei = data.expressFee
+				$('.yunfeiWrap').removeClass('hidden')
+				$("#yunfei").html('￥'+base.formatMoney(data.expressFee));
+				
+				getAmount();
+			},()=>{})
+		}
+	}
+	
 	
 	//地址列表module
 	function addressListAddCont(c){
@@ -249,7 +282,10 @@ define([
 					<div class="wp100 over-hide"><samp class="fl addressee">收货人：${config.receiver}</samp><samp class="fr mobile">${config.reMobile}</samp></div>
 					<div class="detailAddress">收货地址： ${config.reAddress}</div>
 					<div class="icon icon-more"></div>`
-				
+					
+					configYunFei.address = config.reAddress;
+					getYunFei(configYunFei);
+					
 					$("#orderAddress").html(html).attr('data-code',dCode)
 				    $("#orderAddress").removeClass('hidden')
 	            	$('.no-address').addClass('hidden')
@@ -336,6 +372,7 @@ define([
 								$('.no-address').removeClass('hidden');
 	            			}
 	            			
+							getYunFei(configYunFei);
 							base.hideLoading()
 	            		//自提
 	            		}else{
@@ -349,6 +386,8 @@ define([
 							$("#toStoreAddress").html(html).removeClass('hidden')
 	            			$('#orderAddress').addClass('hidden')
 	            			
+	            			
+							getYunFei(configYunFei);
 							base.hideLoading()
 	            		}
 	            	}else{
@@ -392,7 +431,11 @@ define([
 			}
 			$('.productSpecs-number .sum').html(sum);
 			
-    			getLeaseProJmAmount($('.productSpecs-number .sum').html());
+			configYunFei.quantity = $('.productSpecs-number .sum').html();
+			$.when(
+				getYunFei(configYunFei),
+				getLeaseProJmAmount($('.productSpecs-number .sum').html())
+			)
 			
 		})
 		
@@ -403,7 +446,12 @@ define([
 				sum++
 //			}
 			$('.productSpecs-number .sum').html(sum);
-			getLeaseProJmAmount($('.productSpecs-number .sum').html());
+			
+			configYunFei.quantity = $('.productSpecs-number .sum').html();
+			$.when(
+				getYunFei(configYunFei),
+				getLeaseProJmAmount($('.productSpecs-number .sum').html())
+			)
 		})
 		
         //包装清单弹窗-关闭

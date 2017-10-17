@@ -46,20 +46,19 @@ define([
             .then((data) => {
                 base.hideLoading();
                 var price = 0;
-                if(!data.amount1&&data.amount2){
+                if(!data.amount1&&data.amount2&&!data.yunfei){
                 	price = base.formatMoney(data.amount2)+' 积分'
                 	
                 	$("#payName").html('积分支付');
-                	
 	        		$("#accountAmount").html(''+base.formatMoney(account.jf)+'积分');
                 }else if(data.amount1&&!data.amount2){
-                	price = '￥ '+base.formatMoney(data.amount1);
+                	price = '￥ '+base.formatMoney(data.amount1+data.yunfei)+'<samp>(含运费：￥ '+base.formatMoney(data.yunfei)+')</samp>';
                 	
                 	$("#payName").html('余额支付')
 	        		$("#accountAmount").html('￥'+base.formatMoney(account.cny+account.xjk)+'<i>(含小金库)</i>');
                 	$("#wxPay").removeClass('hidden')
                 }else{
-                	price = '￥ '+base.formatMoney(data.amount1)+' + '+base.formatMoney(data.amount2)+' 积分'
+                	price = '￥ '+base.formatMoney(data.amount1+data.yunfei)+' + '+base.formatMoney(data.amount2)+' 积分'+'<samp>(含运费：￥ '+base.formatMoney(data.yunfei)+')</samp>'
                 	
                 	$("#payName").html('余额支付')
                 	$("#wxPay").removeClass('hidden')
@@ -91,19 +90,19 @@ define([
             .then((data) => {
                 base.hideLoading();
                 var price = 0;
-                if(!data.amount1&&data.amount2){
+                if(!data.amount1&&data.amount2&&!data.yunfei){
                 	price = base.formatMoney(data.amount2)+' 积分'
                 	
                 	$("#payName").html('积分支付')
 	        		$("#accountAmount").html(''+base.formatMoney(account.jf)+'积分');
                 }else if(data.amount1&&!data.amount2){
-                	price = '￥ '+base.formatMoney(data.amount1);
+                	price = '￥ '+base.formatMoney(data.amount1+data.yunfei);
                 	
                 	$("#payName").html('余额支付')
                 	$("#wxPay").removeClass('hidden')
 	        		$("#accountAmount").html('￥'+base.formatMoney(account.cny+account.xjk)+'<i>(含小金库)</i>');
                 }else{
-                	price = '￥ '+base.formatMoney(data.amount1)+' + '+base.formatMoney(data.amount2)+' 积分'
+                	price = '￥ '+base.formatMoney(data.amount1+data.yunfei)+' + '+base.formatMoney(data.amount2)+' 积分'
                 	
                 	$("#payName").html('余额支付')
                 	$("#wxPay").removeClass('hidden')

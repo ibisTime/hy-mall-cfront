@@ -90,5 +90,9 @@ define([
                 ...config
             }, true);
         },
+        //获取运费
+        getYunfei(config){
+            return Ajax.get("810061", config, true);
+        }
     };
 })

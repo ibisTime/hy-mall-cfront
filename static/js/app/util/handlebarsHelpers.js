@@ -89,7 +89,7 @@ define(['Handlebars'], function(Handlebars) {
     	var data = options.data.root.items[options.data.index];
     	var price = '';
     	
-		if(data.type==JFPRODUCTTYPE){
+		if(data.category==JFPRODUCTTYPE){
     		price = (options.data.root.items[options.data.index].productSpecsList[0].price2/1000).toFixed(2)+'积分';
     	}else{
     		price = '￥'+(options.data.root.items[options.data.index].productSpecsList[0].price1/1000).toFixed(2);

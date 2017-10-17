@@ -111,6 +111,6 @@ define([
         // 分页查询评论
         getPageComment(config, refresh){
             return Ajax.get("801028", config, refresh);
-        },
+        }
     };
 })
