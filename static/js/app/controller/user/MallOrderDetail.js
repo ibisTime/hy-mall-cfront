@@ -1,18 +1,31 @@
 define([
     'app/controller/base',
     'app/interface/MallCtr',
-    'app/util/dict'
-], function(base, MallCtr, Dict) {
+    'app/util/dict',
+    'app/interface/GeneralCtr'
+], function(base, MallCtr, Dict, GeneralCtr) {
     var code = base.getUrlParam("code"),
         orderStatus = Dict.get("mallOrderStatus"),
-    	expressDict = Dict.get("expressDict");
+    	expressDict = {};
 
     init();
     
     function init(){
         addListener();
         base.showLoading();
-        getOrderDetail();
+        
+        getBackLogisticsCompany().then(()=>{
+        	getOrderDetail();
+        })
+    }
+    
+    //获取物流公司列表
+    function getBackLogisticsCompany(){
+    	return GeneralCtr.getDictList({parentKey:'kd_company'},'801907').then((data)=>{
+    		data.forEach(function(d, i){
+    			expressDict[d.dkey] = d.dvalue
+    		})
+    	},()=>{})
     }
     
     function getOrderDetail() {
