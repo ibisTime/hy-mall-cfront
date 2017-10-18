@@ -6,7 +6,7 @@ define([
 ], function(base, LeaseCtr, Dict, GeneralCtr) {
     var code = base.getUrlParam("code"),
         orderStatus = Dict.get("leaseOrderStatus"),
-    	expressDict = Dict.get("expressDict"),
+    	expressDict = {},
     	backLogisticsCompanyDict = {},
     	takeType;
 
@@ -49,22 +49,6 @@ define([
 					    			
 				$(".orderPro-list").html(htmlPro);
 				
-				//配送方式
-				if(data.takeType == '2'){
-					var htmlAddress ='';
-					htmlAddress = `<div class="icon icon-dz"></div>
-					<div class="wp100 over-hide"><samp class="fl addressee">收货人：${data.receiver}</samp><samp class="fr mobile">${data.reMobile}</samp></div>
-					<div class="detailAddress">收货地址： ${data.reAddress}</div>`;
-					
-					$("#toUser .toUserName").html('快递');
-					$("#orderAddress").html(htmlAddress)
-					$("#orderAddress").removeClass('hidden');
-					
-				}else{
-					$("#toUser .toUserName").html('自提');
-					$("#storeAddress").html('自提地址：'+data.takeAddress)
-					$("#storeAddress").removeClass('hidden');
-				}
 				
 				//已发货
 				if(data.logisticsCompany){
@@ -108,9 +92,11 @@ define([
 				//下单说明
 				$("#applyNote").html(data.applyNote?data.applyNote:'无')
 				
+				
 				//归还地址
 				if(data.status =='4' || data.status =='6' ){
-					$("#returnAddress").removeClass('hidden')
+					
+					$("#returnAddress").removeClass('hidden');
 				}
 				
 				//订单信息
@@ -185,47 +171,81 @@ define([
 					$("#commentBtn").removeClass('hidden')
 				}
 				
+				//配送方式
 				//takeType 1:自提 , 2: 邮寄
 				
             	var htmlCackType = '';
+				var htmlReturnAddressType = '';
             	
                 if(takeType == '1'){
 	            	htmlCackType = '<option value="1" selected>上门取件</option><option value="2">邮寄</option>';
-	            	
+	            	$("#toUser .toUserName").html('自提');
+					$("#storeAddress").html('自提地址：'+data.takeAddress)
+					$("#storeAddress").removeClass('hidden');
+					
+					htmlReturnAddressType = '<option value="2">自提点</option><option value="1">平台</option>';
+					
+					$("#dialog-returnAddress1 .textarea").html(data.storeUser.realName+' '+data.storeUser.mobile+' '+data.takeAddress)
+		    		$("#dialog-returnAddress1").attr('data-backAddress',data.storeUser.realName+' '+data.storeUser.mobile+' '+data.takeAddress)
+            		$("#dialog #confirm").attr('data-backAddress', data.storeUser.realName+' '+data.storeUser.mobile+' '+data.takeAddress)
+					
 	        		$(".backLogisticsCompany").addClass('hidden')
 	        		$(".backLogisticsCode").addClass('hidden')
-	        		$("#dialog-returnAddress").addClass('hidden')
+	        		$("#dialog-returnAddress1").addClass('hidden')
+	        		$("#returnAddressType").addClass('hidden')
 	        		$(".backAddress").removeClass('hidden')
+	        		
 	            }else{
 	            	htmlCackType = '<option value="1">上门取件</option><option value="2" selected>邮寄</option>';
-	            	
+	            	var htmlAddress ='';
+					htmlAddress = `<div class="icon icon-dz"></div>
+					<div class="wp100 over-hide"><samp class="fl addressee">收货人：${data.receiver}</samp><samp class="fr mobile">${data.reMobile}</samp></div>
+					<div class="detailAddress">收货地址： ${data.reAddress}</div>`;
+					
+					$("#toUser .toUserName").html('快递');
+					$("#orderAddress").html(htmlAddress)
+					$("#orderAddress").removeClass('hidden');
+					
+					htmlReturnAddressType = '<option value="1">平台</option>';
+					
 	            	$(".backLogisticsCompany").removeClass('hidden')
 	        		$(".backLogisticsCode").removeClass('hidden')
-	        		$("#dialog-returnAddress").removeClass('hidden')
+	        		$("#dialog-returnAddress2").removeClass('hidden')
+	        		$("#returnAddressType").removeClass('hidden')
 	        		$(".backAddress").addClass('hidden')
 	            }
                 
                 $("#backType").html(htmlCackType);
-                
-                
+            	$("#returnAddressType select").html(htmlReturnAddressType);
             });
     }
 	
 	//归还邮寄地址
 	function getReturnAddress(){
-		GeneralCtr.getDictList({key:'back_info'},'810917').then((data)=>{
-    		$("#returnAddress .textarea").html(data.cvalue);
-    		$("#dialog-returnAddress .textarea").html(data.cvalue);
+		$.when(
+			GeneralCtr.getDictList({key:'back_info_person'},'810917'),
+			GeneralCtr.getDictList({key:'back_info_address'},'810917'),
+		).then((data,data2)=>{
+			$("#returnAddress .textarea").html(data2.cvalue);
+			$("#dialog-returnAddress2 .textarea").html(data.cvalue+' '+data2.cvalue);
+			$("#dialog-returnAddress2").attr('data-backAddress',data.cvalue+' '+data2.cvalue);
     	},()=>{})
 	}
 
     //获取物流公司列表
     function getBackLogisticsCompany(){
-    	return GeneralCtr.getDictList({parentKey:'back_kd_company'},'801907').then((data)=>{
+    	return $.when(
+    		GeneralCtr.getDictList({parentKey:'kd_company'},'801907'),
+    		GeneralCtr.getDictList({parentKey:'back_kd_company'},'801907')
+    	).then((data, data1)=>{
     		var html = ''
     		data.forEach(function(d, i){
     			html += `<option value='${d.dkey}'>${d.dvalue}</option>`;
     			backLogisticsCompanyDict[d.dkey] = d.dvalue
+    		})
+    		
+    		data1.forEach(function(d, i){
+    			expressDict[d.dkey] = d.dvalue
     		})
     		
     		$("#backLogisticsCompany").append(html)
@@ -235,7 +255,7 @@ define([
 
 	function operateSuccess(){
 		setTimeout(function(){
-			location.reload(true)
+			location.replace('./lease-orders.html')
 		}, 800)
 	}
 
@@ -256,15 +276,32 @@ define([
     //弹窗取消
     function dialgoClose(){
     	$("#dialog").addClass('hidden');
-            
-        $("#backType option").eq(0).prop("selected", 'selected');
+          
 		$("#backLogisticsCompany option").eq(0).prop("selected", 'selected');
 		$("#backLogisticsCode").val("");
 		$("#backAddress").val("");
 		
-        $(".backLogisticsCompany").removeClass('hidden')
-		$(".backLogisticsCode").removeClass('hidden')
-		$(".backAddress").addClass('hidden')
+		//自提
+		if(takeType == 1){
+        	$("#backType option").eq(0).prop("selected", 'selected');
+			$("#dialog-returnAddress2").addClass('hidden')
+			$("#dialog-returnAddress1").addClass('hidden')
+			$("#returnAddressType").addClass('hidden')
+			$('#returnAddressType select').val('2')
+			
+	        $(".backLogisticsCompany").addClass('hidden')
+			$(".backLogisticsCode").addClass('hidden')
+			$(".backAddress").removeClass('hidden')
+		}else{
+        	$("#backType option").eq(2).prop("selected", 'selected');
+			$("#returnAddressType").removeClass('hidden')
+			
+			$("#dialog-returnAddress2").removeClass('hidden')
+	        $(".backLogisticsCompany").removeClass('hidden')
+			$(".backLogisticsCode").removeClass('hidden')
+			$(".backAddress").addClass('hidden')
+		}
+		
     }
 
     function addListener(){
@@ -322,42 +359,73 @@ define([
         $("#backType").on('change',function(){
         	//上门取件
         	if($(this).val()== 1){
+        		
         		$(".backLogisticsCompany").addClass('hidden')
         		$(".backLogisticsCode").addClass('hidden')
-        		$("#dialog-returnAddress").addClass('hidden')
+        		$("#dialog-returnAddress1").addClass('hidden')
+        		$("#dialog-returnAddress2").addClass('hidden')
+        		$("#returnAddressType").addClass('hidden')
         		$(".backAddress").removeClass('hidden')
+        		
         	//快递
         	}else{
         		$(".backLogisticsCompany").removeClass('hidden')
         		$(".backLogisticsCode").removeClass('hidden')
-        		$("#dialog-returnAddress").removeClass('hidden')
+        		//自提
+        		if(takeType==1){
+        			
+        			$('#returnAddressType select').val('2')
+        			$("#dialog-returnAddress1").removeClass('hidden')
+        		//邮递
+        		}else{
+        			
+        			$("#dialog-returnAddress2").removeClass('hidden')
+        			$('#returnAddressType select').val('1')
+        		}
+        		$("#returnAddressType").removeClass('hidden')
         		$(".backAddress").addClass('hidden')
         	}
         })
         
+        //寄还地址选择
+        $("#returnAddressType select").on('change',function(){
+        	//平台
+        	if($(this).val()== 1){
+            	$("#dialog #confirm").attr('data-backAddress', $("#dialog-returnAddress2").attr('data-backAddress'))
+        		$("#dialog-returnAddress1").addClass('hidden')
+        		$("#dialog-returnAddress2").removeClass('hidden')
+        	//自提点
+        	}else{
+        		
+            	$("#dialog #confirm").attr('data-backAddress', $("#dialog-returnAddress1").attr('data-backAddress'))
+        		$("#dialog-returnAddress1").removeClass('hidden')
+        		$("#dialog-returnAddress2").addClass('hidden')
+        	}
+        })
+        
         //归还按钮
+        var touchFalg = false
         $("#returnBtn").on("click", function() {
         	//takeType 1:自提 , 2: 邮寄
             $("#dialog #confirm").attr('data-code', code)
             $("#dialog #confirm").attr('data-deductType', takeType)
             
             $("#dialog").removeClass('hidden');
-             var touchFalg = true
+            
+            touchFalg = true
         	$('body').on('touchmove',function(e){
 				if(touchFalg){
 					e.preventDefault();
-					e.stopPropagation();
 				}
 			})
         });
         
         //归还弹窗-取消
         $("#dialog #canlce").click(function(){
-        	 var touchFalg = false
+        	touchFalg = false
         	$('body').on('touchmove',function(e){
 				if(touchFalg){
 					e.preventDefault();
-					e.stopPropagation();
 				}
 			})
             dialgoClose();
@@ -365,6 +433,7 @@ define([
         
         //归还弹窗-确认
         $("#dialog #confirm").click(function(){
+        	var _this = $(this)
         	//上门取件
         	if($("#backType").val()==1){
         		
@@ -380,7 +449,7 @@ define([
 	        	}
         	//邮递
         	}else{
-        		if($("#backLogisticsCompany").val()=='' && !$("#backLogisticsCode").val()){
+        		if($("#backLogisticsCompany").val()=='' && !$("#backLogisticsCompany").val()){
 	        		$(".backLogisticsCompany .error").removeClass('hidden');
 	        	}else if($("#backLogisticsCode").val()=='' && !$("#backLogisticsCode").val()){
 	        		$(".backLogisticsCode .error").removeClass('hidden');
@@ -390,7 +459,11 @@ define([
 						backType: 2,
 						backLogisticsCode: $("#backLogisticsCode").val(),
 						backLogisticsCompany: $("#backLogisticsCompany").val(),
+			    		backAddress: _this.attr('data-backAddress')
 			    	}
+	        		if(takeType==2){
+	        			param.backAddress=$("#dialog-returnAddress2").attr('data-backAddress');
+	        		}
 	        		returnOrder(param)
 	        	}
         		

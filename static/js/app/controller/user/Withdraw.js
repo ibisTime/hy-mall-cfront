@@ -153,11 +153,11 @@ define([
             base.showMsg("申请提交成功");
             setTimeout(function() {
             	
-//          	if(currencyType=='XJK'){
-//          		location.replace('./xjk-account.html');
-//          	}else{
-//              	location.replace('./rmb-account.html');
-//          	}
+            	if(currencyType=='XJK'){
+            		location.replace('./xjk-account.html');
+            	}else{
+                	location.replace('./rmb-account.html');
+            	}
             	
             }, 700);
         });

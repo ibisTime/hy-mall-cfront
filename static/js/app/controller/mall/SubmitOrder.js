@@ -126,8 +126,8 @@ define([
 				if(d.code==spec){
 					specName = d.name;
 					price = type==JFPRODUCTTYPE ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)
-					totalAmount.amount1 = d.price1;
-					totalAmount.amount2 = d.price2;
+					totalAmount.amount1 = d.price1 || 0;
+					totalAmount.amount2 = d.price2 || 0;
 				}
 			})
 			html = `<a class="mall-item" href="./mallDetail.html?code=${data.code}">
@@ -233,13 +233,20 @@ define([
 					<div class="detailAddress">收货地址： ${config.pojo.reAddress}</div>
 					<div class="icon icon-more"></div>`
 					
-					configYunFei = {
-						productList: [{
-				            productSpecsCode: spec,
-				            quantity: quantity
-				    	}],
-						address:config.pojo.reAddress
-					};
+					if(submitType==2){
+						configYunFei = {
+							productList: [{
+					            productSpecsCode: spec,
+					            quantity: quantity
+					    	}],
+							address:config.pojo.reAddress
+						};
+					}else{
+						configYunFei = {
+							productList: configYunFeiProductList,
+							address:config.pojo.reAddress
+						};
+					}
 					getYunFei(configYunFei);
 					
 					$("#orderAddress").html(html).attr('data-code',dCode);
@@ -282,7 +289,6 @@ define([
 				}else{
 					$("#totalAmount").html( totalAmount.amount2&&totalAmount.amount2!=0 ? '￥'+base.formatMoney(totalAmount.amount1+data.expressFee)+'+'+base.formatMoney(totalAmount.amount2)+'积分': '￥'+base.formatMoney(totalAmount.amount1+data.expressFee))
 				}
-	
 			},()=>{})
 		}
 	}
@@ -339,55 +345,65 @@ define([
 			}
 		})
 		
+		ExpressList.addCont({
+            success: function(res) {
+				base.showLoading()
+            	if(res.toUser){
+            		$("#toUser").attr('data-toUser',res.toUser)
+            		
+            		//快递
+            		if(res.toUser==SYS_USER){
+            			
+            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
+            			$('#toStoreAddress').addClass('hidden').html('')
+            			$('#orderAddress').removeClass('hidden')
+            			
+            			if($('#orderAddress').html()){
+							$('.no-address').addClass('hidden');
+            			}else{
+							$('.no-address').removeClass('hidden');
+            			}
+            			if($("#toUser").attr('data-toUser')==SYS_USER && !config.pojo.reAddress){
+							base.hideLoading()
+							base.showMsg('请选择地址')
+						}else{
+							if(submitType==2){
+								configYunFei.productList.productSpecsCode= spec,
+							    configYunFei.productList.quantity = quantity;
+							}else{
+								configYunFei.productList = configYunFeiProductList
+							}
+							getYunFei(configYunFei);
+							base.hideLoading()
+						}
+            		//自提
+            		}else{
+            			
+						var html = `<div class="icon icon-dz"></div>
+						<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp></div>
+						<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
+						
+            			$("#toUser").find('.toUserName').children('samp').html("自提")
+            			
+						$('.no-address').addClass('hidden');
+						$("#toStoreAddress").html(html).removeClass('hidden')
+            			$('#orderAddress').addClass('hidden')
+            			
+						getYunFei(configYunFei);
+						base.hideLoading()
+            		}
+            		
+            	}else{
+            		
+					base.hideLoading();
+            	}
+            }
+        });
+		
 		//配送方式
 		$("#toUser").click(function(){
 			
-			ExpressList.addCont({
-	            success: function(res) {
-					base.showLoading()
-	            	if(res.toUser){
-	            		$("#toUser").attr('data-toUser',res.toUser)
-	            		
-	            		//快递
-	            		if(res.toUser==SYS_USER){
-	            			
-	            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
-	            			$('#toStoreAddress').addClass('hidden').html('')
-	            			$('#orderAddress').removeClass('hidden')
-	            			
-	            			if($('#orderAddress').html()){
-								$('.no-address').addClass('hidden');
-	            			}else{
-								$('.no-address').removeClass('hidden');
-	            			}
-	            			
-							getYunFei(configYunFei);
-							base.hideLoading()
-	            		//自提
-	            		}else{
-	            			
-							var html = `<div class="icon icon-dz"></div>
-							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp></div>
-							<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
-							
-	            			$("#toUser").find('.toUserName').children('samp').html("自提")
-	            			
-							$('.no-address').addClass('hidden');
-							$("#toStoreAddress").html(html).removeClass('hidden')
-	            			$('#orderAddress').addClass('hidden')
-	            			
-							getYunFei(configYunFei);
-							base.hideLoading()
-	            		}
-	            		
-	            	}else{
-	            		
-						base.hideLoading();
-	            	}
-	            }
-	        });
-        
-			ExpressList.showCont({});
+			ExpressList.showCont();
 		})
 		
 	}

@@ -91,7 +91,7 @@ define([
     		$(document).keyup(function(event){
 				if(event.keyCode==13){
 					if($("#search .searchText").val()&&$("#search .searchText").val()!=''){
-						location.href = './mall-list.html?searchVal='+$("#search .searchText").val()
+						location.href = './mall-search.html?searchVal='+$("#search .searchText").val()
 					}
 				}
 			}); 

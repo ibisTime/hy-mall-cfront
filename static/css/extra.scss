@@ -1629,6 +1629,9 @@ label.error {
             margin: 0 auto .2rem;
             border-radius: 50%;
             overflow: hidden;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
             
             img{
                 width: 100%;
@@ -3423,7 +3426,7 @@ label.error {
         }
     }
     .am-modal-body{
-        max-height: 6rem !important;
+        max-height: 8rem !important;
     }
     .am-modal-footer{
         padding: .4rem 1rem !important;
@@ -3954,7 +3957,7 @@ label.error {
     z-index: 1;
     bottom: .9rem;
     top: 0;
-    right: .8rem;
+    right: .9rem;
     left: 0;
     background: #fff;
     height: .9rem;

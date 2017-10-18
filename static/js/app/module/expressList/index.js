@@ -37,7 +37,7 @@ define([
 	}
 	
 	function addListener(){
-		$("#expressList").on('click', '.titleWrap',function(){
+		$("#expressList").off('click').on('click', '.titleWrap',function(){
     		toUser = $(this).attr('data-userId');
     		toUserAddress = $(this).attr('data-address');
     		toUserName = $(this).find(".name").html();

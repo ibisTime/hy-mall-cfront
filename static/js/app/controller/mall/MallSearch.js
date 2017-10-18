@@ -45,7 +45,8 @@ define([
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
-                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无'+searchVal+'相关商品</p></div>').removeClass('bg_fff')
+    				var searchValT = '"'+searchVal+'"'
+                    $("#content").html(`<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无${searchVal?searchValT:""}相关商品</p></div>`).removeClass('bg_fff')
                 } else {
                     $("#loadAll").removeClass("hidden");
                 }
@@ -72,7 +73,7 @@ define([
     		$(document).keyup(function(event){
 				if(event.keyCode==13){
 					if($("#search .searchText").val()&&$("#search .searchText").val()!=''){
-						location.href = './mall-list.html?searchVal='+$("#search .searchText").val()
+						location.href = './mall-searchs.html?searchVal='+$("#search .searchText").val()
 					}
 				}
 			}); 

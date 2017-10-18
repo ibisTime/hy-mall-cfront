@@ -283,6 +283,8 @@ define([
 					<div class="detailAddress">收货地址： ${config.reAddress}</div>
 					<div class="icon icon-more"></div>`
 					
+					configYunFei.productCode = code,
+			        configYunFei.quantity = $('.productSpecs-number .sum').html();
 					configYunFei.address = config.reAddress;
 					getYunFei(configYunFei);
 					
@@ -309,7 +311,7 @@ define([
 	//获取租赁规则说明
 	function getLeaseRules(){
 		return GeneralCtr.getUserSysConfig('rent_rule',true).then((data)=>{
-			$("#leaseRuleDialog-content").html(data.cvalue)
+			$("#leaseRuleDialog-content div").html(data.cvalue)
 		})
 	}
 	
@@ -350,53 +352,61 @@ define([
 				
 		})
 		
+		ExpressList.addCont({
+            success: function(res) {
+				base.showLoading()
+            	if(res.toUser){
+            		$("#toUser").attr('data-toUser',res.toUser)
+            		
+            		//快递
+            		if(res.toUser==SYS_USER){
+            			
+            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
+            			$('#toStoreAddress').addClass('hidden').html('')
+            			$('#orderAddress').removeClass('hidden')
+            			
+            			if($('#orderAddress').html()){
+							$('.no-address').addClass('hidden');
+            			}else{
+							$('.no-address').removeClass('hidden');
+            			}
+            			
+            			if($("#toUser").attr('data-toUser')==SYS_USER && !config.receiver){
+							base.hideLoading()
+							base.showMsg('请选择地址')
+						}else{
+						    configYunFei.productCode = code,
+					        configYunFei.quantity = $('.productSpecs-number .sum').html();
+	            			
+							getYunFei(configYunFei);
+							base.hideLoading()
+						}
+            		//自提
+            		}else{
+						var html = `<div class="icon icon-dz"></div>
+						<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp></div>
+						<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
+						
+            			$("#toUser").find('.toUserName').children('samp').html("自提")
+            			
+						$('.no-address').addClass('hidden');
+						$("#toStoreAddress").html(html).removeClass('hidden')
+            			$('#orderAddress').addClass('hidden')
+            			
+            			
+						getYunFei(configYunFei);
+						base.hideLoading()
+            		}
+            	}else{
+					base.hideLoading();
+            	}
+            }
+        });
+		
 		//配送方式
 		$("#toUser").click(function(){
-			
-			ExpressList.addCont({
-	            success: function(res) {
-					base.showLoading()
-	            	if(res.toUser){
-	            		$("#toUser").attr('data-toUser',res.toUser)
-	            		
-	            		//快递
-	            		if(res.toUser==SYS_USER){
-	            			
-	            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
-	            			$('#toStoreAddress').addClass('hidden').html('')
-	            			$('#orderAddress').removeClass('hidden')
-	            			
-	            			if($('#orderAddress').html()){
-								$('.no-address').addClass('hidden');
-	            			}else{
-								$('.no-address').removeClass('hidden');
-	            			}
-	            			
-							getYunFei(configYunFei);
-							base.hideLoading()
-	            		//自提
-	            		}else{
-							var html = `<div class="icon icon-dz"></div>
-							<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp></div>
-							<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
-							
-	            			$("#toUser").find('.toUserName').children('samp').html("自提")
-	            			
-							$('.no-address').addClass('hidden');
-							$("#toStoreAddress").html(html).removeClass('hidden')
-	            			$('#orderAddress').addClass('hidden')
-	            			
-	            			
-							getYunFei(configYunFei);
-							base.hideLoading()
-	            		}
-	            	}else{
-						base.hideLoading();
-	            	}
-	            }
-	        });
         
-			ExpressList.showCont({});
+			ExpressList.showCont();
 		})
         
         //包装清单弹窗-显示
