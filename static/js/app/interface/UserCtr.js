@@ -166,7 +166,8 @@ define([
             return Ajax.get("805120", {
             	limit: 1000,
             	start: 1,
-            	kind:'PA'
+            	kind:'PA',
+            	status: '0'
             }, true);
         },
         // 分页获取签到记录

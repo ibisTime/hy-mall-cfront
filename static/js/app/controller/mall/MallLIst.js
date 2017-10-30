@@ -10,9 +10,10 @@ define([
     var cate = base.getUrlParam("type") || '',
         myScroll, lType,
         start = 1,
-        limit = 10,
+        limit = 3,
         isEnd = false,
         canScrolling = false;
+    var l_code, category;
 
     init();
 
@@ -29,7 +30,7 @@ define([
     function getBigCategoryList(){
         MallCtr.getBigCategoryList()
             .then(function(data) {
-                var html = '<li l_type="" class="allCategory">全部分类</li>', html1 = "";
+                var html = '<li l_type="" class="allCategory">全部分类</li>', html1 = '<li l_type="" class="wp33 tc fl allCategory">全部分类</li>';
                 for (var i = 0; i < data.length; i++) {
                     var d = data[i];
                     html += `<li l_type="${d.code}">${d.name}</li>`;
@@ -41,6 +42,16 @@ define([
                 addCategory();
                 cate = cate || '';
                 scroller.find("ul>li[l_type='" + cate + "']").click();
+                if(!cate){
+                	//下拉加载
+		            $(window).off("scroll").on("scroll", function() {
+		                if (canScrolling && !isEnd && ($(document).height() - $(window).height() - 10 <= $(document).scrollTop())) {
+		                    canScrolling = false;
+		                    base.showLoading();
+		                    getPageProduct(l_code, category);
+		                }
+		            });
+                }
             });
     }
     // 添加大类
@@ -65,36 +76,37 @@ define([
         });
     }
     //根据大类查询小类
-    function getProduces(category) {
+    function getProduces(c) {
         $("#mlTable ul").empty();
-        MallCtr.getSmallCategoryList(category).then(function(data) {
+        MallCtr.getSmallCategoryList(c).then(function(data) {
             base.hideLoading();
             $.each(data, function(i, val) {
                 var name = val.name;
-                var l_code = val.code;
-                var html1 = "<li l_code=" + l_code + " class='wp20 tc'>" + name + "</li>";
+                var vcode = val.code;
+                var html1 = "<li l_code=" + vcode + " class='wp20 tc'>" + name + "</li>";
                 html1 = $(html1);
                 html1.on("click", function() {
                     start = 1;
                     isEnd = false;
                     base.showLoading();
                     $("#content").empty();
-                    getPageProduct(l_code, category).then(base.hideLoading);
+                    l_code = $(this).attr("l_code");
                     $(this).addClass("active").siblings().removeClass("active");
+                    getPageProduct(l_code, c).then(base.hideLoading);
                 });
                 //清空小类后再添加，否则会直接添加进去，原来的依旧在
                 $("#mlTable ul").append(html1);
             });
 
             //默认选中第一个
-            var smallEle = $("#mlTable ul li:eq(0)"),
-                l_code = smallEle.attr("l_code");
+            var smallEle = $("#mlTable ul li:eq(0)");
+                category = c, l_code = smallEle.attr("l_code");
             if (l_code) {
                 smallEle.click();
             }else{
                 base.showLoading();
                 $("#content").empty();
-                getPageProduct("", category).then(base.hideLoading);
+                getPageProduct("", c).then(base.hideLoading);
             }
             //下拉加载
             $(window).off("scroll").on("scroll", function() {
@@ -121,12 +133,12 @@ define([
 	}
     
     // 分页查询商品
-    function getPageProduct(l_code, category) {
+    function getPageProduct(l_c, c) {
         return MallCtr.getPageProduct({
             start,
             limit,
-            category: category,
-            type: l_code,
+            category: c,
+            type: l_c,
 	        orderColumn: 'order_no',
 	        orderDir: 'asc'
         }).then(function(data) {
@@ -145,20 +157,13 @@ define([
             } else {
                 $("#loadAll").removeClass("hidden");
             }
+            canScrolling = true;
         }).always(base.hideLoading)
     }
 	
 	
 	function addListener(){
-		$(window).off("scroll").on("scroll", function() {
-            if (canScrolling && !isEnd && ($(document).height() - $(window).height() - 10 <= $(document).scrollTop())) {
-                canScrolling = false;
-                base.showLoading();
-                getPageProduct();
-            }
-        });
-        
-        
+	        
 		//返回顶部
         $("#goTop").click(()=>{
             var speed=200;//滑动的速度
@@ -196,8 +201,11 @@ define([
             base.showLoading();
             $("#loadAll").addClass("hidden");
             if(me.hasClass('allCategory')){
+            	l_code = '';
+            	category = '';
             	$("#mlTable").addClass('hidden')
-            	getPageProduct('','');
+                getPageProduct(l_code, category);
+                
             }else{
             	$("#mlTable").removeClass('hidden')
             	getProduces(lType);

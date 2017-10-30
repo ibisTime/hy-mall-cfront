@@ -7,6 +7,7 @@ define([
         limit: 10
     }, isEnd = false, canScrolling = false;
     var refeereLevelData = {
+            "-1": ['上级推荐人'],
             "1": ['一级推荐人'],
             "2": ['二级推荐人']
         };
@@ -26,14 +27,24 @@ define([
                 base.hideLoading();
                 if(data.length) {
                     var html = "";
+                    var flag = false;
                     data.forEach((d, i) => {
-                    	var THtml = '';
                     	
-                        html += `<div class="invitation-item">
+                    	if(d.refeereLevel == '1' || d.refeereLevel == '2' ){
+                    		html += `<div class="invitation-item">
                         	<div class="pic" style="background-image:url('${base.getImg(d.photo)}')"></div>
                         	<div class="con"><p>${d.nickname}(${refeereLevelData[d.refeereLevel]})</p><samp>加入时间: ${base.formatDate(d.createDatetime,'yyyy-MM-dd hh:mm:ss')}</samp></div></div>`;
+                    
+                    	}else{
+                    		flag = true
+                    	}
                     });
+                    
                     $("#content").append(html);
+                    if(data.length==1 && flag){
+                    	
+                    	$("#content").append('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无推荐</p></div>');
+                    }
                 } else{
                     $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无推荐</p></div>');
                     $("#loadAll").addClass("hidden");

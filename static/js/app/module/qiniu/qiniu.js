@@ -40,19 +40,19 @@ define([
                 max_file_size: '100mb', //最大文件体积限制
                 flash_swf_url: swfUrl, //引入flash,相对路径
                 multi_selection: multi_selection,
-                filters: {
-                    mime_types: [
-                        //只允许上传图片文件 （注意，extensions中，逗号后面不要加空格）
-                        {
-                            title: "图片文件",
-                            extensions: "jpg,jpeg,gif,png,bmp"
-                        }
-            //             , {
-                        //  title: '文件',
-                        //  extensions: "docx,doc,xls,xlsx,pdf"
-                        // }
-                    ]
-                },
+//              filters: {
+//                  mime_types: [
+//                      //只允许上传图片文件 （注意，extensions中，逗号后面不要加空格）
+//                      {
+//                          title: "图片文件",
+//                          extensions: "jpg,jpeg,gif,png,bmp"
+//                      }
+//          //             , {
+//                      //  title: '文件',
+//                      //  extensions: "docx,doc,xls,xlsx,pdf"
+//                      // }
+//                  ]
+//              },
                 max_retries: 3, //上传失败最大重试次数
                 // dragdrop: true, //开启可拖曳上传
                 // drop_element: dropId, //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
@@ -67,6 +67,13 @@ define([
                     'BeforeUpload': function(up, file) {
                         // 每个文件上传前,处理相关的事情
                         //printLog('on BeforeUpload');
+                        if(file.type=='image/jpg' || file.type=='image/jpeg'  || file.type=='image/gif'  || file.type=='image/png'  || file.type=='image/bmp'){
+                        	
+                        }else{
+                        	uploader.stop();
+                        	up.removeFile(file);//清除file缓存
+                        	alert('请选择图片上传！')
+                        }
                     },
                     'UploadProgress': function(up, file) {
                         // 显示进度条

@@ -2,9 +2,11 @@ define([
     'app/controller/base',
     'app/util/dict',
     'app/module/scroll',
+    'app/module/qiniu',
     'app/interface/LeaseCtr',
-    'app/interface/GeneralCtr'
-], function(base, Dict, scroll, LeaseCtr, GeneralCtr) {
+    'app/interface/GeneralCtr',
+    'app/interface/UserCtr'
+], function(base, Dict, scroll, qiniu, LeaseCtr, GeneralCtr, UserCtr) {
     var config = {
         start: 1,
         limit: 10
@@ -41,7 +43,9 @@ define([
         $.when(
         	getPageOrders(),
         	getBackLogisticsCompany(),
-        	getReturnAddress()
+        	getReturnAddress(),
+        	getBackStore(),
+        	initUpload()
         )
         addListener();
     }
@@ -104,6 +108,19 @@ define([
             }, () => hideLoading());
     }
     
+    //获取自提点
+    function getBackStore(){
+    	return UserCtr.getPagePartner(true).then((data)=>{
+    		var html = '';
+    		
+    		data.list.forEach(function(d, i){
+    			html+=`<option value="${d.userId}"  data-address="${d.province+' '+d.city+' '+d.area+' '+d.address}">${d.realName}</option>`
+    		})
+    		
+    		$('#backStore').html(html)
+    	})
+    }
+    
 	//归还邮寄地址
 	function getReturnAddress(){
 		$.when(
@@ -159,7 +176,8 @@ define([
     	// 已收货， 体验中和逾期中
     	}else if(item.status == "4" || item.status == "6"){
     		var takePerson = item.takeType==1?item.storeUser.realName+' '+item.storeUser.mobile:''
-    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red return-order" data-code="${item.code}" data-takeType="${item.takeType}"  data-takePerson="${takePerson}" data-takeAddress="${takePerson+item.takeAddress}">待归还</button></div>`
+    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red return-order" data-code="${item.code}" data-takeType="${item.takeType}"
+    						data-storeUser="${item.storeUser?item.storeUser.userId:''}"  data-takePerson="${takePerson}" data-takeAddress="${takePerson+item.takeAddress}">待归还</button></div>`
     	
     	// 已收货
     	}else if(item.status == "7"){
@@ -184,12 +202,13 @@ define([
     
     //归还租赁
     function returnOrder(param){
+//  	console.log(param)
         base.confirm('确认归还吗？').then(() => {
 	    	base.showLoading("提交中...");
 	        LeaseCtr.returnOrder(param)
 	            .then(() => {
+	            	base.hideLoading();
 	                base.showMsg("操作成功");
-	                base.showLoading();
 	                setTimeout(function(){
 	                	location.reload(true)
 	                },800)
@@ -205,6 +224,11 @@ define([
 		$("#backLogisticsCompany option").eq(0).prop("selected", 'selected');
 		$("#backLogisticsCode").val("");
 		$("#backAddress").val("");
+    	$(".addbackPdf").removeClass('hidden')
+		$("#backPdf").html("");
+		$('#backPdf').attr('data-key','')
+		$('#backStore option').eq(0).attr('selected','selected')
+		$("#backStoreAddress .textarea").html($('#backStore option').eq(0).attr('data-address'))
 		
 		$("#dialog-returnAddress2").addClass('hidden')
 		$("#returnAddressType").addClass('hidden')
@@ -214,6 +238,32 @@ define([
 		$(".backLogisticsCode").removeClass('hidden')
 		$(".backAddress").addClass('hidden')
     }
+    
+    //七牛
+	function initUpload(){
+		qiniu.getQiniuToken()
+			.then((data) =>{
+				var token = data.uploadToken;
+				qiniu.uploadInit({
+					token: token,
+					btnId: "uploadBtn",
+					containerId: "uploadContainer",
+					multi_selection: false,
+					showUploadProgress: function(up, file){
+						$(".upload-progress").css("width", parseInt(file.percent, 10) + "%");
+					},
+					fileAdd: function(up, file){
+						$(".upload-progress-wrap").show();
+					},
+					fileUploaded: function(up, url, key){
+						$(".upload-progress-wrap").hide().find(".upload-progress").css("width", 0);
+						$(".addbackPdf").addClass('hidden')
+						$("#backPdf").html("<img src='"+url+"'>");
+						$('#backPdf').attr('data-key',key)
+					}
+				});
+			}, () => {})
+	}
 
     function addListener(){
         // tabs切换事件
@@ -284,7 +334,7 @@ define([
         
         //归还方式选择
         $("#backType").on('change',function(){
-        	//上门取件
+        	//上门归还
         	if($(this).val()== 1){
         		$(".backLogisticsCompany").addClass('hidden')
         		$(".backLogisticsCode").addClass('hidden')
@@ -336,6 +386,8 @@ define([
             var takeType = $(this).attr("data-takeType");
             var takeAddress = $(this).attr("data-takeAddress");
             var takePerson = $(this).attr("data-takePerson");
+            var storeUser = $(this).attr("data-storeUser");
+            
             $("#dialog #confirm").attr('data-code', orderCode)
             $("#dialog #confirm").attr('data-deductType', takeType)
             $("#dialog #confirm").attr('data-backAddress', takeAddress)
@@ -347,7 +399,7 @@ define([
 			var htmlReturnAddressType = '';
         	
             if(takeType == '1'){
-            	htmlCackType = '<option value="1" selected>上门取件</option><option value="2">邮寄</option>';
+            	htmlCackType = '<option value="1" selected>上门归还</option><option value="2">邮寄</option>';
 				htmlReturnAddressType = '<option value="2">自提点</option><option value="1">平台</option>';
 				
         		$(".backLogisticsCompany").addClass('hidden')
@@ -355,8 +407,17 @@ define([
         		$("#dialog-returnAddress1").addClass('hidden')
         		$("#returnAddressType").addClass('hidden')
         		$(".backAddress").removeClass('hidden')
+        		
+        		$('#backStore option').each(function(i, d){
+        			if(d.value == storeUser){
+        				$('#backStore option').eq(i).attr('selected','selected')
+						$("#backStoreAddress .textarea").html($('#backStore option').eq(i).attr('data-address'))
+        				return false;
+        			}
+        		})
+        		
             }else{
-            	htmlCackType = '<option value="1">上门取件</option><option value="2" selected>邮寄</option>';
+            	htmlCackType = '<option value="1">上门归还</option><option value="2" selected>邮寄</option>';
 				htmlReturnAddressType = '<option value="1">平台</option>';
 				
             	$(".backLogisticsCompany").removeClass('hidden')
@@ -365,6 +426,9 @@ define([
         		$("#dialog-returnAddress2").removeClass('hidden')
         		$("#returnAddressType").removeClass('hidden')
         		$(".backAddress").addClass('hidden')
+        		
+        		
+				$("#backStoreAddress .textarea").html($('#backStore option').eq(0).attr('data-address'))
             }
             
             $("#backType").html(htmlCackType);
@@ -391,11 +455,16 @@ define([
             dialgoClose();
         })
         
+        //上门归还-自提点
+        $("#backStore").on('change',function(){
+    		$("#backStoreAddress .textarea").html($('#backStore option:selected').attr('data-address'))
+        })
+        
         //归还弹窗-确认
         $("#dialog #confirm").click(function(){
         	var _this = $(this)
             
-        	//上门取件
+        	//上门归还
         	if($("#backType").val()==1){
         		
         		if($("#backAddress").val()=='' && !$("#backAddress").val()){
@@ -404,7 +473,7 @@ define([
 	        		var param = {
 			    		code: $(this).attr('data-code'),
 						backType: 1,
-			    		backAddress: $("#backAddress").val()
+			    		backStore: $("#backStore").val()
 			    	}
 	        		returnOrder(param)
 	        	}
@@ -420,7 +489,8 @@ define([
 						backType: 2,
 						backLogisticsCode: $("#backLogisticsCode").val(),
 						backLogisticsCompany: $("#backLogisticsCompany").val(),
-			    		backAddress: _this.attr('data-backAddress')
+			    		backAddress: _this.attr('data-backAddress'),
+						backPdf: $('#backPdf').attr('data-key')
 			    	}
 	        		
         			if($("#dialog #confirm").attr('data-deductType')==2){

@@ -99,7 +99,7 @@ define([
 			_thisData.find('.xzIcon').addClass('active')
 			$("#orderAddress").html(html).attr('data-code',_thisData.attr('data-code'));
 			pojoConfig.receiver = _thisData.find('.addressee').html();
-        	pojoConfig.reMobile = _thisData.find('.mobile').html()
+        	pojoConfig.reMobile = _thisData.find('.mobile').text()
         	pojoConfig.reAddress = _thisData.find('.province').html()+' '+_thisData.find('.city').html()+' '+_thisData.find('.district').html()+' '+_thisData.find('.detailAddress').html();
 			ModuleObj.hideCont(defaultOpt.success);
 		})
@@ -219,7 +219,7 @@ define([
 	            		if($(this).find('.xzIcon').hasClass('active')){
 	            			dCode = $(this).find('.addressWrap-detail').attr('data-code')
 	            			pojoConfig.receiver = $(this).find('.addressee').html();
-				        	pojoConfig.reMobile = $(this).find('.mobile').html()
+				        	pojoConfig.reMobile = $(this).find('.mobile').text()
 				        	pojoConfig.reAddress = $(this).find('.province').html()+' '+$(this).find('.city').html()+' '+$(this).find('.district').html()+' '+$(this).find('.detailAddress').html();
 				        	
 				        	falg = true

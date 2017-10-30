@@ -73,7 +73,7 @@ define([
     		$(document).keyup(function(event){
 				if(event.keyCode==13){
 					if($("#search .searchText").val()&&$("#search .searchText").val()!=''){
-						location.href = './mall-searchs.html?searchVal='+$("#search .searchText").val()
+						location.href = '../mall/mall-search.html?searchVal='+$("#search .searchText").val()
 					}
 				}
 			}); 

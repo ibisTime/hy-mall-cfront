@@ -45,6 +45,9 @@ label.error {
     font-size: 0.28rem;
     color: #ff0200;
 }
+.tcolor_red{
+    color: $red-color !important;
+}
 // Swiper
 .swiper-pagination-bullet.swiper-pagination-bullet-active {
     background: #fff;
@@ -55,7 +58,7 @@ label.error {
 }
 
 .index-swiper-wrap {
-    height: 3.7rem;
+    height: 4.68rem;
 }
 
 .headline-tip {
@@ -1701,7 +1704,7 @@ label.error {
             max-height: .8rem;
             overflow: hidden;
             font-size: .24rem;
-            color: #666;
+            color: $red-color;
         }
         .price{
             position: absolute;
@@ -1892,10 +1895,10 @@ label.error {
 }
 
 .mallDetail-swiper{
-    height: 4.8rem;
+    height: 7.5rem;
     
     .swiper-slide{
-        height: 4.8rem;
+        height: 7.5rem;
     }
 }
 
@@ -1909,7 +1912,7 @@ label.error {
     }
     .slogan{
         font-size: .24rem;
-        color: #999;
+        color: $red-color;
     }
     
     .price1{
@@ -2276,6 +2279,10 @@ label.error {
                 min-height: auto;
             }
             
+            .slogan{
+                color: #666;
+            }
+            
             .price {
                 .samp1{
                     font-size: .3rem;
@@ -2379,6 +2386,12 @@ label.error {
         font-size: .28rem;
     }
     
+    .backPdf{
+        max-width: 100%;
+        height: 1.8rem;
+        vertical-align: bottom;
+        margin-top: .1rem;
+    }
     .detailAddress{
         font-size: .26rem;
         margin-top: .15rem;
@@ -3173,7 +3186,7 @@ label.error {
     
     .pic{
         width: 100%;
-        height: 3.7rem;
+        height: 3.75rem;
         overflow: hidden;
         background-position: center;
         background-repeat: no-repeat;
@@ -3187,14 +3200,23 @@ label.error {
         position: relative;
         
         .name{
+            width: 100%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
             font-size: .3rem;
             margin-bottom: .1rem;
         }
         
         .slogan{
+            display: inline-block;
+            width: 100%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
             font-size: .26rem;
             line-height: 1.2;
-            color: #666;
+            color: $red-color;
         }
         
         .price{
@@ -3224,10 +3246,10 @@ label.error {
 }
 
 .leaseDetail-swiper{
-    height: 3.7rem;
+    height: 7.5rem;
     
     .swiper-slide{
-        height: 3.7rem;
+        height: 7.5rem;
     }
 }
 .leaseBottom{
@@ -3445,12 +3467,17 @@ label.error {
         
         .tit{
             display: inline-block;
-            width: 1.5rem;
+            width: 1.6rem;
             line-height: .62rem;
             text-align: left;
+            
+            i{
+                display: inline-block;
+                width: 0.5em;
+            }
         }
         .conWrap{
-            width: 3.4rem;
+            width: 3.3rem;
             height: .62rem;
             border-bottom: 1px solid $border-color;
             padding: .1rem 0;
@@ -3471,6 +3498,46 @@ label.error {
                 color: #484848;
             }
         }
+        
+        .fileWrap{
+            width: 3.3rem;
+            height: 1.6rem;
+            padding: .1rem 0;
+            position: relative;
+            
+            .fileBtn{
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                position: relative;
+                z-index: 99;
+            }
+            
+            .pic img{
+                height: 100%;
+            }
+            
+            .addbackPdf{
+                width: 100%;
+                height: 1.4rem;
+                position: absolute;
+                top: .1rem;
+                left: 0;
+                border: 1px dashed $border-color;
+                border-radius: .1rem;
+                background-image: url('../images/添加图片.png');
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: .7rem;
+            }
+            
+            .moxie-shim{
+                width: 3.3rem !important;
+                height: 1.6rem !important;
+            }
+        }
+        
+        
     }
     
     
@@ -3484,9 +3551,10 @@ label.error {
         }
         
         .textarea{
+            min-height: .3rem;
             height: auto;
             color: #484848;
-            padding-left: 1.5rem;
+            padding-left: 1.6rem;
             padding-right: 0;
             font-size: .26rem;
         }
@@ -3700,6 +3768,11 @@ label.error {
             background-position: center;
             background-repeat: no-repeat;
             background-size: 1.6rem;
+        }
+        
+        .moxie-shim{
+            width: 100% !important;
+            height: 3rem !important;
         }
     }
     

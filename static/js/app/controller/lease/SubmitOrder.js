@@ -81,7 +81,7 @@ define([
 			    		<a class="mall-item-img fl" style="background-image: url('${base.getImg(data.advPic)}');" href="../lease/lease-detail.html?code=${data.code}"></a>
 			    		<div class="mall-item-con fr">
 			    			<p class="name">${data.name}</p>
-			    			<samp class="slogan">最少租赁时长：<i>${data.minRentDays}</i>天</samp>
+			    			<samp class="slogan tcolor_red">最少租赁时长：<i>${data.minRentDays}</i>天</samp>
 			    		</div></div>
     					<div class="packingList-btn" id="packingList">查看包装清单</div>
     				</div>`;

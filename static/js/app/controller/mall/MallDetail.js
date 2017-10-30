@@ -84,7 +84,8 @@ define([
 			$(".mallDetail-title .slogan").html(data.slogan)
 			$("#content").html(data.description)
 			
-			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(data.advPic)+'")')
+			
+			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(data.productSpecsList[0].pic)+'")')
 			$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(data.productSpecsList[0].price2)+'积分' : '￥'+base.formatMoney(data.productSpecsList[0].price1))
 			$("#productSpecs .quantity").html('库存 ' + data.productSpecsList[0].quantity).attr('data-quantity',data.productSpecsList[0].quantity)
 			$("#productSpecs .choice i").html(data.productSpecsList[0].name)
@@ -96,7 +97,8 @@ define([
 					data-code='${d.code}'
 					data-price='${type==JFPRODUCTTYPE ? d.price2 : d.price1}' 
 					data-quantity=${d.quantity} 
-					data-name=${d.name} >
+					data-name=${d.name} 
+					data-pic=${d.pic} >
 					${d.name}  重量: ${d.weight}kg  产地: ${d.province}</p>`
 			})
 			
@@ -171,6 +173,7 @@ define([
 		$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP.attr("data-price")))
 		$("#productSpecs .quantity").html('库存 ' + _specP.attr("data-quantity")).attr('data-quantity',_specP.attr("data-quantity"))
 		$("#productSpecs .choice i").html(_specP.attr("data-name"))
+		$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP.attr("data-pic"))+'")')
 		$('#productSpecs .productSpecs-number .sum').html(1)
 	}
 	
@@ -234,6 +237,7 @@ define([
 			$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP.attr("data-price")))
 			$("#productSpecs .quantity").html('库存 ' + _specP.attr("data-quantity")).attr('data-quantity',_specP.attr("data-quantity"))
 			$("#productSpecs .choice i").html(_specP.attr("data-name"))
+			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP.attr("data-pic"))+'")')
 			$('#productSpecs .productSpecs-number .sum').html(1)
 			
 			getSubBtn();

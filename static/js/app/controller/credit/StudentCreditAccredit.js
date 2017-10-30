@@ -35,7 +35,7 @@ define([
 					showUploadProgress: function(up, file){
 						$(".upload-progress").css("width", parseInt(file.percent, 10) + "%");
 					},
-					fileAdd: function(file){
+					fileAdd: function(up, file){
 						$(".upload-progress-wrap").show();
 					},
 					fileUploaded: function(up, url, key){

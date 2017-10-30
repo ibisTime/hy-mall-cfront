@@ -7,6 +7,8 @@ define([
         getListCategory(refresh) {
             return Ajax.get("810007", {
                 status:'1',
+		        orderColumn:'order_no',
+		        orderDir:'asc'
             }, refresh);
         },
         // 分页获取商品
