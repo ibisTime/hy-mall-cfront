@@ -10,7 +10,7 @@ define([
     var cate = base.getUrlParam("type") || '',
         myScroll, lType,
         start = 1,
-        limit = 3,
+        limit = 10,
         isEnd = false,
         canScrolling = false;
     var l_code, category;
