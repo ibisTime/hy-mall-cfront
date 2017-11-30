@@ -18,6 +18,7 @@ define([
     addListener();
   }
 
+	//分页获取资讯
   function getPageInformation(refresh) {
     base.showLoading();
     GeneralCtr.getPageInformation(config, refresh)

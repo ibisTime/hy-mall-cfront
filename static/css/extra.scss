@@ -4096,7 +4096,22 @@ label.error {
     top: .8rem;
     left: 0;
 }
+.mall_list_top{
+    height: .9rem;
+    background: #f7f7f7;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
 .mall_list_table {
+    position: fixed;
+    top: .9rem;
+    left: 0;
+    z-index: 998;
+    background-color: #fff;
+    box-shadow: 0 .05rem .05rem 0 rgba(119,119,119,.2);
+    
     ul{
         overflow: hidden;
         margin: .2rem 0;
@@ -4117,10 +4132,18 @@ label.error {
     }
 }
 
-
-
-
-
+/*v1.1.0*/
+//
+.mallDetail-detail .nav{
+    float: left;
+    padding: .2rem .3rem;
+    font-size: .26rem;
+    border-bottom: 0.04rem solid transparent;
+    
+    &.active{
+        border-bottom: 0.04rem solid $primary-color;
+    }
+}
 
 
 

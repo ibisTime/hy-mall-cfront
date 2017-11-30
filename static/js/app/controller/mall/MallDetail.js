@@ -308,6 +308,14 @@ define([
 		$("#allComment").click(function(){
 			location.href='../public/comment.html?code='+code
 		})
+		
+		//v1.1.0
+		//详情 评价 tag切换
+		$("#detailNav .nav").click(function(){
+			$(this).addClass("active").siblings(".nav").removeClass("active");
+			$(".contentWrap").eq($(this).index()).removeClass("hidden").siblings(".contentWrap").addClass("hidden");
+		})
+		
 	}
 	
 	

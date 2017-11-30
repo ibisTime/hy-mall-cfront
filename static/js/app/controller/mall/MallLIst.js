@@ -80,6 +80,11 @@ define([
         $("#mlTable ul").empty();
         MallCtr.getSmallCategoryList(c).then(function(data) {
             base.hideLoading();
+            if(data.length){
+            	$("#mlTable").show()
+            }else{
+            	$("#mlTable").hide()
+            }
             $.each(data, function(i, val) {
                 var name = val.name;
                 var vcode = val.code;
@@ -98,6 +103,7 @@ define([
                 $("#mlTable ul").append(html1);
             });
 
+            $("#mlTableHeight").css({"height":$(".mall_list_top").height()+$(".mall_list_table").height()})
             //默认选中第一个
             var smallEle = $("#mlTable ul li:eq(0)");
                 category = c, l_code = smallEle.attr("l_code");

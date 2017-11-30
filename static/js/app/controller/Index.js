@@ -26,7 +26,7 @@ define([
         
         $.when(
         	getBanner(),
-        	getNotice(),
+        	getPageInformation(),
         	getPageProduct()
         )
         
@@ -57,18 +57,15 @@ define([
                 }
             });
     }
-
-    //公告
-    function getNotice(){
-    	return GeneralCtr.getPageSysNotice({
-            start: 1,
-            limit: 5
-        }).then(function(data){
+    
+    //分页获取资讯
+	function getPageInformation(refresh) {
+		return GeneralCtr.getPageInformation(config, refresh)
+		.then(function(data) {
 			if(data.list.length){
 				var html = '';
-				
 				data.list.forEach(function(d, i){
-					html += `<div class="t-3dot">${d.smsTitle}</div>`
+					html += `<div class="t-3dot">${d.title}</div>`
 				})
 				
 				$("#noticeWrap .notice-list-wrap1").html(html);
@@ -108,11 +105,11 @@ define([
 				
 			}else{
 				
-				$("#noticeWrap .notice-list").html('<span class="am-flexbox-item t-3dot">暂无公告</span>');
+				$("#noticeWrap .notice-list").html('<span class="am-flexbox-item t-3dot">暂无资讯</span>');
 			}
-    	});
-    }
-    
+		}, base.hideLoading);
+	}
+
     //获取首页推荐商品
     function getPageProduct(){
     	//contentType=1,租赁商品  contentType=2,商品
