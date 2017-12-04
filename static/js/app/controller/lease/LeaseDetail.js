@@ -76,6 +76,7 @@ define([
 			
 			$(".detail-title .name").html(data.name)
 			$(".detail-title .slogan").html(data.slogan)
+			$(".detail-title .quantity i").html(data.quantity)
 			$("#price").html(type==JFLEASEPRODUCTTYPE ? base.formatMoney(data.price2)+'<i>积分</i>' : '<i>￥</i>'+base.formatMoney(data.price1))
 			$("#orPrice").html('原价：<i>￥'+base.formatMoney(data.originalPrice) + '</i>')
 			$("#content").html(data.description)

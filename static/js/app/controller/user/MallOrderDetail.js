@@ -130,8 +130,12 @@ define([
 				}else if(data.status=='4'){
 					$('.mallBottom').removeClass('hidden')
 					$("#commentBtn").removeClass('hidden')
-				}
 				
+				//用户取消 删除订单按钮
+				}else if(data.status=='91'){
+					$('.mallBottom').removeClass('hidden')
+					$("#deleteBtn").removeClass('hidden')
+				}
             });
     }
 
@@ -190,6 +194,20 @@ define([
         //立即评价
         $("#commentBtn").on("click", function() {
 			location.href='./order-comment.html?type=mall&code='+code
+        });
+        
+        //删除订单
+       $("#deleteBtn").on("click", function() {
+            base.confirm('确认删除订单吗？')
+                .then(() => {
+                    base.showLoading("删除中...");
+                    MallCtr.deleteOrder(code)
+                        .then(() => {
+                			base.hideLoading();
+                            base.showMsg("操作成功",1000);
+                            operateSuccess();
+                        });
+                }, () => {});
         });
     }
 });

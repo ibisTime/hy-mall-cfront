@@ -131,6 +131,13 @@ define([
         //获取运费
         getYunfei(config){
             return Ajax.get("808070", config, true);
-        }
+        },
+        // 删除用户取消订单
+        deleteOrder(code) {
+            return Ajax.get("808061", {
+                updater: base.getUserId(),
+            	code
+            }, true);
+        },
     };
 })

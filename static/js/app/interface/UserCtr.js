@@ -11,7 +11,7 @@ define([
             return Ajax.post("805170",{ 
                 type: 'wx_h5',
                 kind: 'C',
-                isNeedMobile: '1',
+                isNeedMobile: '0',
                 isLoginStatus: '0',
                 ...config
             });
@@ -175,6 +175,7 @@ define([
             return Ajax.get("805145", {
             	limit: 31,
             	start: 1,
+            	type:2,
                 userId: base.getUserId(),
             }, true);
         },
@@ -257,6 +258,14 @@ define([
         getUserJmAmount(){
             return Ajax.get("810059",{
             	userId: base.getUserId()
+            },true);
+        },
+        //设置推荐人
+        setUserReferee(mobile){
+            return Ajax.get("805083",{
+            	refKind: 'C',
+            	userId: base.getUserId(),
+            	refMobile:mobile
             },true);
         },
     };

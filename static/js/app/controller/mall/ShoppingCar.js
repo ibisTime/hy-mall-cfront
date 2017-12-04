@@ -19,13 +19,14 @@ define([
 			var html = '';
 			if(data.length){
 				data.forEach(function(d, i){
+					var specsName = d.productSpecs.specsVal2==''&&!d.productSpecs.specsVal2?d.productSpecs.specsVal1:d.productSpecs.specsVal1+" "+d.productSpecs.specsVal2
 					html += `<div class="car-item mb20" data-code=${d.code} data-status=${d.product.status} data-type='${d.productSpecs.price2 ? 'JF' : 'CNY'}'>
 						<div class="icon"><i></i></div>
 						<a class="mall-item" data-pcode='${d.productCode}' data-pscode='${d.productSpecs.code}' href="./mallDetail.html?code=${d.productCode}">
 				    		<div class="mall-item-img fl" data-advPic='${d.product.advPic}' style="background-image: url('${base.getImg(d.product.advPic)}');"></div>
 				    		<div class="mall-item-con fr">
 				    			<p class="name">${d.product.name}</p>
-				    			<p class="slogan specsName" data-sName='${d.productSpecs.name}'>商品规格：${d.productSpecs.name}</p>
+				    			<p class="slogan specsName" data-sName='${specsName}'>商品规格：${specsName}</p>
 				    			<div class="price wp100">
 				    				<samp class="samp1 fl" data-price='${d.productSpecs.price2 ? d.productSpecs.price2: d.productSpecs.price1}'
 				    				>${d.productSpecs.price2 ? base.formatMoney(d.productSpecs.price2)+'积分' : '￥'+base.formatMoney(d.productSpecs.price1)}</samp>

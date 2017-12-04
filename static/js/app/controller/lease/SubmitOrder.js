@@ -94,6 +94,7 @@ define([
 			$("#deposit").html('￥'+base.formatMoney(data.deposit))
 			$("#dayOverdueFee").html('￥'+base.formatMoney(data.dayOverdueFee))
 			$('#weight').html(data.weight+'kg')
+			$('.productSpecs-number .sum').attr("data-quantity",data.quantity)
 			
 			totalAmount.deposit = data.deposit;
 			totalAmount.price1=data.price1;
@@ -452,9 +453,9 @@ define([
 		//购买数量 加
 		$('.productSpecs-number .add').click(function(){
 			var sum = +$('.productSpecs-number .sum').html()
-//			if(sum<$(".quantity").attr('data-quantity')){//库存
+			if(sum<$('.productSpecs-number .sum').attr('data-quantity')){//库存
 				sum++
-//			}
+			}
 			$('.productSpecs-number .sum').html(sum);
 			
 			configYunFei.quantity = $('.productSpecs-number .sum').html();

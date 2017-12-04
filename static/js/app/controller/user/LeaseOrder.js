@@ -183,6 +183,9 @@ define([
     	}else if(item.status == "7"){
     		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="./order-comment.html?type=lease&code=${item.code}">待评价</button></a>`
     	
+    	//91：用户异常 
+    	}else if(item.status == "91"){
+    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red delete-order" data-code="${item.code}">删除订单</button></div>`;
     	}
     	
         return `<div class="order-item leaseOrder-item">
@@ -323,6 +326,22 @@ define([
                 .then(() => {
                     base.showLoading("提交中...");
                     LeaseCtr.confirmOrder(orderCode)
+                        .then(() => {
+                            base.showMsg("操作成功");
+                            base.showLoading();
+                            config.start = 1;
+                            getPageOrders(true);
+                        });
+                }, () => {});
+        });
+        
+        //删除订单
+        $("#orderWrapper").on("click", ".delete-order", function() {
+            var orderCode = $(this).attr("data-code");
+            base.confirm('确认删除订单吗？')
+                .then(() => {
+                    base.showLoading("删除中...");
+                    LeaseCtr.deleteOrder(orderCode)
                         .then(() => {
                             base.showMsg("操作成功");
                             base.showLoading();

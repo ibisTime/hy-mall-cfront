@@ -53,8 +53,14 @@ define([
             return Ajax.get("805917", {ckey}, refresh);
         },
         // 分页查询user系统参数
-        getPageUserSysConfig(config = {start: 1, limit: 100}, refresh) {
-            return Ajax.get("805915", config, refresh);
+        getPageUserSysConfig(config, refresh) {
+            return Ajax.get("805915", {
+            	start: 1,
+            	limit: 100,
+            	orderColumn:'id',
+            	orderDir:'asc',
+                ...config
+            }, refresh);
         },
         // 查询account系统参数
         getAccountSysConfig(key, refresh) {

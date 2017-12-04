@@ -8,16 +8,9 @@
 </head>
 
 <body>
-	<!--<div class="mallDetail-top wp100 am-flexbox am-flexbox-align-middle am-flexbox-justify-between">
-		<a href="#">商品</a>
-		<a href="#">详情</a>
-		<a href="#">评价</a>
-	</div>-->
-	
 	<div class="detail-swiper mallDetail-swiper">
     	<div id="swiper-container" class="swiper-container">
             <div id="top-swiper" class="swiper-wrapper" style="display: -webkit-box;display: -moz-box;">
-            	<!--<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('/static/images/图层-50@2x.png');"></div></div>-->
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -28,12 +21,6 @@
     <div class="detail-title mallDetail-title bg_fff wp100">
     	<p class="name"></p>
     	<samp class="slogan"></samp>
-    	<!--<p class="price1">
-    		<samp class=""><i>￥</i>69.6</samp>
-    		<span class="ls">立省100元</span>
-    	</p>
-    	<samp class="price2">市场参考价: ￥169.6</samp>-->
-    	
     </div>
     
     <div class="mallDetail-detail bg_fff b_e_b over-hide" id="detailNav">
@@ -83,11 +70,13 @@
 			<samp class="choice">已选<i></i></samp>
 		</div>
 		<div class="productSpecs-middle">
-			<div class="productSpecs-spec">
-				<p class="title">商品规格</p>
-				<div class="spec">
-					<p></p>
-				</div>
+			<div class="productSpecs-spec" id="specs1">
+				<p class="title" id="specsName1"></p>
+				<div class="spec"></div>
+			</div>
+			<div class="productSpecs-spec hidden"  id="specs2">
+				<p class="title" id="specsName2"></p>
+				<div class="spec"></div>
 			</div>
 			
 			<div class="productSpecs-number">

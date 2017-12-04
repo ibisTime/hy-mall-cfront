@@ -70,15 +70,15 @@ init();
   	
     UserCtr.wxLogin(param).then(function(data) {
       base.hideLoading();
-      if (data.userId == null || data.userId == "") {
-        JudgeBindMobile.addCont({
-          success: function(resMobile, resSms) {
-            mobile = resMobile;
-            smsCaptcha = resSms;
-            getAppID();
-          }
-        }).showCont();
-      } else {
+//    if (data.userId == null || data.userId == "") {
+//      JudgeBindMobile.addCont({
+//        success: function(resMobile, resSms) {
+//          mobile = resMobile;
+//          smsCaptcha = resSms;
+//          getAppID();
+//        }
+//      }).showCont();
+//    } else {
         base.setSessionUser(data);
         var returnFistUrl = sessionStorage.getItem("l-return");
         if (!userReferee && returnFistUrl) {
@@ -87,22 +87,23 @@ init();
         } else {
           location.href = "../index.html"
         }
-      }
+//    }
     }, function() {
-      setTimeout(function() {
-        BindMobileSms.addMobileCont({
-          mobile: param.mobile,
-          success: function(resMobile, resSms) {
-            mobile = resMobile;
-            smsCaptcha = resSms;
-            getAppID();
-          },
-          error: function(msg) {
-            base.showMsg(msg);
-          },
-          hideBack: 1
-        }).showMobileCont();
-      }, 1000);
+    	base.showMsg(msg);
+//    setTimeout(function() {
+//      BindMobileSms.addMobileCont({
+//        mobile: param.mobile,
+//        success: function(resMobile, resSms) {
+//          mobile = resMobile;
+//          smsCaptcha = resSms;
+//          getAppID();
+//        },
+//        error: function(msg) {
+//          base.showMsg(msg);
+//        },
+//        hideBack: 1
+//      }).showMobileCont();
+//    }, 1000);
     });
   }
 });

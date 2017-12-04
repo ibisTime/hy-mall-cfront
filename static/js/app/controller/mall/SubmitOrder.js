@@ -124,7 +124,11 @@ define([
 			
 			data.productSpecsList.forEach(function(d, i){
 				if(d.code==spec){
-					specName = d.name;
+					if(data.specsName2){
+						specName = d.specsVal1+" "+d.specsVal2;
+					}else{
+						specName = d.specsVal1;
+					}
 					price = type==JFPRODUCTTYPE ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)
 					totalAmount.amount1 = d.price1 || 0;
 					totalAmount.amount2 = d.price2 || 0;
