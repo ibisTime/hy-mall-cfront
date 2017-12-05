@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <link rel="import" href="../head.html?__inline">
+	    <title>游记详情</title>
+	    <!--SCRIPT_PLACEHOLDER-->
+	</head>
+	<body>
+	    <div class="tNotes-detail mb20">
+	    	<div class="tNotes-item">
+				<div class="userWrap">
+					<div class="userPic" style="background-image: url('../../images/avatar.png');"></div>
+					<div class="userInfo">
+						<p class="nickName">名称</p>
+						<samp class="updateTime">20分钟前</samp>
+					</div>
+				</div>
+				<div class="conWrap">
+					<div class="description">描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述</div>
+					<div class="picWrap">
+						<img src="../../images/图层-50@2x.png" />
+					</div>
+				</div>
+			</div>
+			
+			<div class="bottomWrap">
+				<div class="btn dsTimes"><i class="icon"></i><samp>8</samp></div>
+				<div class="btn likeTimes"><i class="icon"></i><samp>8</samp></div>
+			</div>
+	    </div>
+	    
+    	<div class="tNotes-comment bg_fff">
+    		<div id="commentList" class="wrap">
+    			<div class="title">评论(<samp>15</samp>)</div>
+    			<div class="tNcomment-item">
+    				<div class="userPicWrap">
+    					<div class="userPic" style="background-image: url('../../images/avatar.png');"></div>
+    				</div>
+    				<div class="info">
+    					<div class="userInfo">
+    						<p class="nickName">名称</p>
+    						<samp class="updateTime">2017-12-05</samp>
+    					</div>
+    					<div class="toComment hidden">
+    						<p class="toNickName">回复@<samp>名称</samp></p>
+    						<p class="toContent">评论内容</p>
+    					</div>
+    					<div class="content">回复内容</div>
+    				</div>
+    			</div>
+    		</div>
+	    	<div class="allTNotesComment" id="allTNotesComment">查看更多评论</div>
+    	</div>
+	    
+	    <link rel="import" href="../footer.html?__inline">
+	    <script>
+        	require(['app/controller/travelNotes/TravelNotesDetail']);
+	    </script>
+	</body>
+</html>

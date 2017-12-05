@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <link rel="import" href="../head.html?__inline">
+	    <title>发布游记</title>
+	    <!--SCRIPT_PLACEHOLDER-->
+	</head>
+	<body>
+	    
+	    <div class="tNotes-addedit">
+	    	<form id="tNotesForm" class="tNotesForm">
+	    		<textarea id="description" name="description" style="resize: none;" class="textarea" placeholder="分享新鲜事..."></textarea>
+	    	</form>
+	    	<div class="picWrap" id="picWrap">
+	    		<!--<div class="pic" style="background-image: url('../../images/default-bg.png');" data-url="../../images/default-bg.png"><i class="delete"></i></div>
+	    		<div class="pic" style="background-image: url('../../images/图层-50@2x.png');" data-url="../../images/图层-50@2x.png"><i class="delete"></i></div>-->
+	    		<div id="uploadContainer" class="fr fileWrap">
+			    	<div id="uploadBtn" class="wp100 hp100">
+			            <div class="addbackPdf"></div>
+			        </div>
+    			</div>
+	    	</div>
+	    </div>
+		
+		<div class="ptb20lr30">
+			<div class="am-button am-button-primary" id="subBtn">发布游记</div>
+		</div>
+
+		
+	    <link rel="import" href="../footer.html?__inline">
+	    <script>
+        	require(['app/controller/travelNotes/TravelNotesAddedit']);
+	    </script>
+	</body>
+</html>

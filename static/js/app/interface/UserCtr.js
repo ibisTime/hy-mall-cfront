@@ -12,7 +12,7 @@ define([
                 type: 'wx_h5',
                 kind: 'C',
                 isNeedMobile: '0',
-                isLoginStatus: '0',
+                isLoginStatus: '1',
                 ...config
             });
         },

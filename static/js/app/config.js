@@ -5,10 +5,10 @@ var JFPRODUCTTYPE = 'J01';
 var JFLEASEPRODUCTTYPE = 'J04';
 var SYS_USER = 'SYS_USER_HW';
 var SYS_USERNAME = '邮寄发货';
-var SHARE_URL = "http://cm.hw.hichengdai.com/";
+var SHARE_URL = "http://cm.hwt.hichengdai.com/";
 
 //(function() {
-//// 判断是否登录
+// 判断是否登录
 //if (!/\/redirect\.html/.test(location.href)) {
 //  var arr,
 //    reg = new RegExp(

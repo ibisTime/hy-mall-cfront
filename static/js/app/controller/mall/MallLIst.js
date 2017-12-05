@@ -76,7 +76,7 @@ define([
         });
     }
     //根据大类查询小类
-    function getProduces(c) {
+    function getProduces(c,flag) {
         $("#mlTable ul").empty();
         MallCtr.getSmallCategoryList(c).then(function(data) {
             base.hideLoading();
@@ -102,8 +102,9 @@ define([
                 //清空小类后再添加，否则会直接添加进去，原来的依旧在
                 $("#mlTable ul").append(html1);
             });
-
-            $("#mlTableHeight").css({"height":$(".mall_list_top").height()+$(".mall_list_table").height()})
+            if(flag){
+            	$("#mlTableHeight").css({"height":$(".mall_list_top").height()+$(".mall_list_table").height()})
+            }
             //默认选中第一个
             var smallEle = $("#mlTable ul li:eq(0)");
                 category = c, l_code = smallEle.attr("l_code");
@@ -211,10 +212,10 @@ define([
             	category = '';
             	$("#mlTable").addClass('hidden')
                 getPageProduct(l_code, category);
-                
+            	$("#mlTableHeight").css({"height":$(".mall_list_top").height()})
             }else{
             	$("#mlTable").removeClass('hidden')
-            	getProduces(lType);
+            	getProduces(lType,1);
             }
             var allItem = $("#allItem");
             allItem.find("li.current").removeClass("current");

@@ -105,7 +105,7 @@ define([
 				
 			}else{
 				
-				$("#noticeWrap .notice-list").html('<span class="am-flexbox-item t-3dot">暂无资讯</span>');
+				$("#noticeWrap .notice-list").html('<span class="am-flexbox-item t-3dot pl30">暂无资讯</span>');
 			}
 		}, base.hideLoading);
 	}

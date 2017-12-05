@@ -28,6 +28,9 @@
 .pr60{
     padding-right: .6rem;
 }
+.pl30{
+    padding-left: .3rem;
+}
 .ptb20lr30{
     padding: .2rem .3rem;
 }
@@ -165,12 +168,13 @@ label.error {
         line-height: 1;
 
         img {
-            height: 1rem;
+            height: .86rem;
             margin-bottom: 0.2rem;
         }
 
         p {
             font-size: 0.26rem;
+            color: #666;
         }
     }
 }
@@ -4165,15 +4169,416 @@ label.error {
         border-bottom: 0.04rem solid $primary-color;
     }
 }
+/*微信公众号二维码页*/
+.WeChatOA-wrap{
+    width: 100%;
+    text-align: center;
+    padding: 1rem .3rem .3rem;
+    
+    img{
+        width: 4rem;
+        margin-bottom: .2rem;
+    }
+    
+    p{
+        font-size: .28rem;
+    }
+}
 
-
-
-
-
-
-
-
-
+/*游记*/
+.tNotes-item{
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: .2rem;
+    
+    .wrap{
+        display: block;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    .userWrap{
+        width: 100%;
+        padding: .3rem .3rem .2rem;
+        overflow: hidden;
+        
+        .userPic{
+            width: .8rem;
+            height: .8rem;
+            border-radius: 50%;
+            overflow: hidden;
+            float: left;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        .userInfo{
+            height: .8rem;
+            float: left;
+            overflow: hidden;
+            margin-left: .3rem;
+            
+            p{
+                font-size: .28rem;
+            }
+            samp{
+                font-size: .24rem;
+            }
+        }
+        
+    }
+    
+    .conWrap{
+        width: 100%;
+        
+        .description{
+            padding: .1rem .3rem;
+            
+            .all{
+                color: $primary-color;
+            }
+        }
+        
+    }
+    .picWrap{
+        overflow: hidden;
+        padding: .1rem .3rem;
+        
+        img{
+            height: 2.2rem;
+        }
+    }
+    .picWraps{
+        overflow: hidden;
+        padding: .1rem .21rem;
+        
+        .pic{
+            width: 2.2rem;
+            height: 2.2rem;
+            float: left;
+            margin: 0 .08rem;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+    }
+    
+    .bottomWrap{
+        width: 100%;
+        overflow: hidden;
+        padding: .17rem 0;
+        border-top: 1px solid $border-color;
+        
+        .btn{
+            float: left;
+            width: 2.5rem;
+            height: .36rem;
+            border-left: 1px solid $border-color;
+            text-align: center;
+            
+            .icon{
+                display: inline-block;
+                width: .5rem;
+                height: .36rem;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: auto .34rem;
+            }
+            samp{
+                display: inline-block;
+                width: .3rem;
+                line-height: 1;
+                font-size: .28rem;
+                position: relative;
+                top: -.06rem;
+                margin-left: .1rem;
+                text-align: left;
+                
+            }
+            
+            &.dsTimes{
+                .icon{
+                    background-image: url('../images/打赏@2x.png');
+                }
+            }
+            &.commentTimes{
+                .icon{
+                    background-image: url('../images/留言@2x.png');
+                }
+            }
+            &.likeTimes{
+                .icon{
+                    background-image: url('../images/点赞@2x.png');
+                }
+                &.active{
+                    .icon{
+                        background-image: url('../images/点赞红@2x.png');
+                    }
+                    samp{
+                        color: $red-color;
+                    }
+                }
+            }
+            
+            &:nth-of-type(1){
+                border-left: 0;
+            }
+        }
+    }
+    
+}
+/*游记详情*/
+.tNotes-detail{
+    background-color: #fff;
+    padding-bottom: .1rem;
+    
+    .title{
+        font-size: .32rem;
+        line-height: 1.5;
+        padding: .3rem .3rem .2rem;
+    }
+    
+    .picWrap{
+        img{
+            width: 100%;
+            height: auto;
+            margin-bottom: .1rem;
+        }
+    }
+    
+    .bottomWrap{
+        width: 100%;
+        overflow: hidden;
+        
+        .btn{
+            float: left;
+            height: .7rem;
+            overflow: hidden;
+            margin-left: .3rem;
+            
+            .icon{
+                display: inline-block;
+                width: .4rem;
+                height: .7rem;
+                float: left;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: auto .34rem;
+            }
+            samp{
+                display: inline-block;
+                float: left;
+                line-height: .7rem;
+                font-size: .28rem;
+                position: relative;
+                top: .04rem;
+                margin-left: .06rem;
+                text-align: left;
+                
+            }
+            
+            &.dsTimes{
+                .icon{
+                    background-image: url('../images/打赏@2x.png');
+                }
+            }
+            &.commentTimes{
+                .icon{
+                    background-image: url('../images/留言@2x.png');
+                }
+            }
+            &.likeTimes{
+                .icon{
+                    background-image: url('../images/点赞@2x.png');
+                }
+                &.active{
+                    .icon{
+                        background-image: url('../images/点赞红@2x.png');
+                    }
+                    samp{
+                        color: $red-color;
+                    }
+                }
+            }
+            
+        }
+    }
+}
+.tNotes-comment{
+    width: 100%;
+    padding-bottom: .3rem;
+    
+    .wrap{
+        padding: .3rem .3rem .2rem;
+       
+        .title{
+            text-align: center;
+            font-size: .3rem;
+            margin-bottom: .2rem;
+        }
+    } 
+    .allTNotesComment{
+        width: 2.2rem;
+        padding: .1rem 0;
+        overflow: hidden;
+        text-align: center;
+        color: $primary-color;
+        margin: 0 auto;
+    }
+}
+/*游记评论*/
+.tNcomment-item{
+    width: 100%;
+    overflow: hidden;
+    padding: .2rem 0;
+    border-bottom: 1px solid $border-color;
+    
+    .userPicWrap{
+        width: .9rem;
+        float: left;
+        
+        .userPic{
+            width: .6rem;
+            height: .6rem;
+            border-radius: 50%;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+    }
+    
+    .info{
+        width: 6rem;
+        float: left;
+        
+        .userInfo{
+            height: .6rem;
+            padding-top: .05rem;
+            margin-bottom: .2rem;
+            
+            p{
+                font-size: .26rem;
+                line-height: 1;
+            }
+            samp{
+                font-size: .22rem;
+                color: #999;
+                line-height: 1;
+            }
+        }
+        
+        .toComment{
+            width: 100%;
+            margin-bottom: .2rem;
+            background-color: #f8f7f3;
+            color: #c3b6a3;
+            font-size: .26rem;
+            padding: .1rem .15rem;
+            border-radius: .08rem;
+            
+            .toNickName{
+                margin-bottom: .05rem;
+                samp{
+                    color: #c3b6a3;
+                    margin-left: .1rem;
+                }
+            }
+        }
+        
+        .content{
+            font-size: .26rem;
+        }
+        
+    }
+}
+/*发布游记*/
+.tNotes-addedit{
+    width: 100%;
+    background-color: #fff;
+    padding: .3rem 0 .4rem;
+    margin-bottom: .7rem;
+    
+    .tNotesForm{
+        position: relative;
+        
+        label.error{
+            top: .2rem;
+        }
+    }
+    
+    .textarea{
+        width: 100%;
+        height: 3rem;
+        padding: 0 .3rem .3rem;
+    }
+    .picWrap{
+        width: 100%;
+        overflow: hidden;
+        padding: .1rem .21rem;
+        
+        .pic{
+            width: 2.2rem;
+            height: 2.2rem;
+            float: left;
+            margin: .1rem .08rem;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            
+            .delete{
+                display: inline-block;
+                width: .5rem;
+                height: .5rem;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                background-image: url("../images/游记图片删除@2x.png");
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 99;
+            }
+        }
+    }
+    .fileWrap{
+        width: 2.2rem;
+        height: 2.2rem;
+        float: left;
+        position: relative;
+        margin: .1rem .08rem;
+        
+        .fileBtn{
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            position: relative;
+            z-index: 99;
+        }
+        
+        .pic img{
+            height: 100%;
+        }
+        
+        .addbackPdf{
+            width: 100%;
+            height: 2.2rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-image: url('../images/添加@2x.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+        
+        .moxie-shim{
+            width: 2.2rem !important;
+            height: 2.2rem !important;
+        }
+    }
+}
 
 
 
