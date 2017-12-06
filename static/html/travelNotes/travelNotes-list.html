@@ -6,8 +6,45 @@
 	    <!--SCRIPT_PLACEHOLDER-->
 	</head>
 	<body>
-		<div id="content" class="wp100">
-			<div class="tNotes-item">
+		<div id="content" class="wp100"></div>
+	    
+	    <div id="loadAll" class="load-all hidden">
+	        <img src="../../images/end.png">
+	        <span>已经全部加载完毕</span>
+	    </div>
+	    
+		<a class="tNotesAddBtn" href="../travelNotes/travelNotes-addedit.html"></a>
+		
+		<!--打赏弹窗-->
+	    <div class="tNotes-dsDialog dialog hidden" id="dsDialog">
+	        <div class="am-modal-mask"></div>
+	        <div class="am-modal-wrap">
+	            <div role="document" class="am-modal">
+	                <div class="am-modal-content">
+	                    <div class="am-modal-body">
+	                    	<div class="tNotes-dsDialog-top"><img src="../../images/dsDialog-1.png"/><p>打赏</p><img src="../../images/dsDialog-2.png"/></div>
+	                    	<div class="tNotes-dsDialog-input">
+	                    		<form id="tNotesForm-ds">
+	                    			<input type="text" id="quantity" name="quantity" pattern="[0-9]*"  placeholder="输入打赏金额"/>
+	                    		</form>
+	                    	</div>
+	                    </div>
+	                    <div class="am-modal-footer">
+	                    	<div class="am-button am-button-small am-button-cancel" id="canlce">取消</div>
+	                    	<div class="am-button am-button-small am-button-primary-48" id="dsBtn">打赏</div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+		
+	    <link rel="import" href="../footer.html?__inline">
+	    <script>
+        	require(['app/controller/travelNotes/TravelNotesList']);
+	    </script>
+	</body>
+</html>
+<!--<div class="tNotes-item">
 				<a class="wrap" href="./travelNotesDetail.html">
 					<div class="userWrap">
 						<div class="userPic" style="background-image: url('../../images/avatar.png');"></div>
@@ -52,17 +89,4 @@
 					<div class="btn commentTimes"><i class="icon"></i><samp>8</samp></div>
 					<div class="btn likeTimes active"><i class="icon"></i><samp>8</samp></div>
 				</div>
-			</div>
-		</div>
-	    
-	    <div id="loadAll" class="load-all hidden">
-	        <img src="../../images/end.png">
-	        <span>已经全部加载完毕</span>
-	    </div>
-	    
-	    <link rel="import" href="../footer.html?__inline">
-	    <script>
-        	require(['app/controller/travelNotes/TravelNotesList']);
-	    </script>
-	</body>
-</html>
+			</div>-->

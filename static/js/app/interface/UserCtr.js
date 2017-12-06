@@ -40,9 +40,10 @@ define([
         },
         // 绑定手机号
         bindMobile(mobile, smsCaptcha) {
-            return Ajax.post("805151", {
+            return Ajax.post("805060", {
                 mobile,
                 smsCaptcha,
+                isSendSms: '0',
                 userId: base.getUserId()
             });
         },

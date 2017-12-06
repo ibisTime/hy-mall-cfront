@@ -4,12 +4,14 @@ define([
     'app/interface/MallCtr',
     'app/interface/UserCtr',
     'app/module/AddressList',
-    'app/module/expressList'
-], function(base, Foot, MallCtr, UserCtr, AddressList, ExpressList) {
+    'app/module/expressList',
+    'app/module/bindMobile',
+], function(base, Foot, MallCtr, UserCtr, AddressList, ExpressList, BindMobile) {
 	var code = base.getUrlParam("code")||'';
 	var spec = base.getUrlParam("spec")||'';
 	var quantity = base.getUrlParam("quantity")||'';
 	var submitType = base.getUrlParam("s");//1为购物车，2为立即下单
+	var isBindMobile = false;//是否绑定手机号
 	var totalAmount = {
 		amount1:0,//人民币总价
 		amount2:0//积分总价
@@ -52,12 +54,14 @@ define([
         if(submitType==1){
         	$.when(
 	        	getProductList(),
-	        	isDefaultAddress()
+	        	isDefaultAddress(),
+	        	getUserInfo()
 	        )
         }else{
         	$.when(
 	        	getProductDetail(code),
-	        	isDefaultAddress()
+	        	isDefaultAddress(),
+	        	getUserInfo()
 	        )
         }
         
@@ -65,6 +69,17 @@ define([
     	$("#toUser .toUserName samp").html(SYS_USERNAME)
         base.hideLoading();
         addListener()
+	}
+	
+	//获取用户详情 查看是否绑定手机号
+	function getUserInfo() {
+		return UserCtr.getUser().then(function(data) {
+			if(data.mobile){
+				isBindMobile = true;
+			}else{
+				isBindMobile = false
+			}
+		});
 	}
 	
 	//购物车下单
@@ -298,6 +313,17 @@ define([
 	}
 	
 	function addListener(){
+		BindMobile.addMobileCont({
+        	success: function() {
+        		isBindMobile = true;
+        		$("#subBtn").click()
+        	},
+        	error: function(msg) {
+        		isBindMobile = false;
+        		base.showMsg(msg);
+        	},
+        	hideBack: 1
+        });
        
 		//地址
 		$("#orderAddress").click(function(){
@@ -311,41 +337,46 @@ define([
 		
 		//提交
 		$("#subBtn").click(function(){
-			config.pojo.applyNote = $("#applyNote").val();
-			config.toUser = $("#toUser").attr('data-toUser')
-			var param={}
-			if(submitType=='1'){
-				
-				param.pojo = config.pojo;
-				
-        		if($("#toUser").attr('data-toUser')!=SYS_USER){
-					param.pojo.receiver = '';
-					param.pojo.reMobile = '';
-					param.pojo.reAddress = '';
-        		};
-				
-				param.toUser = config.toUser;
-				param.cartCodeList=cartCodeList
-				
-				submitOrder2(param)
-			}else {
-				
-				if(config.pojo.receiver){
-					param=config
-				
-					submitOrder1(param)
-				}else if($("#toUser").attr('data-toUser')==SYS_USER){
-					base.showMsg('请选择地址')
-				}else{
-					param=config;
+			if(!isBindMobile){
+				BindMobile.showMobileCont();
+			}else{
+				config.pojo.applyNote = $("#applyNote").val();
+				config.toUser = $("#toUser").attr('data-toUser')
+				var param={}
+				if(submitType=='1'){
 					
-					param.pojo.receiver = '';
-					param.pojo.reMobile = '';
-					param.pojo.reAddress = '';
+					param.pojo = config.pojo;
 					
-					submitOrder1(param)
+	        		if($("#toUser").attr('data-toUser')!=SYS_USER){
+						param.pojo.receiver = '';
+						param.pojo.reMobile = '';
+						param.pojo.reAddress = '';
+	        		};
+					
+					param.toUser = config.toUser;
+					param.cartCodeList=cartCodeList
+					
+					submitOrder2(param)
+				}else {
+					
+					if(config.pojo.receiver){
+						param=config
+					
+						submitOrder1(param)
+					}else if($("#toUser").attr('data-toUser')==SYS_USER){
+						base.showMsg('请选择地址')
+					}else{
+						param=config;
+						
+						param.pojo.receiver = '';
+						param.pojo.reMobile = '';
+						param.pojo.reAddress = '';
+						
+						submitOrder1(param)
+					}
+					
 				}
-				
+			
 			}
 		})
 		

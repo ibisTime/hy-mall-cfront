@@ -14,7 +14,7 @@ define([
 		UserCtr.getUser()
 			.then(function(data){
 				$("#showAvatar").css("background-image", "url('"+base.getWXAvatar(data.photo)+"')");
-				$("#mobile").text(data.mobile)
+				$("#mobile").text(data.mobile?data.mobile:'点击绑定手机号')
 				if(data.refereeUser){
 					$("#setUserReferee").attr('href','javascript:void(0)')
 					$("#userRefereeMobile").text(data.refereeUser.mobile)

@@ -6,33 +6,32 @@
 	    <!--SCRIPT_PLACEHOLDER-->
 	</head>
 	<body>
-	    <div class="tNotes-detail mb20">
+	    <div class="tNotes-detail mb20"  id="tNotesInfo">
 	    	<div class="tNotes-item">
 				<div class="userWrap">
-					<div class="userPic" style="background-image: url('../../images/avatar.png');"></div>
+					<div class="userPic"></div>
 					<div class="userInfo">
-						<p class="nickName">名称</p>
-						<samp class="updateTime">20分钟前</samp>
+						<p class="nickName"></p>
+						<samp class="updateTime"></samp>
 					</div>
 				</div>
 				<div class="conWrap">
-					<div class="description">描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述</div>
+					<div class="description"></div>
 					<div class="picWrap">
-						<img src="../../images/图层-50@2x.png" />
 					</div>
 				</div>
 			</div>
 			
 			<div class="bottomWrap">
-				<div class="btn dsTimes"><i class="icon"></i><samp>8</samp></div>
-				<div class="btn likeTimes"><i class="icon"></i><samp>8</samp></div>
+				<div class="btn dsTimes"><i class="icon"></i><samp></samp></div>
+				<div class="btn likeTimes"><i class="icon"></i><samp></samp></div>
 			</div>
 	    </div>
 	    
     	<div class="tNotes-comment bg_fff">
-    		<div id="commentList" class="wrap">
-    			<div class="title">评论(<samp>15</samp>)</div>
-    			<div class="tNcomment-item">
+			<div class="title">评论(<samp id="commentTimes"></samp>)</div>
+    		<div id="tNcommentList" class="wrap goTNcommentList">
+    			<!--<div class="tNcomment-item">
     				<div class="userPicWrap">
     					<div class="userPic" style="background-image: url('../../images/avatar.png');"></div>
     				</div>
@@ -47,11 +46,46 @@
     					</div>
     					<div class="content">回复内容</div>
     				</div>
-    			</div>
+    			</div>-->
     		</div>
-	    	<div class="allTNotesComment" id="allTNotesComment">查看更多评论</div>
+	    	<div class="allTNotesComment hidden goTNcommentList" id="allTNotesComment">查看更多评论</div>
     	</div>
-	    
+    	
+	    <div class="mallfloatWrap goIndex tNotes-goIndex">
+			<a class="mallfloat" href="../index.html"><i></i></a>
+		</div>
+		
+    	<div class="mask hidden" id="mask"></div>
+		<div style="height: .98rem;"></div>
+		<div class="tNDetail-bottom">
+			<div class="inputWrap fl">
+				<input type="text" class="tNotesForm-comCon" id="tNotesForm-comCon" name="tNotesForm-comCon" placeholder="发表回复..." />
+			</div>
+			<div class="comBtn fl" id="comBtn"></div>
+		</div>
+    	
+	    <!--打赏弹窗-->
+	    <div class="tNotes-dsDialog dialog hidden" id="dsDialog">
+	        <div class="am-modal-mask"></div>
+	        <div class="am-modal-wrap">
+	            <div role="document" class="am-modal">
+	                <div class="am-modal-content">
+	                    <div class="am-modal-body">
+	                    	<div class="tNotes-dsDialog-top"><img src="../../images/dsDialog-1.png"/><p>打赏</p><img src="../../images/dsDialog-2.png"/></div>
+	                    	<div class="tNotes-dsDialog-input">
+	                    		<form id="tNotesForm-ds">
+	                    			<input type="text" id="quantity" name="quantity" pattern="[0-9]*"  placeholder="输入打赏金额"/>
+	                    		</form>
+	                    	</div>
+	                    </div>
+	                    <div class="am-modal-footer">
+	                    	<div class="am-button am-button-small am-button-cancel" id="canlce">取消</div>
+	                    	<div class="am-button am-button-small am-button-primary-48" id="dsBtn">打赏</div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	    <link rel="import" href="../footer.html?__inline">
 	    <script>
         	require(['app/controller/travelNotes/TravelNotesDetail']);

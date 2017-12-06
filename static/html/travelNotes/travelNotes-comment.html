@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>全部评论</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body class="bg_fff">
+    <div class="tNotes-comment"><div class="wrap"  id="tNcommentList"></div></div>
+    
+	<div id="loadAll" class="load-all hidden">
+        <img src="../../images/end.png">
+        <span>已经全部加载完毕</span>
+    </div>
+    
+    <div class="mask hidden" id="mask"></div>
+    <div style="height: .98rem;"></div>
+	<div class="tNDetail-bottom">
+		<div class="inputWrap fl">
+			<input type="text" class="tNotesForm-comCon" id="tNotesForm-comCon" name="tNotesForm-comCon" placeholder="发表回复..." />
+		</div>
+		<div class="comBtn fl" id="comBtn"></div>
+	</div>
+    
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/travelNotes/TravelNotesComment']);
+    </script>
+</body>
+
+</html>

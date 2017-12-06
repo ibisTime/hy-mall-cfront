@@ -15,7 +15,7 @@ define([
 		)
     	addListener()
 	}
-	//签到规则
+	//学信规则
 	function getUserSysConfig(){
 		GeneralCtr.getUserSysConfig('xuexin_guide', true).then((data)=>{
 			$(".student-dialog-content").html(data.cvalue)
