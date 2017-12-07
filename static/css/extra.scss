@@ -1621,6 +1621,7 @@ label.error {
         
         .searchText{
             width: 100%;
+            background-color: transparent;
             padding-left: .78rem;
             font-size: .28rem;
             line-height: .4rem;
@@ -4774,10 +4775,147 @@ label.error {
         
     }
 }
-
-
-
-
+/*活动*/
+.activity-search{
+    background-color: #fff;
+    
+    .searchWrap{
+        background-color: #f5f5f5;
+    }
+}
+.activity-filter{
+    width: 100%;
+    height: 1rem;
+    background-color: #fff;
+    border-top: 1px solid $border-color;
+    position: fixed;
+    top: 1rem;
+    left: 0;
+    z-index: 11;
+    
+    .activity-filter-item{
+        height: 100%;
+        line-height: 1rem;
+        text-align: center;
+        
+        .icon{
+            display: inline-block;
+            width: .15rem;
+            height: .3rem;
+            background-image: url('../images/下拉@2x.png');
+            background-position: center ;
+            background-repeat: no-repeat;
+            background-size: .15rem;
+            position: relative;
+            top: .05rem;
+            margin-left: .2rem;
+        }
+        
+        samp{
+            line-height: 1;
+            font-size: .28rem;
+        }
+    }
+}
+.activity-item{
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    border-bottom: 1px solid $border-color;
+    padding: .2rem .3rem;
+    position: relative;
+    
+    &:last-child{
+        border: 0;
+    }
+    a{
+        display: block;
+        width: 100%;
+        overflow: hidden;
+    }
+    .pic{
+        width: 2.9rem;
+        height: 2.1rem;
+        background-position: center ;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    
+    .content{
+        width: 3.7rem;
+        height: 2.1rem;
+        line-height: 1.1;
+        padding-top: .15rem;
+        position: relative;
+        
+        .name{
+            font-size: .28rem;
+            width: 100%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        
+        .info{
+            margin-top: .12rem;
+            
+            samp{
+                font-size: .24rem;
+                color: #999;  
+            }
+            
+        }
+        
+        .care{
+            margin-top: .1rem;
+            
+            .icon{
+                display: inline-block;
+                width: .26rem;
+                height: .26rem;
+                background-image: url('../images/关注@2x.png');
+                background-position: center ;
+                background-repeat: no-repeat;
+                background-size: .22rem;
+                position: relative;
+                top: .03rem;
+                margin-right: .1rem;
+            }
+            
+            samp{
+                color: #999;
+                font-size: .22rem;
+                
+            }
+        }
+        
+        .priceWrap{
+            width: 100%;
+            height: .5rem;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            
+            .price{
+                font-size: .34rem;
+                line-height: .5rem;
+                color: $red-color;
+            }
+        }
+    }
+    .joinInBtn{
+        width: 1.6rem;
+        line-height: .54rem;
+        text-align: center;
+        background-color: $primary-color;
+        border-radius: .27rem;
+        font-size: .28rem;
+        color: #fff;
+        position: absolute;
+        right: .3rem;
+        bottom: .2rem;
+    }
+}
 
 
 
