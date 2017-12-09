@@ -603,11 +603,6 @@ textarea {
         position: relative;
         padding: 0.3rem;
         background: #fff;
-        @include border-bottom-1px($border-color);
-
-        &:last-child {
-            @include border-none();
-        }
 
         &.form-btn-item {
             padding: 0.2rem 0.3rem;
@@ -896,7 +891,7 @@ sup {
     left: 0;
     bottom: 0;
     height: 100%;
-    z-index: 999;
+    z-index: 998;
     background-color: rgba(0, 0, 0, .4);
 }
 
@@ -927,6 +922,7 @@ sup {
 
 .am-modal {
     position: relative;
+    z-index: 999;
     width: 6.14rem;
     height: auto;
     

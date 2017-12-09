@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>提交订单</title>
+    <link rel="stylesheet" href="../../css/calendar.css" />
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+	<!--选择商品-->
+	<div class="wp100 hidden" id="chooseMall">
+		<div class="titleWrap actChoose-titleWrap">
+			<p class="text"><samp>商品</samp></p>
+		</div>
+		<div class="chooseMallList-wrap b_e_t">
+			<div class="mall-item">
+				<div class="mall-item-img fl" style="background-image: url('/static/images/default-bg.png');"></div>
+				<div class="mall-item-con fl">
+					<p class="name">名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称</p>
+					<samp class="slogan">秋冬新品</samp>
+					<div class="price">
+						<samp class="samp1">￥99.00</samp>
+						<samp class="samp2">市场参考价: ￥199.00</samp>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--选择租赁-->
+	<div class="wp100 mt20 hidden" id="chooseLease">
+		<div class="titleWrap actChoose-titleWrap" id="chooseLease">
+			<p class="text"><samp>租赁</samp></p>
+		</div>
+		<div class="chooseMallList-wrap b_e_t">
+			<div class="mall-item">
+				<div class="mall-item-img fl" style="background-image: url('/static/images/default-bg.png');"></div>
+				<div class="mall-item-con fl">
+					<p class="name">名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称</p>
+					<samp class="slogan">秋冬新品</samp>
+					<div class="price">
+						<samp class="samp1">￥99.00</samp>
+						<samp class="samp2">市场参考价: ￥199.00</samp>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--收件地址-->
+	<div class="wp100 mt20 hidden" id="chooseAddress">
+		<div class="titleWrap actChoose-titleWrap" >
+			<p class="text"><samp>收件地址</samp></p>
+		</div>
+		<div class="orderAddressWrap b_e_t" id="orderAddressWrap">
+			<div class="orderAddress" id="orderAddress" data-code="AD201712052029220239288">
+				<div class="icon icon-dz"></div>
+				<div class="wp100 over-hide">
+					<samp class="fl addressee">收货人：胡莎莎1</samp><samp class="fr mobile">15761663457</samp>
+				</div>
+				<div class="detailAddress">收货地址： 浙江省 杭州市 余杭区 梦想小镇</div>
+				<div class="icon icon-more"></div>
+			</div>
+		</div>
+	</div>
+	
+	<!--活动-->
+	<div class="wp100 mt20" id="activityWrap">
+		<div class="activity-item">
+    		<a href="../activity/activity-detail.html">
+	    		<div class="pic fl" style="background-image: url('../../images/default-bg.png');"></div>
+	    		<div class="content fr">
+	    			<div class="name">库苏古尔湖冰雪那达慕摄影之旅</div>
+	    			<div class="info">
+	    				<samp class="data">2018-01-01</samp>
+	    				<samp class="address">蒙古</samp>
+	    			</div>
+	    			<div class="care"><samp>30人已报名</samp></div>
+	    			<div class="priceWrap">
+	    				<div class="price">￥99.99</div>
+	    			</div>
+	    		</div>
+    		</a>
+    	</div>
+	</div>
+	
+	<div class="activityForm mt20">
+		<form id="activityForm" class="form-wrapper">
+            <div class="form-item b_e_b">
+                <div class="am-flexbox">
+                    <span class="item-title">姓名</span>
+                    <input type="tel" placeholder="请输入真实姓名" id="realName" name="realName" class="input-item">
+                </div>
+            </div>
+            <div class="form-item b_e_b">
+                <div class="am-flexbox">
+                    <span class="item-title">身份证号</span>
+                    <input type="text" placeholder="请输入身份证号" id="idNo" name="idNo" class="input-item">
+                </div>
+            </div>
+            <div class="form-item b_e_b">
+                <div class="am-flexbox">
+                    <span class="item-title">联系电话</span>
+                    <input type="text" placeholder="请输入联系电话" pattern="[0-9]*" id="mobile" name="mobile" class="input-item">
+                </div>
+            </div>
+        </form>
+	</div>
+	
+	<div style="height: 1.2rem;"></div>
+	<div class="submitOrderBottom">
+		<div class="fl amount"><span>实付：</span><samp id="totalAmount"></samp></div>
+		<input type="button" value="提交" class="fr am-button am-button-noradius am-button-red" id="subBtn" />
+	</div>
+    <link rel="import" href="../footer.html?__inline">
+	<script src="../js/lib/city.js"></script>
+    <script>
+        require(['app/controller/activity/SubmitOrder']);
+    </script>
+</body>
+</html>
+
+

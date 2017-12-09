@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>选择装备</title>
+    <link rel="stylesheet" href="../../css/calendar.css" />
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+	<!--选择商品-->
+	<div class="titleWrap actChoose-titleWrap" id="chooseMall">
+		<p class="text"><samp>选择商品</samp>：<i class="icon"></i></p>
+	</div>
+	<div class="actChoose-mall b_e_t"></div>
+	
+	<!--选择租赁-->
+	<div class="titleWrap actChoose-titleWrap mt20" id="chooseLease">
+		<p class="text"><samp>选择租赁</samp>：<i class="icon"></i></p>
+	</div>
+	<div class="actChoose-lease b_e_t"></div>
+	
+	<!--收件地址-->
+	<div class="titleWrap actChoose-titleWrap mt20" id="chooseAddress">
+		<p class="text"><samp>收件地址</samp>：<i class="icon"></i></p>
+	</div>
+	
+	<div class="orderAddressWrap b_e_t hidden" id="orderAddressWrap">
+		<div class="orderAddress" id="orderAddress"></div>
+	</div>
+	
+	<div style="height: 1.1rem;"></div>
+	<div class="actChoose-bottom fixft bg_fff">
+        <button id="submitBtn" class="am-button am-button-red wp100">报名活动</button>
+	</div>
+	
+    <link rel="import" href="../footer.html?__inline">
+	<script src="../js/lib/city.js"></script>
+    <script>
+        require(['app/controller/activity/ActivityChoose']);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+{{#each items}}
+	<div class="mall-item" data-code={{code}}>
+		<div class="choose fl"></div>
+		<div class="mall-item-img fl" style="background-image: url('{{formatImage advPic}}');"></div>
+		<div class="mall-item-con fl">
+			<p class="name">{{name}}</p>
+			<samp class="slogan"></samp>
+			<div class="price">
+				<samp class="samp1">{{defaultProductPrice}}</samp>
+			</div>
+		</div>
+	</div>
+    
+{{/each}}
