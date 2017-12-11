@@ -107,43 +107,6 @@ define([
                 canScrolling = true;
             }, () => hideLoading());
     }
-    
-    //获取自提点
-    function getBackStore(){
-    	return UserCtr.getPagePartner(true).then((data)=>{
-    		var html = '';
-    		
-    		data.list.forEach(function(d, i){
-    			html+=`<option value="${d.userId}"  data-address="${d.province+' '+d.city+' '+d.area+' '+d.address}">${d.realName}</option>`
-    		})
-    		
-    		$('#backStore').html(html)
-    	})
-    }
-    
-	//归还邮寄地址
-	function getReturnAddress(){
-		$.when(
-			GeneralCtr.getDictList({key:'back_info_person'},'810917'),
-			GeneralCtr.getDictList({key:'back_info_address'},'810917'),
-		).then((data,data2)=>{
-			$("#dialog-returnAddress2 .textarea").html(data.cvalue+' '+data2.cvalue);
-			$("#dialog-returnAddress2").attr('data-backAddress',data.cvalue+' '+data2.cvalue);
-    	},()=>{})
-	}
-	
-    //获取物流公司列表
-    function getBackLogisticsCompany(){
-    	GeneralCtr.getDictList({parentKey:'back_kd_company'},'801907').then((data)=>{
-    		var html = ''
-    		data.forEach(function(d, i){
-    			html += `<option value='${d.dkey}'>${d.dvalue}</option>`;
-    		})
-    		
-    		$("#backLogisticsCompany").append(html)
-    	},()=>{})
-    }
-    
     //订单列表
     function buildHtml(item) {
     	var tmplProHtml = '',tmplbtnHtml =' ';
@@ -201,6 +164,42 @@ define([
                     </samp></p><p class="realDeposit">含押金: ${'￥'+base.formatMoney(item.realDeposit)} ${item.yunfei?' 运费:￥'+base.formatMoney(item.yunfei)+'':''} </p>
                     </div>`+tmplbtnHtml+`</div></div>`;
 
+    }
+    
+    //获取自提点
+    function getBackStore(){
+    	return UserCtr.getPagePartner(true).then((data)=>{
+    		var html = '';
+    		
+    		data.list.forEach(function(d, i){
+    			html+=`<option value="${d.userId}"  data-address="${d.province+' '+d.city+' '+d.area+' '+d.address}">${d.realName}</option>`
+    		})
+    		
+    		$('#backStore').html(html)
+    	})
+    }
+    
+	//归还邮寄地址
+	function getReturnAddress(){
+		$.when(
+			GeneralCtr.getDictList({key:'back_info_person'},'810917'),
+			GeneralCtr.getDictList({key:'back_info_address'},'810917'),
+		).then((data,data2)=>{
+			$("#dialog-returnAddress2 .textarea").html(data.cvalue+' '+data2.cvalue);
+			$("#dialog-returnAddress2").attr('data-backAddress',data.cvalue+' '+data2.cvalue);
+    	},()=>{})
+	}
+	
+    //获取物流公司列表
+    function getBackLogisticsCompany(){
+    	GeneralCtr.getDictList({parentKey:'back_kd_company'},'801907').then((data)=>{
+    		var html = ''
+    		data.forEach(function(d, i){
+    			html += `<option value='${d.dkey}'>${d.dvalue}</option>`;
+    		})
+    		
+    		$("#backLogisticsCompany").append(html)
+    	},()=>{})
     }
     
     //归还租赁

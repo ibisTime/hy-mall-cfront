@@ -80,7 +80,7 @@ define([
                 type: "2"
             }, refresh);
         },
-        // 分页查询咨询
+        // 分页查询资讯
         getPageInformation(config, refresh) {
             return Ajax.get("801005", {
                 status: 1,
@@ -88,7 +88,7 @@ define([
                 ...config
             }, refresh);
         },
-        // 分页查询咨询
+        // 分页查询资讯
         getInformationDetail(code) {
             return Ajax.get("801006", {
             	code,
@@ -114,9 +114,23 @@ define([
         		type: type
         	}, true);
         },
-        // 分页查询评论
+        // 分页查询评论(租赁，商品)
         getPageComment(config, refresh){
             return Ajax.get("801028", config, refresh);
-        }
+        },
+        /**
+         * 评论/留言(活动留言)
+         * @config：{content,entityCode,parentCode,type}
+         */
+        comment(config, refresh) {
+            return Ajax.get("801020", {
+            	userId: base.getUserId(),
+                ...config
+            }, refresh);
+        },
+        // 分页查询评论(活动留言)
+        getPageActComment(config, refresh){
+            return Ajax.get("801027", config, refresh);
+        },
     };
 })

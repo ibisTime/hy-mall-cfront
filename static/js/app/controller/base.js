@@ -185,6 +185,12 @@ define([
             }
             return Base.getImg(pic, "?imageMogr2/auto-orient/thumbnail/!65x65r");
         },
+        getLdAvatar: function(pic){
+            if(!pic) {
+                return "/static/images/avatar-ld.png";
+            }
+            return Base.getImg(pic, "?imageMogr2/auto-orient/thumbnail/!65x65r");
+        },
         // 获取分享的图片
         getShareImg: function(pic) {
             if (!pic) {

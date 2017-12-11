@@ -12,7 +12,7 @@
 	<div class="detail-swiper activityDetail-swiper">
     	<div id="swiper-container" class="swiper-container">
             <div id="top-swiper" class="swiper-wrapper" style="display: -webkit-box;display: -moz-box;">
-            	<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('http://ov30dsi08.bkt.clouddn.com/banner@2x_1512454782533.png?imageMogr2/auto-orient/interlace/1')"></div></div>
+            	<!--<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('http://ov30dsi08.bkt.clouddn.com/banner@2x_1512454782533.png?imageMogr2/auto-orient/interlace/1')"></div></div>-->
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -20,20 +20,21 @@
     </div>
     
 	<div class="detail-title activityDetail-title bg_fff wp100 ">
-    	<p class="name">库苏古尔湖冰雪那达慕摄影之旅</p>
-    	<samp class="slogan">库苏古尔湖冰雪那达慕摄影之旅，库苏古尔湖冰雪那达慕摄影之旅，库苏古尔湖冰雪那达慕摄影之旅，库苏古尔湖冰雪那达慕摄影之旅。</samp>
+    	<p class="name"></p>
+    	<samp class="slogan"></samp>
     	<p class="price1">
-    		<samp id="price"><i>￥</i>59.00</samp>
+    		<samp id="price"></samp>
     	</p>
     	<div class="info">
-    		<p class="dataWrap"><i class="icon icon-data"></i><samp>出行日期:<i class="data">2018-01-01</i></samp></p>
-    		<p class="ml30"><i class="icon icon-userNum"></i><samp>最少:<i class="userNum">20</i>人成行</samp></p>
+    		<p class="wp100 mt10"><i class="icon icon-data"></i><samp>报名截止日期:<i class="enrollEndDatetime"></i></samp></p>
+    		<p class="wp100 mt10"><i class="icon icon-data"></i><samp>活动日期:<i class="data"></i></samp></p>
+    		<p class="wp100 mt10"><i class="icon icon-userNum"></i><samp>最少<i class="userNum"></i>人成行</samp></p>
     	</div>
     </div>
     
     <div class="titleWrap activity-titleWrap mt20">
     	<p class="text fl">报名人数</p>
-    	<p class="text fr"><samp>15</samp>人<i class="icon"></i></p>
+    	<p class="text fr"><samp id="enrollNum"></samp>人<i class="icon"></i></p>
     </div>
     <div class="photoList bg_fff">
     	<div class="photo-item" style="background-image: url('../../images/avatar.png');"></div>
@@ -41,8 +42,8 @@
     <div class="difficulty bg_fff">
     	<div class="wrap">
     		<samp>强度系数</samp>
-    		<div class="starWrap">
-				<i data-score='1' class="star active"></i>
+    		<div class="starWrap" id="indexQd">
+				<i data-score='1' class="star"></i>
 				<i data-score='2' class="star"></i>
 				<i data-score='3' class="star"></i>
 				<i data-score='4' class="star"></i>
@@ -51,8 +52,8 @@
     	</div>
     	<div class="wrap">
     		<samp>难度系数</samp>
-    		<div class="starWrap">
-				<i data-score='1' class="star active"></i>
+    		<div class="starWrap" id="indexNd">
+				<i data-score='1' class="star"></i>
 				<i data-score='2' class="star"></i>
 				<i data-score='3' class="star"></i>
 				<i data-score='4' class="star"></i>
@@ -61,8 +62,8 @@
     	</div>
     	<div class="wrap">
     		<samp>风险系数</samp>
-    		<div class="starWrap">
-				<i data-score='1' class="star active"></i>
+    		<div class="starWrap" id="indexFj">
+				<i data-score='1' class="star"></i>
 				<i data-score='2' class="star"></i>
 				<i data-score='3' class="star"></i>
 				<i data-score='4' class="star"></i>
@@ -78,19 +79,23 @@
     	<div class="nav">装备建议</div>
     </div>
     
-    <div class="bg_fff wp100">
-    	<div class="contentWrap detail ptb20lr30">活动介绍</div>
-    	<div class="contentWrap detail ptb20lr30 hidden">费用介绍</div>
-    	<div class="contentWrap detail ptb20lr30 hidden">具体行程</div>
-    	<div class="contentWrap detail ptb20lr30 hidden">装备建议</div>
+    <div class="bg_fff wp100 actDetail-contentWrap">
+    	<div class="contentWrap detail ptb20lr30" id="description"></div>
+    	<div class="contentWrap detail ptb20lr30 hidden" id="amountDesc"></div>
+    	<div class="contentWrap detail ptb20lr30 hidden" id="scheduling"></div>
+    	<div class="contentWrap detail ptb20lr30 hidden" id="equipment"></div>
     </div>
     
 	<div class="activity-detail bg_fff mt20">
 		<div class="title b_e_b">
 			<p class="text fl"><i class="icon icon-liuyan"></i><samp>留言区</samp></p>
-			<a class="text fr tcolor_primary">去留言</a>
+			<a class="text fr tcolor_primary" id="goliuyan">去留言</a>
 		</div>
-		<div class="actLiuyan-list wp100">
+		<div class="tNotes-comment">
+			<div id="tNcommentList" class="wrap goTNcommentList"></div>
+	    	<div class="allTNotesComment hidden goTNcommentList" id="allTNotesComment">查看更多留言</div>
+		</div>
+		<!--<div class="actLiuyan-list wp100">
 			<div class="actLiuyan-item">
 				<div class="userWrap">
 					<div class="userPic" style="background-image: url('../../images/avatar.png');"></div>
@@ -111,7 +116,7 @@
 					<div class="data">2018-01-01</div>
 				</div>
 			</div>
-		</div>
+		</div>-->
 	</div>
 	
 	<!--报名须知-->
@@ -119,9 +124,7 @@
 		<div class="title b_e_b">
 			<p class="text fl"><i class="icon icon-baoming"></i><samp>报名须知</samp></p>
 		</div>
-		<div class="detail ptb20lr30">
-			报名须知
-		</div>
+		<div class="detail ptb20lr30" id="act_enroll"></div>
 	</div>
 	
 	<!--免责申明-->
@@ -129,9 +132,7 @@
 		<div class="title b_e_b">
 			<p class="text fl"><i class="icon icon-mianze"></i><samp>免责申明</samp></p>
 		</div>
-		<div class="detail ptb20lr30">
-			免责申明
-		</div>
+		<div class="detail ptb20lr30" id="act_mzsm"></div>
 	</div>
 	
 	<!--注意事项-->
@@ -139,9 +140,7 @@
 		<div class="title b_e_b">
 			<p class="text fl"><i class="icon icon-zhuyi"></i><samp>注意事项</samp></p>
 		</div>
-		<div class="detail ptb20lr30">
-			注意事项
-		</div>
+		<div class="detail ptb20lr30" id="act_zysx"></div>
 	</div>
 	
 	<!--我已确认并知晓上述活动事项-->
@@ -152,10 +151,10 @@
 	</div>
 	
 	<div style="height: 1.2rem;"></div>
-	<div class="activity-bottom fixft bg_fff">
+	<div class="activity-bottom fixft bg_fff" id="activity-bottom">
 		<button id="consultBtn" class="am-button am-button-primary fl">我要咨询</button>
         <button id="wantPalyBtn" class="am-button am-button-red fr">我想去玩</button>
-	</div>	
+	</div>
 	
     <div class="mallfloatWrap goIndex activity-goIndex">
     	<a class="mallfloat" href="../index.html"><i></i></a>
@@ -177,8 +176,8 @@
             </div>
         </div>
     </div>
-    
-	<!--资讯弹窗-->
+    	
+    <!--资讯弹窗-->
     <div class="consult-Dialog dialog am-modal-wrap hidden" id="consultDialog">
         <div class="am-modal-mask"></div>
         <div role="document" class="am-modal">

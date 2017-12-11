@@ -1,9 +1,10 @@
 define([
     'app/controller/base',
-    'app/module/weixin',
 	'app/module/validate',
     'app/interface/TravelNotesStr',
-], function(base, weixin, Validate, TravelNotesStr) {
+    'app/interface/GeneralCtr',
+], function(base, Validate, TravelNotesStr, GeneralCtr) {
+    var type = base.getUrlParam("type")||'';
     var code = base.getUrlParam("code");
     var config = {
         start: 1,
@@ -15,7 +16,14 @@ define([
 
 	function init(){
         base.showLoading();
-    	getPageTravelNotesComment()
+        if(type == "AN"){
+        	config.type = type;
+        	$("#tNotesForm-comCon").attr("placeholder","发表留言...")
+        }else{
+        	
+        	$("#tNotesForm-comCon").attr("placeholder","发表回复...")
+        }
+    	getPageTravelNotesComment();
         addListener();
 	}
 	
@@ -39,7 +47,7 @@ define([
                 config.start++;
                 
             } else if(config.start == 1) {
-                $("#tNcommentList").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无游记</p></div>');
+                $("#tNcommentList").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无</p></div>');
                 $("#loadAll").addClass("hidden");
             } else {
                 $("#loadAll").removeClass("hidden");
@@ -53,6 +61,8 @@ define([
 	}
 	function buildHtml(item,i){
 		var toComment = "";
+		var bottomWrap = "";
+		
 		if(item.parentComment){
 			toComment = `<div class="toComment">
     						<p class="toNickName">回复@<samp>${item.parentComment.nickname}</samp></p>
@@ -60,9 +70,15 @@ define([
     					</div>`;
 		}
 		
+		if(type != "AN"){
+			bottomWrap = `<div class="bottomWrap">
+	    					<div class="reply" data-code="${item.code}"><i class="icon"></i><samp>回复</samp></div>
+	    				</div>`;
+		}
+		
 		return `<div class="tNcomment-item">
     				<div class="userPicWrap">
-    					<div class="userPic" style="background-image: url('${base.getImg(item.photo)}');"></div>
+    					<div class="userPic" style="background-image: url('${type=="AN"?base.getLdAvatar(item.photo) :base.getAvatar(item.photo)}');"></div>
     				</div>
     				<div class="info">
     					<div class="userInfo">
@@ -71,9 +87,7 @@ define([
     					</div>
     					${toComment}
     					<div class="content">${item.content}</div>
-    					<div class="bottomWrap">
-	    					<div class="reply" data-code="${item.code}"><i class="icon"></i><samp>回复</samp></div>
-	    				</div>
+    					${bottomWrap}
     				</div>
     			</div>`;
 	}
@@ -104,22 +118,42 @@ define([
         	if($("#tNotesForm-comCon").val()){
         		base.showLoading();
         		
-        		TravelNotesStr.travelNotesComment({
-		        	content:$("#tNotesForm-comCon").val(),
-		        	parentCode: comCode?comCode:code,
-		        	travelCode: code
-		        }).then(()=>{
-		        	
-		        	$("#mask").addClass("hidden")
-		    		$("#tNotesForm-comCon").val("")
-		        	base.hideLoading();
-		        	base.showMsg("评论成功");
-		        	
-		        	setTimeout(function(){
-						location.reload(true)
-		        	},800)
-		        	
-		        }, base.hideLoading)
+        		if(type = "AN"){
+        			GeneralCtr.comment({
+			        	content:$("#tNotesForm-comCon").val(),
+			        	parentCode: comCode?comCode:code,
+			        	entityCode: code,
+			        	type: type
+			        }).then(()=>{
+			        	
+			        	$("#mask").addClass("hidden")
+			    		$("#tNotesForm-comCon").val("")
+			        	base.hideLoading();
+			        	base.showMsg("留言成功");
+			        	
+			        	setTimeout(function(){
+							location.reload(true)
+			        	},800)
+			        	
+			        }, base.hideLoading)
+        		}else{
+        			TravelNotesStr.travelNotesComment({
+			        	content:$("#tNotesForm-comCon").val(),
+			        	parentCode: comCode?comCode:code,
+			        	travelCode: code
+			        }).then(()=>{
+			        	
+			        	$("#mask").addClass("hidden")
+			    		$("#tNotesForm-comCon").val("")
+			        	base.hideLoading();
+			        	base.showMsg("评论成功");
+			        	
+			        	setTimeout(function(){
+							location.reload(true)
+			        	},800)
+			        	
+			        }, base.hideLoading)
+        		}
         	}
         }) 
         

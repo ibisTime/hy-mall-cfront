@@ -80,7 +80,7 @@ define([
 		
 		return `<div class="tNcomment-item">
     				<div class="userPicWrap">
-    					<div class="userPic" style="background-image: url('${base.getImg(item.photo)}');"></div>
+    					<div class="userPic" style="background-image: url('${base.getAvatar(item.photo)}');"></div>
     				</div>
     				<div class="info">
     					<div class="userInfo">
@@ -202,7 +202,7 @@ define([
         })
         
         $(".tNotes-comment").on("click",".goTNcommentList",function(){
-        	location.href="./travelNotes-comment.html?code="+code;
+        	location.href="../public/comment2.html?code="+code;
         })
         
         

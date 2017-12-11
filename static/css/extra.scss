@@ -4822,6 +4822,9 @@ label.error {
             line-height: 1;
             font-size: .28rem;
         }
+        select{
+            max-width: 1.2rem;
+        }
     }
 }
 .activity-item{
@@ -4852,7 +4855,7 @@ label.error {
         width: 3.7rem;
         height: 2.1rem;
         line-height: 1.1;
-        padding-top: .15rem;
+        padding-top: .1rem;
         position: relative;
         
         .name{
@@ -4868,9 +4871,15 @@ label.error {
             
             samp{
                 font-size: .24rem;
-                color: #999;  
+                color: #999;
+                display: inline-block;
             }
-            
+            samp.address{
+                display: inline-block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
         }
         
         .care{
@@ -4898,14 +4907,14 @@ label.error {
         
         .priceWrap{
             width: 100%;
-            height: .5rem;
+            overflow: hidden;
             position: absolute;
             right: 0;
             bottom: 0;
             
             .price{
                 font-size: .34rem;
-                line-height: .5rem;
+                line-height: .46rem;
                 color: $red-color;
             }
         }
@@ -4949,11 +4958,7 @@ label.error {
             display: inline-block;
             line-height: 1;
             overflow: hidden;
-            float: left;
-            
-            &.dataWrap{
-                width: 3rem;
-            }
+                        
             samp{
                 font-size: .26rem;
                 line-height: .3rem;
@@ -5338,3 +5343,36 @@ label.error {
         }
     }
 }
+.actDetail-contentWrap{
+    .contentWrap{
+        font-size: .26rem;
+        line-height: 1.8;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
