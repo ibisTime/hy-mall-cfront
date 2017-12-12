@@ -1,13 +1,14 @@
 define([
     'jquery',
     'app/controller/base',
+    'app/util/handlebarsHelpers',
     'app/interface/LeaseCtr',
-], function ($, base , LeaseCtr) {
+    'app/module/ActivityChooseLeaseSubmit',
+], function ($, base, Handlebars, LeaseCtr, ActivityChooseLeaseSubmit) {
     var tmpl = __inline("index.html");
+    var _mallTmpl = __inline('../../ui/mall-list-lease.handlebars');
     var defaultOpt = {};
     var firstAdd = true;
-	var g = 12;
-	var k = 0;
     var nDivHight = 0;
     var config = {
         start: 1,
@@ -15,39 +16,35 @@ define([
         orderColumn:'order_no',
         orderDir:'asc'
     }, isEnd = false, canScrolling = false;
+    var proList = [];
 
     function initData(){
         base.showLoading();
-        getPageMalLList();
+        getPageLeaseList();
     }
     
-    //商品分页查
-	function getPageMalLList(){
-		var html = ''
-		if (k >= g) {
-            isEnd = true;
-        }
-		if(k < g){
-			for (var i=0; i<5&&k<g; i++) {
-				k++
-				html+=`<div class="mall-item" >
-					<div class="choose fl"></div>
-					<div class="mall-item-img fl" style="background-image: url('/static/images/default-bg.png');"></div>
-					<div class="mall-item-con fl">
-						<p class="name">名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称名称</p>
-						<samp class="slogan">秋冬新品</samp>
-						<div class="price">
-							<samp class="samp1">￥99.00</samp>
-							<samp class="samp2">市场参考价: ￥199.00</samp>
-						</div>
-					</div>
-				</div>`
-			}	
-		}
-		$("#LeaseListContainer .chooseMallList-wrap").append(html)
-		isEnd && $("#loadAll").removeClass("hidden");
-		canScrolling = true;
-		base.hideLoading();
+    //租赁分页查
+	function getPageLeaseList(refresh){
+		LeaseCtr.getPageLeaseProduct(config, refresh)
+            .then(function(data) {
+                base.hideLoading();
+                var lists = data.list;
+                var totalCount = data.totalCount;//+lists.totalCount;
+                if (totalCount <= config.limit || lists.length < config.limit) {
+                    isEnd = true;
+                }
+    			if(lists.length) {
+    				
+                    $("#LeaseListContainer .chooseMallList-wrap")[refresh || config.start == 1 ? "html" : "append"](_mallTmpl({items: lists}));
+                    isEnd && $("#loadAll").removeClass("hidden");
+                    config.start++;
+    			} else if(config.start == 1) {
+                    $("#LeaseListContainer .chooseMallList-wrap").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无商品</p></div>')
+                } else {
+                    $("#loadAll").removeClass("hidden");
+                }
+                canScrolling = true;
+        	}, base.hideLoading);
 	}
 	
     function addListener(){
@@ -61,16 +58,37 @@ define([
             if (canScrolling && !isEnd && (nScrollTop + nDivHight + 10 >= nScrollHight)) {
                 canScrolling = false;
                 base.showLoading();
-                getPageMalLList();
+                getPageLeaseList();
             }
         });
         
         //重新选择
         $("#LeaseListContainer").on("click", ".right-left-btn .resetBtn", function(){
+        	proList = [];
         	$("#LeaseListContainer .chooseMallList-wrap .mall-item").removeClass("active")
         });
         
-        var _activeMall; //当前点击的商品
+        var _activeLease; //当前点击的商品
+        
+        //租赁面板
+		ActivityChooseLeaseSubmit.addCont({
+        	success: function(leaseData) {
+        		
+        		_activeLease.attr("data-totalAmount",leaseData.totalAmount)
+        		_activeLease.attr("data-quantity",leaseData.quantity)
+        		_activeLease.attr("data-startDate",leaseData.startDate)
+        		_activeLease.attr("data-endDate",leaseData.endDate)
+        		_activeLease.attr("data-rentDay",leaseData.rentDay)
+        		_activeLease.attr("data-deposit",leaseData.deposit)
+        		
+        		_activeLease.find(".price .samp1").text('￥'+base.formatMoney(leaseData.totalAmount))
+				_activeLease.find(".price .samp2").text('(含押金:￥'+base.formatMoney(leaseData.deposit)+")")
+        		_activeLease.find(".rentDays").html("租期："+leaseData.rentDay+"&nbsp;&nbsp;&nbsp;&nbsp;数量：X"+leaseData.quantity)
+        		_activeLease.find(".data").text("租赁日期："+leaseData.startDate+"至"+leaseData.endDate)
+        		
+        		_activeLease.addClass("active")
+        	}
+        });
         
         //商品选择
         $("#LeaseListContainer .chooseMallList-wrap").on("click",".mall-item", function(){
@@ -78,79 +96,17 @@ define([
         	if($(this).hasClass("active")){
         		$(this).removeClass("active")
         	}else{
-        		_activeMall= $(this)
-        		showProductSpecs();
+        		_activeLease= $(this);
+        		
+        		ActivityChooseLeaseSubmit.showCont({
+        			code: _activeLease.attr("data-code")
+        		})
         	}
         })
         
-        //规格面板-确定按钮点击
-        $("#leasePanel .productSpecs-btn .subBtn").click(function(){
-        	_activeMall.addClass("active")
-        	closeProductSpecs()
-        })
-        
-        //关闭商品规格
-		$("#leasePanel .close").click(function(){
-			closeProductSpecs();
-		})
-		
-		//购买数量 减
-		$('.productSpecs-number .subt').click(function(){
-			var sum = +$('#leasePanel .productSpecs-number .sum').html()
-			if(sum>1){
-				sum--
-			}
-			$('#leasePanel .productSpecs-number .sum').html(sum)
-		})
-		
-		//购买数量 加
-		$('.productSpecs-number .add').click(function(){
-			var sum = +$('#leasePanel .productSpecs-number .sum').html()
-			if(sum<$("#leasePanel .quantity").attr('data-quantity')){
-				sum++
-			}
-			$('#leasePanel .productSpecs-number .sum').html(sum)
-		})
         
 	}
     
-    //显示商品规格面板
-	function showProductSpecs(t){
-		//t=1,加入购物车；t=2,立即下单
-		$("#mask").removeClass('hidden');
-		$("#subBtn").removeClass('purchaseBtn').removeClass('addSCarBtn');
-		$("#leasePanel").addClass('active');
-	}
-	
-	//关闭商品规格面板
-	function closeProductSpecs(){
-		$("#mask").addClass('hidden');
-		$("#leasePanel").removeClass('active');
-		
-		//还原选中数据
-		var _specP1 = $("#specs1 .spec p").eq(0);
-		var _specP2 = $("#specs2 .spec p").eq(0);
-		var type = 1;
-		
-		$("#specs1 .spec p").removeClass("inStock").addClass("inStock").removeClass("active");
-		$("#specs2 .spec p").removeClass("inStock").addClass("inStock").removeClass("active");
-		
-		if($("#specs2").hasClass('hidden')){//只有规格1
-			$("#leasePanel .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP1.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP1.attr("data-price")))
-			$("#leasePanel .quantity").html('库存 ' + _specP1.attr("data-quantity")).attr('data-quantity',_specP1.attr("data-quantity"))
-			$("#leasePanel .choice i").html(_specP1.attr("data-name"))
-			$("#leasePanel .productSpecs-img").css('background-image','url("'+base.getImg(_specP1.attr("data-pic"))+'")')
-			$('#leasePanel .productSpecs-number .sum').html(1)
-		}else{
-			$("#leasePanel .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP2.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP2.attr("data-price")))
-			$("#leasePanel .quantity").html('库存 ' + _specP2.attr("data-quantity")).attr('data-quantity',_specP2.attr("data-quantity"))
-			$("#leasePanel .choice i").html(_specP2.attr("data-name"))
-			$("#leasePanel .productSpecs-img").css('background-image','url("'+base.getImg(_specP2.attr("data-pic"))+'")')
-			$('#leasePanel .productSpecs-number .sum').html(1)
-		}
-		
-	}
-	
     function doError(cc) {
         $(cc).html('<div style="text-align: center;line-height: 3;">暂无数据</div>');
     }
@@ -171,10 +127,29 @@ define([
         		addListener();
         		
                 wrap.on("click", ".right-left-cont-back", function(){
+                	proList=[]
                     ModuleObj.hideCont(defaultOpt.success);
                 });
                 
                 wrap.on("click", ".right-left-btn .subBtn", function(){
+                	proList=[];
+					$("#LeaseListContainer .chooseMallList-wrap .mall-item").each(function(){
+						if($(this).hasClass("active")){
+							var pro = {
+								code: $(this).attr("data-code"),
+								name: $(this).find(".name").text(),
+								advPic: $(this).find(".mall-item-img").attr("data-advPic"),
+								price: $(this).attr("data-totalAmount"),
+								quantity: $(this).attr("data-quantity"),
+								startDate: $(this).attr("data-startDate"),
+								endDate: $(this).attr("data-endDate"),
+								rentDay: $(this).attr("data-rentDay"),
+								deposit: $(this).attr("data-deposit")
+							}
+							
+							proList.push(pro)
+						}
+					})
                     ModuleObj.hideCont(defaultOpt.success);
                 });
                 
@@ -206,13 +181,13 @@ define([
                 defaultOpt.showFun && defaultOpt.showFun();
             });
             
-            var topWrap = $(".right-left-cont-title");
+            var topWrap = wrap.find(".right-left-cont-title");
             topWrap.show().animate({
                 left: 0
             }, 200, function () {
             });
             
-            var btnWrap = $(".right-left-btn");
+            var btnWrap = wrap.find(".right-left-btn");
             btnWrap.show().animate({
                 left: 0
             }, 200, function () {
@@ -222,44 +197,27 @@ define([
         },
         hideCont: function (func){
             if(this.hasCont()){
-            	var falg = false;
-//          	if($("#LeaseListContainerContent .addressWrap").length){
-//          		$("#LeaseListContainerContent .addressWrap").each(function(i, d){
-//	            		if($(this).find('.xzIcon').hasClass('active')){
-//	            			dCode = $(this).find('.addressWrap-detail').attr('data-code')
-//	            			pojoConfig.receiver = $(this).find('.addressee').html();
-//				        	pojoConfig.reMobile = $(this).find('.mobile').text()
-//				        	pojoConfig.reAddress = $(this).find('.province').html()+' '+$(this).find('.city').html()+' '+$(this).find('.district').html()+' '+$(this).find('.detailAddress').html();
-//				        	
-//				        	falg = true
-//				        	return false;
-//	            		}
-//	            	})
-//          	}
-            	
-            	if(!falg){
-            	}
-            	
-            	var topWrap = $(".right-left-cont-title");
+                var wrap = $("#LeaseListContainer");
+                
+            	var topWrap = wrap.find(".right-left-cont-title");
                 topWrap.animate({
                     left: "100%"
                 }, 200, function () {
                     btnWrap.hide();
                 });
             	
-                var btnWrap = $(".right-left-btn");
+                var btnWrap = wrap.find(".right-left-btn");
                 btnWrap.animate({
                     left: "100%"
                 }, 200, function () {
                     btnWrap.hide();
                 });
                 
-                var wrap = $("#LeaseListContainer");
                 wrap.animate({
                     left: "100%"
                 }, 200, function () {
                     wrap.hide();
-                    func && func();
+                    func && func(proList);
                     wrap.find("label.error").remove();
                 });
                 

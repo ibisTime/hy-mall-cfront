@@ -193,7 +193,7 @@ define([
 		
 		//“选择装备” 点击
 		$("#chooseProductBtn").click(function(){
-			location.href="../activity/activity-choose.html?code="+code
+			location.href="../activity/submitOrder.html?type=2&code="+code
 		})
 		
 		//“直接报名” 点击

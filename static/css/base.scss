@@ -638,6 +638,19 @@ textarea {
             font-size: 0.3rem;
             color: #333;
         }
+        .select-item {
+            position: relative;
+            flex: 1;
+            font-size: 0.3rem;
+            color: #333;
+        }
+        .textarea-item {
+            height: 2rem;
+            position: relative;
+            flex: 1;
+            font-size: 0.3rem;
+            color: #333;
+        }
     }
 }
 

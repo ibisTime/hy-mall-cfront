@@ -7,13 +7,15 @@ define([
     'app/module/ActivityChooseLeaseList',
 ], function(base, AddressList, UserCtr, BindMobile, ActivityChooseMallList, ActivityChooseLeaseList) {
 	var code = base.getUrlParam("code");
+	
 	var config = {
-		productCode: code,
+		actCode: code,
     	receiver: "",
         reMobile: "",
         reAddress: "",
+        prodList:[],
+        rprodList:[]
 	};
-	var isBindMobile = false;//是否绑定手机号
     init();
 
 	function init(){
@@ -44,6 +46,7 @@ define([
 				    config.reAddress = '';
 				    
 				    $("#orderAddressWrap").addClass('hidden');
+				    $("#orderAddress").html("").attr('data-code',"");
             	}
             	
             }
@@ -51,6 +54,23 @@ define([
 		AddressList.showCont({
 			code: c
 		});
+	}
+	
+	//商品列表
+	function mallBuildHtml(item){
+		
+		return `<div class="mall-item chooseList-wrap" data-code="${item.code}" data-speccode="${item.speccode}"  data-quantity="${item.quantity}" >
+					<div class="mall-item-img fl" style="background-image: url('${base.getImg(item.advPic)}');"></div>
+					<div class="mall-item-con fl">
+						<p class="name">${item.name}</p>
+						<samp class="slogan">${item.productSpecs}</samp>
+						<div class="price">
+							<samp class="samp1">${item.price}</samp>
+							<samp class="samp2">${item.quantity}</samp>
+						</div>
+					</div>
+					<div class="deleteWrap fl"><div class="delete chooseList-delete"><div></div>
+				</div>`
 	}
 	
 	function addListener(){
@@ -68,7 +88,15 @@ define([
         
         //选择商品面板
 		ActivityChooseMallList.addCont({
-        	success: function() {
+        	success: function(proList) {
+        		if(proList.length){
+        			var html = ""
+        			proList.forEach(function(item){
+        				
+        				html+= mallBuildHtml(item)
+        			})
+        			$("#actChoose-mall").html(html);
+        		}
         	}
         });
         
@@ -102,5 +130,17 @@ define([
 			location.href="../activity/submitOrder.html?type=2&code="+code
 		})
         
+        //删除
+        $("body").on("click",".chooseList-delete",function(){
+        	var _this = $(this)
+        	base.confirm("确定删除？").then(()=>{
+        		_this.parents(".chooseList-wrap").remove();
+        	},()=>{})
+        })
+        
+        $("#submitBtn").click(function(){
+			
+			
+        })
 	}
 })

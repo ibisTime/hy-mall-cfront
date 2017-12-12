@@ -60,6 +60,9 @@ label.error {
 .tcolor_primary{
     color: $primary-color !important;
 }
+.t_999_i {
+    color: #999 !important;
+}
 // Swiper
 .swiper-pagination-bullet.swiper-pagination-bullet-active {
     background: #fff;
@@ -4836,7 +4839,7 @@ label.error {
     position: relative;
     
     &:last-child{
-        border: 0;
+        border-bottom: 0;
     }
     a{
         display: block;
@@ -5304,10 +5307,9 @@ label.error {
     }
 }
 
-.chooseMallList-wrap{
+.chooseMallList-wrap,
+.actChoose-mall{
     .mall-item{
-        padding-left: .2rem;
-        padding-right: .2rem;
         
         .mall-item-img{
             width: 2rem;
@@ -5343,14 +5345,59 @@ label.error {
         }
     }
 }
+.chooseMallList-wrap{
+    .mall-item{
+        padding-left: .2rem;
+        padding-right: .2rem;
+    }
+}
+
+.actChoose-mall{
+    
+    .mall-item{
+        padding-left: .2rem;
+        padding-right: 0;
+        
+        .deleteWrap{
+            width: .8rem;
+            height: 2rem;
+            position: relative;
+            
+            .delete{
+                width: 100%;
+                height: .8rem;
+                background-position: .2rem bottom;
+                background-repeat: no-repeat;
+                background-size: .36rem;
+                background-image: url('../images/删除@2x.png');
+                position: absolute;
+                right: 0;
+                bottom: 0;
+            }
+        }
+        
+        .mall-item-con .price .samp1{
+            margin-right: .05rem;
+        }
+    }
+}
+
 .actDetail-contentWrap{
     .contentWrap{
         font-size: .26rem;
         line-height: 1.8;
     }
 }
-
-
+.textarea-wrap{
+    padding-left: 1.4rem;
+    position: relative;
+    
+    .item-title{
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
 
 
 

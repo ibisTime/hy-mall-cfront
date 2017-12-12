@@ -1,0 +1,106 @@
+<div id="LeaseSubmitContainer" class="right-left-cont choose-moduleWrap">
+	<div class="right-left-cont-title">
+        <div class="right-left-cont-back"></div>
+        <div class="right-left-cont-title-name">选择租赁</div>
+    </div>
+	
+		<div style="height: 0.8rem;"></div>
+    <div class="right-left-content chooseLeaseSubmit-content">
+    	<div class="orderPro-list leaseOrderPro-list mb20"></div>
+	
+		<div class="titleWrap lease-titleWrap">
+			<p class="fl text tit">租赁日期</p>
+			<p class="fr text leaseDate">
+				<samp type="text" id="startDate" ></samp>至<samp type="text" id="endDate" ></samp>
+				<i class="icon"></i>
+			</p>
+			<div class="leaseMask" id="leaseDate"></div>
+		</div>
+		<div class="titleWrap lease-titleWrap">
+			<p class="fl text tit">产品数量</p>
+			<div class="fr text pr30">
+				<div class="productSpecs-number fr">
+					<div class="add fr"></div><div class="sum fr">1</div><div class="subt fr"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="leaseSubmit-info mt20">
+			<div class="wrap">
+				<p class="fl tit">租金</p>
+				<p class="fr" id="rent"></p>
+			</div>
+			<div class="wrap">
+				<p class="fl">租期</p>
+				<p class="fr">天</p>
+				<p class="fr" id="rentDay"></p>
+			</div>
+			<div class="wrap wrap1">
+				<p class="fl">日逾期费用</p>
+				<p class="fr" id="dayOverdueFee"></p>
+			</div>
+			<div class="wrap">
+				<p class="fl">押金</p>
+				<p class="fr" id="deposit"></p>
+			</div>
+			<div class="wrap">
+				<p class="fl">费用合计</p>
+				<p class="fr totalAmount"></p>
+			</div>
+			<div class="leaseRuleBtn-wrap">
+				<div class="leaseRuleBtn" id="leaseRuleBtn">租赁服务规则</div>
+			</div>
+		</div>
+    	
+    </div>
+	<div style="height: 1rem;"></div>
+    
+	<footer class="fixft right-left-btn over-hide bg_fff b_e_t">
+		<div class="am-button am-button-red subBtn" style="width: 100% !important;">确定</div>
+	</footer>
+	
+	
+	<div id="calendar"></div>
+	
+	<!--弹窗-->
+    <div class="lease-dialog hidden" id="dialog">
+        <div class="am-modal-mask"></div>
+        <div class="am-modal-wrap">
+            <div role="document" class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-header">
+                    	<img src="/static/images/包装@2x.png" />
+                    	<p>包装清单</p>
+                    </div>
+                    <div class="am-modal-body packingList-wrap" id="packingList-wrap">
+                    	<div></div>
+                    </div>
+                    <div class="am-modal-footer">
+                    	<div class="am-button am-button-primary-48 close">我知道了</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--租赁服务规则弹窗-->
+    <div class="signIn-dialog hidden dialog" id="leaseRuleDialog">
+        <div class="am-modal-mask"></div>
+        <div class="am-modal-wrap">
+            <div role="document" class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-header">
+                    	<p>租赁服务规则</p>
+                    </div>
+                    <div class="am-modal-body jmExplain-content" id="leaseRuleDialog-content">
+                    	<div></div>
+                    </div>
+                    <div class="am-modal-footer">
+                    	<div class="am-button am-button-primary-48 close">我知道了</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+</div>

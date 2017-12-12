@@ -284,8 +284,9 @@
 							'color': '#000'
 						});
 						// $(this).css({'background':'#09F','color':'#fff'});
-						$(this).append('<p class="rz">' + me.settings.startName + '</p>')
-						first = $(arry1).index($(this));
+						var _this = $(this)
+						_this.append('<p class="rz">' + me.settings.startName + '</p>')
+						first = $(arry1).index(_this);
 						//x1=$(this).next().offset().left;
 						//y1=$(this).next().offset().top;
 

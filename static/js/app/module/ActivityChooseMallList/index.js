@@ -15,6 +15,7 @@ define([
         orderColumn:'order_no',
         orderDir:'asc'
     }, isEnd = false, canScrolling = false;
+    var proList = [];
     
 	//为商品规格点击事件搭建关系
 	var specsArray1 ={};//规格1['规格1':{['规格2'：'code']},'规格1':{['规格2'：'code']}]
@@ -22,7 +23,8 @@ define([
 
     function initData(){
         base.showLoading();
-        getPageMalLList();
+        config.start = 1;
+        getPageMalLList(true);
     }
     
     //商品分页查
@@ -38,7 +40,7 @@ define([
                 }
     			if(lists.length) {
     				
-                    $("#MallListContainer .chooseMallList-wrap").append(_mallTmpl({items: lists}));
+                    $("#MallListContainer .chooseMallList-wrap")[refresh || config.start == 1 ? "html" : "append"](_mallTmpl({items: lists}));
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
@@ -172,6 +174,7 @@ define([
 					})
 					
 					$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP.attr("data-price")))
+					$("#productSpecs .price").attr("data-price",_specP.attr("data-price"))
 					$("#productSpecs .quantity").html('库存 ' + _specP.attr("data-quantity")).attr('data-quantity',_specP.attr("data-quantity"))
 					$("#productSpecs .choice i").html($("#specs1 .spec p.active").text()+' '+_specP.attr("data-name"))
 					$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP.attr("data-pic"))+'")')
@@ -186,6 +189,7 @@ define([
 					
 					_specP.addClass('active').siblings().removeClass('active');
 					$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP.attr("data-price")))
+					$("#productSpecs .price").attr("data-price",_specP.attr("data-price"))
 					$("#productSpecs .quantity").html('库存 ' + _specP.attr("data-quantity")).attr('data-quantity',_specP.attr("data-quantity"))
 					$("#productSpecs .choice i").html(_specP.attr("data-name"))
 					$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP.attr("data-pic"))+'")')
@@ -219,6 +223,7 @@ define([
         
         //重新选择
         $("#MallListContainer").on("click", ".right-left-btn .resetBtn", function(){
+        	proList=[];
         	$("#MallListContainer .chooseMallList-wrap .mall-item").removeClass("active")
         });
         
@@ -254,6 +259,9 @@ define([
 			}
 			
 			_activeMall.find(".price .samp1").text($("#productSpecs .price").text())
+			_activeMall.find(".price .samp1").attr("data-price",$("#productSpecs .price").attr("data-price"))
+			_activeMall.find(".price .samp2").text("X"+$("#productSpecs .productSpecs-number .sum").text())
+			_activeMall.find(".price .samp2").attr("data-quantity",$("#productSpecs .productSpecs-number .sum").text())
         	_activeMall.find(".slogan").text(productSpecs)
         	_activeMall.addClass("active")
         	closeProductSpecs();
@@ -286,9 +294,7 @@ define([
     
     //显示商品规格面板
 	function showProductSpecs(t){
-		//t=1,加入购物车；t=2,立即下单
 		$("#mask").removeClass('hidden');
-		$("#subBtn").removeClass('purchaseBtn').removeClass('addSCarBtn');
 		$("#productSpecs").addClass('active');
 	}
 	
@@ -307,12 +313,14 @@ define([
 		
 		if($("#specs2").hasClass('hidden')){//只有规格1
 			$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP1.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP1.attr("data-price")))
+			$("#productSpecs .price").attr("data-price",_specP1.attr("data-price"))
 			$("#productSpecs .quantity").html('库存 ' + _specP1.attr("data-quantity")).attr('data-quantity',_specP1.attr("data-quantity"))
 			$("#productSpecs .choice i").html(_specP1.attr("data-name"))
 			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP1.attr("data-pic"))+'")')
 			$('#productSpecs .productSpecs-number .sum').html(1)
 		}else{
 			$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP2.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP2.attr("data-price")))
+			$("#productSpecs .price").attr("data-price",_specP2.attr("data-price"))
 			$("#productSpecs .quantity").html('库存 ' + _specP2.attr("data-quantity")).attr('data-quantity',_specP2.attr("data-quantity"))
 			$("#productSpecs .choice i").html(_specP2.attr("data-name"))
 			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP2.attr("data-pic"))+'")')
@@ -341,10 +349,27 @@ define([
         		addListener();
         		
                 wrap.on("click", ".right-left-cont-back", function(){
+                	proList=[];
                     ModuleObj.hideCont(defaultOpt.success);
                 });
                 
                 wrap.on("click", ".right-left-btn .subBtn", function(){
+                	proList=[];
+					$("#MallListContainer .chooseMallList-wrap .mall-item").each(function(){
+						if($(this).hasClass("active")){
+							var pro = {
+								code: $(this).attr("data-code"),
+								speccode: $(this).attr("data-speccode"),
+								name: $(this).find(".name").text(),
+								advPic: $(this).find(".mall-item-img").attr("data-advPic"),
+								price: $(this).find(".price .samp1").attr("data-price"),
+								quantity: $(this).find(".price .samp2").attr("data-quantity"),
+								productSpecs: $(this).find(".slogan").text()
+							}
+							
+							proList.push(pro)
+						}
+					})
                     ModuleObj.hideCont(defaultOpt.success);
                 });
                 
@@ -392,24 +417,7 @@ define([
         },
         hideCont: function (func){
             if(this.hasCont()){
-            	var falg = false;
-//          	if($("#MallListContainerContent .addressWrap").length){
-//          		$("#MallListContainerContent .addressWrap").each(function(i, d){
-//	            		if($(this).find('.xzIcon').hasClass('active')){
-//	            			dCode = $(this).find('.addressWrap-detail').attr('data-code')
-//	            			pojoConfig.receiver = $(this).find('.addressee').html();
-//				        	pojoConfig.reMobile = $(this).find('.mobile').text()
-//				        	pojoConfig.reAddress = $(this).find('.province').html()+' '+$(this).find('.city').html()+' '+$(this).find('.district').html()+' '+$(this).find('.detailAddress').html();
-//				        	
-//				        	falg = true
-//				        	return false;
-//	            		}
-//	            	})
-//          	}
-            	
-            	if(!falg){
-            	}
-            	
+				
             	var topWrap = $(".right-left-cont-title");
                 topWrap.animate({
                     left: "100%"
@@ -429,7 +437,7 @@ define([
                     left: "100%"
                 }, 200, function () {
                     wrap.hide();
-                    func && func();
+                    func && func(proList);
                     wrap.find("label.error").remove();
                 });
                 
