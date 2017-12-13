@@ -182,8 +182,8 @@ define([
 	//归还邮寄地址
 	function getReturnAddress(){
 		$.when(
-			GeneralCtr.getDictList({key:'back_info_person'},'810917'),
-			GeneralCtr.getDictList({key:'back_info_address'},'810917'),
+			GeneralCtr.getDictList({key:'back_info_person'},'808917'),
+			GeneralCtr.getDictList({key:'back_info_address'},'808917'),
 		).then((data,data2)=>{
 			$("#dialog-returnAddress2 .textarea").html(data.cvalue+' '+data2.cvalue);
 			$("#dialog-returnAddress2").attr('data-backAddress',data.cvalue+' '+data2.cvalue);

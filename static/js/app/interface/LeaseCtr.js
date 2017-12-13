@@ -5,8 +5,9 @@ define([
     return {
         // 列表查询类型
         getListCategory(refresh) {
-            return Ajax.get("810007", {
+            return Ajax.get("808007", {
                 status:'1',
+            	type: '4',
 		        orderColumn:'order_no',
 		        orderDir:'asc'
             }, refresh);
@@ -78,7 +79,7 @@ define([
         },
         // 减免说明
         getJmExplain(type){
-            return Ajax.get("810918", {
+            return Ajax.get("808918", {
                 type: type
             }, true);
         },

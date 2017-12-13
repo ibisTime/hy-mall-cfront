@@ -107,6 +107,7 @@ define([
 		},()=>{})
 	}
 	
+	//减免说明
 	function getJmExplain(){
 		LeaseCtr.getJmExplain('myj').then((data)=>{
 			var html = '';
