@@ -110,7 +110,7 @@ define([
     
     //订单列表
     function buildHtml(item) {
-    	var tmplProHtml = '',tmplbtnHtml =' ';
+    	var tmplProHtml = '',tmplbtnHtml =' ',yunfei=item.totalYunfei||0;
     	
 		tmplProHtml+=`<a class="mall-item" href="./activity-orderDetail.html?code=${item.code}">
 		<div class="mall-item-img fl" style="background-image: url('${base.getImg(item.activity.advPic)}')"></div>
@@ -124,14 +124,18 @@ define([
     			</div>
 			</div></a>`
     	
+    	//待支付
+    	if(item.status == "1"){
+    		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="../pay/pay.html?code=${item.code}&type=activity">立即支付</a>
+                            <button class="am-button am-button-small cancel-order" data-code="${item.code}">取消订单</button></div>`
+    	}
         return `<div class="order-item">
                     <div class="order-item-header">
                         <span>订单编号:${item.code}</span>
                         <span class="fr">${base.formatDate(item.applyDatetime, "yyyy-MM-dd")}</span>
                     </div>
-                    <div class="orderPro-list orderList-pro">`+tmplProHtml+`</div><div class="totalAmout"><p>总价:<samp>
-                    ${'￥'+base.formatMoney(item.totalAmount+item.yunfei)}
-                    </samp>${item.yunfei?'<span>(含运费:￥'+base.formatMoney(item.yunfei)+')</span>':''}</p></div>`+tmplbtnHtml+`</div></div>`;
+                    <div class="orderPro-list orderList-pro">`+tmplProHtml+`</div><div class="totalAmout"><p>总价:<samp>￥${base.formatMoney(item.totalAmount)}</samp>
+                    ${item.totalYunfei?'<span>(含运费:￥'+base.formatMoney(yunfei)+')</span>':''}</p></div>`+tmplbtnHtml+`</div></div>`;
 
     }
     

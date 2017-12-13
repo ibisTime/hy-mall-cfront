@@ -14,13 +14,16 @@ define([
         start: 1,
         limit: 10,
         orderColumn:'order_no',
-        orderDir:'asc'
+        orderDir:'asc',
+        category: 'NJ04',
     }, isEnd = false, canScrolling = false;
     var proList = [];
 
     function initData(){
         base.showLoading();
-        getPageLeaseList();
+        
+        config.start = 1;
+        getPageLeaseList(true);
     }
     
     //租赁分页查
@@ -39,7 +42,7 @@ define([
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
-                    $("#LeaseListContainer .chooseMallList-wrap").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无商品</p></div>')
+                    $("#LeaseListContainer .chooseMallList-wrap").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无租赁</p></div>')
                 } else {
                     $("#loadAll").removeClass("hidden");
                 }

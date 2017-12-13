@@ -124,7 +124,7 @@ define([
 			</div></a>`
     	
     	//待支付
-    	if(item.status == "1"){
+    	if(item.status == "1" && !item.relationNo){
     		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="../pay/pay.html?code=${item.code}&type=lease">立即支付</a>
                             <button class="am-button am-button-small cancel-order" data-code="${item.code}">取消预约</button></div>`
     	

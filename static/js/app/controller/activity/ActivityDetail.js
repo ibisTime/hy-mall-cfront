@@ -182,7 +182,10 @@ define([
 			}else{
 				var h = Math.max(document.body.scrollHeight,document.documentElement.scrollHeight); //文档内容实际高度 
 				$(document).scrollTop(h);
-				base.showMsg("请先确认活动事项！")
+				
+				setTimeout(function(){
+					base.showMsg("请先确认活动事项！")
+				},100)
 			}
 		})
 		

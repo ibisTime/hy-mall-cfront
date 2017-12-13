@@ -9,12 +9,6 @@ define([
     var tmpl = __inline("index.html");
     var defaultOpt = {};
     var firstAdd = true;
-    var config = {
-        start: 1,
-        limit: 10,
-        orderColumn:'order_no',
-        orderDir:'asc'
-    }, isEnd = false, canScrolling = false;
     var leaseData = {};
     
 	var totalAmount = {

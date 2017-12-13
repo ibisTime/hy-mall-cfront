@@ -10,6 +10,9 @@
 .mt10{
     margin-top: .1rem;
 }
+.mt5{
+    margin-top: .05rem;
+}
 .mt20{
     margin-top: .2rem;
 }
@@ -2495,6 +2498,12 @@ label.error {
         samp{
             font-size: .3rem;
             color: $red-color;
+            
+            i{
+                font-size: .24rem;
+                color: #999;
+                font-style: normal;
+            }
         }
     }
     
@@ -5362,9 +5371,10 @@ label.error {
             width: .8rem;
             height: 2rem;
             position: relative;
+            z-index: 99;
             
             .delete{
-                width: 100%;
+                width: .8rem;
                 height: .8rem;
                 background-position: .2rem bottom;
                 background-repeat: no-repeat;
@@ -5373,6 +5383,7 @@ label.error {
                 position: absolute;
                 right: 0;
                 bottom: 0;
+                z-index: 99;
             }
         }
         
@@ -5398,9 +5409,48 @@ label.error {
         left: 0;
     }
 }
-
-
-
+.orderPro-list .mall-item .mall-item-con{
+    line-height: 1;
+    
+    .name{
+        line-height: 1.4;
+    }
+    
+    .slogan{
+        line-height: 1.2;
+    }
+    .samp1{
+        margin-right: .05rem;
+    }
+    .realDeposit{
+        font-size: .24rem;
+        color: #999;
+    }
+}
+.actOrderAmount{
+    width: 100%;
+    overflow: hidden;
+    padding: .2rem .3rem;
+    background-color: #fff;
+    
+    .amount{
+        font-size: .24rem;
+        
+        i{
+            font-style: normal;
+            color: #999;   
+        }
+    }
+    .totalAmount{
+        font-size: .3rem;
+        margin-top: .05rem;
+        i{
+            font-size: .24rem;
+            font-style: normal;
+            color: #999;   
+        }
+    }
+}
 
 
 

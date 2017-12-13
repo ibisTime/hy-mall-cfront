@@ -37,8 +37,6 @@ define([
 			$("#chooseMallWrap").removeClass("hidden")
 			$("#chooseLeaseWrap").removeClass("hidden")
 			$("#chooseAddressWrap").removeClass("hidden")
-			$("#chooseActivity").removeClass("hidden")
-			
 		}
 		base.showLoading()
 		$.when(
@@ -68,7 +66,7 @@ define([
 	        $("#activityWrap .content .name").html(data.name)
 	        $("#activityWrap .info .address").text(data.placeDest)
 	        $("#activityWrap .info .data").text(base.formatDate(data.startDatetime, "yyyy-MM-dd")+"至"+base.formatDate(data.endDatetime, "yyyy-MM-dd"))
-			$("#activityWrap .care samp").text(data.groupNum+'人已报名')
+			$("#activityWrap .care samp").text(data.groupNum+'人成行')
 			$("#activityWrap #price").html('￥'+base.formatMoney(data.amount))
 			$("#activityWrap #price").attr('data-prict',data.amount)
 			
@@ -104,6 +102,7 @@ define([
 				    $("#orderAddress").html("").attr('data-code',"");
             	}
             	
+            	getAmount();
             }
         });
 		AddressList.showCont({
@@ -162,27 +161,48 @@ define([
 		
 		//选择装备报名
 		}else{
-			totalAmount = {
-				mallAmount:0,//商品金额
-				leaseAmount:0,//租赁金额
-				actAmount:0,//活动金额
-				deposit:0, //押金
-				yunfei:0 // 运费
-			};
-			//商品
+			var params ={
+				actCode: code,
+				reAddress: config.reAddress
+			}
+			var prodList = [],
+				rprodList= [];
+				
+	        //商品
 			$("#actChoose-mall .chooseList-wrap").each(function(){
-				totalAmount.mallAmount+= parseFloat($(this).attr("data-price"))
+				var tmpl = {
+					productSpecsCode: $(this).attr("data-speccode"),
+					quantity: $(this).attr("data-quantity")
+				}
+				prodList.push(tmpl)
 			})
 			//租赁
 			$("#actChoose-lease .chooseList-wrap").each(function(){
-				totalAmount.leaseAmount+= parseFloat($(this).attr("data-price"))
-				totalAmount.deposit+= parseFloat($(this).attr("data-deposit"))
+				var tmpl = {
+					productCode: $(this).attr("data-code"),
+					quantity: $(this).attr("data-quantity"),
+					bookDatetime: $(this).attr("data-bookDatetime"),
+					rentDay: $(this).attr("data-rentDay")
+				}
+				rprodList.push(tmpl)
 			})
-			amount = totalAmount.mallAmount+totalAmount.leaseAmount+totalAmount.deposit;
+	        
+			params.prodList = prodList;
+			params.rprodList = rprodList;
 			
-			$("#totalAmount").text('￥'+base.formatMoney(amount))
+			getYunfei(params);
 		}
 		
+	}
+	
+	//获取运费
+	function getYunfei(params){
+		base.showLoading()
+		return ActivityStr.getYunfei(params).then((data)=>{
+			var yunfei = data.totalYunfei ? "<i>(含运费：￥"+base.formatMoney(data.totalYunfei)+")</i>" : '';
+			$("#totalAmount").html('￥'+base.formatMoney(data.totalAmount)+yunfei)
+			base.hideLoading()
+		}, base.hideLoading)
 	}
 	
 	//提交订单
@@ -200,7 +220,7 @@ define([
 				base.showMsg("提交成功！")
 				setTimeout(() => {
 				location.href = '../pay/pay.html?code='+data.code+'&type=activity';
-                }, 50000);
+                }, 500);
 			}
 			
 			base.hideLoading()
@@ -274,10 +294,11 @@ define([
         })
         
         //删除选择产品
-        $("body").on("click",".chooseList-delete",function(){
+        $(".actChoose-mall").on("click",".chooseList-delete",function(){
         	var _this = $(this)
         	base.confirm("确定删除？").then(()=>{
         		_this.parents(".chooseList-wrap").remove();
+        		getAmount();
         	},()=>{})
         })
         

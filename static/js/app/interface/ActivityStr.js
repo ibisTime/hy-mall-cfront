@@ -47,5 +47,13 @@ define([
         getOrderDetail(code) {
             return Ajax.get("808736", {code});
         },
+        // 获取活动订单运费
+        getYunfei(config) {
+            return Ajax.get("808723", {
+            	applyUser: base.getUserId(),
+            	quantity:'1',
+            	...config
+            }, true);
+        },
     };
 })

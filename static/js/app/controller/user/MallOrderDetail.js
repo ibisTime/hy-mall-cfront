@@ -105,7 +105,7 @@ define([
 				
 				//按钮
 				//待付款
-				if(data.status=='1'){
+				if(data.status=='1' && !data.relationNo){
 					$('.mallBottom').removeClass('hidden')
 					$("#payBtn").removeClass('hidden')
 					$("#cancelBtn").removeClass('hidden')

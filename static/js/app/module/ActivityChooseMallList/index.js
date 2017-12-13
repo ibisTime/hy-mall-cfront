@@ -13,7 +13,8 @@ define([
         start: 1,
         limit: 10,
         orderColumn:'order_no',
-        orderDir:'asc'
+        orderDir:'asc',
+        category: 'NJ01',
     }, isEnd = false, canScrolling = false;
     var proList = [];
     
