@@ -4836,6 +4836,11 @@ label.error {
         }
         select{
             max-width: 1.2rem;
+            font-size: .28rem;
+            
+            option{
+                font-size: .28rem;
+            }
         }
     }
 }
@@ -5452,7 +5457,9 @@ label.error {
     }
 }
 
-
+.laydate_body .laydate_box{
+    left: 1.5rem !important;
+}
 
 
 

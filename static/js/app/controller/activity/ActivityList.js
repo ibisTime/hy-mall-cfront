@@ -1,21 +1,45 @@
 define([
     'app/controller/base',
+    'picker',
     'app/util/handlebarsHelpers',
     'app/interface/GeneralCtr',
     'app/interface/ActivityStr'
-], function(base, Handlebars, GeneralCtr, ActivityStr) {
+], function(base, Picker, Handlebars, GeneralCtr, ActivityStr) {
+    var searchVal = base.getUrlParam('searchVal') || "";
+    var placeDestCity = base.getUrlParam('city') || "";
+    var type = base.getUrlParam('type') || "";
+    var startDatetime = base.getUrlParam('startDatetime') || "";
+    
 	 var config = {
         start: 1,
         limit: 10,
-        type:''
+        type: type,
+        name: searchVal,
+        placeDestCity: placeDestCity,
+        startDatetimeStart: startDatetime
     }, isEnd = false, canScrolling = false;
     
     var _actTmpl = __inline('../../ui/activity-list-item.handlebars');
+    
+    var first1 = []; /* 省，直辖市 */
+	var second1 = []; /* 市 */
+	var selectedIndex1 = [0, 0, 0]; /* 默认选中的地区 */
+	var checked1 = [0, 0, 0]; /* 已选选项 */
+    
     
     init();
 
 	function init(){
 		base.showLoading();
+    	searchVal&&$("#search .searchText").val(searchVal)
+    	placeDestCity&&$("#cityWrap").find("samp").text(placeDestCity);
+    	
+    	//选择目的地
+		getPicker($("#cityWrap"),{ 'first':[], 'second':[], 'selectedIndex':selectedIndex1, 'checked':checked1 },function(prv,city){
+			placeDestCity = city
+			location.href = './activity-list.html?searchVal='+$("#search .searchText").val()+"&city="+placeDestCity+"&type="+type;
+		});
+    	
 		//获取类型数据字典
 		GeneralCtr.getDictList({parentKey:'act_type'},'801907').then((data)=>{
 			var html = ""
@@ -23,14 +47,16 @@ define([
     			html+=`<option value="${d.dkey}">${d.dvalue}</option>`
     		})
     		$("#type").append(html);
+    		type&& $("#type").val(type)
+    		
 			getPageActivity();
 		},base.hideLoading);
+		
 		addListener()
 	}
 	
 	//分页查询活动
     function getPageActivity(refresh) {
-    	config.type = $("#type").val();
         return ActivityStr.getPageActivity(config, refresh).then((data) => {
             var lists = data.list;
             var totalCount = +data.totalCount;
@@ -64,6 +90,17 @@ define([
             }
         });
 		
+        var start = {
+            elem: '#startDatetime',
+            format: 'YYYY-MM-DD',
+            isclear: false, //是否显示清空
+            istoday: false,
+        };
+        
+        setTimeout(function(){
+        	laydate(start);
+        },0)
+		
 		//返回顶部
         $("#goTop").click(()=>{
             var speed=200;//滑动的速度
@@ -73,9 +110,92 @@ define([
         
         //类型
         $("#type").change(function(){
-        	base.showLoading();
-        	config.start =1;
-        	getPageActivity(true)
+        	
+			location.href = './activity-list.html?searchVal='+$("#search .searchText").val()+"&city="+placeDestCity+"&type="+$(this).val();        	
         })
+        
+        //搜索
+		$("#search .searchText").focus(function(){
+    		$(document).keyup(function(event){
+				if(event.keyCode==13){
+					if($("#search .searchText").val()&&$("#search .searchText").val()!=''){
+						location.href = './activity-list.html?searchVal='+$("#search .searchText").val()+"&city="+placeDestCity+"&type="+type;
+					}
+				}
+			}); 
+    	})
+    	$("#search .searchText").blur(function(){
+			if (window.event.keyCode==13) window.event.keyCode=0 ;
+    	})
 	}
+	
+	//省市区选择
+	function getPicker(cityWrap,param,successFun){
+		var _nameEl = cityWrap;
+		var first = param.first,
+    		second = param.second,
+    		selectedIndex = param.selectedIndex, 
+    		checked = param.checked;
+		
+		function creatList(obj, list){
+		  obj.forEach(function(item, index, arr){
+		  var temp = new Object();
+		  temp.text = item.name;
+		  temp.value = index;
+		  list.push(temp);
+		  })
+		}
+		
+		creatList(city, first);
+		
+		if (city[selectedIndex[0]].hasOwnProperty('sub')) {
+		  creatList(city[selectedIndex[0]].sub, second);
+		} else {
+		  second = [{text: '', value: 0}];
+		}
+		
+		var picker = new Picker({
+			data: [first, second],
+			selectedIndex: selectedIndex,
+			title: '目的地'
+		});
+		
+		picker.on('picker.select', function (selectedVal, selectedIndex) {
+			var text1 = first[selectedIndex[0]].text;
+			var text2 = second[selectedIndex[1]].text;
+			
+			successFun&&successFun(text1,text2);
+			
+		});
+		
+		picker.on('picker.change', function (index, selectedIndex) {
+		  if (index === 0){
+		    firstChange();
+		  }
+		
+			function firstChange() {
+			    second = [];
+			    checked[0] = selectedIndex;
+			    var firstCity = city[selectedIndex];
+			    if (firstCity.hasOwnProperty('sub')) {
+			      creatList(firstCity.sub, second);
+			    } else {
+			      second = [{text: '', value: 0}];
+			      checked[1] = 0;
+			    }
+			
+			    picker.refillColumn(1, second);
+			    picker.scrollColumn(1, 0)
+			}
+			
+		});
+		
+		picker.on('picker.valuechange', function (selectedVal, selectedIndex) {
+		});
+		
+		_nameEl.on('click', function () {
+			picker.show();
+		});
+	}
+	
 })

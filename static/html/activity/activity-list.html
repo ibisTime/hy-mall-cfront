@@ -15,12 +15,12 @@
 		</div>
 	</div>
 	
-	<div class="activity-filter am-flexbox">
+	<form class="activity-filter am-flexbox" id="formWrapper">
 		<div class="am-flexbox-item activity-filter-item"><select id="type"><option value="">类型</option></select><i class="icon"></i></div>
-		<div class="am-flexbox-item activity-filter-item"><samp>日期</samp><i class="icon"></i></div>
-		<div class="am-flexbox-item activity-filter-item"><samp>目的地</samp><i class="icon"></i></div>
+		<div class="am-flexbox-item activity-filter-item"><samp id="startDatetime">日期</samp><i class="icon"></i></div>
+		<div class="am-flexbox-item activity-filter-item" id="cityWrap"><samp>目的地</samp><i class="icon"></i></div>
 		<!--<div class="am-flexbox-item activity-filter-item border-none"><samp>一键报名</samp><i class="icon"></i></div>-->
-	</div>
+	</form>
     
     <div style="height: 2rem;"></div>
     <div class="mt20" id="content">
@@ -53,6 +53,8 @@
 	</div>
 	
     <link rel="import" href="../footer.html?__inline">
+    <script src="../../js/lib/laydate/laydate.dev.js"></script>
+	<script src="../../js/lib/city.js"></script>
     <script>
         require(['app/controller/activity/ActivityList']);
     </script>

@@ -55,5 +55,9 @@ define([
             	...config
             }, true);
         },
+        // 获取活动报名人数
+        getActJoinIn(code) {
+            return Ajax.get("808709", {code});
+        },
     };
 })

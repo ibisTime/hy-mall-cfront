@@ -14,6 +14,7 @@ define([
 		$.when(
 			getUserSysConfig(),
 			getActivityDetail(),
+			getActJoinIn(),
 			getPageActComment()
 		)
 		addListener()
@@ -68,7 +69,12 @@ define([
 			$("#amountDesc").html(data.amountDesc)
 			$("#scheduling").html(data.scheduling)
 			$("#equipment").html(data.equipment)
-			$("#enrollNum").html(data.enrollNum)
+			
+			if(data.enrollNum!='0'){
+				
+				$("#enrollNum").html(data.enrollNum)
+				$("#enrollNumWrap").removeClass('hidden')
+			}
 			
 			base.hideLoading()
 		}, base.hideLoading)
@@ -99,6 +105,22 @@ define([
         	$("#act_enroll").html(data1.cvalue);
         	$("#act_mzsm").html(data2.cvalue);
         	$("#act_zysx").html(data3.cvalue);
+		});
+	}
+	
+	//获取活动报名人数
+	function getActJoinIn(){
+		return ActivityStr.getActJoinIn(code).then(function(data){
+			var html = ''
+			data.length && data.forEach(function(d, i){
+				if(i<=14){
+					html+=`<div class="photo-item" style="background-image: url('${base.getAvatar(d.photo)}');"></div>`
+				}else{
+					return false;
+				}
+				
+			})
+			$("#photoList").html(html)
 		});
 	}
 	
