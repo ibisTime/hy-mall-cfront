@@ -123,8 +123,7 @@ define([
             .then((data) => {
                 base.hideLoading();
                 var price = 0;
-                var yunfei = data.totalYunfei || 0;
-            	price = '￥ '+base.formatMoney(data.totalAmount)+'<samp>(含运费：￥ '+base.formatMoney(yunfei)+')</samp>';
+            	price = '￥ '+base.formatMoney(data.totalAmount1);
             	
             	$("#payName").html('余额支付')
         		$("#accountAmount").html('￥'+base.formatMoney(account.cny+account.xjk)+'<i>(含小金库)</i>');

@@ -107,7 +107,7 @@ define([
         
         //点赞
         $("#tNotesInfo").on("click", ".bottomWrap .likeTimes", function(){
-        	var travelCode = $(this).attr("data-code")
+        	var travelCode = code
         	
         	if(!$(this).hasClass("active")){
         		base.showLoading();
@@ -126,7 +126,7 @@ define([
         var touchFalg=false;
         var _dsItem;
         $("#tNotesInfo").on("click", ".bottomWrap .dsTimes", function(){
-        	var travelCode = $(this).attr("data-code")
+        	var travelCode = code
         	_dsItem=$(this)
         	$("#dsDialog #dsBtn").attr("data-code",travelCode);
         	$("#dsDialog").removeClass("hidden")

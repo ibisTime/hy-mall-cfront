@@ -8,7 +8,7 @@ define([
     var searchVal = base.getUrlParam('searchVal') || "";
     var placeDestCity = base.getUrlParam('city') || "";
     var type = base.getUrlParam('type') || "";
-    var startDatetime = base.getUrlParam('startDatetime') || "";
+    var startDatetime = base.getUrlParam('sDate') || "";
     
 	 var config = {
         start: 1,
@@ -33,11 +33,13 @@ define([
 		base.showLoading();
     	searchVal&&$("#search .searchText").val(searchVal)
     	placeDestCity&&$("#cityWrap").find("samp").text(placeDestCity);
+    	startDatetime&&$("#startDatetime").text(startDatetime)
+    	startDatetime&&$("#startDatetimeVal").text(startDatetime)
     	
     	//选择目的地
 		getPicker($("#cityWrap"),{ 'first':[], 'second':[], 'selectedIndex':selectedIndex1, 'checked':checked1 },function(prv,city){
 			placeDestCity = city
-			location.href = './activity-list.html?searchVal='+$("#search .searchText").val()+"&city="+placeDestCity+"&type="+type;
+			filter();
 		});
     	
 		//获取类型数据字典
@@ -81,6 +83,11 @@ define([
         }, () => base.hideLoading());
     }
     
+    //筛选
+    function filter(){
+    	location.href = './activity-list.html?searchVal='+searchVal+"&city="+placeDestCity+"&type="+type+"&sDate="+startDatetime;
+    }
+    
 	function addListener(){
 		
         $(window).on("scroll", function() {
@@ -93,8 +100,16 @@ define([
         var start = {
             elem: '#startDatetime',
             format: 'YYYY-MM-DD',
-            isclear: false, //是否显示清空
+            isclear: true, //是否显示清空
             istoday: false,
+            choose: function(datas) {
+            	var d = new Date(datas);
+                d.setDate(d.getDate());
+                d = d.format('yyyy-MM-dd');
+                
+                datas?startDatetime = d: startDatetime = '';
+                filter();
+            }
         };
         
         setTimeout(function(){
@@ -111,7 +126,8 @@ define([
         //类型
         $("#type").change(function(){
         	
-			location.href = './activity-list.html?searchVal='+$("#search .searchText").val()+"&city="+placeDestCity+"&type="+$(this).val();        	
+        	type = $(this).val();
+        	filter();
         })
         
         //搜索
@@ -119,7 +135,9 @@ define([
     		$(document).keyup(function(event){
 				if(event.keyCode==13){
 					if($("#search .searchText").val()&&$("#search .searchText").val()!=''){
-						location.href = './activity-list.html?searchVal='+$("#search .searchText").val()+"&city="+placeDestCity+"&type="+type;
+						
+						searchVal = $("#search .searchText").val();
+        				filter();
 					}
 				}
 			}); 

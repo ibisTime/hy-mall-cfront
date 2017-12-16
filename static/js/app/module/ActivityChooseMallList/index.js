@@ -402,13 +402,13 @@ define([
                 defaultOpt.showFun && defaultOpt.showFun();
             });
             
-            var topWrap = $(".right-left-cont-title");
+            var topWrap = wrap.find(".right-left-cont-title");
             topWrap.show().animate({
                 left: 0
             }, 200, function () {
             });
             
-            var btnWrap = $(".right-left-btn");
+            var btnWrap =  wrap.find(".right-left-btn");
             btnWrap.show().animate({
                 left: 0
             }, 200, function () {
@@ -419,21 +419,22 @@ define([
         hideCont: function (func){
             if(this.hasCont()){
 				
-            	var topWrap = $(".right-left-cont-title");
+                var wrap = $("#MallListContainer");
+                
+            	var topWrap =  wrap.find(".right-left-cont-title");
                 topWrap.animate({
                     left: "100%"
                 }, 200, function () {
                     btnWrap.hide();
                 });
             	
-                var btnWrap = $(".right-left-btn");
+                var btnWrap =  wrap.find(".right-left-btn");
                 btnWrap.animate({
                     left: "100%"
                 }, 200, function () {
                     btnWrap.hide();
                 });
                 
-                var wrap = $("#MallListContainer");
                 wrap.animate({
                     left: "100%"
                 }, 200, function () {

@@ -9,7 +9,8 @@ define([
     'app/module/AddressList',
     'app/module/ActivityChooseMallList',
     'app/module/ActivityChooseLeaseList',
-], function(base, Validate, UserCtr, ActivityStr, MallCtr, LeaseCtr, BindMobile, AddressList, ActivityChooseMallList, ActivityChooseLeaseList) {
+    'app/module/expressList',
+], function(base, Validate, UserCtr, ActivityStr, MallCtr, LeaseCtr, BindMobile, AddressList, ActivityChooseMallList, ActivityChooseLeaseList, ExpressList) {
 	var type = base.getUrlParam("type");//type=1，直接报名； type=2，选择装备后报名； 
 	var code = base.getUrlParam("code");
 	var totalAmount = {
@@ -17,7 +18,6 @@ define([
 		leaseAmount:0,//租赁金额
 		actAmount:0,//活动金额
 		deposit:0, //押金
-		yunfei:0 // 运费
 	};
 	var config = {
 		actCode: code,
@@ -36,7 +36,10 @@ define([
 		if(type==2){
 			$("#chooseMallWrap").removeClass("hidden")
 			$("#chooseLeaseWrap").removeClass("hidden")
+			$("#toUser").removeClass("hidden")
 			$("#chooseAddressWrap").removeClass("hidden")
+			$("#toUser").attr('data-toUser',SYS_USER)
+    		$("#toUser .toUserName samp").html(SYS_USERNAME)
 		}
 		base.showLoading()
 		$.when(
@@ -123,7 +126,7 @@ define([
 							<samp class="samp2">X${item.quantity}</samp>
 						</div>
 					</div>
-					<div class="deleteWrap fl"><div class="delete chooseList-delete"><div></div>
+					<div class="deleteWrap fl"><div class="delete chooseList-delete"></div></div>
 				</div>`
 	}
 	//租赁列表
@@ -139,10 +142,9 @@ define([
 						<div class="price">
 							<samp class="samp1">￥${base.formatMoney(item.price)}</samp>
 							<samp class="samp2">(含押金:￥${base.formatMoney(item.deposit)})</samp>
-							
 						</div>
 					</div>
-					<div class="deleteWrap fl"><div class="delete chooseList-delete"><div></div>
+					<div class="deleteWrap fl"><div class="delete chooseList-delete"></div></div>
 				</div>`
 	}
 	
@@ -191,16 +193,15 @@ define([
 			params.rprodList = rprodList;
 			
 			getYunfei(params);
+			
 		}
 		
 	}
-	
-	//获取运费
+	//获取金额
 	function getYunfei(params){
 		base.showLoading()
 		return ActivityStr.getYunfei(params).then((data)=>{
-			var yunfei = data.totalYunfei ? "<i>(含运费：￥"+base.formatMoney(data.totalYunfei)+")</i>" : '';
-			$("#totalAmount").html('￥'+base.formatMoney(data.totalAmount)+yunfei)
+			$("#totalAmount").html('￥'+base.formatMoney(data.totalAmount))
 			base.hideLoading()
 		}, base.hideLoading)
 	}
@@ -273,6 +274,46 @@ define([
         		}
         	}
         });
+        
+        ExpressList.addCont({
+            success: function(res) {
+				base.showLoading()
+            	if(res.toUser){
+            		$("#toUser").attr('data-toUser',res.toUser)
+            		
+            		//快递
+            		if(res.toUser==SYS_USER){
+            			
+            			$("#toUser").find('.toUserName').children('samp').html(res.toUserName)
+            			$('#toStoreAddress').addClass('hidden').html('')
+            			$('#orderAddress').removeClass('hidden')
+            			
+						base.hideLoading()
+            		//自提
+            		}else{
+						var html = `<div class="icon icon-dz"></div>
+						<div class="wp100 over-hide"><samp class="fl addressee">提货点：${res.toUserName}</samp></div>
+						<div class="detailAddress">提货点地址： ${res.toUserAddress}</div>`
+						
+            			$("#toUser").find('.toUserName').children('samp').html("自提")
+            			
+						$("#orderAddressWrap").removeClass("hidden")
+						$("#toStoreAddress").html(html).removeClass('hidden')
+            			$('#orderAddress').addClass('hidden')
+            			
+						base.hideLoading()
+            		}
+            	}else{
+					base.hideLoading();
+            	}
+            }
+        });
+		
+		//配送方式
+		$("#toUser").click(function(){
+        
+			ExpressList.showCont();
+		})
         
         //选择商品
         $("#chooseMall").click(function(){
@@ -367,10 +408,11 @@ define([
 				        
 		    			config.prodList = prodList;
 		    			config.rprodList = rprodList;
+		    			config.toUser = $("#toUser").attr("data-touser");
 		    			
-		    			if(config.prodList.length&&!config.receiver){
+		    			if(config.prodList.length&&config.toUser==SYS_USER&&!config.receiver){
 		    				base.showMsg("请选择地址")
-		    			}else if(config.rprodList.length&&!config.receiver){
+		    			}else if(config.rprodList.length&&!config.receiver&&config.toUser==SYS_USER){
 		    				base.showMsg("请选择地址")
 		    			}else{
 		    				submitOrder(config);

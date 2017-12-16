@@ -410,10 +410,12 @@ define([
 				base.showMsg('请选择商品规格');
 				return false;
 			}
-			var productSpecsCode=specsArray1[$("#specs1 .spec p.active").text()][$("#specs2 .spec p.active").attr('data-name')];
 			if($("#specs2").hasClass('hidden')){//只有规格1
+				var productSpecsCode=$("#specs1 .spec p.active").attr("data-code");
+				
 				location.href = './submitOrder.html?s=2&code='+code+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html();
 			}else{
+				var productSpecsCode=specsArray1[$("#specs1 .spec p.active").text()][$("#specs2 .spec p.active").attr('data-name')];
 				location.href = './submitOrder.html?s=2&code='+code+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html();
 			}
 

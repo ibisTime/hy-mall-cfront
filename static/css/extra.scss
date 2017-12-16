@@ -340,7 +340,10 @@ label.error {
 }
 .user-top-wrap {
     height: 2.46rem;
-    background: url("../images/user-bg.png") no-repeat center;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../images/user-bg.png");
     background-size: cover;
     position: relative;
 
@@ -393,7 +396,7 @@ label.error {
 }
 
 .user-top-wrap1 {
-    background: url("../images/user-bg青色.png") no-repeat center !important;
+    background-image: url("../images/user-bg青色.png") !important;
 }
 
 .user-amount-wrap {
@@ -4816,6 +4819,7 @@ label.error {
         height: 100%;
         line-height: 1rem;
         text-align: center;
+        position: relative;
         
         .icon{
             display: inline-block;
@@ -4841,6 +4845,22 @@ label.error {
             option{
                 font-size: .28rem;
             }
+        }
+        
+        .wrap{
+            width: auto;
+            display: inline-block;
+        }
+        .startDatetime{
+            width: 2rem;
+            height: 100%;
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: -1rem;
+            z-index: 99;
+            opacity: 0;
         }
     }
 }

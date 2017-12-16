@@ -62,14 +62,13 @@ define([
 					$("#mallList").html(mallHtmlPro);
 					$("#mallListTitle").removeClass('hidden');
 					
-					$(".actOrderAmount .mallAmount samp").html('￥'+base.formatMoney(data.orderData.amount1)+"<i>(含运费：￥"+base.formatMoney(data.orderData.yunfei)+")</i>")
+					$(".actOrderAmount .mallAmount samp").html('￥'+base.formatMoney(data.orderData.amount1))
 					$(".actOrderAmount .mallAmount").removeClass('hidden');
 				}
 				//有选择租赁
 				if(data.rorderList){
 					
 					var leaseHtmlPro = '';
-					var yunfei = 0;
 					var realDeposit = 0;
 					var rproductAmount = 0;
 					data.rorderList.forEach(function(d, i){
@@ -82,45 +81,65 @@ define([
 							<samp class="slogan">开始租赁日期：${base.formatDate(d.bookDatetime, "yyyy-MM-dd")}</samp>
 							<samp class="slogan">租赁时长：${d.rentDay}天&nbsp;&nbsp;&nbsp;&nbsp;数量：${d.quantity}</samp>
 							<div class="price over-hide mt10">
-								<samp class="samp1">￥${base.formatMoney(d.amount1+d.yunfei)}</samp>
+								<samp class="samp1">￥${base.formatMoney(d.amount1)}</samp>
 								<samp class="realDeposit">(含押金: ${'￥'+base.formatMoney(d.realDeposit)})</samp>
 							</div>
 							</div></a>`;
-						yunfei += d.yunfei;
 						realDeposit += d.realDeposit;
-						rproductAmount += d.amount1+d.yunfei;
+						rproductAmount += d.amount1;
 						
 					})
 					
 					$("#leaseList").html(leaseHtmlPro);
 					$("#leaseListTitle").removeClass('hidden');
 					
-					$(".actOrderAmount .leaseAmount samp").html('￥'+base.formatMoney(rproductAmount)+"<i>(含押金：￥"+base.formatMoney(realDeposit)+" 运费：￥"+base.formatMoney(yunfei)+")</i>")
+					$(".actOrderAmount .leaseAmount samp").html('￥'+base.formatMoney(rproductAmount)+"<i>(含押金：￥"+base.formatMoney(realDeposit)+")</i>")
 					$(".actOrderAmount .leaseAmount").removeClass('hidden');
 				}
 				//有选择商品或租赁时显示运费和收货地址
 				if(data.orderData){
+					//邮寄
+					if(data.orderData.toUser==SYS_USER){
+						//收货地址
+						var htmlAddress ='';
+							htmlAddress = `<div class="icon icon-dz"></div>
+							<div class="wp100 over-hide"><samp class="fl addressee">收货人：${data.orderData.receiver}</samp><samp class="fr mobile">${data.orderData.reMobile}</samp></div>
+							<div class="detailAddress">收货地址： ${data.orderData.reAddress}</div>`;
+						
+						$("#toUser .toUserName").html('邮寄');
+						$("#orderAddress").html(htmlAddress)
+						$("#orderAddress").removeClass('hidden');
+					//自提
+					}else{
+						
+						$("#toUser .toUserName").html('自提');
+						$("#storeAddress").html('自提地址：'+data.orderData.takeAddress)
+						$("#storeAddress").removeClass('hidden');
+					}
 					
-					//收货地址
-					var htmlAddress ='';
-						htmlAddress = `<div class="icon icon-dz"></div>
-						<div class="wp100 over-hide"><samp class="fl addressee">收货人：${data.orderData.receiver}</samp><samp class="fr mobile">${data.orderData.reMobile}</samp></div>
-						<div class="detailAddress">收货地址： ${data.orderData.reAddress}</div>`;
-						
-					$("#orderAddress").html(htmlAddress)
-					$("#orderAddress").removeClass('hidden');
 				}else if(data.rorderList){
-					//收货地址
-					var htmlAddress ='';
-						htmlAddress = `<div class="icon icon-dz"></div>
-						<div class="wp100 over-hide"><samp class="fl addressee">收货人：${data.rorderList[0].receiver}</samp><samp class="fr mobile">${data.rorderList[0].reMobile}</samp></div>
-						<div class="detailAddress">收货地址： ${data.rorderList[0].reAddress}</div>`;
+					
+					//邮寄
+					if(data.rorderList[0].toUser==SYS_USER){
+						//收货地址
+						var htmlAddress ='';
+							htmlAddress = `<div class="icon icon-dz"></div>
+							<div class="wp100 over-hide"><samp class="fl addressee">收货人：${data.rorderList[0].receiver}</samp><samp class="fr mobile">${data.rorderList[0].reMobile}</samp></div>
+							<div class="detailAddress">收货地址： ${data.rorderList[0].reAddress}</div>`;
+							
+						$("#toUser .toUserName").html('邮寄');
+						$("#orderAddress").html(htmlAddress)
+						$("#orderAddress").removeClass('hidden');
+					//自提
+					}else{
 						
-					$("#orderAddress").html(htmlAddress)
-					$("#orderAddress").removeClass('hidden');
+						$("#toUser .toUserName").html('自提');
+						$("#storeAddress").html('自提地址：'+data.rorderList[0].takeAddress)
+						$("#storeAddress").removeClass('hidden');
+					}
 				}
 				//订单总金额
-				$(".actOrderAmount .totalAmount samp").html('￥'+base.formatMoney(data.totalAmount)+"<i>(含运费：￥"+base.formatMoney(data.totalYunfei||0)+")</i>")
+				$(".actOrderAmount .totalAmount samp").html('￥'+base.formatMoney(data.totalAmount1))
 				
 				//下单说明
 				$("#applyNote").html(data.applyNote?data.applyNote:'无')

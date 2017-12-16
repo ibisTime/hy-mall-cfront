@@ -134,8 +134,8 @@ define([
                         <span>订单编号:${item.code}</span>
                         <span class="fr">${base.formatDate(item.applyDatetime, "yyyy-MM-dd")}</span>
                     </div>
-                    <div class="orderPro-list orderList-pro">`+tmplProHtml+`</div><div class="totalAmout"><p>总价:<samp>￥${base.formatMoney(item.totalAmount)}</samp>
-                    ${item.totalYunfei?'<span>(含运费:￥'+base.formatMoney(yunfei)+')</span>':''}</p></div>`+tmplbtnHtml+`</div></div>`;
+                    <div class="orderPro-list orderList-pro">`+tmplProHtml+`</div><div class="totalAmout"><p>总价:<samp>￥${base.formatMoney(item.totalAmount1)}</samp>
+                    </p></div>`+tmplbtnHtml+`</div></div>`;
 
     }
     
