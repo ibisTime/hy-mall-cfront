@@ -3,15 +3,20 @@ define([
     'swiper',
     'app/module/weixin',
     'app/interface/GeneralCtr',
+	'app/interface/UserCtr',
     'app/interface/ActivityStr'
-], function(base, Swiper, weixin, GeneralCtr, ActivityStr) {
+], function(base, Swiper, weixin, GeneralCtr, UserCtr, ActivityStr) {
 	var code = base.getUrlParam("code");
+	var isUserInfo = false;//是否有用户信息(outName,realName,idNo,mobile)
+	var amountType = 0;//收费类型 ： 0=免费， 1=收费
+	
     init();
 
 	function init(){
 		
 		base.showLoading();
 		$.when(
+			getUserInfo(),
 			getUserSysConfig(),
 			getActivityDetail(),
 			getActJoinIn(),
@@ -20,10 +25,22 @@ define([
 		addListener()
 		
 	}
+	// 获取用户信息
+	function getUserInfo() {
+		return UserCtr.getUser().then(function(data) {
+			if(data.outName&&data.mobile&&data.idNo&&data.realName){
+				isUserInfo=true
+			}else{
+				isUserInfo = false
+			}
+		});
+	}
 	
 	//获取详情
 	function getActivityDetail(){
 		return ActivityStr.getActivityDetail(code).then((data)=>{
+			
+			amountType = data.amountType
 			
 			var dpic = data.pic;
 	        var strs= []; //定义一数组 
@@ -169,6 +186,16 @@ define([
     				</div>
     			</div>`;
 	}
+	//提交订单
+	function submitOrder(params){
+		return ActivityStr.placeOrder(params).then((data)=>{
+			base.hideLoading()
+			base.showMsg("报名成功！")
+			setTimeout(() => {
+                location.replace("../user/user.html");
+            }, 500);
+		}, base.hideLoading)
+	}
 	
 	function addListener(){
 		
@@ -223,7 +250,15 @@ define([
 		
 		//“直接报名” 点击
 		$("#subBtn").click(function(){
-			location.href="../activity/submitOrder.html?type=1&code="+code
+			//免费
+			if(amountType==0){
+				var params = {};
+				params.applyNote = '用户直接报名';
+				params.actCode = code;
+				submitOrder(params)
+			}else{
+				location.href="../activity/submitOrder.html?type=1&code="+code
+			}
 		})
 		
 		//留言点击

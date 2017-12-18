@@ -595,7 +595,7 @@ textarea {
 
 .right-left-cont-title-name {
     text-align: center;
-    color: #333;
+    color: #484848;
 }
 
 .form-wrapper {
@@ -617,14 +617,14 @@ textarea {
             position: relative;
             flex: 1;
             font-size: 0.3rem;
-            color: #333;
+            color: #484848;
             
             &:disabled{
-                color: #333;
+                color: #484848;
             }
             
             &.placeholder{
-                color: #757575;
+                color: #484848;
             }
         }
 
@@ -636,20 +636,20 @@ textarea {
         input[type="tel"],
         input[type="text"] {
             font-size: 0.3rem;
-            color: #333;
+            color: #484848;
         }
         .select-item {
             position: relative;
             flex: 1;
             font-size: 0.3rem;
-            color: #333;
+            color: #484848;
         }
         .textarea-item {
             height: 2rem;
             position: relative;
             flex: 1;
             font-size: 0.3rem;
-            color: #333;
+            color: #484848;
         }
     }
 }

@@ -58,7 +58,9 @@ define([
     		if(strs.length>1){
 				picHtml+=`<div class="picWraps">`;
 				strs.forEach(function(d, i){
-					picHtml+=`<div class="pic" style="background-image: url('${base.getImg(d)}');"></div>`
+					if(i<3){
+						picHtml+=`<div class="pic" style="background-image: url('${base.getImg(d)}');"></div>`
+					}
 				})
 				picHtml+=`</div>`;
 			}else{

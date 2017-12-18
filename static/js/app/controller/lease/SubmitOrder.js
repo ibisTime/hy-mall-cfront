@@ -8,7 +8,8 @@ define([
     'app/module/expressList',
     'app/module/leaseDate',
     'app/module/scroll',
-], function(base, Foot, GeneralCtr, LeaseCtr, UserCtr, AddressList, ExpressList, leaseDate, scroll) {
+    'app/module/bindMobile',
+], function(base, Foot, GeneralCtr, LeaseCtr, UserCtr, AddressList, ExpressList, leaseDate, scroll, BindMobile) {
 	var code = base.getUrlParam("code")||'';
 	var totalAmount = {
 		price1:0,//人民币总价
@@ -34,6 +35,8 @@ define([
 			quantity: '',
 			address: ''
 		};
+		
+	var isBindMobile = false;//是否绑定手机号
     var minRentDays = 1,
     	type,
     	myScroll;
@@ -55,13 +58,25 @@ define([
     	$.when(
         	getLeaseProductDetail(code),
         	isDefaultAddress(),
-        	getLeaseRules()
+        	getLeaseRules(),
+        	getUserInfo()
         )
         
     	$("#toUser").attr('data-toUser',SYS_USER)
     	$("#toUser .toUserName samp").html(SYS_USERNAME)
         base.hideLoading();
         addListener()
+	}
+	
+	//获取用户详情 查看是否绑定手机号
+	function getUserInfo() {
+		return UserCtr.getUser().then(function(data) {
+			if(data.mobile){
+				isBindMobile = true;
+			}else{
+				isBindMobile = false
+			}
+		});
 	}
 	
 	//立即下单时获取详情
@@ -318,6 +333,18 @@ define([
 	
 	
 	function addListener(){
+		
+		BindMobile.addMobileCont({
+        	success: function() {
+        		isBindMobile = true;
+        		$("#subBtn").click()
+        	},
+        	error: function(msg) {
+        		isBindMobile = false;
+        		base.showMsg(msg);
+        	},
+        	hideBack: 1
+        });
        
 		//地址
 		$("#orderAddress").click(function(){
@@ -332,23 +359,27 @@ define([
 		//提交
 		$("#subBtn").click(function(){
 			
-			config.applyNote = $("#applyNote").val();
-			config.bookDatetime = $("#startDate").html();
-			config.rentDay = $("#rentDay").html();
-			config.quantity = $('.productSpecs-number .sum').html()
-			config.takeStore = $("#toUser").attr('data-toUser')
-			
-			if(config.takeStore == SYS_USER){
-				config.takeType = '2'
-				config.takeStore = '';
+			if(!isBindMobile){
+				BindMobile.showMobileCont();
 			}else{
-				config.takeType = '1';
-			}
-			
-			if($("#toUser").attr('data-toUser')==SYS_USER && !config.receiver){
-				base.showMsg('请选择地址');
-			}else{
-				submitOrder(config)
+				config.applyNote = $("#applyNote").val();
+				config.bookDatetime = $("#startDate").html();
+				config.rentDay = $("#rentDay").html();
+				config.quantity = $('.productSpecs-number .sum').html()
+				config.takeStore = $("#toUser").attr('data-toUser')
+				
+				if(config.takeStore == SYS_USER){
+					config.takeType = '2'
+					config.takeStore = '';
+				}else{
+					config.takeType = '1';
+				}
+				
+				if($("#toUser").attr('data-toUser')==SYS_USER && !config.receiver){
+					base.showMsg('请选择地址');
+				}else{
+					submitOrder(config)
+				}
 			}
 				
 		})

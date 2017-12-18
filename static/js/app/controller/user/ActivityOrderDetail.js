@@ -6,7 +6,7 @@ define([
     'app/interface/UserCtr'
 ], function(base, Dict, ActivityStr, GeneralCtr, UserCtr) {
     var code = base.getUrlParam("code"),
-        orderStatus = Dict.get("leaseOrderStatus"),
+        orderStatus = {},
     	expressDict = {},
     	backLogisticsCompanyDict = {},
     	takeType;
@@ -14,9 +14,20 @@ define([
     init();
     
     function init(){
-        addListener();
         base.showLoading();
-    	getOrderDetail();
+        //获取状态数据字典
+		GeneralCtr.getDictList({parentKey:'act_order_status'},'801907').then((data)=>{
+    		data.forEach(function(d, i){
+    			base.hideLoading()
+    			orderStatus[d.dkey]=d.dvalue
+    		})
+    		
+			$.when(
+	        	getOrderDetail()
+	        )
+		},base.hideLoading);
+		
+        addListener();
     }
     
     //获取详情

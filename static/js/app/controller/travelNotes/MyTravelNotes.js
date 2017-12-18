@@ -68,7 +68,9 @@ define([
     		if(strs.length>1){
 				picHtml+=`<div class="picWraps">`;
 				strs.forEach(function(d, i){
-					picHtml+=`<div class="pic" style="background-image: url('${base.getImg(d)}');"></div>`
+					if(i<3){
+						picHtml+=`<div class="pic" style="background-image: url('${base.getImg(d)}');"></div>`
+					}
 				})
 				picHtml+=`</div>`;
 			}else{
@@ -85,9 +87,13 @@ define([
 		var bottomWrap = "";
 		//审核通过不可修改和删除
 		if(item.status!='1'){
-			bottomWrap = `<div class="bottomWrap"><div class="btn delete ${item.status=='1'?'fr_i':''}" data-code="${item.code}"><i class="icon"></i><samp>删除</samp></div>
+			if(item.status=='2'){
+				bottomWrap+=`<div class="becauseWrap b_e_t">备注:${item.remark}</div>`
+			}
+			bottomWrap += `<div class="bottomWrap"><div class="btn delete ${item.status=='1'?'fr_i':''}" data-code="${item.code}"><i class="icon"></i><samp>删除</samp></div>
 						<div class="btn edit" data-code="${item.code}"><i class="icon"></i><samp>编辑</samp></div></div>`;
 		}
+		
 		
         return `<div class="tNotes-item">
 				<a class="wrap" href="../travelNotes/travelNotesDetail.html?code=${item.code}">

@@ -28,6 +28,7 @@ define([
 	};
 	var isBindMobile= false; //是否绑定手机号
 	var amountType = 0;//收费类型 ： 0=免费， 1=收费
+	var isUserInfo = false;//是否有用户信息(outName,realName,idNo,mobile)
 	
     init();
 
@@ -58,12 +59,39 @@ define([
 			}else{
 				isBindMobile = false
 			}
+			if(data.outName&&data.mobile&&data.idNo&&data.realName){
+				isUserInfo = true
+			}else {
+				isUserInfo = false
+			}
+			if(data.outName){
+				$("#outName").val(data.outName);
+				$("#outName").parents(".form-item").find('.inputMask').removeClass("hidden");
+			}
+			if(data.mobile){
+				$("#mobile").val(data.mobile)
+				$("#mobile").parents(".form-item").find('.inputMask').removeClass("hidden");
+			}
+			if(data.idNo){
+				$("#idNo").val(data.idNo)
+				$("#mobile").parents(".form-item").find('.inputMask').removeClass("hidden");
+			}
+			if(data.realName){
+				$("#realName").val(data.realName)
+				$("#mobile").parents(".form-item").find('.inputMask').removeClass("hidden");
+			}
 		});
 	}
 	
 	//获取详情
 	function getActivityDetail(){
 		return ActivityStr.getActivityDetail(code).then((data)=>{
+			
+			amountType = data.amountType;
+			
+			if(amountType=='1'){
+				$("#amountType1").removeClass("hidden")
+			}
 			
 			$("#activityWrap .pic").css({"background-image":"url('"+base.getImg(data.advPic)+"')"})
 	        $("#activityWrap .content .name").html(data.name)
@@ -228,6 +256,63 @@ define([
 		}, base.hideLoading)
 	}
 	
+	// 下单
+	function goSubmitOrder(){
+		var params = {};
+		//收费活动需填写真实信息
+		if(amountType=='1'){
+			var enrollList = [];
+			enrollList.push($('#formWrapper').serializeObject());
+			
+			config.enrollList = enrollList;
+		}
+		
+		config.applyNote = $("#applyNote").val();
+		
+		//直接报名
+		if(type==1){
+			submitOrder(config)
+		//选择装备报名
+		}else if(type==2){
+			
+			var prodList = [],
+				rprodList= [];
+				
+	        //商品
+			$("#actChoose-mall .chooseList-wrap").each(function(){
+				var tmpl = {
+					productSpecsCode: $(this).attr("data-speccode"),
+					quantity: $(this).attr("data-quantity")
+				}
+				prodList.push(tmpl)
+			})
+			//租赁
+			$("#actChoose-lease .chooseList-wrap").each(function(){
+				var tmpl = {
+					productCode: $(this).attr("data-code"),
+					quantity: $(this).attr("data-quantity"),
+					bookDatetime: $(this).attr("data-bookDatetime"),
+					rentDay: $(this).attr("data-rentDay")
+				}
+				rprodList.push(tmpl)
+			})
+	        
+			config.prodList = prodList;
+			config.rprodList = rprodList;
+			config.toUser = $("#toUser").attr("data-touser");
+			
+			if(config.prodList.length&&config.toUser==SYS_USER&&!config.receiver){
+				base.showMsg("请选择地址")
+			}else if(config.rprodList.length&&!config.receiver&&config.toUser==SYS_USER){
+				base.showMsg("请选择地址")
+			}else{
+				submitOrder(config);
+			}
+		};
+			
+	}
+	
+	
 	function addListener(){
 		BindMobile.addMobileCont({
         	success: function() {
@@ -370,56 +455,28 @@ define([
 			if(!isBindMobile){
 				BindMobile.showMobileCont();
 			}else{
-				if (_formWrapper.valid()) {
-					var params = {};
-		    		var enrollList = [];
-		    		enrollList.push($('#formWrapper').serializeObject());
-		    		
-		    		config.enrollList = enrollList;
-		    		config.applyNote = $("#applyNote").val();
-		    		
-		    		//直接报名
-		    		if(type==1){
-		    			submitOrder(config)
-		    		//选择装备报名
-		    		}else if(type==2){
-		    			
-		    			var prodList = [],
-		    				rprodList= [];
-		    				
-				        //商品
-						$("#actChoose-mall .chooseList-wrap").each(function(){
-							var tmpl = {
-								productSpecsCode: $(this).attr("data-speccode"),
-								quantity: $(this).attr("data-quantity")
-							}
-							prodList.push(tmpl)
-						})
-						//租赁
-						$("#actChoose-lease .chooseList-wrap").each(function(){
-							var tmpl = {
-								productCode: $(this).attr("data-code"),
-								quantity: $(this).attr("data-quantity"),
-								bookDatetime: $(this).attr("data-bookDatetime"),
-								rentDay: $(this).attr("data-rentDay")
-							}
-							rprodList.push(tmpl)
-						})
-				        
-		    			config.prodList = prodList;
-		    			config.rprodList = rprodList;
-		    			config.toUser = $("#toUser").attr("data-touser");
-		    			
-		    			if(config.prodList.length&&config.toUser==SYS_USER&&!config.receiver){
-		    				base.showMsg("请选择地址")
-		    			}else if(config.rprodList.length&&!config.receiver&&config.toUser==SYS_USER){
-		    				base.showMsg("请选择地址")
-		    			}else{
-		    				submitOrder(config);
-		    			}
-					};
-					
+				//收费活动
+				if(amountType=='1'){
+					if (_formWrapper.valid()) {
+						if(isUserInfo){
+							goSubmitOrder();
+						}else{
+							var msg = '<div class="actMsgWrap"><p>请确认身份信息，后期报名活动无法更改：</p>'
+								+'<samp>户外昵称： '+$("#outName").val()+'</samp>'
+								+'<samp>联系号码： '+$("#mobile").val()+'</samp>'
+								+'<samp>真实姓名： '+$("#realName").val()+'</samp>'
+								+'<samp>身份证号： '+$("#idNo").val()+'</samp>'
+								+'</div>'
+							
+							base.confirm(msg).then(()=>{
+								goSubmitOrder();
+							},()=>{})
+						}
+					}
+				}else{
+					goSubmitOrder();
 				}
+				
 			}
 		})
 	}
