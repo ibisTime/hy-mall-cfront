@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>登录</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <form id="formWrapper" class="form-wrapper">
+            <div class="form-item border-bottom-1px">
+                <div class="am-flexbox">
+                    <span class="item-title">手机号</span>
+                    <input type="tel" placeholder="请输入手机号码" id="loginName" name="loginName" class="input-item"/>
+                </div>
+            </div>
+            <div class="form-item border-bottom-1px">
+                <div class="am-flexbox">
+                    <span class="item-title">密码</span>
+                    <input type="password" placeholder="请输入密码" id="loginPwd" name="loginPwd" class="input-item"/>
+                </div>
+            </div>
+        </form>
+        <div class="top-info clearfix">
+            <a class="fl" href="./findPwd.html">找回密码</a>
+			<div class="rememberInfo fr"><samp>记住账号密码</samp><i></i></div>
+        </div>
+        <div class="login-btn wp100">
+            <button id="loginBtn" class="am-button am-button-primary wp100">登录</button>
+            <a class="reg-a" href="./register.html">没有账号？点击申请</a>
+        </div>
+    </div>
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/user/Login']);
+    </script>
+</body>
+
+</html>

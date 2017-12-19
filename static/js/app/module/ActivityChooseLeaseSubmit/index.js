@@ -274,7 +274,7 @@ define([
         		
                 wrap.on("click", ".right-left-cont-back", function(){
                 	leaseData={}
-                    ModuleObj.hideCont(defaultOpt.success);
+                    ModuleObj.hideCont();
                 });
                 
                 wrap.on("click", ".right-left-btn .subBtn", function(){

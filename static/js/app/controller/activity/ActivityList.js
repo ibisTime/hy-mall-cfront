@@ -85,7 +85,7 @@ define([
     
     //筛选
     function filter(){
-    	location.href = './activity-list.html?searchVal='+searchVal+"&city="+placeDestCity+"&type="+type+"&sDate="+startDatetime;
+    	location.replace('./activity-list.html?searchVal='+searchVal+"&city="+placeDestCity+"&type="+type+"&sDate="+startDatetime)
     }
     
 	function addListener(){

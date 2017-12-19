@@ -60,7 +60,11 @@ define([
     
     //分页获取资讯
 	function getPageInformation(refresh) {
-		return GeneralCtr.getPageInformation(config, refresh)
+		return GeneralCtr.getPageInformation({
+	        start: 1,
+	        limit: 5,
+	        status:1
+		}, refresh)
 		.then(function(data) {
 			if(data.list.length){
 				var html = '';

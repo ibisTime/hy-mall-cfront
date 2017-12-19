@@ -15,6 +15,12 @@ define([
 			.then(function(data){
 				$("#showAvatar").css("background-image", "url('"+base.getWXAvatar(data.photo)+"')");
 				$("#mobile").text(data.mobile?data.mobile:'点击绑定手机号')
+				if(data.mobile){
+					$("#mobileWrap").attr("href",'./change-mobile.html')
+				}else{
+					$("#mobileWrap").attr("href",'./change-mobile.html?bindMobile=1')
+				}
+				
 				if(data.refereeUser){
 					$("#setUserReferee").attr('href','javascript:void(0)')
 					$("#userRefereeMobile").text(data.refereeUser.mobile)

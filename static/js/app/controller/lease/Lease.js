@@ -56,7 +56,6 @@ define([
 	//获取导航
 	function getListCategory(){
 		LeaseCtr.getListCategory(true).then((data)=>{
-			base.hideLoading()
 			var html = '';
 			
 			data.forEach(function(d, i){
@@ -75,7 +74,6 @@ define([
 			})
 			
         	$(".lease-category").append(html);
-        	
 	        if(!!type){
 	    		$("#allCategory").removeClass('am-tabs-tab-active')
 	            $("#am-tabs-bar").find(".am-tabs-ink-bar").removeClass('hidden');
@@ -84,9 +82,15 @@ define([
 	            $("#am-tabs-bar").find(".am-tabs-ink-bar").removeClass('hidden');
 	    	}
         	
-        	if(data.length>4){
+        	if(data.length>3){
         		initScroll();
+        		
+        		if(type){
+    				$("#am-tabs-bar").find(".am-tabs-tab-active").click()
+        		}
         	}
+        	
+			base.hideLoading()
 		},()=>{})
         base.hideLoading();
 	}
@@ -132,7 +136,7 @@ define([
             var _this = $(this), index = _this.index() - 1;
             if(!_this.hasClass("am-tabs-tab-active")){
                 _this.addClass("am-tabs-tab-active")
-                    .siblings(".am-tabs-tab-active").removeClass("am-tabs-tab-active");
+                    .siblings(".am-tabs-tab").removeClass("am-tabs-tab-active");
                 _tabsInkBar.css({
                     "left": index * 1.82 + "rem"
                 });
@@ -148,6 +152,16 @@ define([
                 var t = _this.attr('data-code')?_this.attr('data-code'):'';
                 location.replace(location.href.split("?")[0]+'?type='+t)
                 
+            }else{
+            	_tabsInkBar.css({
+                    "left": index * 1.82 + "rem"
+                });
+                _tabpanes.eq(index).removeClass("am-tabs-tabpane-inactive")
+                    .siblings().addClass("am-tabs-tabpane-inactive");
+                
+        		if(index>3){
+                	myScroll.myScroll.scrollToElement(_this[0], 200, true);
+            	}
             }
         });
         

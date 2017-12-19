@@ -130,7 +130,7 @@ define([
         },
         // 分页查询评论(活动留言)
         getPageActComment(config, refresh){
-            return Ajax.get("801027", config, refresh);
+            return Ajax.get("801029", config, refresh);
         },
     };
 })

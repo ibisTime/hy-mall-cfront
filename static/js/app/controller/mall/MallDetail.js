@@ -15,6 +15,7 @@ define([
 	//为点击事件搭建关系
 	var specsArray1 ={};//规格1['规格1':{['规格2'：'code']},'规格1':{['规格2'：'code']}]
 	var specsArray2 ={};//规格2['规格2':{['规格1'：'规格1']},'规格2':{['规格1'：'规格1']}]
+	var productSpecsListArray={}
 	
     init();
 
@@ -41,15 +42,12 @@ define([
 				$(".mallBottom-right .buyBtn").addClass('hidden')
 			}else{
 				if(type==JFPRODUCTTYPE){
-//					$(".mallBottom-right .addShoppingCarBtn").removeClass("addShoppingBg").addClass("addShoppingBg-disabled").off("click")
-
 					$(".mallBottom-right .buyBtn").removeClass('hidden').css('width','100%')
 				}else{
 					
 					$(".mallBottom-right .addShoppingCarBtn").removeClass('hidden')
 					$(".mallBottom-right .buyBtn").removeClass('hidden')
 				}
-				
 				
 				$(".mallBottom-right .offSelf").addClass('hidden');
 			}
@@ -111,7 +109,10 @@ define([
 			var specsName2List =[];
 			
 			data.productSpecsList.forEach(function(d, i){
+
+				productSpecsListArray[d.code]=d
 				if(data.specsName2){
+					
 					if(!specsName1List[d.specsVal1]){
 						specHtml1+=`<p class='inStock' >${d.specsVal1}</p>`;
 						specsName1List[d.specsVal1]=d.specsVal1;
@@ -164,46 +165,103 @@ define([
 				//有规格2时为规格1绑定点击事件
 				$("#specs1 .spec").on('click','p.inStock',function(){
 					var _specPInStock = $(this);
-					_specPInStock.addClass('active').siblings().removeClass('active');
+					//如果规格1 已选中 移除选中
+					if(_specPInStock.hasClass('active')){
+						_specPInStock.removeClass("active")
+						
+					//如果规格1没有选中	添加选中
+					}else{
+						_specPInStock.addClass('active').siblings().removeClass('active');
+					}
 					
 					//规格2
 					$("#specs2 .spec p").removeClass("inStock");
 					//遍历规格2 为属于当前点击规格的规格2 添加inStock
+					
 					$("#specs2 .spec p").each(function(i, d){
 						var _specP = $(this);
 						
-						//遍历出当前点击规格1 关联的规格2
-						Object.keys(specsArray1[_specPInStock.text()]).forEach(function(v, j){
-							if(_specP.attr("data-name")==v &&_specP.attr("data-quantity")!='0'){//显示 规格1的 规格
+						//如果规格1已选中 
+						if(!_specPInStock.hasClass('active')){
+							if(_specP.attr("data-quantity")!='0'){//显示 有库存的 规格
 								_specP.addClass("inStock");
 							}
-						})
+						
+						//如果规格1 没有选中
+						}else{
+							//遍历出当前点击规格1 关联的规格2
+							Object.keys(specsArray1[_specPInStock.text()]).forEach(function(v, j){
+								if(_specP.attr("data-name")==v &&_specP.attr("data-quantity")!='0'){//显示 规格1的 规格
+									_specP.addClass("inStock");
+								}
+							})
+						}
 					})
+					var _specPChoice1 = $("#specs1 .spec p.active").length?$("#specs1 .spec p.active").text():'';
+					var _specPChoice2 = $("#specs2 .spec p.active").length?$("#specs2 .spec p.active").attr("data-name"):'';
 					
+					$("#productSpecs .choice i").html(_specPChoice1+' '+_specPChoice2)
+					if(_specPChoice1&&_specPChoice2){
+						var specsCode = specsArray1[_specPChoice1][_specPChoice2]
+						var specsData = productSpecsListArray[specsCode];
+						
+						$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(specsData.price2)+'积分' : '￥'+base.formatMoney(specsData.price1))
+						$("#productSpecs .price").attr("data-price",type==JFPRODUCTTYPE?specsData.price2:specsData.price1)
+						$("#productSpecs .quantity").html('库存 ' + specsData.quantity).attr('data-quantity',specsData.quantity)
+						$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(specsData.pic)+'")')
+					}
 				})
 				
 				//有规格2时为规格2绑定点击事件
 				$("#specs2 .spec").on('click','p.inStock',function(){
 					var _specP = $(this);
-					_specP.addClass('active').siblings().removeClass('active');
+					
+					//如果规格2 已选中 移除选中
+					if(_specP.hasClass('active')){
+						_specP.removeClass("active")
+						
+					//如果规格2 没有选中	添加选中
+					}else{
+					
+						_specP.addClass('active').siblings().removeClass('active');
+					}
 					
 					$("#specs1 .spec p").removeClass("inStock");
+					
 					//遍历规格1  为当前点击规格属于的规格1 添加inStock
 					$("#specs1 .spec p").each(function(i, d){
 						var _specs_specP= $(this);
 						
-						//遍历出当前点击规格2 关联的规格1
-						Object.keys(specsArray2[_specP.attr("data-name")]).forEach(function(v, j){
-							if(_specs_specP.text()==v &&_specP.attr("data-quantity")!='0'){//显示 规格1的 规格
+						//如果规格1已 
+						if(!_specP.hasClass('active')){
+							if(_specP.attr("data-quantity")!='0'){//显示 规格1的 规格
 								_specs_specP.addClass("inStock");
 							}
-						})
+							
+						//如果规格2 没有选中	
+						}else{
+							//遍历出当前点击规格2 关联的规格1
+							Object.keys(specsArray2[_specP.attr("data-name")]).forEach(function(v, j){
+								if(_specs_specP.text()==v &&_specP.attr("data-quantity")!='0'){//显示 规格1的 规格
+									_specs_specP.addClass("inStock");
+								}
+							})
+						}
 					})
 					
-					$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP.attr("data-price")))
-					$("#productSpecs .quantity").html('库存 ' + _specP.attr("data-quantity")).attr('data-quantity',_specP.attr("data-quantity"))
-					$("#productSpecs .choice i").html($("#specs1 .spec p.active").text()+' '+_specP.attr("data-name"))
-					$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP.attr("data-pic"))+'")')
+					var _specPChoice1 = $("#specs1 .spec p.active").length?$("#specs1 .spec p.active").text():'';
+					var _specPChoice2 = $("#specs2 .spec p.active").length?$("#specs2 .spec p.active").attr("data-name"):'';
+					
+					$("#productSpecs .choice i").html(_specPChoice1+' '+_specPChoice2)
+						
+					if(_specPChoice1&&_specPChoice2){
+						var specsCode = specsArray1[_specPChoice1][_specPChoice2]
+						var specsData = productSpecsListArray[specsCode];
+						
+						$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(specsData.price2)+'积分' : '￥'+base.formatMoney(specsData.price1))
+						$("#productSpecs .quantity").html('库存 ' + specsData.quantity).attr('data-quantity',specsData.quantity)
+						$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(specsData.pic)+'")')
+					}
 					$('#productSpecs .productSpecs-number .sum').html(1)
 					
 					getSubBtn();

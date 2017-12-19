@@ -9,7 +9,6 @@ define([
     var _mallTmpl = __inline('../../ui/mall-list-lease.handlebars');
     var defaultOpt = {};
     var firstAdd = true;
-    var nDivHight = 0;
     var config = {
         start: 1,
         limit: 10,
@@ -51,20 +50,6 @@ define([
 	}
 	
     function addListener(){
-    	var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
-	    var nScrollTop = 0;  //滚动到的当前位置
-	    
-		$("#LeaseListContainer").off("scroll").on("scroll", function() {
-	    	nScrollHight = $(this)[0].scrollHeight;
-	    	nScrollTop = $(this)[0].scrollTop;
-			
-            if (canScrolling && !isEnd && (nScrollTop + nDivHight + 10 >= nScrollHight)) {
-                canScrolling = false;
-                base.showLoading();
-                getPageLeaseList();
-            }
-        });
-        
         //重新选择
         $("#LeaseListContainer").on("click", ".right-left-btn .resetBtn", function(){
         	proList = [];
@@ -196,7 +181,15 @@ define([
             }, 200, function () {
             });
             
-            nDivHight = $("#LeaseListContainer .right-left-content").height();
+            //下拉加载
+            wrap.off("scroll").on("scroll", function() {
+                if (canScrolling && !isEnd && (wrap.scrollTop()>=wrap.find(".right-left-content").height()-wrap.height()-20)) {
+                	
+                    canScrolling = false;
+                    base.showLoading();
+                    getPageLeaseList();
+                }
+            });
         },
         hideCont: function (func){
             if(this.hasCont()){

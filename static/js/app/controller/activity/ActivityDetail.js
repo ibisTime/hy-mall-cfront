@@ -4,11 +4,13 @@ define([
     'app/module/weixin',
     'app/interface/GeneralCtr',
 	'app/interface/UserCtr',
-    'app/interface/ActivityStr'
-], function(base, Swiper, weixin, GeneralCtr, UserCtr, ActivityStr) {
+    'app/interface/ActivityStr',
+    'app/module/bindMobile',
+], function(base, Swiper, weixin, GeneralCtr, UserCtr, ActivityStr, BindMobile) {
 	var code = base.getUrlParam("code");
 	var isUserInfo = false;//是否有用户信息(outName,realName,idNo,mobile)
 	var amountType = 0;//收费类型 ： 0=免费， 1=收费
+	var isBindMobile= false; //是否绑定手机号
 	
     init();
 
@@ -33,6 +35,11 @@ define([
 			}else{
 				isUserInfo = false
 			}
+			if(data.mobile){
+				isBindMobile = true;
+			}else{
+				isBindMobile = false
+			}
 		});
 	}
 	
@@ -41,6 +48,8 @@ define([
 		return ActivityStr.getActivityDetail(code).then((data)=>{
 			
 			amountType = data.amountType
+			$("#leaderTelWrap").attr("href",'tel://'+data.user.mobile)
+			$("#leaderTel").html(data.user.mobile+"("+data.user.outName+")")
 			
 			var dpic = data.pic;
 	        var strs= []; //定义一数组 
@@ -146,7 +155,8 @@ define([
 		GeneralCtr.getPageActComment({
 			start:1,
 			limit:3,
-			entityCode: code
+			entityCode: code,
+			parentCode: code
 		}).then((data)=>{
 			var lists = data.list;
 			if(data.list.length) {
@@ -165,24 +175,23 @@ define([
 	}
 	function buildHtml(item,i){
 		var toComment = "";
-		if(item.parentComment){
+		
+		if(item.childComment){
 			toComment = `<div class="toComment">
-    						<p class="toNickName">回复@<samp>${item.parentComment.nickname}</samp></p>
-    						<p class="toContent">${item.parentComment.content}</p>
+    						<p class="toNickName">领队回复:${item.childComment.content}</p>
     					</div>`;
 		}
-		
-		return `<div class="tNcomment-item">
+		return `<div class="tNcomment-item actComment-item ">
     				<div class="userPicWrap">
-    					<div class="userPic" style="background-image: url('${base.getLdAvatar(item.photo)}');"></div>
+    					<div class="userPic" style="background-image: url('${base.getAvatar(item.photo)}');"></div>
     				</div>
     				<div class="info">
     					<div class="userInfo">
     						<p class="nickName">${item.nickname}</p>
     						<samp class="updateTime">${base.formatDate(item.commentDatetime,"yyyy-MM-dd hh:mm:ss")}</samp>
     					</div>
-    					${toComment}
     					<div class="content">${item.content}</div>
+    					${toComment}
     				</div>
     			</div>`;
 	}
@@ -199,6 +208,18 @@ define([
 	
 	function addListener(){
 		
+		BindMobile.addMobileCont({
+        	success: function() {
+        		isBindMobile = true;
+        		$("#subBtn").click()
+        	},
+        	error: function(msg) {
+        		isBindMobile = false;
+        		base.showMsg(msg);
+        	},
+        	hideBack: 1
+        });
+        
 		//返回顶部
         $("#goTop").click(()=>{
             var speed=200;//滑动的速度
@@ -252,10 +273,15 @@ define([
 		$("#subBtn").click(function(){
 			//免费
 			if(amountType==0){
-				var params = {};
-				params.applyNote = '用户直接报名';
-				params.actCode = code;
-				submitOrder(params)
+				
+				if(!isBindMobile){
+					BindMobile.showMobileCont();
+				}else{
+					var params = {};
+					params.applyNote = '用户直接报名';
+					params.actCode = code;
+					submitOrder(params)
+				}
 			}else{
 				location.href="../activity/submitOrder.html?type=1&code="+code
 			}

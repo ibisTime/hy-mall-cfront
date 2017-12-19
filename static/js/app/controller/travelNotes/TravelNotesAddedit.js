@@ -3,8 +3,11 @@ define([
 	'app/module/validate',
     'app/module/qiniu',
     'app/interface/TravelNotesStr',
-], function(base, Validate, qiniu, TravelNotesStr) {
+    'app/interface/UserCtr',
+    'app/module/bindMobile',
+], function(base, Validate, qiniu, TravelNotesStr, UserCtr, BindMobile) {
     var code = base.getUrlParam("code") || '';
+	var isBindMobile = false;//是否绑定手机号
 	
     init();
 
@@ -12,10 +15,29 @@ define([
 		
 		if(code){
 			base.showLoading();
-			getTravelNotesDetail();
+			
+        	$.when(
+	        	getUserInfo(),
+	        	getTravelNotesDetail()
+	        ).then(base.hideLoading,base.hideLoading)
+		}else{
+			$.when(
+	        	getUserInfo()
+	        ).then(base.hideLoading,base.hideLoading)
 		}
 		initUpload();
         addListener();
+	}
+	
+	//获取用户详情 查看是否绑定手机号
+	function getUserInfo() {
+		return UserCtr.getUser().then(function(data) {
+			if(data.mobile){
+				isBindMobile = true;
+			}else{
+				isBindMobile = false
+			}
+		});
 	}
 	
 	//获取游记详情
@@ -90,6 +112,19 @@ define([
 	}
 	
 	function addListener(){
+		
+		BindMobile.addMobileCont({
+        	success: function() {
+        		isBindMobile = true;
+        		$("#subBtn").click()
+        	},
+        	error: function(msg) {
+        		isBindMobile = false;
+        		base.showMsg(msg);
+        	},
+        	hideBack: 1
+        });
+		
 		var _tNotesForm = $("#tNotesForm");
 	    _tNotesForm.validate({
 	    	'rules': {
@@ -102,35 +137,40 @@ define([
 	    
 	    //发布
 	    $("#subBtn").click(function(){
-	    	if (_tNotesForm.valid()) {
-	    		var pic='';
-	    		
-      			$("#picWrap").find('.pic').each(function(i, d){
-      				pic+=$(this).attr("data-url")
-      				
-      				if(i<$("#picWrap").find('.pic').length-1){
-      					pic+='||';
-      				}
-      			})
-      			
-				base.showLoading();
-	    		if(code){
-	    			var params={
-		    			description:$("#description").val(),
-		    			pic:pic,
-		    			code: code
+	    	
+			if(!isBindMobile){
+				BindMobile.showMobileCont();
+			}else{
+				if (_tNotesForm.valid()) {
+		    		var pic='';
+		    		
+	      			$("#picWrap").find('.pic').each(function(i, d){
+	      				pic+=$(this).attr("data-url")
+	      				
+	      				if(i<$("#picWrap").find('.pic').length-1){
+	      					pic+='||';
+	      				}
+	      			})
+	      			
+					base.showLoading();
+		    		if(code){
+		    			var params={
+			    			description:$("#description").val(),
+			    			pic:pic,
+			    			code: code
+			    		}
+		    			editTravelNotes(params)
+		    		}else{
+		    			
+		    			var params={
+			    			description:$("#description").val(),
+			    			pic:pic
+			    		}
+		    			addTravelNotes(params)
 		    		}
-	    			editTravelNotes(params)
-	    		}else{
-	    			
-	    			var params={
-		    			description:$("#description").val(),
-		    			pic:pic
-		    		}
-	    			addTravelNotes(params)
-	    		}
-	    		
-		    }
+		    		
+			    }
+			}
 	    })
 	    
 	    //删除

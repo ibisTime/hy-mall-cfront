@@ -17,14 +17,70 @@ define([
 	function init(){
         base.showLoading();
         if(type == "AN"){
-        	config.type = type;
-        	$("#tNotesForm-comCon").attr("placeholder","发表留言...")
+        	config.parentCode = code;
+        	$("#tNotesForm-comCon").attr("placeholder","发表留言...");
+        	getPageActComment();
         }else{
-        	
         	$("#tNotesForm-comCon").attr("placeholder","发表回复...")
+        	getPageTravelNotesComment();
         }
-    	getPageTravelNotesComment();
+    	
         addListener();
+	}
+	
+	//分页查询活动评论
+	function getPageActComment(refresh){
+		return GeneralCtr.getPageActComment(config,refresh).then((data)=>{
+			var lists = data.list;
+            var totalCount = +data.totalCount;
+            if (totalCount <= config.limit || lists.length < config.limit) {
+                isEnd = true;
+            } else {
+                isEnd = false;
+            }
+            if(data.list.length) {
+                var html = "";
+                lists.forEach((item) => {
+                    html += buildHtmlAN(item);
+                });
+                $("#tNcommentList")[refresh || config.start == 1 ? "html" : "append"](html);
+                isEnd && $("#loadAll").removeClass("hidden");
+                config.start++;
+                
+            } else if(config.start == 1) {
+                $("#tNcommentList").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无</p></div>');
+                $("#loadAll").addClass("hidden");
+            } else {
+                $("#loadAll").removeClass("hidden");
+            }
+            !isEnd && $("#loadAll").addClass("hidden");
+            canScrolling = true;
+            
+            base.hideLoading();
+            
+		}, base.hideLoading)
+	}
+	function buildHtmlAN(item,i){
+		var toComment = "";
+		
+		if(item.childComment){
+			toComment = `<div class="toComment">
+    						<p class="toNickName">领队回复:${item.childComment.content}</p>
+    					</div>`;
+		}
+		return `<div class="tNcomment-item actComment-item ">
+    				<div class="userPicWrap">
+    					<div class="userPic" style="background-image: url('${base.getAvatar(item.photo)}');"></div>
+    				</div>
+    				<div class="info">
+    					<div class="userInfo">
+    						<p class="nickName">${item.nickname}</p>
+    						<samp class="updateTime">${base.formatDate(item.commentDatetime,"yyyy-MM-dd hh:mm:ss")}</samp>
+    					</div>
+    					<div class="content">${item.content}</div>
+    					${toComment}
+    				</div>
+    			</div>`;
 	}
 	
 	//分页查询游记评论

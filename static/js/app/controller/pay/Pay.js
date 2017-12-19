@@ -10,6 +10,7 @@ define([
     var code = base.getUrlParam("code"),
         type = base.getUrlParam("type"),//类型  
         pay_type = 1;
+    var dkAmount = 0;
     
     var account={
     	cny: 0,
@@ -28,11 +29,16 @@ define([
 				//获取商城订单支付金额
 	            if(type == MALL_ORDER) {
 	            	
-        			getMallOrderDetail()
+            		getDKAmountMall().then(getMallOrderDetail)
+            		
+        			$("#totalAmountWrap").removeClass("hidden")
+        			$("#dkAmountWrap").removeClass("hidden")
 	            //获取租赁订单支付金额
 	            } else if(type == LEASE_ORDER) {
 	            	
-        			getLeaseOrderDetail()
+            		getDKAmountLease().then(getLeaseOrderDetail)
+        			$("#totalAmountWrap").removeClass("hidden")
+        			$("#dkAmountWrap").removeClass("hidden")
 	            //获取活动订单支付金额
 	            } else if(type == ACTIVITY_ORDER) {
 	            	
@@ -44,6 +50,7 @@ define([
         }
     }
     
+    //账户
     function getAccount(){
     	return AccountCtr.getAccount(true).then((data)=>{
     		data.forEach(function(d, i) {
@@ -58,12 +65,29 @@ define([
     	})
     }
     
+    //商城查询可抵扣金额
+    function getDKAmountMall(){
+    	return MallCtr.getDKAmount(code).then((data) => {
+    		dkAmount = data.cnyAmount;
+    		$("#dkAmount").html("将使用"+base.formatMoney(data.jfAmount)+"积分抵扣"+base.formatMoney(data.cnyAmount)+"人民币")
+        },()=>{})
+    }
+    
+    //租赁查询可抵扣金额
+    function getDKAmountLease(){
+    	return LeaseCtr.getDKAmount(code).then((data) => {
+    		dkAmount = data.cnyAmount;
+    		$("#dkAmount").html("将使用"+base.formatMoney(data.jfAmount)+"积分抵扣"+base.formatMoney(data.cnyAmount)+"人民币")
+        },()=>{})
+    }
+    
     // 详情查询商城订单
     function getMallOrderDetail() {
         MallCtr.getOrderDetail(code)
             .then((data) => {
                 base.hideLoading();
                 var price = 0;
+                var payAmount = 0;
                 if(!data.amount1&&data.amount2&&!data.yunfei){
                 	price = base.formatMoney(data.amount2)+' 积分'
                 	
@@ -71,12 +95,14 @@ define([
 	        		$("#accountAmount").html(''+base.formatMoney(account.jf)+'积分');
                 }else if(data.amount1&&!data.amount2){
                 	price = '￥ '+base.formatMoney(data.amount1+data.yunfei)+'<samp>(含运费：￥ '+base.formatMoney(data.yunfei)+')</samp>';
+                	payAmount = '￥ '+base.formatMoney(data.amount1+data.yunfei-dkAmount)
                 	
                 	$("#payName").html('余额支付')
 	        		$("#accountAmount").html('￥'+base.formatMoney(account.cny+account.xjk)+'<i>(含小金库)</i>');
                 	$("#wxPay").removeClass('hidden')
                 }else{
                 	price = '￥ '+base.formatMoney(data.amount1+data.yunfei)+' + '+base.formatMoney(data.amount2)+' 积分'+'<samp>(含运费：￥ '+base.formatMoney(data.yunfei)+')</samp>'
+                	payAmount = '￥ '+base.formatMoney(data.amount1+data.yunfei-dkAmount)+' + '+base.formatMoney(data.amount2)+' 积分'
                 	
                 	$("#payName").html('余额支付')
                 	$("#wxPay").removeClass('hidden')
@@ -84,7 +110,7 @@ define([
                 }
                 
                 $("#totalAmount").html(price);
-                
+                $("#payAmount").html(payAmount);
             });
     }
     
@@ -94,6 +120,7 @@ define([
             .then((data) => {
                 base.hideLoading();
                 var price = 0;
+                var payAmount = 0;
                 if(!data.amount1&&data.amount2&&!data.yunfei){
                 	price = base.formatMoney(data.amount2)+' 积分'
                 	
@@ -101,12 +128,14 @@ define([
 	        		$("#accountAmount").html(''+base.formatMoney(account.jf)+'积分');
                 }else if(data.amount1&&!data.amount2){
                 	price = '￥ '+base.formatMoney(data.amount1+data.yunfei);
+                	payAmount = '￥ '+base.formatMoney(data.amount1+data.yunfei-dkAmount)
                 	
                 	$("#payName").html('余额支付')
                 	$("#wxPay").removeClass('hidden')
 	        		$("#accountAmount").html('￥'+base.formatMoney(account.cny+account.xjk)+'<i>(含小金库)</i>');
                 }else{
                 	price = '￥ '+base.formatMoney(data.amount1+data.yunfei)+' + '+base.formatMoney(data.amount2)+' 积分'
+                	payAmount = '￥ '+base.formatMoney(data.amount1+data.yunfei-dkAmount)+' + '+base.formatMoney(data.amount2)+' 积分'
                 	
                 	$("#payName").html('余额支付')
                 	$("#wxPay").removeClass('hidden')
@@ -114,6 +143,7 @@ define([
                 }
                 
                 $("#totalAmount").html(price);
+                $("#payAmount").html(payAmount);
             });
     }
     
@@ -129,7 +159,7 @@ define([
         		$("#accountAmount").html('￥'+base.formatMoney(account.cny+account.xjk)+'<i>(含小金库)</i>');
             	$("#wxPay").removeClass('hidden')
             	
-                $("#totalAmount").html(price);
+                $("#payAmount").html(price);
                 
             });
     }

@@ -16,6 +16,16 @@ define([
                 ...config
             });
         },
+        /**
+         * 登录
+         * @param config {loginName, loginPwd}
+         */
+        login(config) {
+            return Ajax.post("805050", {
+                kind: "C",
+                ...config
+            });
+        },
         // 获取用户详情
         getUser(refresh, userId) {
             return Ajax.get("805121", {

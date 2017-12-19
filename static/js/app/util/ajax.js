@@ -75,7 +75,7 @@ define([
                 if(res.errorInfo == "用户状态异常"){
     				location.replace("../user/isRock.html?isRock=1");
                 }
-                if(res.errorBizCode == "xn100001"){
+                if(res.errorBizCode == "li01004"){
                     clearSessionUser();
                     sessionStorage.setItem("l-return", location.pathname + location.search);
                     loading.hideLoading();

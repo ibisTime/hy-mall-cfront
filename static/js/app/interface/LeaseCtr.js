@@ -104,5 +104,9 @@ define([
             	code
             }, true);
         },
+        // 查询订单可积分抵扣金额
+        getDKAmount(code) {
+            return Ajax.get("810062", {code}, true);
+        },
     };
 })
