@@ -74,11 +74,11 @@ define([
 			}
 			if(data.idNo){
 				$("#idNo").val(data.idNo)
-				$("#mobile").parents(".form-item").find('.inputMask').removeClass("hidden");
+				$("#idNo").parents(".form-item").find('.inputMask').removeClass("hidden");
 			}
 			if(data.realName){
 				$("#realName").val(data.realName)
-				$("#mobile").parents(".form-item").find('.inputMask').removeClass("hidden");
+				$("#realName").parents(".form-item").find('.inputMask').removeClass("hidden");
 			}
 		});
 	}
@@ -245,6 +245,12 @@ define([
                     location.replace("../user/user.html");
                 }, 500);
 			//收费
+			}else if(amountType== 0 && type==2 && params.prodList.length==0&&params.rprodList.length==0){
+				base.showMsg("报名成功！")
+				setTimeout(() => {
+                    location.replace("../user/user.html");
+                }, 500);
+			//有选择装备
 			}else{
 				base.showMsg("提交成功！")
 				setTimeout(() => {

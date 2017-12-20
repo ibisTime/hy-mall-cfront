@@ -4479,28 +4479,25 @@ label.error {
 .tNDetail-bottom{
     width: 100%;
     height: 0.98rem;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 101;
     background-color: #fff;
-    border-top: 1px solid $border-color;
+    border-top: 1px solid #eee;
+    padding: .15rem .3rem;
     
     .inputWrap{
         width: 6rem;
-        height: .68rem;
+        height: 100%;
         border: 1px solid $border-color;
         padding: .1rem .2rem;
         border-radius: .08rem;
-        margin-left: .3rem;
-        margin-top: .15rem;
         
-        input{
+        .tNotesForm-comCon{
+            resize: none;
             width: 100%;
+            height: 100%;
             color: #333;
-            line-height: 1;
             font-size: .26rem;
         }
+        
     }
     
     .comBtn{
@@ -4511,10 +4508,18 @@ label.error {
         background-position: center;
         background-size: auto .4rem;
         margin-left: .1rem;
+        position: absolute;
+        bottom: 0;
+        right: 0.2rem;
+        z-index: 99;
     }
-    
 }
-
+.tNDetail-bottom-wrap{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 101;
+}
 /*游记评论*/
 .tNcomment-item{
     width: 100%;
@@ -5447,7 +5452,8 @@ label.error {
         left: 0;
     }
 }
-.orderPro-list .mall-item .mall-item-con{
+
+#activityList.orderPro-list .mall-item .mall-item-con{
     line-height: 1;
     
     .name{
@@ -5533,9 +5539,30 @@ label.error {
     }
 }
 
-
-
-
+.com-dsDialog{
+     .inputWrap{
+        width: 100%;
+        height: 2rem;
+        border: 1px solid $border-color;
+        padding: .1rem .2rem;
+        border-radius: .08rem;
+    }
+    .tNotesForm-comCon{
+        resize: none;
+        width: 100%;
+        height: 100%;
+        color: #333;
+        font-size: .3rem;
+        line-height: 1.5;
+    }
+    .am-modal .am-modal-body{
+        padding: .3rem .6rem;
+    }
+    .am-modal .am-modal-footer{
+        padding-top: 0;
+        padding-bottom: .3rem;
+    }
+}
 
 
 

@@ -53,6 +53,8 @@ define([
 				$("#activityList").html(activityHtmlPro);
 				
 				$(".actOrderAmount .actAmount samp").text('￥'+base.formatMoney(data.amount))
+				$("#leaderInfo").html(data.leadUser.outName+"("+data.leadUser.mobile+")")
+				
 				
 				//有选择商品
 				if(data.orderData){
@@ -118,12 +120,14 @@ define([
 							<div class="detailAddress">收货地址： ${data.orderData.reAddress}</div>`;
 						
 						$("#toUser .toUserName").html('邮寄');
+						$("#toUser").removeClass('hidden');
 						$("#orderAddress").html(htmlAddress)
 						$("#orderAddress").removeClass('hidden');
 					//自提
 					}else{
 						
 						$("#toUser .toUserName").html('自提');
+						$("#toUser").removeClass('hidden');
 						$("#storeAddress").html('自提地址：'+data.orderData.takeAddress)
 						$("#storeAddress").removeClass('hidden');
 					}

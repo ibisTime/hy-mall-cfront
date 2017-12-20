@@ -17,13 +17,34 @@
     
     <div class="mask hidden" id="mask"></div>
     <div style="height: .98rem;"></div>
-	<div class="tNDetail-bottom">
+	
+	<div class="tNDetail-bottom tNDetail-bottom-wrap" id="tNDetail-bottom">
 		<div class="inputWrap fl">
-			<input type="text" class="tNotesForm-comCon" id="tNotesForm-comCon" name="tNotesForm-comCon" placeholder="" />
+			<div class="tNotesForm-comCon">发表回复...</div>
 		</div>
-		<div class="comBtn fl" id="comBtn"></div>
+		<div class="comBtn fl"></div>
 	</div>
-    
+	
+	<!--评论弹窗-->
+    <div class="tNotes-dsDialog com-dsDialog dialog hidden" id="comDialog">
+        <div class="am-modal-mask"></div>
+        <div class="am-modal-wrap">
+            <div role="document" class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-body">
+                    	<div class="inputWrap">
+							<textarea class="tNotesForm-comCon" id="tNotesForm-comCon" name="tNotesForm-comCon" placeholder="发表回复..."></textarea>
+						</div>
+                    </div>
+                    <div class="am-modal-footer">
+                    	<div class="am-button am-button-small am-button-cancel canlce">取消</div>
+                    	<div class="am-button am-button-small am-button-primary-48" id="comBtn">发表</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <link rel="import" href="../footer.html?__inline">
     <script>
         require(['app/controller/public/Comment2']);

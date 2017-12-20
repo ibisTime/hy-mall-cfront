@@ -123,9 +123,33 @@ define([
 				
 				//订单信息
 				var htmlOrder = '';
+				
+				var amountHtml = ''
+				
+				if(!data.relationNo){
+					var totalAmount = data.amount2 ? base.formatMoney(data.amount2)+'积分' : '￥'+base.formatMoney(data.amount1+data.yunfei);
+					var payAmount = '';
+					var dkHtml = '';
+					
+					if(data.dkJfAmount){
+						dkHtml=`<p>抵扣：${base.formatMoney(data.dkJfAmount)}积分抵扣${base.formatMoney(data.dkAmount)}人民币</p>`
+					}
+					if(data.payAmount2&&data.payAmount1){
+						payAmount = '￥'+base.formatMoney(data.payAmount1)+'+'+base.formatMoney(data.payAmount2)+'积分';
+					}else if(data.payAmount2&&!data.payAmount1){
+						payAmount = base.formatMoney(data.payAmount2)+'积分'
+					}else if(data.payAmount1&&!data.payAmount2){
+						payAmount = base.formatMoney(data.payAmount1)+'积分'
+					}
+					amountHtml=`<p>订单总价：${totalAmount}</p>
+								<p>实付金额：${payAmount}</p>
+								${dkHtml}`
+				}
+				
 				htmlOrder = `<p>订单号：${data.code}</p>
 					<p>订单状态：${orderStatus[data.status]}</p>
-					<p>下单时间：${base.formatDate(data.applyDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`;
+					<p>下单时间：${base.formatDate(data.applyDatetime,'yyyy-MM-dd hh:mm:ss')}</p>
+					${amountHtml}`;
 				
 				if(data.status =='3' || data.status =='4' || data.status =='5' || data.status =='6' || data.status =='7' || data.status =='8' || data.status =='9' ){
 					htmlOrder +=`<p>发货时间：${base.formatDate(data.deliveryDatetime,'yyyy-MM-dd hh:mm:ss')}</p>`

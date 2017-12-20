@@ -121,17 +121,23 @@ define([
         $("#content").on("click", ".tNotes-item .bottomWrap .likeTimes", function(){
         	var travelCode = $(this).attr("data-code")
         	
-        	if(!$(this).hasClass("active")){
-        		base.showLoading();
+    		base.showLoading();
         		
-        		TravelNotesStr.likeTravelNotes(travelCode).then(()=>{
+    		TravelNotesStr.likeTravelNotes(travelCode).then(()=>{
+    			
+        		if(!$(this).hasClass("active")){
+        		
         			$(this).addClass("active")
         			$(this).children("samp").text(parseInt($(this).children("samp").text())+1)
-        			base.hideLoading();
-        			base.showMsg("点赞成功")
-        		}, base.hideLoading)
+        		}else{
+        			$(this).removeClass("active")
+        			$(this).children("samp").text(parseInt($(this).children("samp").text())-1)
+        			
+        		}
         		
-        	}
+        		base.hideLoading();
+    			base.showMsg("操作成功")
+    		}, base.hideLoading)
         })
         
         //评论
@@ -175,7 +181,7 @@ define([
         		
         		base.showLoading();
         		TravelNotesStr.dsTravelNotes({
-        			quantity:$("#quantity").val(),
+        			quantity:$("#quantity").val()*1000,
         			travelCode: travelCode
         		}).then(()=>{
         			_dsItem.children("samp").text(parseInt(_dsItem.children("samp").text())+1)

@@ -25,6 +25,7 @@ define([
 					$("#setUserReferee").attr('href','javascript:void(0)')
 					$("#userRefereeMobile").text(data.refereeUser.mobile)
 				}else{
+					$("#userRefereeMobile").text("点击设置推荐人")
 					$("#setUserReferee").attr('href','./set-userReferee.html')
 				}
 				

@@ -109,17 +109,21 @@ define([
         $("#tNotesInfo").on("click", ".bottomWrap .likeTimes", function(){
         	var travelCode = code
         	
-        	if(!$(this).hasClass("active")){
-        		base.showLoading();
+        	TravelNotesStr.likeTravelNotes(travelCode).then(()=>{
+    			
+        		if(!$(this).hasClass("active")){
         		
-        		TravelNotesStr.likeTravelNotes(travelCode).then(()=>{
         			$(this).addClass("active")
         			$(this).children("samp").text(parseInt($(this).children("samp").text())+1)
-        			base.hideLoading();
-        			base.showMsg("点赞成功")
-        		}, base.hideLoading)
+        		}else{
+        			$(this).removeClass("active")
+        			$(this).children("samp").text(parseInt($(this).children("samp").text())-1)
+        			
+        		}
         		
-        	}
+        		base.hideLoading();
+    			base.showMsg("操作成功")
+    		}, base.hideLoading)
         })
         
         //打赏
@@ -138,7 +142,7 @@ define([
 			})
         })
         //打赏弹窗-取消
-        $("#dsDialog").on("click", "#canlce", function(){
+        $("#dsDialog").on("click", ".canlce", function(){
         	$("#dsDialog #dsBtn").attr("data-code",'');
         	$("#quantity").val("")
         	$("#dsDialog").addClass("hidden");
@@ -156,7 +160,7 @@ define([
         		
         		base.showLoading();
         		TravelNotesStr.dsTravelNotes({
-        			quantity:$("#quantity").val(),
+        			quantity:$("#quantity").val()*1000,
         			travelCode: travelCode
         		}).then(()=>{
         			_dsItem.children("samp").text(parseInt(_dsItem.children("samp").text())+1)
@@ -168,18 +172,33 @@ define([
         	}
         })
         //输入框获取焦点
-        $("#tNotesForm-comCon").on("focus",function(){
-        	$("#mask").removeClass("hidden");
+        $("#tNDetail-bottom").on("click",function(){
+        	$("#comDialog").removeClass("hidden");
+        	$("#tNDetail-bottom").addClass("hidden");
+        	$("#tNotesForm-comCon").focus()
+        	
+        	touchFalg = true;
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        })
+         $("#comDialog").on("click", ".canlce", function(){
+        	
+        	$("#tNDetail-bottom").removeClass("hidden");
+        	$("#comDialog").addClass("hidden");
+        	touchFalg = false
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
         })
         
-        //遮罩层
-        $("#mask").click(function(){
-        	$("#mask").addClass("hidden")
-    		$("#tNotesForm-comCon").val("")
-        })
         //评论
         $("#comBtn").click(function(){
-        	if($("#tNotesForm-comCon").val()){
+        	if($("#tNotesForm-comCon").val()&&$("#tNotesForm-comCon").val().replace(/[ ]/g,"")){
         		base.showLoading();
         		
         		TravelNotesStr.travelNotesComment({
@@ -189,6 +208,7 @@ define([
 		        }).then(()=>{
 		        	
 		        	$("#mask").addClass("hidden")
+        			$("#tNDetail-bottom").removeClass("focus").addClass("blur")
 		    		$("#tNotesForm-comCon").val("")
 		        	base.hideLoading();
 		        	base.showMsg("评论成功");
@@ -198,6 +218,8 @@ define([
 		        	},800)
 		        	
 		        }, base.hideLoading)
+        	}else{
+        		base.showMsg("请输入内容")
         	}
         })
         

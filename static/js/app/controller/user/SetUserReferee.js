@@ -37,7 +37,7 @@ define([
         base.hideLoading();
         base.showMsg("设置成功！");
         setTimeout(function() {
-          history.back();
+          location.replace("./set.html")
         }, 500);
       });
   }

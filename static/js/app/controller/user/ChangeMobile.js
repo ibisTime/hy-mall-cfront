@@ -67,7 +67,7 @@ define([
                 base.hideLoading();
                 base.showMsg("手机号修改成功！");
                 setTimeout(function() {
-                    history.back();
+          			location.replace("./set.html")
                 }, 500);
             });
     }

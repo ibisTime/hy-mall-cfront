@@ -69,7 +69,7 @@ define([
         base.hideLoading();
         base.showMsg("支付密码设置成功！");
         setTimeout(function() {
-          history.back();
+          location.replace("./set.html")
         }, 500);
       });
   }
@@ -81,7 +81,7 @@ define([
         base.hideLoading();
         base.showMsg("支付密码设置成功！");
         setTimeout(function() {
-          history.back();
+          location.replace("./set.html")
         }, 500);
       });
   }
