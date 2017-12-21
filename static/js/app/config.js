@@ -14,13 +14,17 @@ if (!/\/redirect\.html/.test(location.href)) {
       reg = new RegExp(
         "(^| )userId=([^;]*)(;|$)"),
       userId,
-      userReferee = "";
+      share = "";
     if (arr = document.cookie.match(reg))
       userId = unescape(arr[2]);
 
+	var reg = new RegExp("(^|&)share=([^&]*)(&|$)", "i");
+	var r = window.location.search.substr(1).match(reg);
+	if (r != null){
+		share = decodeURIComponent(r[2]);
+	}
     // 未登录
     if (!userId) {
-    	var reg = new RegExp("(^|&)userReferee=([^&]*)(&|$)", "i");
     	var regIsRock = new RegExp("(^|&)isRock=([^&]*)(&|$)", "i");
     	
     	var r = window.location.search.substr(1).match(reg);
@@ -28,13 +32,16 @@ if (!/\/redirect\.html/.test(location.href)) {
       	if(window.location.search.substr(1).match(regIsRock)!=null){
       		
       	}else{
-      		if (r != null)
-    		userReferee = decodeURIComponent(r[2]);
-	    	sessionStorage.setItem("userReferee", userReferee);
+	    	sessionStorage.setItem("share", share);
 	    	sessionStorage.setItem("l-return", location.pathname + location.search);
 	    	location.replace("../user/redirect.html");
       	}
+    }else{
+    	if(share){
+    		location.replace("../public/WeChatOA.html");
+    	}
     }
+    
 }
 })()
 

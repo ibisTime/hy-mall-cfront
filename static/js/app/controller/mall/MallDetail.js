@@ -133,9 +133,9 @@ define([
 					specHtml1+=`<p class='${d.quantity=="0"?"":"inStock"}' 
 						data-code='${d.code}'
 						data-price='${type==JFPRODUCTTYPE ? d.price2 : d.price1}' 
-						data-quantity=${d.quantity} 
-						data-name=${d.specsVal1} 
-						data-pic=${d.pic} >${d.specsVal1}</p>`;
+						data-quantity="${d.quantity}" 
+						data-name="${d.specsVal1}" 
+						data-pic="${d.pic}" >${d.specsVal1}</p>`;
 					
 					specsName1List[d.specsVal1]=d.specsVal1;
 				}
@@ -153,7 +153,7 @@ define([
 						data-quantity='${d.quantity}' 
 						data-name='${d.specsVal2}'  
 						data-specsVal1='${d.specsVal1}'  
-						data-pic='${d.pic}' >${d.specsVal2}</p>`;
+						data-pic="${d.pic}" >${d.specsVal2}</p>`;
 					
 					specsName2List[d.specsVal2]=d.specsVal2;
 				}
@@ -332,8 +332,11 @@ define([
 		
 		if(t==1){
 			$("#subBtn").html('加入购物车').addClass('addSCarBtn')
-		}else{
+		}else if(t==2){
 			$("#subBtn").html('立即下单').addClass('purchaseBtn')
+		}else{
+			$("#subBtn").addClass('hidden')
+			$("#confirmBtn").removeClass('hidden')
 		}
 		getSubBtn(t);
 	}
@@ -403,14 +406,39 @@ define([
 	function addListener(){
 		//立即购买
 		$(".buyBtn").click(function(){
-			btnType = 2;
-			showProductSpecs(btnType)
+			if($("#choiseSpecsVal").hasClass("active")){
+				
+				$('#productSpecs .purchaseBtn').click();
+			}else{
+				btnType = 2;
+				showProductSpecs(btnType)
+			}
 		})
 		
 		//加入购物车
 		$(".addShoppingBg").click(function(){
-			btnType = 1;
-			showProductSpecs(btnType)
+			
+			if($("#choiseSpecsVal").hasClass("active")){
+				
+				var param ={
+					productSpecsCode: '',
+			    	quantity: $('#productSpecs .productSpecs-number .sum').html()
+				}
+				if($("#specs2").hasClass('hidden')){//只有规格1
+					param.productSpecsCode=$("#specs1 .spec p.active").attr('data-code');
+				}else if($("#specs1 .spec p.active").text()&&$("#specs2 .spec p.active").attr('data-name')){
+					param.productSpecsCode=specsArray1[$("#specs1 .spec p.active").text()][$("#specs2 .spec p.active").attr('data-name')];
+				}
+				
+				if(param.productSpecsCode!=''&&param.productSpecsCode){
+					addShoppingCar(param);
+				}else{
+					base.showMsg('请选择商品规格')
+				}
+			}else{
+				btnType = 1;
+				showProductSpecs(btnType)
+			}
 		})
 		
 		//关闭商品规格
@@ -517,6 +545,35 @@ define([
 		$("#detailNav .nav").click(function(){
 			$(this).addClass("active").siblings(".nav").removeClass("active");
 			$(".contentWrap").eq($(this).index()).removeClass("hidden").siblings(".contentWrap").addClass("hidden");
+		})
+		//请选择规格点击
+		$("#choiseSpecs").click(function(){
+			showProductSpecs();
+		})
+		
+		//规格面板-确定按钮点击
+		$("#confirmBtn").click(function(){
+			if($("#specs2").hasClass('hidden')&&!$("#specs1 .spec p.active").text()){
+				base.showMsg('请选择商品规格');
+				return false;
+			}
+			if(!$("#specs2").hasClass('hidden')&&!$("#specs2 .spec p.active").text()){
+				base.showMsg('请选择商品规格');
+				return false;
+			}
+			var specsHtml = ''
+			var specs1,specs2,quantity=0;
+			specs1 = $("#specs1 .spec p.active").text();
+			specs2 = $("#specs2 .spec p.active").text();
+			quantity = $('#productSpecs .productSpecs-number .sum').html();
+			
+			specsHtml= $("#specs2").hasClass('hidden') ? specs1+'&nbsp;&nbsp;'+quantity : specs1+','+specs2+'&nbsp;&nbsp;'+quantity
+			
+			
+			$("#choiseSpecsVal").html('已选&nbsp;&nbsp;'+specsHtml).addClass("active")
+			
+			$("#mask").addClass('hidden');
+			$("#productSpecs").removeClass('active');
 		})
 		
 	}

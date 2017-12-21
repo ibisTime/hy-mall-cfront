@@ -3,8 +3,9 @@ define([
     'app/interface/MallCtr',
     'app/interface/LeaseCtr',
     'app/interface/ActivityStr',
-    'app/interface/AccountCtr'
-], function(base, MallCtr, LeaseCtr, ActivityStr, AccountCtr) {
+    'app/interface/AccountCtr',
+    'app/module/weixin',
+], function(base, MallCtr, LeaseCtr, ActivityStr, AccountCtr, weixin) {
     const MALL_ORDER = "mall",LEASE_ORDER = "lease",ACTIVITY_ORDER = "activity";
     const BALANCE_PAY = 1, WX_PAY = 5;
     var code = base.getUrlParam("code"),

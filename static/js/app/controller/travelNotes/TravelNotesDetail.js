@@ -34,6 +34,13 @@ define([
 	    		
 			}
 			
+			if(data.status == '1'){
+				$("#tNDetail-bottom").removeClass("hidden");
+				$(".tNotes-comment").on("click",".goTNcommentList",function(){
+		        	location.href="../public/comment2.html?code="+code;
+		        })
+			}
+			
 			$("#tNotesInfo .userPic").css({"background-image":"url('"+base.getImg(item.publishUser.photo)+"')"})
 			$("#tNotesInfo .nickName").html(item.publishUser.nickname)
 			$("#tNotesInfo .updateTime").html(base.formatDate(item.publishDatetime,"yyyy-MM-dd hh:mm:ss"))
@@ -221,10 +228,6 @@ define([
         	}else{
         		base.showMsg("请输入内容")
         	}
-        })
-        
-        $(".tNotes-comment").on("click",".goTNcommentList",function(){
-        	location.href="../public/comment2.html?code="+code;
         })
         
         

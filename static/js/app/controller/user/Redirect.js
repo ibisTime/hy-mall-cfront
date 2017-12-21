@@ -5,6 +5,7 @@ define([
   'app/interface/GeneralCtr',
   'app/interface/UserCtr'
 ], function(base, JudgeBindMobile, BindMobileSms, GeneralCtr, UserCtr) {
+	var share = sessionStorage.getItem("share") || "";
 
 	init();
 
@@ -62,7 +63,9 @@ define([
       base.hideLoading();
         base.setSessionUser(data);
         var returnFistUrl = sessionStorage.getItem("l-return");
-        if (returnFistUrl) {
+        if(share&&share=='1'){
+        	location.href = "../public/WeChatOA.html"
+        }else if (returnFistUrl) {
           location.href = returnFistUrl;
         } else {
           location.href = "../index.html"

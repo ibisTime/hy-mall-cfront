@@ -4,7 +4,7 @@ define([
     'app/module/smsCaptcha',
     'app/interface/UserCtr'
 ], function(base, Validate, smsCaptcha, UserCtr) {
-	var bindMobile = !!base.getUrlParam("bindMobile");
+	var bMobile = !!base.getUrlParam("bindMobile");
 	var bizType = bindMobile?'805060':'805061';
 	
     init();
@@ -38,7 +38,7 @@ define([
         // 设置
         $("#changeMobile").on("click", function(e) {
             if(_formWrapper.valid()){
-            	if(bindMobile){
+            	if(bMobile){
             		bindMobile()
             	}else{
                 	changeMobile();

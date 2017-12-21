@@ -3,7 +3,7 @@ define([
     'app/module/weixin',
     'app/interface/GeneralCtr'
 ], function(base, weixin, GeneralCtr) {
-	var userReferee = base.getUrlParam('userReferee')
+	var share = 1;
 
     init();
     
@@ -15,7 +15,8 @@ define([
         weixin.initShare({
             title: document.title,
             desc: "任贝电商",
-            link: SHARE_URL+'/public/WeChatOA.html',
+            link: SHARE_URL+'index.html?share='+share,
+//          link: SHARE_URL+'/public/WeChatOA.html',
             imgUrl: base.getShareImg()
         });
         

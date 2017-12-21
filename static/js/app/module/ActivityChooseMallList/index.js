@@ -114,9 +114,9 @@ define([
 					specHtml1+=`<p class='${d.quantity=="0"?"":"inStock"}' 
 						data-code='${d.code}'
 						data-price='${type==JFPRODUCTTYPE ? d.price2 : d.price1}' 
-						data-quantity=${d.quantity} 
-						data-name=${d.specsVal1} 
-						data-pic=${d.pic} >${d.specsVal1}</p>`;
+						data-quantity="${d.quantity}" 
+						data-name="${d.specsVal1}" 
+						data-pic="${d.pic}" >${d.specsVal1}</p>`;
 					
 					specsName1List[d.specsVal1]=d.specsVal1;
 				}
@@ -134,7 +134,7 @@ define([
 						data-quantity='${d.quantity}' 
 						data-name='${d.specsVal2}'  
 						data-specsVal1='${d.specsVal1}'  
-						data-pic='${d.pic}' >${d.specsVal2}</p>`;
+						data-pic="${d.pic}" >${d.specsVal2}</p>`;
 					
 					specsName2List[d.specsVal2]=d.specsVal2;
 				}

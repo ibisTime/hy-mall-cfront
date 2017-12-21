@@ -19,7 +19,7 @@ define([
 			var html = '';
 			if(data.length){
 				data.forEach(function(d, i){
-					var specsName = d.productSpecs.specsVal2==''&&!d.productSpecs.specsVal2?d.productSpecs.specsVal1:d.productSpecs.specsVal1+" "+d.productSpecs.specsVal2
+					var specsName = !d.productSpecs.specsVal2 ? d.productSpecs.specsVal1 : d.productSpecs.specsVal1+" "+d.productSpecs.specsVal2
 					html += `<div class="car-item mb20" data-code=${d.code} data-status=${d.product.status} data-type='${d.productSpecs.price2 ? 'JF' : 'CNY'}'>
 						<div class="icon"><i></i></div>
 						<a class="mall-item" data-pcode='${d.productCode}' data-pscode='${d.productSpecs.code}' href="./mallDetail.html?code=${d.productCode}">
