@@ -8,7 +8,7 @@ define(['Handlebars'], function(Handlebars) {
     });
     Handlebars.registerHelper('formatImage', function(pic, options) {
         if (!pic)
-            return "";
+            return '/static/images/default-bg.png';
         pic = pic.split(/\|\|/)[0];
         if (/^http/.test(pic)) {
             return pic;
@@ -17,30 +17,21 @@ define(['Handlebars'], function(Handlebars) {
     });
     Handlebars.registerHelper('formatSquareImage', function(pic, options) {
         if (!pic)
-            return "";
+            return '/static/images/default-bg.png';
         pic = pic.split(/\|\|/)[0];
         if (/^http/.test(pic)) {
             return pic;
         }
-        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!200x200r";
-    });
-    Handlebars.registerHelper('formatRectImage', function(pic, options) {
-        if (!pic)
-            return "";
-        pic = pic.split(/\|\|/)[0];
-        if (/^http/.test(pic)) {
-            return pic;
-        }
-        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!150x113r";
+        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!300x300r";
     });
     Handlebars.registerHelper('formatBigRectImage', function(pic, options) {
         if (!pic)
-            return "";
+            return '/static/images/default-bg.png';
         pic = pic.split(/\|\|/)[0];
         if (/^http/.test(pic)) {
             return pic;
         }
-        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/300x300";
+        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!1000x500";
     });
     Handlebars.registerHelper('formatAvatar', function(pic, options) {
         if (!pic) {
@@ -51,6 +42,16 @@ define(['Handlebars'], function(Handlebars) {
             return pic;
         }
         return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!200x200r";
+    });
+    Handlebars.registerHelper('formatActImage', function(pic, options) {
+        if (!pic) {
+            return '/static/images/default-bg.png';
+        }
+        pic = pic.split(/\|\|/)[0];
+        if (/^http/.test(pic)) {
+            return pic;
+        }
+        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!580x420r";
     });
     Handlebars.registerHelper('formatDateTime', function(date, options) {
         if (!date)

@@ -168,7 +168,7 @@ define([
                 pic = pic.split(/\|\|/)[0];
             }
             if (!/^http/i.test(pic)) {
-                suffix = suffix || '?imageMogr2/auto-orient/thumbnail/400x400';
+                suffix = suffix || '?imageMogr2/auto-orient/thumbnail/!400x400';
                 pic = PIC_PREFIX + pic + suffix;
             }
             return pic

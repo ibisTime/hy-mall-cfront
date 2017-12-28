@@ -7,22 +7,12 @@ define([
         start: 1,
         limit: 10
     }, isEnd = false, canScrolling = false;
-    var travelNotesStatus={};
 	
     init();
 
 	function init(){
 		base.showLoading()
-		//获取状态数据字典
-		GeneralCtr.getDictList({parentKey:'travel_status'},'801907').then((data)=>{
-    		data.forEach(function(d, i){
-    			base.hideLoading()
-    			travelNotesStatus[d.dkey]=d.dvalue
-    		})
-    		
-			getPageMyTravelNotes();
-		},base.hideLoading);
-		
+		getPageMyTravelNotes();		
         addListener();
 	}
 	
@@ -90,8 +80,7 @@ define([
 			if(item.status=='2'){
 				bottomWrap+=`<div class="becauseWrap b_e_t">备注:${item.remark}</div>`
 			}
-			bottomWrap += `<div class="bottomWrap"><div class="btn delete ${item.status=='1'?'fr_i':''}" data-code="${item.code}"><i class="icon"></i><samp>删除</samp></div>
-						<div class="btn edit" data-code="${item.code}"><i class="icon"></i><samp>编辑</samp></div></div>`;
+			bottomWrap += `<div class="bottomWrap"><div class="btn delete fr_i" data-code="${item.code}"><i class="icon"></i><samp>删除</samp></div>`;
 		}
 		
 		
@@ -103,7 +92,6 @@ define([
 							<p class="nickName">${item.publishUser.nickname}</p>
 							<samp class="updateTime">${base.formatDate(item.publishDatetime,"yyyy-MM-dd hh:mm:ss")}</samp>
 						</div>
-						<div class="status">${travelNotesStatus[item.status]}</div>
 					</div>
 					<div class="conWrap">
 						<div class="description">${description}</div>

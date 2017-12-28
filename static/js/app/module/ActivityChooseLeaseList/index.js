@@ -4,52 +4,139 @@ define([
     'app/util/handlebarsHelpers',
     'app/interface/LeaseCtr',
     'app/module/ActivityChooseLeaseSubmit',
-], function ($, base, Handlebars, LeaseCtr, ActivityChooseLeaseSubmit) {
+    'app/module/scroll',
+], function ($, base, Handlebars, LeaseCtr, ActivityChooseLeaseSubmit, scroll) {
     var tmpl = __inline("index.html");
     var _mallTmpl = __inline('../../ui/mall-list-lease.handlebars');
     var defaultOpt = {};
     var firstAdd = true;
-    var config = {
-        start: 1,
-        limit: 10,
-        orderColumn:'order_no',
-        orderDir:'asc',
-        category: 'NJ04',
-    }, isEnd = false, canScrolling = false;
+    var myScroll,
+    	lType;
+    var start = 1,
+        limit = 10,
+        isEnd = false,
+        canScrolling = false;
     var proList = [];
 
     function initData(){
         base.showLoading();
         
-        config.start = 1;
-        getPageLeaseList(true);
+        start = 1;
+        getListCategory();
+    }
+    // 获取商品大类
+    function getListCategory(){
+        LeaseCtr.getListCategory(true)
+            .then(function(data) {
+                var html = '<li l_type="NJ04" class="allCategory">全部分类</li>', html1 = '<li l_type="" class="wp33 tc fl allCategory">全部分类</li>';
+                for (var i = 0; i < data.length; i++) {
+                    var d = data[i];
+                    if(d.code!=JFLEASEPRODUCTTYPE){
+                    	html += `<li l_type="${d.code}">${d.name}</li>`;
+                    	html1 += `<li l_type="${d.code}" class="wp33 tc fl">${d.name}</li>`;
+                    }
+                }
+                var scroller = $("#leaseScroller");
+                scroller.find("ul").html(html);
+                $("#lCateAllItem").find("ul").html(html1);
+            	addCategory();
+                scroller.find("ul li")[0].click();
+            });
+    }
+    // 添加大类
+    function addCategory() {
+    	scroll.getInstance().refresh();
+        var scroller = $("#leaseScroller");
+        var lis = scroller.find("ul li");
+        var width = 0;
+        for (var i = 0; i < lis.length; i++) {
+            width += $(lis[i]).outerWidth(true)+0.5;
+        }
+        $("#leaseScroller").css("width", width);
+        myScroll = scroll.getInstance().getScrollByParam({
+            id: 'leaseWrapper',
+            param: {
+                scrollX: true,
+                scrollY: false,
+                eventPassthrough: true,
+                snap: true,
+                hideScrollbar: true,
+                hScrollbar: false,
+                vScrollbar: false
+            }
+        });
     }
     
     //租赁分页查
-	function getPageLeaseList(refresh){
-		LeaseCtr.getPageLeaseProduct(config, refresh)
+	function getPageLeaseList(c,refresh){
+		LeaseCtr.getPageLeaseProduct({
+	        start: start,
+	        limit: limit,
+	        orderColumn:'order_no',
+	        orderDir:'asc',
+	        type: c,
+		}, refresh)
             .then(function(data) {
                 base.hideLoading();
                 var lists = data.list;
                 var totalCount = data.totalCount;//+lists.totalCount;
-                if (totalCount <= config.limit || lists.length < config.limit) {
+                if (totalCount <= limit || lists.length < limit) {
                     isEnd = true;
                 }
     			if(lists.length) {
     				
-                    $("#LeaseListContainer .chooseMallList-wrap")[refresh || config.start == 1 ? "html" : "append"](_mallTmpl({items: lists}));
-                    isEnd && $("#loadAll").removeClass("hidden");
-                    config.start++;
-    			} else if(config.start == 1) {
+                    $("#LeaseListContainer .chooseMallList-wrap")[refresh || start == 1 ? "html" : "append"](_mallTmpl({items: lists}));
+                    isEnd && $("#leaseloadAll").removeClass("hidden");
+                    start++;
+    			} else if(start == 1) {
                     $("#LeaseListContainer .chooseMallList-wrap").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无租赁</p></div>')
                 } else {
-                    $("#loadAll").removeClass("hidden");
+                    $("#leaseloadAll").removeClass("hidden");
                 }
                 canScrolling = true;
         	}, base.hideLoading);
 	}
 	
     function addListener(){
+    	/**大类start */
+        $("#lCateDown").on("click", function() {
+            var me = $(this);
+            if (me.hasClass("down-arrow")) {
+                $("#lCateAllCont").removeClass("hidden");
+                me.removeClass("down-arrow").addClass("up-arrow");
+            } else {
+                $("#lCateAllCont").addClass("hidden");
+                me.removeClass("up-arrow").addClass("down-arrow");
+            }
+        });
+        $("#mall-mask").on("click", function() {
+            $("#lCateDown").click();
+        });
+        $("#lCateAllItem").on("click", "li", function() {
+            var lType = $(this).attr("l_type");
+            $("#leaseScroller").find("li[l_type='" + lType + "']").click();
+            $("#lCateDown").click();
+        });
+        $("#leaseScroller").on("click", "li", function() {
+            var me = $(this);
+            $("#leaseWrapper").find(".current").removeClass("current");
+            me.addClass("current");
+            myScroll.myScroll.scrollToElement(this);
+            lType = me.attr("l_type");
+            start = 1;
+            isEnd = false;
+            base.showLoading();
+            $("#leaseloadAll").addClass("hidden");
+            
+            getPageLeaseList(lType, true);
+        	$("#leaTableHeight").css({"height":$(".mall_list_top").height()})
+        	
+            var allItem = $("#lCateAllItem");
+            allItem.find("li.current").removeClass("current");
+            allItem.find("li[l_type='" + lType + "']").addClass("current");
+        });
+        /**大类end */
+    	
         //重新选择
         $("#LeaseListContainer").on("click", ".right-left-btn .resetBtn", function(){
         	proList = [];
@@ -175,6 +262,12 @@ define([
             }, 200, function () {
             });
             
+            var navWrap = wrap.find(".mall_list_top")
+            navWrap.show().animate({
+                left: 0
+            }, 200, function () {
+            });
+            
             var btnWrap = wrap.find(".right-left-btn");
             btnWrap.show().animate({
                 left: 0
@@ -187,7 +280,7 @@ define([
                 	
                     canScrolling = false;
                     base.showLoading();
-                    getPageLeaseList();
+                    getPageLeaseList(lType);
                 }
             });
         },
@@ -199,9 +292,14 @@ define([
                 topWrap.animate({
                     left: "100%"
                 }, 200, function () {
-                    btnWrap.hide();
                 });
             	
+	            var navWrap = wrap.find(".mall_list_top")
+	            navWrap.animate({
+                    left: "100%"
+                }, 200, function () {
+                });	  
+                
                 var btnWrap = wrap.find(".right-left-btn");
                 btnWrap.animate({
                     left: "100%"

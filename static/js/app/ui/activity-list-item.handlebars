@@ -1,7 +1,7 @@
 {{#each items}}
 	<div class="activity-item">
 		<a href="../activity/activity-detail.html?code={{code}}">
-    		<div class="pic fl" style="background-image: url('{{formatImage advPic}}');"></div>
+    		<div class="pic fl" style="background-image: url('{{formatActImage advPic}}');"></div>
     		<div class="content fr">
     			<div class="name">{{name}}</div>
     			<div class="info">
@@ -14,7 +14,7 @@
     			</div>
     		</div>
 		</a>
-		<div class="joinInBtn">报名</div>
+		<div class="joinInBtn" data-code="{{code}}">一键报名</div>
 	</div>
     
 {{/each}}

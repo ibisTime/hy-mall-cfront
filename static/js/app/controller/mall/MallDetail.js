@@ -11,6 +11,7 @@ define([
 		btnType;// 1: 加入购物车，2：立即下单
 		
     var _comTmpl = __inline('../../ui/comment-item.handlebars');
+    var sizeArray = MALLSIZE;//尺码排序
     
 	//为点击事件搭建关系
 	var specsArray1 ={};//规格1['规格1':{['规格2'：'code']},'规格1':{['规格2'：'code']}]
@@ -59,7 +60,7 @@ define([
 			
 			if(strs.length>1){
 				strs.forEach(function(d, i){
-					html+=`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(d)}')"></div></div>`;
+					html+=`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(d,'?imageMogr2/auto-orient/thumbnail/!750x750')}')"></div></div>`;
 				})
 				$("#top-swiper").html(html);
 				var mySwiper = new Swiper('#swiper-container', {
@@ -69,7 +70,7 @@ define([
 	                'pagination': '.swiper-pagination'
 	            });
 			}else{
-				$("#top-swiper").html(`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(dpic)}')"></div></div>`);
+				$("#top-swiper").html(`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(dpic,'?imageMogr2/auto-orient/thumbnail/!750x750')}')"></div></div>`);
 			}
 			
 			$('title').html(data.name+'-商品详情');
@@ -97,7 +98,7 @@ define([
 				$("#specs2").removeClass("productSpecs-wrap")
 			}
 			
-			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(data.productSpecsList[0].pic)+'")')
+			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(data.advPic)+'")')
 			$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(data.productSpecsList[0].price2)+'积分' : '￥'+base.formatMoney(data.productSpecsList[0].price1))
 			$("#productSpecs .quantity").html('库存 ' + data.productSpecsList[0].quantity).attr('data-quantity',data.productSpecsList[0].quantity)
 			$("#productSpecs .choice i").html(data.productSpecsList[0].name)
@@ -108,24 +109,57 @@ define([
 			var specsName1List =[];
 			var specsName2List =[];
 			
-			data.productSpecsList.forEach(function(d, i){
+			
+			// 如果有规格二(尺码)时  为规格排序
+			if(data.specsName2){
+				//判断尺码是否为数字
+				if(!isNaN(data.productSpecsList[0].specsVal2)){
+		            var sortSpecsList = data.productSpecsList.sort(function(a, b){
+		                    return (a.specsVal2 - b.specsVal2);
+		            });
+				}else if(sizeArray[data.productSpecsList[0].specsVal2]){
+					var sortSpecsList = data.productSpecsList.sort(function(a, b){
+		                    return (sizeArray[a.specsVal2] - sizeArray[b.specsVal2]);
+		            });
+				}else{
+					var sortSpecsList = data.productSpecsList;
+				}
+			}else{
+				//判断尺码是否为数字
+				if(!isNaN(data.productSpecsList[0].specsVal1)){
+		            var sortSpecsList = data.productSpecsList.sort(function(a, b){
+		                    return (a.specsVal1 - b.specsVal1);
+		            });
+				}else if(sizeArray[data.productSpecsList[0].specsVal1]){
+					var sortSpecsList = data.productSpecsList.sort(function(a, b){
+		                    return (sizeArray[a.specsVal1] - sizeArray[b.specsVal1]);
+		            });
+				}else{
+					var sortSpecsList = data.productSpecsList;
+				}
+			}
+			
+			
+			sortSpecsList.forEach(function(d, i){
 
 				productSpecsListArray[d.code]=d
 				if(data.specsName2){
 					
+					
 					if(!specsName1List[d.specsVal1]){
-						specHtml1+=`<p class='inStock' >${d.specsVal1}</p>`;
+						specHtml1+=`<p class='inStock' 
+						data-pic="${d.pic}" >${d.specsVal1}</p>`;
 						specsName1List[d.specsVal1]=d.specsVal1;
 						
 					}
 					//为点击事件搭建关系
 					var tmpl1 = {};
-					tmpl1[d.specsVal2]=d.code;
+					tmpl1[d.specsVal2]=d.specsVal1;
 					$.extend(tmpl1, specsArray1[d.specsVal1])
 					specsArray1[d.specsVal1]=tmpl1
 					
 					var tmpl2 = {};
-					tmpl2[d.specsVal1]=d.specsVal1;
+					tmpl2[d.specsVal1]=d.code;
 					$.extend(tmpl2, specsArray2[d.specsVal2])
 					specsArray2[d.specsVal2]=tmpl2
 					
@@ -148,12 +182,7 @@ define([
 					}
 					
 					specHtml2+=`<p class='${inStock}' 
-						data-code='${d.code}'
-						data-price='${type==JFPRODUCTTYPE ? d.price2 : d.price1}' 
-						data-quantity='${d.quantity}' 
-						data-name='${d.specsVal2}'  
-						data-specsVal1='${d.specsVal1}'  
-						data-pic="${d.pic}" >${d.specsVal2}</p>`;
+						data-name="${d.specsVal2}" >${d.specsVal2}</p>`;
 					
 					specsName2List[d.specsVal2]=d.specsVal2;
 				}
@@ -201,14 +230,15 @@ define([
 					var _specPChoice2 = $("#specs2 .spec p.active").length?$("#specs2 .spec p.active").attr("data-name"):'';
 					
 					$("#productSpecs .choice i").html(_specPChoice1+' '+_specPChoice2)
+					$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specPInStock.attr("data-pic"))+'")')
+					
 					if(_specPChoice1&&_specPChoice2){
-						var specsCode = specsArray1[_specPChoice1][_specPChoice2]
+						var specsCode = specsArray2[_specPChoice2][_specPChoice1]
 						var specsData = productSpecsListArray[specsCode];
 						
 						$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(specsData.price2)+'积分' : '￥'+base.formatMoney(specsData.price1))
 						$("#productSpecs .price").attr("data-price",type==JFPRODUCTTYPE?specsData.price2:specsData.price1)
 						$("#productSpecs .quantity").html('库存 ' + specsData.quantity).attr('data-quantity',specsData.quantity)
-						$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(specsData.pic)+'")')
 					}
 				})
 				
@@ -255,12 +285,11 @@ define([
 					$("#productSpecs .choice i").html(_specPChoice1+' '+_specPChoice2)
 						
 					if(_specPChoice1&&_specPChoice2){
-						var specsCode = specsArray1[_specPChoice1][_specPChoice2]
+						var specsCode = specsArray2[_specPChoice2][_specPChoice1]
 						var specsData = productSpecsListArray[specsCode];
 						
 						$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(specsData.price2)+'积分' : '￥'+base.formatMoney(specsData.price1))
 						$("#productSpecs .quantity").html('库存 ' + specsData.quantity).attr('data-quantity',specsData.quantity)
-						$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(specsData.pic)+'")')
 					}
 					$('#productSpecs .productSpecs-number .sum').html(1)
 					
@@ -427,7 +456,7 @@ define([
 				if($("#specs2").hasClass('hidden')){//只有规格1
 					param.productSpecsCode=$("#specs1 .spec p.active").attr('data-code');
 				}else if($("#specs1 .spec p.active").text()&&$("#specs2 .spec p.active").attr('data-name')){
-					param.productSpecsCode=specsArray1[$("#specs1 .spec p.active").text()][$("#specs2 .spec p.active").attr('data-name')];
+					param.productSpecsCode=specsArray2[$("#specs2 .spec p.active").attr('data-name')][$("#specs1 .spec p.active").text()];
 				}
 				
 				if(param.productSpecsCode!=''&&param.productSpecsCode){
@@ -473,7 +502,7 @@ define([
 			if($("#specs2").hasClass('hidden')){//只有规格1
 				param.productSpecsCode=$("#specs1 .spec p.active").attr('data-code');
 			}else if($("#specs1 .spec p.active").text()&&$("#specs2 .spec p.active").attr('data-name')){
-				param.productSpecsCode=specsArray1[$("#specs1 .spec p.active").text()][$("#specs2 .spec p.active").attr('data-name')];
+				param.productSpecsCode=specsArray2[$("#specs2 .spec p.active").attr('data-name')][$("#specs1 .spec p.active").text()];
 			}else{
 				base.showMsg('请选择商品规格')
 			}
@@ -501,7 +530,7 @@ define([
 				
 				location.href = './submitOrder.html?s=2&code='+code+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html();
 			}else{
-				var productSpecsCode=specsArray1[$("#specs1 .spec p.active").text()][$("#specs2 .spec p.active").attr('data-name')];
+				var productSpecsCode=specsArray2[$("#specs2 .spec p.active").attr('data-name')][$("#specs1 .spec p.active").text()];
 				location.href = './submitOrder.html?s=2&code='+code+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html();
 			}
 

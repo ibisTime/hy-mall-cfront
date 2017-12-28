@@ -33,6 +33,9 @@ define([
 		base.showLoading();
     	searchVal&&$("#search .searchText").val(searchVal)
     	placeDestCity&&$("#cityWrap").find("samp").text(placeDestCity);
+    	if(placeDestCity){
+    		$("#resetCity").removeClass("hidden")
+    	}
     	startDatetime&&$("#startDatetime").text(startDatetime)
     	startDatetime&&$("#startDatetimeVal").text(startDatetime)
     	
@@ -117,7 +120,7 @@ define([
         },0)
 		
 		//返回顶部
-        $("#goTop").click(()=>{
+        $("#goTop").click(function(){
             var speed=200;//滑动的速度
             $('body,html').animate({ scrollTop: 0 }, speed);
             return false;
@@ -143,8 +146,22 @@ define([
 			}); 
     	})
     	$("#search .searchText").blur(function(){
-			if (window.event.keyCode==13) window.event.keyCode=0 ;
+			if (window.event.keyCode==13){
+				window.event.keyCode=0;
+			}
     	})
+    	
+    	//一键报名
+        $("#content").on("click", ".activity-item .joinInBtn", function(){
+        	location.href="../activity/activity-detail.html?code="+$(this).attr("data-code")+"&isBtn=1"
+        })
+    	
+    	//清除选择目的地
+    	$("#resetCity").click(function(){
+    		placeDestCity = ''
+			filter();
+        })
+    	
 	}
 	
 	//省市区选择

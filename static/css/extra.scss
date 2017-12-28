@@ -2754,9 +2754,7 @@ label.error {
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-        border-radius: .1rem;
         position: relative;
-        
     }
     
     .info-tit{
@@ -4037,7 +4035,7 @@ label.error {
     width: .9rem;
     height: .9rem;
     background-color: #fff;
-    z-index: 10;
+    z-index: 1001;
     text-align: center;
     border-left: 1px solid #e6e6e6;
     background-repeat: no-repeat;
@@ -4079,7 +4077,7 @@ label.error {
     }
 }
 
-#mallWrapper {
+.mallWrapper {
     position: absolute;
     z-index: 1;
     bottom: .9rem;
@@ -4092,7 +4090,7 @@ label.error {
     overflow: hidden;
 }
 
-#scroller {
+.scroller {
     position: absolute;
     z-index: 1;
     color: #333;
@@ -4137,7 +4135,7 @@ label.error {
     }
 } 
 
-#down {
+.mall_list_top .mall-up-down {
     z-index: 1001;
 }
 
@@ -4841,6 +4839,26 @@ label.error {
             margin-left: .2rem;
         }
         
+        .reset{
+            display: inline-block;
+            height: 1rem;
+            padding: 0 .15rem;
+            
+            i{
+                display: inline-block;
+                width: .3rem;
+                height: .3rem;
+                border: .02rem solid #DDDDDD;
+                border-radius: .15rem;
+                background-image: url('../images/close.png');
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: .2rem; 
+                position: relative;
+                top: .05rem;
+            }
+        }
+        
         samp{
             line-height: 1;
             font-size: .28rem;
@@ -5034,6 +5052,10 @@ label.error {
                     background-size: .28rem;
                 }
                 
+                &.icon-address{
+                    background-image: url('../images/收货地址@2x.png');
+                    background-size: .2rem;
+                }
                 
             }
         }
@@ -5357,6 +5379,27 @@ label.error {
             font-size: .32rem;
         }
     }
+    
+    .mall_list_top{
+        top: .8rem;
+        left: 100%;
+    }
+    .mall_list_table{
+        top: 1.7rem;
+        left: 100%;
+    }
+    .mall-up-down.up-arrow{
+        top: -.8rem;
+    }
+    .mall-up-down.down-arrow{
+        top: 0;
+    }
+    .mask{
+        z-index: 1000;
+    }
+    .productSpecs{
+        z-index: 1001;
+    }
 }
 
 .chooseMallList-wrap,
@@ -5563,7 +5606,9 @@ label.error {
         padding-bottom: .3rem;
     }
 }
-
+#act_mzsm{
+    overflow: hidden;
+}
 
 
 

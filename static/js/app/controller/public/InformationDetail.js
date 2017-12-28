@@ -30,7 +30,7 @@ define([
         
         var html = '';
         
-        html=`<div class="info-pic" style="background-image: url('${base.getImg(data.advPic)}');"></div>
+        html=`<div class="info-pic" style="background-image: url('${base.getImg(data.advPic,'?imageMogr2/auto-orient/thumbnail/!750x430')}');"></div>
         		<div class="info-tit">
         			<p>${data.title}</p>
     				</div>

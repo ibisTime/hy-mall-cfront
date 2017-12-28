@@ -8,6 +8,7 @@ define([
 ], function(base, Foot, scroll, Handlebars, MallCtr, GeneralCtr) {
     var _proTmpl = __inline('../../ui/mall-list-item.handlebars');
     var cate = base.getUrlParam("type") || '',
+    	lcate = base.getUrlParam("ltype") || '',
         myScroll, lType,
         start = 1,
         limit = 10,
@@ -88,7 +89,8 @@ define([
             $.each(data, function(i, val) {
                 var name = val.name;
                 var vcode = val.code;
-                var html1 = "<li l_code=" + vcode + " class='wp20 tc'>" + name + "</li>";
+                var active = lcate==vcode?'active':''
+                var html1 = "<li l_code=" + vcode + " class='wp20 tc " + active + "'>" + name + "</li>";
                 html1 = $(html1);
                 html1.on("click", function() {
                     start = 1;
@@ -97,6 +99,11 @@ define([
                     $("#content").empty();
                     l_code = $(this).attr("l_code");
                     $(this).addClass("active").siblings().removeClass("active");
+                    
+		            if(lcate!=$("#mlTable ul li.active").attr("l_code")){
+		            	location.replace("../mall/mall-list.html?type="+cate+"&ltype="+$("#mlTable ul li.active").attr("l_code"));
+		            	return false;
+		            }
                     getPageProduct(l_code, c).then(base.hideLoading);
                 });
                 //清空小类后再添加，否则会直接添加进去，原来的依旧在
@@ -105,15 +112,17 @@ define([
             if(flag){
             	$("#mlTableHeight").css({"height":$(".mall_list_top").height()+$(".mall_list_table").height()})
             }
-            //默认选中第一个
-            var smallEle = $("#mlTable ul li:eq(0)");
-                category = c, l_code = smallEle.attr("l_code");
-            if (l_code) {
-                smallEle.click();
-            }else{
+            
+            if(lcate){
                 base.showLoading();
                 $("#content").empty();
                 getPageProduct("", c).then(base.hideLoading);
+            }else{
+            	//默认选中第一个
+            	var smallEle = $("#mlTable ul li:eq(0)");
+                category = c, l_code = smallEle.attr("l_code");
+                $("#mlTable ul li:eq(0)").addClass("active")
+                getPageProduct(l_code, c).then(base.hideLoading);
             }
             //下拉加载
             $(window).off("scroll").on("scroll", function() {
@@ -199,8 +208,12 @@ define([
         });
         $("#scroller").on("click", "li", function() {
             var me = $(this);
-            $("#mallWrapper").find(".current").removeClass("current");
+        	$("#mallWrapper").find(".current").removeClass("current");
             me.addClass("current");
+            if(cate!=$("#scroller li.current").attr("l_type")){
+            	location.replace("../mall/mall-list.html?type="+$("#scroller li.current").attr("l_type")+"&ltype=");
+            	return false;
+            }
             myScroll.myScroll.scrollToElement(this);
             lType = me.attr("l_type");
             start = 1;

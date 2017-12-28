@@ -31,6 +31,10 @@ define([
 	       base.clearSessionUser();
 	       location.href='./redirect.html'
 	   });
+	  	$("#goLeaderWX").click(function() {
+	      location.href=LEADER_URL
+	  	});
+	   
   }
   
   // 获取账户信息

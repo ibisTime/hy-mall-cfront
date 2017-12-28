@@ -5,7 +5,12 @@ var JFPRODUCTTYPE = 'J01';
 var JFLEASEPRODUCTTYPE = 'J04';
 var SYS_USER = 'SYS_USER_HW';
 var SYS_USERNAME = '邮寄发货';
+//商城尺码排序
+var MALLSIZE = {"XS":["1"],"S":["2"],"M":["3"],"L":["4"],"XL":["5"],"XXL":["6"],"XXXL":["7"]}
+//分享域名
 var SHARE_URL = "http://cm.hwt.hichengdai.com/";
+//领队微信端地址
+var LEADER_URL = "http://cm.lead.hichengdai.com";
 
 (function() {
 // 判断是否登录

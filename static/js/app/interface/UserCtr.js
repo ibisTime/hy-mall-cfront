@@ -233,6 +233,13 @@ define([
                 ...config
             },refresh);
         },
+        //分页查询我的收藏活动
+        getPageActivityCollect(config,refresh){
+            return Ajax.get("808951",{
+            	userId: base.getUserId(),
+                ...config
+            },refresh);
+        },
         /**
          * 查询用户芝麻信用
          */

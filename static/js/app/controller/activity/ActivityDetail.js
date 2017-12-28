@@ -8,6 +8,7 @@ define([
     'app/module/bindMobile',
 ], function(base, Swiper, weixin, GeneralCtr, UserCtr, ActivityStr, BindMobile) {
 	var code = base.getUrlParam("code");
+	var isBtn = base.getUrlParam("isBtn"); //是否是一键报名进入页面
 	var isUserInfo = false;//是否有用户信息(outName,realName,idNo,mobile)
 	var amountType = 0;//收费类型 ： 0=免费， 1=收费
 	var isBindMobile= false; //是否绑定手机号
@@ -23,7 +24,14 @@ define([
 			getActivityDetail(),
 			getActJoinIn(),
 			getPageActComment()
-		)
+		).then(()=>{
+			if(isBtn==1){
+				setTimeout(function(){
+					var h = Math.max(document.body.scrollHeight,document.documentElement.scrollHeight); //文档内容实际高度 
+					$(document).scrollTop(h);
+				},100)
+			}
+		})
 		addListener()
 		
 	}
@@ -75,17 +83,22 @@ define([
 			//微信分享
 	        weixin.initShare({
 	            title: data.name+'-活动详情',
-	            desc: data.slogan,
+	            desc: data.slogan?data.slogan:data.name,
 	            link: location.href,
 	            imgUrl: base.getImg(data.advPic)
 	        });
 	        
+			//收藏
+			data.isCollect=='1'?$("#collect").addClass("active"):$("#collect").removeClass("active")
+	        
 	        $(".detail-title .name").html(data.name)
-			$(".detail-title .slogan").html(data.slogan)
+			$(".detail-title .slogan").html(data.slogan?data.slogan:'')
 			$("#price").html('<i>￥</i>'+base.formatMoney(data.amount))
 			$(".detail-title .enrollEndDatetime").text(base.formatDate(data.enrollEndDatetime, "yyyy-MM-dd"))
 			$(".detail-title .data").text(base.formatDate(data.startDatetime, "yyyy-MM-dd")+"至"+base.formatDate(data.endDatetime, "yyyy-MM-dd"))
 			$(".detail-title .userNum").text(data.groupNum)
+			$(".detail-title .placeAsse").text(data.placeAsseProvince+" "+data.placeAsseCity+" "+data.placeAsse)
+			$(".detail-title .placeDest").text(data.placeDestProvince+" "+data.placeDestCity+" "+data.placeDest)
 			
 			startActive($("#indexQd"),data.indexQd)
 			startActive($("#indexNd"),data.indexNd)
@@ -152,7 +165,7 @@ define([
 	
 	//分页查询评论
 	function getPageActComment(){
-		GeneralCtr.getPageActComment({
+		return GeneralCtr.getPageActComment({
 			start:1,
 			limit:3,
 			entityCode: code,
@@ -295,5 +308,45 @@ define([
         $("#allTNotesComment").click(function(){
         	location.href="../public/comment2.html?type=AN&code="+code;
         })
+        
+        //免责申明 查看更多 点击
+        $("#act_mzsm_more").click(function(){
+        	if($(this).hasClass("active")){
+        		$(this).removeClass("active");
+        		$(this).html("查看更多")
+        		$(this).css("max-height","10rem")
+        		$("#act_mzsm").css("max-height","10rem")
+        	}else{
+        		$("#act_mzsm").css("max-height","none")
+        		$(this).addClass("active");
+        		$(this).html("收起")
+        	}
+        })
+        
+        //收藏
+		$("#collect").click(function(){
+			base.showLoading();
+			if($(this).hasClass('active')){
+				//取消收藏
+				GeneralCtr.cancelCollecte(code,'AC').then(()=>{
+					$(this).removeClass('active')
+					base.hideLoading();
+					base.showMsg('取消成功')
+				},()=>{
+					base.hideLoading();
+				})		
+			}else{
+				
+				//收藏
+				GeneralCtr.addCollecte(code,'AC').then(()=>{
+					$(this).addClass('active')
+					base.hideLoading();
+					base.showMsg('收藏成功')
+				},()=>{
+					base.hideLoading();
+				})	
+			}
+		})
+        
 	}
 })

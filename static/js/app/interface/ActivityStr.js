@@ -7,13 +7,15 @@ define([
         getPageActivity(config, refresh) {
             return Ajax.get("808707", {
                 status:'1',
+            	frontUserId: base.getUserId(),
                 ...config
             }, refresh);
         },
         // 查询活动详情
         getActivityDetail(code) {
             return Ajax.get("808706", {
-            	code
+            	code,
+            	userId: base.getUserId(),
             });
         },
     	// 提交活动订单
