@@ -26,6 +26,7 @@ define([
 	        ).then(base.hideLoading,base.hideLoading)
 		}
 		initUpload();
+		
         addListener();
 	}
 	
@@ -108,6 +109,18 @@ define([
 						$("#uploadContainer").before(picHtml)
 					}
 				});
+				
+				setTimeout(function(){
+			
+					$("#uploadContainer").find("input[type='file']").attr("accept","image/*");     
+					//判断浏览器终端 为安卓input[type='file']添加可调起相机的属性
+					if(base.getUserBrowser()){//ios
+						$("#uploadContainer").find("input[type='file']").removeAttr("capture");
+					}else{//android
+						$("#uploadContainer").find("input[type='file']").attr("capture","camera");       
+					}
+				}, 100)
+				
 			}, () => {})
 	}
 	

@@ -37,7 +37,7 @@ define([
 			if(data.status == '1'){
 				$("#tNDetail-bottom").removeClass("hidden");
 				$(".tNotes-comment").on("click",".goTNcommentList",function(){
-		        	location.href="../public/comment2.html?code="+code;
+		        	location.href="../public/comment2.html?type=TR&code="+code;
 		        })
 			}
 			

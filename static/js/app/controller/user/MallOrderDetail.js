@@ -103,7 +103,7 @@ define([
 					}else if(data.payAmount2&&!data.payAmount1){
 						payAmount = base.formatMoney(data.payAmount2)+'积分'
 					}else if(data.payAmount1&&!data.payAmount2){
-						payAmount = base.formatMoney(data.payAmount1)+'积分'
+						payAmount = '￥'+base.formatMoney(data.payAmount1)
 					}
 					amountHtml=`<p>订单总价：${totalAmount}</p>
 								<p>实付金额：${payAmount}</p>

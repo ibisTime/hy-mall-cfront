@@ -121,19 +121,21 @@ define([
             var me = $(this);
             $("#leaseWrapper").find(".current").removeClass("current");
             me.addClass("current");
-            myScroll.myScroll.scrollToElement(this);
-            lType = me.attr("l_type");
-            start = 1;
-            isEnd = false;
-            base.showLoading();
-            $("#leaseloadAll").addClass("hidden");
-            
-            getPageLeaseList(lType, true);
-        	$("#leaTableHeight").css({"height":$(".mall_list_top").height()})
-        	
-            var allItem = $("#lCateAllItem");
-            allItem.find("li.current").removeClass("current");
-            allItem.find("li[l_type='" + lType + "']").addClass("current");
+            if(lType!=me.attr("l_type")){
+            	myScroll.myScroll.scrollToElement(this);
+	            lType = me.attr("l_type");
+	            start = 1;
+	            isEnd = false;
+	            base.showLoading();
+	            $("#leaseloadAll").addClass("hidden");
+	            
+	            getPageLeaseList(lType, true);
+	        	$("#leaTableHeight").css({"height":$(".mall_list_top").height()})
+	        	
+	            var allItem = $("#lCateAllItem");
+	            allItem.find("li.current").removeClass("current");
+	            allItem.find("li[l_type='" + lType + "']").addClass("current");
+            }
         });
         /**大类end */
     	

@@ -98,10 +98,11 @@ define([
 				$("#specs2").removeClass("productSpecs-wrap")
 			}
 			
-			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(data.advPic)+'")')
+			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(data.advPic)+'")').attr("data-default",data.advPic)
 			$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(data.productSpecsList[0].price2)+'积分' : '￥'+base.formatMoney(data.productSpecsList[0].price1))
-			$("#productSpecs .quantity").html('库存 ' + data.productSpecsList[0].quantity).attr('data-quantity',data.productSpecsList[0].quantity)
-			$("#productSpecs .choice i").html(data.productSpecsList[0].name)
+			$("#productSpecs .price").attr("data-default",$("#productSpecs .price").html())
+			$("#productSpecs .quantity").html('库存 ' + data.productSpecsList[0].quantity).attr('data-quantity',data.productSpecsList[0].quantity).attr("data-default",data.productSpecsList[0].quantity)
+			$("#productSpecs .choice i").html(data.productSpecsList[0].name).attr("data-default",data.productSpecsList[0].name)
 			
 			//规格
 			var specHtml1 = "";
@@ -375,27 +376,30 @@ define([
 		$("#mask").addClass('hidden');
 		$("#productSpecs").removeClass('active');
 		
-		//还原选中数据
-		var _specP1 = $("#specs1 .spec p").eq(0);
-		var _specP2 = $("#specs2 .spec p").eq(0);
-		
-		$("#specs1 .spec p").removeClass("inStock").addClass("inStock").removeClass("active");
-		$("#specs2 .spec p").removeClass("inStock").addClass("inStock").removeClass("active");
-		
-		if($("#specs2").hasClass('hidden')){//只有规格1
-			$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP1.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP1.attr("data-price")))
-			$("#productSpecs .quantity").html('库存 ' + _specP1.attr("data-quantity")).attr('data-quantity',_specP1.attr("data-quantity"))
-			$("#productSpecs .choice i").html(_specP1.attr("data-name"))
-			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP1.attr("data-pic"))+'")')
-			$('#productSpecs .productSpecs-number .sum').html(1)
-		}else{
-			$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP2.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP2.attr("data-price")))
-			$("#productSpecs .quantity").html('库存 ' + _specP2.attr("data-quantity")).attr('data-quantity',_specP2.attr("data-quantity"))
-			$("#productSpecs .choice i").html(_specP2.attr("data-name"))
-			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP2.attr("data-pic"))+'")')
-			$('#productSpecs .productSpecs-number .sum').html(1)
+		//如果请选择规格点击    未选规格
+		if(!$("#choiseSpecsVal").hasClass("active")){
+			
+			//还原选中数据
+			var _specP1 = $("#specs1 .spec p").eq(0);
+			var _specP2 = $("#specs2 .spec p").eq(0);
+			
+			$("#specs1 .spec p").removeClass("inStock").addClass("inStock").removeClass("active");
+			$("#specs2 .spec p").removeClass("inStock").addClass("inStock").removeClass("active");
+			
+			if($("#specs2").hasClass('hidden')){//只有规格1
+				$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP1.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP1.attr("data-price")))
+				$("#productSpecs .quantity").html('库存 ' + _specP1.attr("data-quantity")).attr('data-quantity',_specP1.attr("data-quantity"))
+				$("#productSpecs .choice i").html(_specP1.attr("data-name"))
+				$('#productSpecs .productSpecs-number .sum').html(1)
+			}else{
+				$("#productSpecs .price").html($("#productSpecs .price").attr("data-default"))
+				$("#productSpecs .quantity").html('库存 ' + $("#productSpecs .quantity").attr("data-default"))
+				$("#productSpecs .choice i").html($("#productSpecs .choice i").attr("data-default"))
+				$('#productSpecs .productSpecs-number .sum').html(1)
+			}
+			var defaultImg = $("#productSpecs .productSpecs-img").attr("data-default")
+			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(defaultImg)+'")')
 		}
-		
 	}
 	
 	//加入购物车

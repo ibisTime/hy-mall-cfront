@@ -5610,7 +5610,24 @@ label.error {
     overflow: hidden;
 }
 
-
+.dkAmountWrap{
+    .icon-confirm{
+        display: inline-block;
+        width: .3rem;
+        height: .3rem;
+        margin-left: .15rem;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: .3rem;
+        background-image: url('../images/未选择@2x.png');
+        position: relative;
+        top: .05rem;
+        
+    }
+    .active .icon-confirm{
+        background-image: url('../images/选择@2x.png');
+    }
+}
 
 
 

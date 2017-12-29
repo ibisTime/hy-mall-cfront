@@ -176,7 +176,7 @@ define([
 	}
 	
 	function buildHtmlActivity(item){
-		return ` <a class="mall-item" href="../mall/mallDetail.html?code=${item.activity.code}">
+		return ` <a class="mall-item" href="../activity/activity-detail.html?code=${item.activity.code}">
 				<div class="mall-item-img fl" style="background-image: url('${base.getImg(item.activity.advPic,'?imageMogr2/auto-orient/thumbnail/!400x400')}');">
 				</div>
 				<div class="mall-item-con fr">

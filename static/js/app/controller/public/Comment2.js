@@ -5,6 +5,7 @@ define([
     'app/interface/GeneralCtr',
 ], function(base, Validate, TravelNotesStr, GeneralCtr) {
     var type = base.getUrlParam("type")||'';
+    var actName = base.getUrlParam("name")||'';
     var code = base.getUrlParam("code");
     var config = {
         start: 1,
@@ -174,12 +175,13 @@ define([
         	if($("#tNotesForm-comCon").val()&&$("#tNotesForm-comCon").val().replace(/[ ]/g,"")){
         		base.showLoading();
         		
-        		if(type = "AN"){
+        		if(type == "AN"){
         			GeneralCtr.comment({
 			        	content:$("#tNotesForm-comCon").val(),
 			        	parentCode: comCode?comCode:code,
 			        	entityCode: code,
-			        	type: type
+			        	type: type,
+			        	entityName: actName
 			        }).then(()=>{
 			        	
         				$("#tNDetail-bottom").removeClass("focus").addClass("blur")

@@ -70,7 +70,7 @@ define([
     function getDKAmountMall(){
     	return MallCtr.getDKAmount(code).then((data) => {
     		dkAmount = data.cnyAmount;
-    		$("#dkAmount").html("将使用"+base.formatMoney(data.jfAmount)+"积分抵扣"+base.formatMoney(data.cnyAmount)+"人民币")
+    		$("#dkAmount samp").html("将使用"+base.formatMoney(data.jfAmount)+"积分抵扣"+base.formatMoney(data.cnyAmount)+"人民币")
         },()=>{})
     }
     
@@ -78,7 +78,7 @@ define([
     function getDKAmountLease(){
     	return LeaseCtr.getDKAmount(code).then((data) => {
     		dkAmount = data.cnyAmount;
-    		$("#dkAmount").html("将使用"+base.formatMoney(data.jfAmount)+"积分抵扣"+base.formatMoney(data.cnyAmount)+"人民币")
+    		$("#dkAmount samp").html("将使用"+base.formatMoney(data.jfAmount)+"积分抵扣"+base.formatMoney(data.cnyAmount)+"人民币")
         },()=>{})
     }
     
@@ -87,8 +87,8 @@ define([
         MallCtr.getOrderDetail(code)
             .then((data) => {
                 base.hideLoading();
-                var price = 0;
-                var payAmount = 0;
+                var price = '';
+                var payAmount = '';
                 if(!data.amount1&&data.amount2&&!data.yunfei){
                 	price = base.formatMoney(data.amount2)+' 积分'
                 	
@@ -110,8 +110,8 @@ define([
 	        		$("#accountAmount").html(base.formatMoney(account.jf)+'积分 + ￥'+base.formatMoney(account.cny+account.xjk)+'<i>(含小金库)</i>');
                 }
                 
-                $("#totalAmount").html(price);
-                $("#payAmount").html(payAmount);
+                $("#totalAmount").html(price).attr("data-totalAmount",price);
+                $("#payAmount").html(payAmount).attr("data-payAmount",payAmount);
             });
     }
     
@@ -143,8 +143,8 @@ define([
 	        		$("#accountAmount").html(base.formatMoney(account.jf)+'积分 + ￥'+base.formatMoney(account.cny+account.xjk)+'<i>(含小金库)</i>');
                 }
                 
-                $("#totalAmount").html(price);
-                $("#payAmount").html(payAmount);
+                $("#totalAmount").html(price).attr("data-totalAmount",price);
+                $("#payAmount").html(payAmount).attr("data-payAmount",payAmount);
             });
     }
     
@@ -183,6 +183,17 @@ define([
             
             payByBalance();
         });
+        
+        $("#dkAmount").click(function(){
+        	if($(this).hasClass("active")){
+        		$(this).removeClass("active")
+                $("#payAmount").html($("#totalAmount").attr("data-totalAmount"));
+        	}else{
+        		$(this).addClass("active")
+                $("#payAmount").html($("#payAmount").attr("data-payAmount"));
+        	}
+        })
+        
     }
     
     //判断支付接口调用类型
@@ -201,6 +212,11 @@ define([
     	var config = {
     		payType:payType,
     		codeList:[code]
+    	}
+    	if($("#dkAmount").hasClass("active")){
+    		config.isDk = 1
+    	}else{
+    		config.isDk = 0
     	}
         MallCtr.payOrder(config,true)
             .then((data) => {
@@ -221,6 +237,11 @@ define([
     	var config = {
     		payType:payType,
     		codeList:[code]
+    	}
+    	if($("#dkAmount").hasClass("active")){
+    		config.isDk = 1
+    	}else{
+    		config.isDk = 0
     	}
         LeaseCtr.payOrder(config,true)
             .then((data) => {

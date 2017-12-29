@@ -418,25 +418,27 @@ define([
             var me = $(this);
             $("#mallWrapper").find(".current").removeClass("current");
             me.addClass("current");
-            myScroll.myScroll.scrollToElement(this);
-            lType = me.attr("l_type");
-            start = 1;
-            isEnd = false;
-            base.showLoading();
-            $("#loadAll").addClass("hidden");
-            if(me.hasClass('allCategory')){
-            	l_code = '';
-            	category = 'NJ01';
-            	$("#mlTable").addClass('hidden')
-                getPageProduct(l_code, category);
-            	$("#mlTableHeight").css({"height":$(".mall_list_top").height()})
-            }else{
-            	$("#mlTable").removeClass('hidden')
-            	getProduces(lType,1);
+            if(lType!=me.attr("l_type")){
+            	myScroll.myScroll.scrollToElement(this);
+            	lType = me.attr("l_type");
+	            start = 1;
+	            isEnd = false;
+	            base.showLoading();
+	            $("#loadAll").addClass("hidden");
+	            if(me.hasClass('allCategory')){
+	            	l_code = '';
+	            	category = 'NJ01';
+	            	$("#mlTable").addClass('hidden')
+	                getPageProduct(l_code, category);
+	            	$("#mlTableHeight").css({"height":$(".mall_list_top").height()})
+	            }else{
+	            	$("#mlTable").removeClass('hidden')
+	            	getProduces(lType,1);
+	            }
+	            var allItem = $("#allItem");
+	            allItem.find("li.current").removeClass("current");
+	            allItem.find("li[l_type='" + lType + "']").addClass("current");
             }
-            var allItem = $("#allItem");
-            allItem.find("li.current").removeClass("current");
-            allItem.find("li[l_type='" + lType + "']").addClass("current");
         });
         /**大类end */
         

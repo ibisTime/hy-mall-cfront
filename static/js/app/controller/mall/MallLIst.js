@@ -15,10 +15,12 @@ define([
         isEnd = false,
         canScrolling = false;
     var l_code, category;
+    var firstLoad= true; // 页面是否第一次加载
 
     init();
 
     function init() {
+    	
         Foot.addFoot(1);
         addListener();
         base.showLoading();
@@ -116,7 +118,7 @@ define([
             if(lcate){
                 base.showLoading();
                 $("#content").empty();
-                getPageProduct("", c).then(base.hideLoading);
+                getPageProduct(lcate, c).then(base.hideLoading);
             }else{
             	//默认选中第一个
             	var smallEle = $("#mlTable ul li:eq(0)");
@@ -214,25 +216,29 @@ define([
             	location.replace("../mall/mall-list.html?type="+$("#scroller li.current").attr("l_type")+"&ltype=");
             	return false;
             }
-            myScroll.myScroll.scrollToElement(this);
+            
             lType = me.attr("l_type");
-            start = 1;
-            isEnd = false;
-            base.showLoading();
-            $("#loadAll").addClass("hidden");
-            if(me.hasClass('allCategory')){
-            	l_code = '';
-            	category = '';
-            	$("#mlTable").addClass('hidden')
-                getPageProduct(l_code, category);
-            	$("#mlTableHeight").css({"height":$(".mall_list_top").height()})
-            }else{
-            	$("#mlTable").removeClass('hidden')
-            	getProduces(lType,1);
+            //页面第一次加载 再次点击相同类别不加载
+            if(firstLoad){
+            	firstLoad = false;
+            	myScroll.myScroll.scrollToElement(this);
+	            base.showLoading();
+	            $("#loadAll").addClass("hidden");
+	            if(me.hasClass('allCategory')){
+	            	l_code = '';
+	            	category = '';
+	            	$("#mlTable").addClass('hidden')
+	                getPageProduct(l_code, category);
+	            	$("#mlTableHeight").css({"height":$(".mall_list_top").height()})
+	            }else{
+	            	$("#mlTable").removeClass('hidden')
+	            	getProduces(lType,1);
+	            }
+	            var allItem = $("#allItem");
+	            allItem.find("li.current").removeClass("current");
+	            allItem.find("li[l_type='" + lType + "']").addClass("current");
             }
-            var allItem = $("#allItem");
-            allItem.find("li.current").removeClass("current");
-            allItem.find("li[l_type='" + lType + "']").addClass("current");
+            
         });
         /**大类end */
 		

@@ -12,6 +12,7 @@ define([
 	var isUserInfo = false;//是否有用户信息(outName,realName,idNo,mobile)
 	var amountType = 0;//收费类型 ： 0=免费， 1=收费
 	var isBindMobile= false; //是否绑定手机号
+	var actName = '';
 	
     init();
 
@@ -78,6 +79,7 @@ define([
 			}else{
 				$("#top-swiper").html(`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(dpic)}')"></div></div>`);
 			}
+			actName  = data.name;
 			
 			$('title').html(data.name+'-活动详情');
 			//微信分享
@@ -302,11 +304,11 @@ define([
 		
 		//留言点击
         $("#goliuyan").click(function(){
-        	location.href="../public/comment2.html?type=AN&code="+code;
+        	location.href="../public/comment2.html?type=AN&code="+code+"&name="+actName;
         })
         //查看更多留言 点击
         $("#allTNotesComment").click(function(){
-        	location.href="../public/comment2.html?type=AN&code="+code;
+        	location.href="../public/comment2.html?type=AN&code="+code+"&name="+actName;
         })
         
         //免责申明 查看更多 点击
@@ -318,6 +320,20 @@ define([
         		$("#act_mzsm").css("max-height","10rem")
         	}else{
         		$("#act_mzsm").css("max-height","none")
+        		$(this).addClass("active");
+        		$(this).html("收起")
+        	}
+        })
+        
+        //免责申明 查看更多 点击
+        $("#act_enroll_more").click(function(){
+        	if($(this).hasClass("active")){
+        		$(this).removeClass("active");
+        		$(this).html("查看更多")
+        		$(this).css("max-height","10rem")
+        		$("#act_enroll").css("max-height","10rem")
+        	}else{
+        		$("#act_enroll").css("max-height","none")
         		$(this).addClass("active");
         		$(this).html("收起")
         	}
