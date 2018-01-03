@@ -98,13 +98,21 @@ define([
 					if(data.dkJfAmount){
 						dkHtml=`<p>抵扣：${base.formatMoney(data.dkJfAmount)}积分抵扣${base.formatMoney(data.dkAmount)}人民币</p>`
 					}
-					if(data.payAmount2&&data.payAmount1){
-						payAmount = '￥'+base.formatMoney(data.payAmount1)+'+'+base.formatMoney(data.payAmount2)+'积分';
-					}else if(data.payAmount2&&!data.payAmount1){
-						payAmount = base.formatMoney(data.payAmount2)+'积分'
-					}else if(data.payAmount1&&!data.payAmount2){
-						payAmount = '￥'+base.formatMoney(data.payAmount1)
-					}
+					if (data.payAmount3 != "0" && data.payAmount1 != "0" && data.payAmount2 != "0") {
+		                payAmount = "￥" + base.formatMoney(data.payAmount1) +'+'+ base.formatMoney(data.payAmount2) + "积分+" + base.formatMoney(data.payAmount3)+"小金库"
+		            } else if (data.payAmount3 == "0" && data.payAmount1 != "0" && data.payAmount2 != "0") {
+		                payAmount = "￥" + base.formatMoney(data.payAmount1) +'+'+base.formatMoney(data.payAmount2) + "积分";
+		            } else if (data.payAmount3 != "0" && data.payAmount1 != "0" && data.payAmount2 == "0") {
+		                payAmount = "￥" + base.formatMoney(data.payAmount1) +'+'+ base.formatMoney(data.payAmount3) + "小金库";
+		            } else if (data.payAmount3 != "0" && data.payAmount1 == "0" && data.payAmount2 != "0") {
+		                payAmount = base.formatMoney(data.payAmount2) + "积分+" + base.formatMoney(data.payAmount3) + "小金库";
+		            } else if (data.payAmount3 == "0" && data.payAmount1 == "0" && data.payAmount2 != "0") {
+		                payAmount = base.formatMoney(data.payAmount2)+ "积分";
+		            } else if (data.payAmount3 != "0" && data.payAmount1 == "0" && data.payAmount2 == "0") {
+		                payAmount = base.formatMoney(data.payAmount3) + "小金库";
+		            } else if (data.payAmount3 == "0" && data.payAmount1 != "0" && data.payAmount2 == "0") {
+		                payAmount = "￥" + base.formatMoney(data.payAmount1);
+		            }
 					amountHtml=`<p>订单总价：${totalAmount}</p>
 								<p>实付金额：${payAmount}</p>
 								${dkHtml}`

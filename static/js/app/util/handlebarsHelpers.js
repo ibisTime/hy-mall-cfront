@@ -22,7 +22,7 @@ define(['Handlebars'], function(Handlebars) {
         if (/^http/.test(pic)) {
             return pic;
         }
-        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!300x300r";
+        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!400x400r";
     });
     Handlebars.registerHelper('formatBigRectImage', function(pic, options) {
         if (!pic)
@@ -31,7 +31,7 @@ define(['Handlebars'], function(Handlebars) {
         if (/^http/.test(pic)) {
             return pic;
         }
-        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!1000x500";
+        return PIC_PREFIX + pic + "?imageMogr2/auto-orient/thumbnail/!1400x700";
     });
     Handlebars.registerHelper('formatAvatar', function(pic, options) {
         if (!pic) {

@@ -55,12 +55,13 @@ define([
 	function init(){
         base.showLoading(code);
         
-    	$.when(
-        	getLeaseProductDetail(code),
-        	isDefaultAddress(),
-        	getLeaseRules(),
-        	getUserInfo()
-        )
+        getUserInfo().then(()=>{
+        	$.when(
+	        	getLeaseProductDetail(code),
+	        	isDefaultAddress(),
+	        	getLeaseRules(),
+	        )
+        })
         
     	$("#toUser").attr('data-toUser',SYS_USER)
     	$("#toUser .toUserName samp").html(SYS_USERNAME)

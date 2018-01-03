@@ -28,7 +28,7 @@ define([
 	    		
 	    		if(strs.length){
 					strs.forEach(function(d, i){
-						picHtml+=`<img src="${base.getImg(d)}" />`
+						picHtml+=`<img src="${base.getImg(d,"?imageMogr2/auto-orient/thumbnail/1400x")}" />`
 					})
 				}
 	    		
@@ -171,9 +171,10 @@ define([
         			travelCode: travelCode
         		}).then(()=>{
         			_dsItem.children("samp").text(parseInt(_dsItem.children("samp").text())+1)
-        			$("#dsDialog #canlce").click()
+        			$("#dsDialog .canlce").click()
         			base.hideLoading();
         			base.showMsg("打赏成功")
+        			
         		}, base.hideLoading)
         		
         	}

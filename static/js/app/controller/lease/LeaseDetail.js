@@ -51,7 +51,7 @@ define([
 			
 			if(strs.length>1){
 				strs.forEach(function(d, i){
-					html+=`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(d,'?imageMogr2/auto-orient/thumbnail/!750x750')}')"></div></div>`;
+					html+=`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(d,'?imageMogr2/auto-orient/thumbnail/!900x900r')}')"></div></div>`;
 				})
 				$("#top-swiper").html(html);
 				var mySwiper = new Swiper('#swiper-container', {
@@ -61,7 +61,7 @@ define([
 	                'pagination': '.swiper-pagination'
 	            });
 			}else{
-				$("#top-swiper").html(`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(dpic,'?imageMogr2/auto-orient/thumbnail/!750x750')}')"></div></div>`);
+				$("#top-swiper").html(`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(dpic,'?imageMogr2/auto-orient/thumbnail/!900x900r')}')"></div></div>`);
 			}
 			
 			$('title').html(data.name+'-租赁详情');
