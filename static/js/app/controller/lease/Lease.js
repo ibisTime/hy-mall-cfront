@@ -190,7 +190,7 @@ define([
 					base.showMsg('取消成功')
 				},()=>{
 					base.hideLoading();
-				})		
+				})	
 			}else{
 				
 				//收藏

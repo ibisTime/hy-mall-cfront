@@ -103,7 +103,8 @@ define([
         	return Ajax.get("801030", {
         		entityCode:code,
         		interacter: base.getUserId(),
-        		type: type
+        		type: type,
+        		kind:'cl'
         	}, true);
         },
         // 取消收藏
@@ -111,7 +112,8 @@ define([
         	return Ajax.get("801031", {
         		entityCode:code,
         		interacter: base.getUserId(),
-        		type: type
+        		type: type,
+        		kind:'cl'
         	}, true);
         },
         // 分页查询评论(租赁，商品)

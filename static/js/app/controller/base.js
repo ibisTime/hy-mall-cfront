@@ -4,7 +4,7 @@ define([
     'app/module/loading',
     'app/util/ajax'
 ], function(dialog, CookieUtil, loading, Ajax) {
-
+	
     Date.prototype.format = function(format) {
         var o = {
             "M+": this.getMonth() + 1, //month

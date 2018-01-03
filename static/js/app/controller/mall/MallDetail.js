@@ -60,7 +60,7 @@ define([
 			
 			if(strs.length>1){
 				strs.forEach(function(d, i){
-					html+=`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(d,'?imageMogr2/auto-orient/thumbnail/!750x750')}')"></div></div>`;
+					html+=`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(d,'?imageMogr2/auto-orient/thumbnail/!900x900')}')"></div></div>`;
 				})
 				$("#top-swiper").html(html);
 				var mySwiper = new Swiper('#swiper-container', {
@@ -70,7 +70,7 @@ define([
 	                'pagination': '.swiper-pagination'
 	            });
 			}else{
-				$("#top-swiper").html(`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(dpic,'?imageMogr2/auto-orient/thumbnail/!750x750')}')"></div></div>`);
+				$("#top-swiper").html(`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(dpic,'?imageMogr2/auto-orient/thumbnail/!900x900')}')"></div></div>`);
 			}
 			
 			$('title').html(data.name+'-商品详情');
@@ -194,6 +194,8 @@ define([
 			if(data.specsName2){
 				//有规格2时为规格1绑定点击事件
 				$("#specs1 .spec").on('click','p.inStock',function(){
+					base.showLoading();
+					
 					var _specPInStock = $(this);
 					//如果规格1 已选中 移除选中
 					if(_specPInStock.hasClass('active')){
@@ -241,6 +243,7 @@ define([
 						$("#productSpecs .price").attr("data-price",type==JFPRODUCTTYPE?specsData.price2:specsData.price1)
 						$("#productSpecs .quantity").html('库存 ' + specsData.quantity).attr('data-quantity',specsData.quantity)
 					}
+					base.hideLoading()
 				})
 				
 				//有规格2时为规格2绑定点击事件
@@ -300,6 +303,8 @@ define([
 			}else{
 				//没有规格2时为规格1绑定点击事件
 				$("#specs1 .spec").on('click','p.inStock', function(){
+					
+					base.showLoading();
 					var _specP = $(this);
 					
 					_specP.addClass('active').siblings().removeClass('active');
@@ -309,6 +314,7 @@ define([
 					$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP.attr("data-pic"))+'")')
 					$('#productSpecs .productSpecs-number .sum').html(1)
 					
+					base.hideLoading()
 					getSubBtn();
 				})
 			}

@@ -40,7 +40,7 @@ define([
                 if(data.length){
                     var html = "";
                     data.forEach(function(item){
-                        html += `<div class="swiper-slide"><div data-url="${item.url}" class="banner-img" style="background-image: url('${base.getImg(item.pic,'?imageMogr2/auto-orient/thumbnail/!750x468')}')"></div></div>`;
+                        html += `<div class="swiper-slide"><div data-url="${item.url}" class="banner-img" style="background-image: url('${base.getImg(item.pic,'?imageMogr2/auto-orient/thumbnail/!1080x675')}')"></div></div>`;
                     });
                     if(data.length <= 1){
                         $(".swiper-pagination").addClass("hidden");

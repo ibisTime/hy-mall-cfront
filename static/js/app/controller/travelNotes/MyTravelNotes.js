@@ -80,26 +80,26 @@ define([
 			if(item.status=='2'){
 				bottomWrap+=`<div class="becauseWrap b_e_t">备注:${item.remark}</div>`
 			}
-			bottomWrap += `<div class="bottomWrap"><div class="btn delete fr_i" data-code="${item.code}"><i class="icon"></i><samp>删除</samp></div>`;
+			bottomWrap += `<div class="bottomWrap"><div class="btn delete fr_i" data-code="${item.code}"><i class="icon"></i><samp>删除</samp></div></div>`;
 		}
 		
 		
         return `<div class="tNotes-item">
-				<a class="wrap" href="../travelNotes/travelNotesDetail.html?code=${item.code}">
-					<div class="userWrap">
-						<div class="userPic" style="background-image: url('${base.getImg(item.publishUser.photo)}');"></div>
-						<div class="userInfo">
-							<p class="nickName">${item.publishUser.nickname}</p>
-							<samp class="updateTime">${base.formatDate(item.publishDatetime,"yyyy-MM-dd hh:mm:ss")}</samp>
+					<a class="wrap" href="../travelNotes/travelNotesDetail.html?code=${item.code}">
+						<div class="userWrap">
+							<div class="userPic" style="background-image: url('${base.getImg(item.publishUser.photo)}');"></div>
+							<div class="userInfo">
+								<p class="nickName">${item.publishUser.nickname}</p>
+								<samp class="updateTime">${base.formatDate(item.publishDatetime,"yyyy-MM-dd hh:mm:ss")}</samp>
+							</div>
 						</div>
-					</div>
-					<div class="conWrap">
-						<div class="description">${description}</div>
-						${picHtml}
-					</div>
-				</a>
+						<div class="conWrap">
+							<div class="description">${description}</div>
+							${picHtml}
+						</div>
+					</a>
 				${bottomWrap}
-			</div>`;
+				</div>`;
 
     }
 	
