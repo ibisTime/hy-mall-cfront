@@ -8,14 +8,14 @@ define([
 ], function(base, Validate, qiniu, TravelNotesStr, UserCtr, BindMobile) {
     var code = base.getUrlParam("code") || '';
 	var isBindMobile = false;//是否绑定手机号
-	
+
     init();
 
 	function init(){
-		
+
 		if(code){
 			base.showLoading();
-			
+
         	$.when(
 	        	getUserInfo(),
 	        	getTravelNotesDetail()
@@ -26,10 +26,10 @@ define([
 	        ).then(base.hideLoading,base.hideLoading)
 		}
 		initUpload();
-		
+
         addListener();
 	}
-	
+
 	//获取用户详情 查看是否绑定手机号
 	function getUserInfo() {
 		return UserCtr.getUser().then(function(data) {
@@ -40,7 +40,7 @@ define([
 			}
 		});
 	}
-	
+
 	//获取游记详情
 	function getTravelNotesDetail(){
 		return TravelNotesStr.getTravelNotesDetail(code).then((data)=>{
@@ -48,21 +48,21 @@ define([
 			var picHtml='';
 			if(item.pic){
 				var strs =[],strs=item.pic.split('||');
-	    		
+
 	    		if(strs.length){
 					strs.forEach(function(d, i){
-						picHtml += `<div class="pic" style="background-image: url('${base.getImg(d)}');" 
+						picHtml += `<div class="pic" style="background-image: url('${base.getImg(d)}');"
 									data-url="${d}"><i class="delete"></i></div>`
 					})
 				}
-	    		
+
 			}
 			$("#description").val(item.description)
 			$("#uploadContainer").before(picHtml)
 			base.hideLoading();
 		}, base.hideLoading)
 	}
-	
+
 	//发布游记
 	function addTravelNotes(params){
 		TravelNotesStr.addTravelNotes(params).then(()=>{
@@ -73,7 +73,7 @@ define([
 			},800)
 		},()=>{})
 	}
-	
+
 	//编辑游记
 	function editTravelNotes(params){
 		TravelNotesStr.editTravelNotes(params).then(()=>{
@@ -84,7 +84,7 @@ define([
 			},800)
 		},()=>{})
 	}
-	
+
 	//七牛
 	function initUpload(){
 		qiniu.getQiniuToken()
@@ -96,37 +96,42 @@ define([
 					containerId: "uploadContainer",
 					multi_selection: true,
 					showUploadProgress: function(up, file){
-						$(".upload-progress").css("width", parseInt(file.percent, 10) + "%");
+						$("#" + file.id).find(".upload-progress").css("width", parseInt(file.percent, 10) + "%");
 					},
-					fileAdd: function(up, file){
-						$(".upload-progress-wrap").show();
+					fileAdd: function(up, file, oriFile){
+            var url = URL.createObjectURL(oriFile.getNative());
+            var picHtml = `<div id="${oriFile.id}" style="background-image: url('${url}');" class="pic">
+              <i class="delete"></i>
+              <div class="pic-extra-wrapper">
+                <i class="global-loading-icon"></i>
+                <div class="pic-extra-mask"></div>
+                <div class="upload-progress"></div>
+              </div>
+            </div>`;
+            $("#uploadContainer").before(picHtml);
 					},
-					fileUploaded: function(up, url, key){
-						$(".upload-progress-wrap").hide().find(".upload-progress").css("width", 0);
-						
-						var picHtml = `<div class="pic" style="background-image: url('${url}');" 
-									data-url="${key}"><i class="delete"></i></div>`
-						$("#uploadContainer").before(picHtml)
+					fileUploaded: function(up, url, key, file){
+            $("#" + file.id).attr('data-url', key).find('.pic-extra-wrapper').remove();
 					}
 				});
-				
+
 				setTimeout(function(){
-			
-					$("#uploadContainer").find("input[type='file']").attr("accept","image/*");    
-					$("#uploadContainer").find("input[type='file']").attr("multiple","multiple");      
+
+					$("#uploadContainer").find("input[type='file']").attr("accept","image/*");
+					$("#uploadContainer").find("input[type='file']").attr("multiple","multiple");
 					//判断浏览器终端 为安卓input[type='file']添加可调起相机的属性
 					if(base.getUserBrowser()){//ios
 						$("#uploadContainer").find("input[type='file']").removeAttr("capture");
 					}else{//android
-						$("#uploadContainer").find("input[type='file']").attr("capture","camera");       
+						$("#uploadContainer").find("input[type='file']").attr("capture","camera");
 					}
 				}, 100)
-				
+
 			}, () => {})
 	}
-	
+
 	function addListener(){
-		
+
 		BindMobile.addMobileCont({
         	success: function() {
         		isBindMobile = true;
@@ -138,7 +143,7 @@ define([
         	},
         	hideBack: 1
         });
-		
+
 		var _tNotesForm = $("#tNotesForm");
 	    _tNotesForm.validate({
 	    	'rules': {
@@ -148,24 +153,24 @@ define([
 	    	},
 	    	onkeyup: false
 	    });
-	    
+
 	    //发布
 	    $("#subBtn").click(function(){
-	    	
+
 			if(!isBindMobile){
 				BindMobile.showMobileCont();
 			}else{
 				if (_tNotesForm.valid()) {
 		    		var pic='';
-		    		
+
 	      			$("#picWrap").find('.pic').each(function(i, d){
 	      				pic+=$(this).attr("data-url")
-	      				
+
 	      				if(i<$("#picWrap").find('.pic').length-1){
 	      					pic+='||';
 	      				}
 	      			})
-	      			
+
 					base.showLoading();
 		    		if(code){
 		    			var params={
@@ -175,18 +180,18 @@ define([
 			    		}
 		    			editTravelNotes(params)
 		    		}else{
-		    			
+
 		    			var params={
 			    			description:$("#description").val(),
 			    			pic:pic
 			    		}
 		    			addTravelNotes(params)
 		    		}
-		    		
+
 			    }
 			}
 	    })
-	    
+
 	    //删除
 	    $("#picWrap").on("click",".pic .delete", function(){
 	    	$(this).parent('.pic').remove();

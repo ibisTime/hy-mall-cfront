@@ -93,7 +93,7 @@ label.error {
             width: 0.7rem;
             vertical-align: middle;
         }
-        
+
         .line{
             display: inline-block;
             width: .03rem;
@@ -107,17 +107,17 @@ label.error {
             height: 0.6rem;
         }
     }
-    
+
     .notice-list{
         width: 5.5rem;
         height: .4rem;
         overflow: hidden;
         position: relative;
-        
+
         .notice-list-wrap{
             width: 100%;
             overflow: hidden;
-            
+
             div {
                 padding: 0 0.3rem 0 0;
                 width: 100%;
@@ -126,7 +126,7 @@ label.error {
                 color: #000000;
             }
         }
-        
+
     }
 }
 
@@ -162,7 +162,7 @@ label.error {
         line-height: 1;
         color: #000;
     }
-    
+
     a {
         color: #999;
         &.active{
@@ -244,26 +244,26 @@ label.error {
         overflow: hidden;
         background: #fff;
         position: relative;
-        
+
         .title{
             width: 50%;
             font-size: .3rem;
-            
+
             div{
                 display: inline-block;
                 overflow: hidden;
-                border-bottom: .06rem solid transparent; 
+                border-bottom: .06rem solid transparent;
                 padding: .28rem 0 .12rem;
                 color: #000;
             }
-            
+
             &.active{
                 div{
-                    border-bottom: .06rem solid $green-color;  
+                    border-bottom: .06rem solid $green-color;
                 }
             }
         }
-        
+
     }
 
     .hot-content {
@@ -393,11 +393,11 @@ label.error {
             padding-top: 0.14rem;
             line-height: 1;
         }
-        
+
         .left-img{
             padding-top: .47rem;
             margin-right: .3rem;
-            
+
             img{
                 height: .3rem;
             }
@@ -420,7 +420,7 @@ label.error {
 
     .user-amount {
         overflow: hidden;
-        
+
         .unit-span {
             font-size: 0.28rem;
             color: $primary-color;
@@ -431,7 +431,7 @@ label.error {
             font-size: 0.44rem;
             color: #484848;
         }
-        
+
         .amount-p {
             line-height: 1;
             font-size: 0.24rem;
@@ -596,14 +596,14 @@ label.error {
         left: 0;
         z-index: 100;
         background-color: #fff;
-        
+
         .am-tabs-tab{
             width: 1.5rem;
             text-align: center;
             float: left;
         }
     }
-    
+
     .am-tabs-content{
         margin-top: .87rem;
     }
@@ -698,23 +698,23 @@ label.error {
                     color: $primary-color;
                 }
             }
-            
+
             .totalAmout{
                 font-size: .28rem;
                 text-align: right;
                 border-top: 1px solid $border-color;
                 padding: .15rem .3rem;
-                
+
                 samp{
                     color: $red-color;
                 }
-                
+
                 span{
                     color: #999;
                     font-size: .24rem;
                 }
             }
-            
+
             .order-item-footer {
                 border-top: 1px solid $border-color;
                 height: 1rem;
@@ -734,14 +734,14 @@ label.error {
                         margin-right: 0.2rem;
                     }
                 }
-                
+
                 .am-button-red{
                     color: #fff;
                     border: 0.02rem solid $red-color;
                     background-color: $red-color;
                 }
             }
-            
+
         }
     }
 }
@@ -967,13 +967,13 @@ label.error {
             padding: 0 0.16rem;
             color: #fff;
         }
-        
+
         img {
             vertical-align: middle;
             width: 0.3rem;
         }
     }
-    
+
     .mask{
         background-color: rgba(0,0,0,.6);
     }
@@ -981,7 +981,7 @@ label.error {
         width: 100%;
         margin-top: .2rem;
         padding-right: .6rem;
-        
+
         p{
             position: absolute;
             top: 2rem;
@@ -990,13 +990,13 @@ label.error {
             text-align: center;
             font-size: .28rem;
         }
-        
+
         img{
             width: 2rem;
             float: right;
         }
     }
-    
+
     .invitationBtn-wrap{
         position: absolute;
         top: 6.2rem;
@@ -1015,20 +1015,20 @@ label.error {
         line-height: .7rem;
         border-radius: .4rem;
         font-size: .3rem;
-        
+
         &.invitation-list{
         }
-        
+
         &.invitation-share{
-            
+
         }
     }
-    
+
     .invitation-content{
         width: 6.9rem;
         margin-top: .4rem;
         position: relative;
-        
+
         .content{
             writing-mode: 100%;
             height: 2.15rem;
@@ -1036,10 +1036,10 @@ label.error {
             overflow-y: scroll;
             padding: .3rem;
             font-size: .26rem;
-            
+
             p{}
         }
-        
+
         .bg{
             width: 6.9rem;
             height: 2.15rem;
@@ -1050,7 +1050,7 @@ label.error {
             background-color: rgba(0,0,0,.1);
         }
     }
-    
+
 }
 .pay-wrap{
     .accountAmount{
@@ -1345,7 +1345,7 @@ label.error {
             color: #fff;
             background: $primary-color;
         }
-        
+
         .am-button-cancel {
             color: $primary-color;
             background: transparent;
@@ -1415,11 +1415,11 @@ label.error {
 .detail-description1 {
     width: 100%;
     padding: 0.3rem;
-    
+
     img{
         max-width: 100%;
     }
-    
+
     #tel{
         .icon{
             display: inline-block;
@@ -1439,7 +1439,7 @@ label.error {
             margin-left: .1rem;
         }
     }
-    
+
     #time{
         color: #666;
         font-size: .3rem;
@@ -1545,11 +1545,11 @@ label.error {
     width: 100%;
     background-color: #fff;
     margin-bottom: .2rem;
-    
+
     .addressWrap-detail{
         padding: .3rem .3rem;
         position: relative;
-        
+
         .icon{
             width: .6rem;
             height: 100%;
@@ -1560,30 +1560,30 @@ label.error {
             background-position: center;
             background-repeat: no-repeat;
             background-size: .34rem;
-            
+
             &.active{
                 background-image: url('../images/地址选择@3x.png');
             }
         }
-        
+
     }
-    
+
     .operationWrap{
         overflow: hidden;
         padding: .2rem .3rem;
         border-top: 1px solid #eee;
         line-height: 1;
-        
+
         .iconWrap{
             position: relative;
         }
-        
+
         p{
             display: inline-block;
             padding-left: .44rem;
             line-height: .34rem;
         }
-        
+
         .icon{
             display: inline-block;
             width: .34rem;
@@ -1594,61 +1594,61 @@ label.error {
             background-position: center;
             background-size: 100%;
         }
-        
+
         .icon-default{
             border: 1px solid #999;
             border-radius: 50%;
         }
-        
+
         .icon-edit{
             background-image: url('../images/编辑@2x.png');
         }
-        
+
         .icon-delete{
             background-image: url('../images/删除@2x.png');
         }
-                
+
     }
-    
+
     &.active{
         .icon-default{
             border: 0 !important;
             background-image: url('../images/selected@2x.png');
         }
-    } 
+    }
 }
 
 .search{
     width: 100%;
     height: 1rem;
     background-color: #f5f5f5;
-    padding: .15rem .3rem; 
+    padding: .15rem .3rem;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 11;
-    
+
     .searchWrap{
         width: 100%;
         height: .7rem;
         border-radius: .35rem;
         background-color: #fff;
         padding: 0 .15rem;
-        position: relative;   
-        
+        position: relative;
+
         .searchIcon{
             width: .78rem;
             height: 100%;
-            padding: .17rem .2rem; 
+            padding: .17rem .2rem;
             position: absolute;
             top: 0;
             left: .15rem;
-            
+
             img{
                 height: .36rem;
             }
         }
-        
+
         .searchText{
             width: 100%;
             background-color: transparent;
@@ -1657,8 +1657,8 @@ label.error {
             line-height: .4rem;
             margin-top: .15rem;
         }
-    } 
-    
+    }
+
 }
 
 .mall-category {
@@ -1681,7 +1681,7 @@ label.error {
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            
+
             img{
                 width: 100%;
             }
@@ -1699,12 +1699,12 @@ label.error {
     background-color: #fff;
     border-top: 1px solid #eee;
     padding: .3rem;
-    position: relative; 
-    
+    position: relative;
+
     &:first-child{
         border: 0;
     }
-    
+
     .mall-item-img{
         display: block;
         width: 2.4rem;
@@ -1714,7 +1714,7 @@ label.error {
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
-        
+
         .hot{
             height: .74rem;
             padding: 0 .1rem;
@@ -1731,12 +1731,12 @@ label.error {
             color: #fff;
         }
     }
-    
+
     .mall-item-con{
         width: 4.13rem;
         height: 2.4rem;
         position: relative;
-        
+
         .name{
             display: inline-block;
             width: 100%;
@@ -1757,18 +1757,18 @@ label.error {
             left: 0;
             bottom: 0;
             line-height: 1;
-            
+
             .samp1{
                 color: $red-color;
                 font-size: .34rem;
                 margin-right: .15rem;
-                
+
                 i{
                     font-size: .24rem;
                     font-style: normal;
                 }
             }
-            
+
             .samp2{
                 display: inline-block;
                 color: #999;
@@ -1776,18 +1776,18 @@ label.error {
                 margin-top: .05rem;
             }
         }
-        
+
     }
 }
 
 .mall-index-content{
     overflow: hidden;
     padding: 0 .2rem;
-    
+
     .title{
         height: 1rem;
         padding: 0 .1rem;
-        
+
         .icon{
             display: inline-block;
             width: .4rem;
@@ -1806,14 +1806,14 @@ label.error {
             margin-left: .14rem;
         }
     }
-    
+
     .mall-item{
         float: left;
         width: 2.16rem;
         margin: 0 .1rem .2rem;
         border: 1px solid $border-color;
         padding: 0;
-        
+
         .mall-item-img{
             width: 100%;
             height: 2.16rem;
@@ -1823,7 +1823,7 @@ label.error {
             height: 1.02rem;
             line-height: 1;
             padding: .15rem .1rem;
-            
+
             .name{
                 text-align: center;
                 white-space: nowrap;
@@ -1835,7 +1835,7 @@ label.error {
             .price {
                 position: initial;
                 text-align: center;
-                
+
                 .samp1{
                     margin-right: 0;
                     font-size: .28rem;
@@ -1851,7 +1851,7 @@ label.error {
     right: .1rem;
     bottom: 2.4rem;
     z-index: 99;
-    
+
     .mallfloat{
         display: block;
         width: .74rem;
@@ -1862,10 +1862,10 @@ label.error {
         background-color: rgba(0,0,0,.4);
         margin-bottom: .02rem;
         position: relative;
-        
+
         &.shoppingCar{
             background-image: url('../images/购物车-白色@2x.png');
-            
+
             &.active{
                 i{
                     display: block;
@@ -1906,7 +1906,7 @@ label.error {
     height: .88rem;
     padding: 0 1.5rem;
     background-color: $primary-color;
-    
+
     a{
         display: inline-block;
         line-height: .88rem;
@@ -1918,9 +1918,9 @@ label.error {
 .detail-swiper{
     width: 100%;
     overflow: hidden;
-    
+
     .swiper-slide{
-        
+
         .mallDetail-img{
             width: 100%;
             height: 100%;
@@ -1929,23 +1929,23 @@ label.error {
             background-size: cover;
         }
     }
-    
+
     .swiper-pagination-bullet{
         opacity: 1;
         width: .16rem;
         height: .16rem;
         background-color: #ccc;
-        
+
         &.swiper-pagination-bullet-active{
             background-color: #fff;
         }
     }
-    
+
 }
 
 .mallDetail-swiper{
     height: 7.5rem;
-    
+
     .swiper-slide{
         height: 7.5rem;
     }
@@ -1954,7 +1954,7 @@ label.error {
 .detail-title{
     padding: .2rem 1rem .2rem .3rem;
     position: relative;
-    
+
     .name{
         font-size: .32rem;
         margin-bottom: .1rem;
@@ -1963,34 +1963,34 @@ label.error {
         font-size: .24rem;
         color: $red-color;
     }
-    
+
     .price1{
         margin: .2rem 0 0;
-        
+
         samp{
             font-size: .4rem;
             color: $red-color;
             display: inline-block;
             line-height: 1;
-            
+
             i{
                 font-size: .24rem;
                 font-style: normal;
             }
         }
-        
-        
+
+
     }
     .price2{
         font-size: .22rem;
         color: #999;
         text-decoration: line-through;
-        
+
         i{
             font-style: normal;
         }
     }
-    
+
     .quantity{
         i{
             font-style: normal;
@@ -2013,7 +2013,7 @@ label.error {
     background-position: center;
     background-repeat: no-repeat;
     background-size: .5rem;
-    
+
     &.active{
         background-image: url('../images/收藏@2x.png') !important;
     }
@@ -2030,11 +2030,11 @@ label.error {
 .detail{
     width: 100%;
     overflow: hidden;
-    
+
     p{
         line-height: 1.8;
     }
-    
+
     img{
         max-width: 100%;
         vertical-align: bottom;
@@ -2050,17 +2050,17 @@ label.error {
     bottom: 0;
     z-index: 99;
     border-top: 1px solid #eee;
-    
+
     .mallBottom-left{
         width: 2.9rem;
-        
+
         a{
             display: block;
             text-align: center;
             width: .96rem;
             height: 1rem;
             position: relative;
-            
+
             img{
                 width: .36rem;
                 height: .36rem;
@@ -2071,12 +2071,12 @@ label.error {
                 color: #474747;
                 line-height: 1;
             }
-            
+
             &:nth-of-type(2){
                 border-left: 1px solid #eee;
                 border-right: 1px solid #eee;
             }
-            
+
             &.active{
                 i{
                     display: block;
@@ -2091,41 +2091,41 @@ label.error {
                 }
             }
         }
-        
+
     }
-    
+
     .mallBottom-right{
         width: 4.6rem;
         height: 1rem;
         position: relative;
         overflow: hidden;
-        
+
         div{
             height: 1rem;
             line-height: 1rem;
             font-size: .32rem;
             text-align: center;
             float: left;
-            
+
             &.addShoppingCarBtn{
                 width: 2.3rem;
                 color: #fff;
             }
-            
+
             &.addShoppingBg{
                 background-color: $primary-color;
             }
-            
+
             &.addShoppingBg-disabled{
                 background-color: #ddd;
             }
-            
+
             &.buyBtn{
                 width: 2.3rem;
                 color: #fff;
                 background-color: $red-color;
             }
-            
+
             &.offSelf{
                 width: 100%;
                 background-color: #E5E5E5;
@@ -2137,7 +2137,7 @@ label.error {
             }
         }
     }
-    
+
 }
 
 .mask{
@@ -2161,11 +2161,11 @@ label.error {
     z-index: 101;
     transition: .3s;
     padding: 0 .3rem;
-    
+
     &.active{
         bottom: 0;
     }
-    
+
     .close{
         width: .46rem;
         height: .46rem;
@@ -2173,12 +2173,12 @@ label.error {
         top: .3rem;
         right: .3rem;
         z-index: 9;
-        
+
         img{
             width: 100%;
         }
     }
-    
+
     .productSpecs-top{
         width: 100%;
         height: 2.26rem;
@@ -2186,30 +2186,30 @@ label.error {
         position: relative;
         padding-top: .4rem;
         border-bottom: 1px solid $border-color;
-        
+
         .price{
             font-size: .34rem;
             color: $red-color;
         }
-        
+
         .quantity{
             font-size: .28rem;
             margin-top: .1rem;
         }
-        
+
         .choice{
             display: inline-block;
             font-size: .28rem;
             margin-top: .1rem;
-            
+
             i{
                 font-style: normal;
                 margin-left: .15rem;
             }
         }
-        
+
     }
-    
+
     .productSpecs-img{
         width: 2.28rem;
         height: 2.28rem;
@@ -2223,25 +2223,25 @@ label.error {
         top: -.3rem;
         left: 0;
     }
-    
+
     .productSpecs-middle{
         width: 100%;
         height: 5rem;
         overflow-y: scroll;
-        
+
         .productSpecs-spec{
             border-bottom: 1px solid $border-color;
             padding-bottom: .1rem;
-            
+
             .title{
                 font-size: .28rem;
                 color: #474747;
                 padding: .3rem 0 .2rem;
             }
-            
+
             .spec{
                 overflow: hidden;
-                
+
                 p{
                     margin-right: .2rem;
                     border-radius: .14rem;
@@ -2253,7 +2253,7 @@ label.error {
                     overflow: hidden;
                     color: #ddd;
                     border: .02rem dashed #ddd;
-                    
+
                     &.inStock{
                         color: #484848;
                         background-color: #f5f5f5;
@@ -2264,19 +2264,19 @@ label.error {
                         border-color: transparent;
                         background-color: $red-color;
                     }
-                } 
+                }
             }
-            
+
         }
-        
+
     }
-    
+
     .productSpecs-btn{
         width: 100%;
         position: absolute;
         bottom: 0;
         left: 0;
-        
+
         .am-button{
             font-size: .32rem;
         }
@@ -2286,13 +2286,13 @@ label.error {
 .productSpecs-number{
     padding: .3rem 0;
     overflow: hidden;
-    
+
     .title{
         color: #474747;
         font-size: .28rem;
         line-height: .5rem;
     }
-    
+
     .subt,.add{
         width: .5rem;
         height: .5rem;
@@ -2302,14 +2302,14 @@ label.error {
         background-repeat: no-repeat;
         background-size: .25rem;
     }
-    
+
     .subt{
         background-image: url('../images/_@3x.png');
     }
     .add{
         background-image: url('../images/+@2x.png');
     }
-    
+
     .sum{
         font-size: .3rem;
         line-height: .5rem;
@@ -2322,36 +2322,36 @@ label.error {
     padding: 0 .3rem;
     background-color: #fff;
     position: relative;
-    
+
     .mall-item{
         padding: .3rem 0;
-        
+
         .mall-item-img{
             width: 1.8rem;
             height: 1.8rem;
         }
-        
+
         .mall-item-con{
             width: 4.83rem;
             height: 1.8rem;
             line-height: 1.4;
-            
+
             .name{
                 font-size: .26rem;
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 min-height: auto;
             }
-            
+
             .slogan{
                 color: #666;
             }
-            
+
             .price {
                 .samp1{
                     font-size: .3rem;
                 }
-                
+
                 .samp2 {
                     font-size: .3rem;
                     color: #484848;
@@ -2359,9 +2359,9 @@ label.error {
                 }
             }
         }
-        
+
     }
-    
+
 }
 
 .orderTitle{
@@ -2373,7 +2373,7 @@ label.error {
     overflow: hidden;
     border-bottom: 1px solid #eee;
     padding: 0 .3rem;
-    
+
     .text{
         line-height: .9rem;
     }
@@ -2400,7 +2400,7 @@ label.error {
     background-image: url('../images/红蓝@2x.png');
     padding-bottom: .05rem;
     position: relative;
-    
+
     .no-address{
         position: absolute;
         top: 0;
@@ -2409,11 +2409,11 @@ label.error {
         height: 100%;
         text-align: center;
         padding-top: .2rem;
-        
+
         img{
             height: .7rem;
         }
-        
+
         p{
             font-size: .24rem;
             line-height: 1;
@@ -2424,7 +2424,7 @@ label.error {
     width: 100%;
     padding: .3rem .9rem .3rem .9rem;
     position: relative;
-    
+
     .icon{
         width: .2rem;
         height: 100%;
@@ -2433,23 +2433,23 @@ label.error {
         background-position: center;
         background-repeat: no-repeat;
         background-size: 100%;
-        
+
         &.icon-dz{
             width: .26rem;
             left: .3rem;
             background-image: url('../images/收货地址@2x.png');
         }
-        
+
         &.icon-more{
             right: .3rem;
             background-image: url('../images/更多-首页@2x.png');
         }
     }
-    
+
     .addressee, .mobile{
         font-size: .28rem;
     }
-    
+
     .backPdf{
         max-width: 100%;
         height: 1.8rem;
@@ -2461,8 +2461,8 @@ label.error {
         margin-top: .15rem;
         line-height: 1.5;
     }
-    
-    
+
+
 }
 
 .orderApplyNote{
@@ -2470,7 +2470,7 @@ label.error {
     background-color: #fff;
     position: relative;
     padding: .3rem 0 .1rem;
-    
+
     .title{
         font-size: .28rem;
         position: absolute;
@@ -2478,14 +2478,14 @@ label.error {
         left: .3rem;
         z-index: 11;
     }
-    
+
     .textarea{
         width: 100%;
         height: 1rem;
         padding: 0 .3rem 0 1.8rem;
         font-size: .28rem;
     }
-    
+
 }
 
 .submitOrderBottom{
@@ -2497,27 +2497,27 @@ label.error {
     z-index: 99;
     background-color: #fff;
     border-top: 1px solid $border-color;
-    
+
     .am-button{
         width: 2.1rem;
         height: 1rem;
         font-size: .32rem;
     }
-    
+
     .amount{
         width: 5.3rem;
         height: 1rem;
         padding: 0 .3rem;
-        
+
         span{
             font-size: .26rem;
             line-height: 1rem;
         }
-        
+
         samp{
             font-size: .3rem;
             color: $red-color;
-            
+
             i{
                 font-size: .24rem;
                 color: #999;
@@ -2525,7 +2525,7 @@ label.error {
             }
         }
     }
-    
+
 }
 #AddressListContainer{
     .addressWrap .addressWrap-detail{
@@ -2534,11 +2534,11 @@ label.error {
 }
 .payAmount{
     color: $primary-color;
-    
+
     samp{
         color: #999;
         font-size: .24rem;
-    } 
+    }
 }
 
 .am-button-primary-48 {
@@ -2556,22 +2556,22 @@ label.error {
     text-align: center;
     padding-top: 1rem;
     line-height: 1;
-    
+
     img{
         width: 1.84rem;
     }
-    
+
     h4{
         font-size: .36rem;
         margin-top: .4rem;
         margin-bottom: .18rem;
     }
-    
+
     samp{
         font-size: .28rem;
         color: #999;
     }
-    
+
     div{
         width: 1.98rem;
         margin: .4rem auto 0;
@@ -2588,20 +2588,20 @@ label.error {
     background-color: #fff;
     position: relative;
     padding: 0 .3rem 0 .9rem ;
-    
+
     .mall-item{
         border: none;
         .mall-item-con{
             width: 4.25rem;
             line-height: 1.4;
             padding-right: .4rem;
-            
+
             .name{
                 height: .7rem;
             }
         }
     }
-    
+
     .icon{
         position: absolute;
         top: .3rem;
@@ -2610,7 +2610,7 @@ label.error {
         height: 1.8rem;
         padding-top: .75rem;
         text-align: center;
-        
+
         i{
             width: .34rem;
             height: .34rem;
@@ -2619,21 +2619,21 @@ label.error {
             border-radius: 50%;
         }
     }
-    
+
     .productSpecs-number{
         position: absolute;
         bottom: 0;
         right: .3rem;
         z-index: 11;
     }
-    
+
     &.active{
         .icon i{
-            border: 1px solid $red-color; 
+            border: 1px solid $red-color;
             background-color: $red-color;
         }
     }
-    
+
     .carProDelete{
         width: .7rem;
         height: .7rem;
@@ -2656,17 +2656,17 @@ label.error {
     bottom: 0;
     z-index: 99;
     border-top: 1px solid #eee;
-    
+
     .left{
         overflow: hidden;
         padding: 0 .2rem;
-        
+
         .icon{
             line-height: 1rem;
             font-size: .28rem;
             margin-right: .3rem;
             padding-left: .1rem;
-            
+
             i{
                 width: .34rem;
                 height: .34rem;
@@ -2676,20 +2676,20 @@ label.error {
                 position: relative;
                 top: .07rem;
                 margin-right: .12rem;
-                
+
             }
             &.active i{
-                border: 1px solid $red-color; 
+                border: 1px solid $red-color;
                 background-color: $red-color;
             }
         }
-        
+
         .totalAmount{
             font-size: .28rem;
-            
+
             span{
                 display: block;
-                line-height: 1rem; 
+                line-height: 1rem;
             }
             samp{
                 display: inline-block;
@@ -2698,9 +2698,9 @@ label.error {
                 color: $red-color;
             }
         }
-        
+
     }
-    
+
     .right{
         width: 2.1rem;
         height: 1rem;
@@ -2720,18 +2720,18 @@ label.error {
 }
 
 .index-swiper-wrap{
-    
+
     .swiper-pagination-bullet{
         opacity: 1;
         width: .16rem;
         height: .16rem;
         background-color: #ccc;
-        
+
         &.swiper-pagination-bullet-active{
             background-color: #fff;
         }
     }
-    
+
 }
 
 .info-item {
@@ -2739,11 +2739,11 @@ label.error {
     border-bottom: 1px solid #eee;
     padding: .3rem .3rem .26rem .3rem;
     background-color: #fff;
-    
+
     &:last-child{
         border-bottom: none;
     }
-    
+
 
     .info-img {
         width: 100%;
@@ -2763,7 +2763,7 @@ label.error {
 }
 .info-detail{
     overflow: hidden;
-    
+
     .info-pic{
         width: 100%;
         height: 4.3rem;
@@ -2772,19 +2772,19 @@ label.error {
         background-size: cover;
         position: relative;
     }
-    
+
     .info-tit{
         width: 100%;
         padding: .3rem .8rem .15rem .3rem;
         text-align: center;
         position: relative;
-        
+
         p{
             display: inline-block;
             text-align: left;
             font-size: .32rem;
         }
-        
+
         .collect{
             background-size: .4rem;
         }
@@ -2793,13 +2793,13 @@ label.error {
         padding: .08rem 0;
         border-bottom: 1px solid $border-color;
         text-align: center;
-        
+
         samp{
             display: inline-block;
             font-size: .26rem;
             color: #999;
         }
-        
+
         .infoCollect{
             margin-left: .2rem;
             width: 1.6rem;
@@ -2809,13 +2809,13 @@ label.error {
             background-size: .3rem;
             padding-left: .4rem;
             text-align: left;
-            
+
             &.active{
                 background-image: url('../images/收藏@2x.png') !important;
             }
         }
-        
-        
+
+
     }
     .info-content{
         width: 100%;
@@ -2830,56 +2830,56 @@ label.error {
     .orderAddress{
         background: none;
         background-color: #fff;
-        
+
         .icon{
             width: .4rem;
             background-size: .26rem;
-            
+
             &.icon-dz{
                 left: .25rem;
             }
         }
     }
-    
+
     .orderExpress{
         .icon-dz{
             background-image: url('../images/快递@2x.png');
             background-size: .3rem;
         }
     }
-    
+
     .storeAddress{
         background-color: #fff;
         padding: .3rem;
     }
-    
+
     .orderInfo{
         background-color: #fff;
         padding: .3rem .3rem .2rem;
-        
+
         p{
             font-size: .28rem;
             margin-bottom: .1rem;
         }
     }
-    
+
     .orderApplyNote{
         padding: .3rem 0 .3rem;
-        
+
         .textarea{
             height: auto;
         }
     }
-    
-    
+
+
     .mallBottom{
         padding: 0 .3rem;
-        
+
         .am-button{
             height: .8rem;
             margin-top: .1rem;
         }
-        
+
         .payBtn,.cancelBtn{
             width: 3.3rem;
         }
@@ -2893,7 +2893,7 @@ label.error {
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    
+
     .signInWrap{
         width: 2.38rem;
         height: 2.38rem;
@@ -2903,7 +2903,7 @@ label.error {
         left: 50%;
         margin-left: -1.19rem;
         background-color: #ffcd29;
-        
+
         .bg{
             width: 1.96rem;
             height: 1.96rem;
@@ -2913,9 +2913,9 @@ label.error {
             background-color: #fff;
             line-height: 1;
             padding: .48rem 0;
-            
+
         }
-        
+
         p{
             display: inline-block;
             width: 100%;
@@ -2942,7 +2942,7 @@ label.error {
             font-size: .24rem;
             margin-top: .08rem;
         }
-        
+
     }
     .signRule{
         position: absolute;
@@ -2951,7 +2951,7 @@ label.error {
         padding: .2rem .3rem;
         z-index: 11;
     }
-    
+
 }
 .continuousSignIn{
     width: 100%;
@@ -2959,12 +2959,12 @@ label.error {
     font-size: .28rem;
     text-align: center;
     color: $primary-color;
-    
+
     samp{
         font-size: .28rem;
         color: $primary-color;
     }
-    
+
 }
 
 .orderList-pro{
@@ -2972,22 +2972,22 @@ label.error {
         width: 1.6rem;
         height: 1.6rem;
     }
-        
+
     .mall-item .mall-item-con{
         width: 5.07rem;
         height: 1.6rem;
-        
+
         .name{
             width: 3rem;
         }
-        
+
         .orderList-price{
             width: 2rem;
             text-align: right;
             position: absolute;
             top: 0;
             right: 0;
-            
+
             p{
                 color: $red-color !important;
                 font-size: .26rem !important;
@@ -3000,14 +3000,14 @@ label.error {
     .mall-item-con{
         padding-right: 2rem;
     }
-    
+
     .orderList-price{
         width: 2rem;
         text-align: right;
         position: absolute;
         top: 0;
         right: 0;
-        
+
         p{
             color: $red-color !important;
             font-size: .26rem !important;
@@ -3019,11 +3019,11 @@ label.error {
     position: relative;
     background-color: #fff;
     border-top: 1px solid $border-color;
-    
+
     &:first-child{
         border-top: none;
     }
-    
+
     .pic{
         width: .9rem;
         height: .9rem;
@@ -3035,16 +3035,16 @@ label.error {
         top: .3rem;
         left: .3rem;
     }
-    
+
     .con{
         width: 100%;
         padding: .3rem .3rem .3rem 1.5rem;
-        
+
         p{
             font-size: .3rem;
             padding-top: .05rem;
         }
-        
+
         samp{
             font-size: .24rem;
             color: #999;
@@ -3053,7 +3053,7 @@ label.error {
 }
 .starWrap{
     overflow: hidden;
-    
+
     .star{
         display: block;
         float: left;
@@ -3064,7 +3064,7 @@ label.error {
         background-position: center;
         background-repeat: no-repeat;
         background-size: .36rem;
-        
+
         &.active{
             background-image: url('../images/星星@2x.png');
         }
@@ -3074,7 +3074,7 @@ label.error {
     width: 100%;
     background-color: #fff;
     margin-bottom: .2rem;
-    
+
     .comment-header{
         width: 100%;
         height: 1.7rem;
@@ -3083,7 +3083,7 @@ label.error {
         overflow: hidden;
         padding: .1rem .3rem 0 1.8rem;
         position: relative;
-        
+
         .pic{
             width: 1.2rem;
             height: 1.2rem;
@@ -3094,7 +3094,7 @@ label.error {
             top: .25rem;
             left: .3rem;
         }
-        
+
         .name {
             font-size: .3rem;
             margin-top: .2rem;
@@ -3115,13 +3115,13 @@ label.error {
             line-height: .46rem;
             font-size: .28rem;
             margin-top: .1rem;
-            
+
             span{
                 font-size: .28rem;
                 color: #999;
             }
         }
-        
+
         .lease-comment-star{
             margin-top: .2rem;
         }
@@ -3130,7 +3130,7 @@ label.error {
             margin-left: .2rem;
         }
     }
-    
+
     .comment-content{
         width: 100%;
         height: 2.4rem;
@@ -3138,7 +3138,7 @@ label.error {
         font-size: .3rem;
         line-height: 1.6;
     }
-    
+
     .error{
         border: 1px solid $red-color;
     }
@@ -3152,14 +3152,14 @@ label.error {
     padding: .3rem;
     margin-bottom: .2rem;
     background-color: #fff;
-    
+
     .head{
         width: 100%;
         overflow: hidden;
         position: relative;
         padding: 0 .3rem 0 .9rem;
         margin-bottom: .2rem;
-        
+
         .pic{
             width: .7rem;
             height: .7rem;
@@ -3175,28 +3175,28 @@ label.error {
             width: 100%;
             font-size: .26rem;
         }
-        
+
         .starWrap{
             .star{
                 width: .3rem;
                 height: .3rem;
                 margin-right: 0;
                 background-size: .24rem;
-                
+
                 &.active{
                     background-image: url('../images/星星@2x.png');
                 }
             }
         }
-        
+
     }
-     
+
     .time{
         font-size: .28rem;
         color: #999;
         margin-bottom: .1rem;
     }
-    
+
     .con{
         font-size: .28rem;
     }
@@ -3215,27 +3215,27 @@ label.error {
 }
 
 .lease-wrap{
-    
+
     .am-tabs-bar{
         height: .9rem;
         top: 1rem;
-        
+
         .am-tabs-tab {
             width: 1.82rem;
             height: .9rem;
             line-height: .9rem;
         }
     }
-    
-    
-    
+
+
+
     .am-tabs-content{
         margin-top: 2.1rem;
     }
-    
+
     .am-tabs-ink-bar-animated{
         background-color: transparent !important;
-        
+
         .border{
             width: 1.6rem;
             height: 100%;
@@ -3243,7 +3243,7 @@ label.error {
             background-color: $primary-color;
         }
     }
-    
+
 }
 .lease-item{
     display: block;
@@ -3251,7 +3251,7 @@ label.error {
     background-color: #fff;
     margin-bottom: .2rem;
     position: relative;
-    
+
     .pic{
         width: 100%;
         height: 3.75rem;
@@ -3260,13 +3260,13 @@ label.error {
         background-repeat: no-repeat;
         background-size: cover;
     }
-    
+
     .con{
         width: 100%;
         min-height: 1.2rem;
         padding: .2rem 2.6rem .2rem .3rem;
         position: relative;
-        
+
         .name{
             width: 100%;
             white-space: nowrap;
@@ -3275,7 +3275,7 @@ label.error {
             font-size: .3rem;
             margin-bottom: .1rem;
         }
-        
+
         .slogan{
             display: inline-block;
             width: 100%;
@@ -3286,17 +3286,17 @@ label.error {
             line-height: 1.2;
             color: $red-color;
         }
-        
+
         .price{
             position: absolute;
             top: .2rem;
             right: .3rem;
             text-align: right;
-            
+
             p{
                 font-size: .24rem;
                 color: $red-color;
-                
+
                 i{
                     font-size: .3rem;
                     font-style: normal;
@@ -3308,14 +3308,14 @@ label.error {
                 color: #999;
                 text-decoration: line-through;
             }
-            
+
         }
     }
 }
 
 .leaseDetail-swiper{
     height: 7.5rem;
-    
+
     .swiper-slide{
         height: 7.5rem;
     }
@@ -3336,7 +3336,7 @@ label.error {
 }
 .lease-submit-item{
     position: relative;
-    
+
     .packingList-btn{
         position: absolute;
         bottom: .26rem;
@@ -3388,16 +3388,16 @@ label.error {
             margin-top: .1rem;
         }
     }
-    
+
 }
 .packingList-wrap{
-    
+
     .packingList{
         width: 100%;
         overflow: hidden;
         padding: 0 .2rem;
         padding-bottom: .15rem;
-        
+
         .dot{
             display: inline-block;
             width: .1rem;
@@ -3417,7 +3417,7 @@ label.error {
         .quantity{
             font-size: .26rem;
         }
-        
+
     }
 }
 .leaseOrderPro-list{
@@ -3433,16 +3433,16 @@ label.error {
     width: 100%;
     overflow: hidden;
     padding: .1rem .3rem;
-    
+
     .wrap{
         width: 100%;
         overflow: hidden;
         padding: .1rem 0;
-        
+
         p{
             font-size: .28rem;
         }
-        
+
         .primary-color{
             color: $primary-color;
         }
@@ -3458,13 +3458,13 @@ label.error {
         height: auto;
         color: $red-color;
         margin-top: .1rem;
-        
+
         span {
             line-height: 1;
             font-size: .3rem;
         }
     }
-    
+
     .amount1{
         padding: 0 .3rem;
         font-size: .22rem;
@@ -3472,7 +3472,7 @@ label.error {
     }
 }
 .leaseOrder-item{
-    
+
     .name{
         margin-bottom: .2rem;
     }
@@ -3480,18 +3480,18 @@ label.error {
         font-size: .24rem;
         line-height: 1.3;
         color: #999 !important;
-        
+
     }
 }
 .leaseOrderDetail-item{
     .amountWrap{
         line-height: 1;
         margin-top: .05rem;
-        
+
         .amount{
             font-size: .28rem;
             margin-right: .1rem;
-            
+
             samp{
                 color: $red-color;
             }
@@ -3520,7 +3520,7 @@ label.error {
     }
     .am-modal-footer{
         padding: .4rem 1rem !important;
-        
+
         .am-button{
             width: 1.5rem;
         }
@@ -3532,13 +3532,13 @@ label.error {
     .wrap{
         overflow: hidden;
         padding: 0 0 .1rem;
-        
+
         .tit{
             display: inline-block;
             width: 1.6rem;
             line-height: .62rem;
             text-align: left;
-            
+
             i{
                 display: inline-block;
                 width: 0.5em;
@@ -3550,7 +3550,7 @@ label.error {
             border-bottom: 1px solid $border-color;
             padding: .1rem 0;
             position: relative;
-            
+
             .error{
                 font-size: .24rem;
                 display: inline-block;
@@ -3560,19 +3560,19 @@ label.error {
                 top: 0;
                 right: 0;
             }
-            
+
             .con{
                 font-size: .26rem;
                 color: #484848;
             }
         }
-        
+
         .fileWrap{
             width: 3.3rem;
             height: 1.6rem;
             padding: .1rem 0;
             position: relative;
-            
+
             .fileBtn{
                 width: 100%;
                 height: 100%;
@@ -3580,11 +3580,11 @@ label.error {
                 position: relative;
                 z-index: 99;
             }
-            
+
             .pic img{
                 height: 100%;
             }
-            
+
             .addbackPdf{
                 width: 100%;
                 height: 1.4rem;
@@ -3598,26 +3598,26 @@ label.error {
                 background-repeat: no-repeat;
                 background-size: .7rem;
             }
-            
+
             .moxie-shim{
                 width: 3.3rem !important;
                 height: 1.6rem !important;
             }
         }
-        
-        
+
+
     }
-    
-    
+
+
     .orderApplyNote {
         padding: .15rem 0;
-        
+
         .title{
             top: .15rem;
             left: 0;
             color: #484848;
         }
-        
+
         .textarea{
             min-height: .3rem;
             height: auto;
@@ -3649,19 +3649,19 @@ label.error {
         text-align: center;
         padding: .3rem 0;
     }
-    
+
     .sign{
         width: 100%;
-        
+
         table{
             width: 100%;
-            
+
             thead th{
                 height: .5rem;
                 background-color: #f2f2f2;
                 font-size: .28rem;
                 font-weight: normal;
-                
+
                 &:first-child{
                     border-radius: .25rem 0 0 .25rem;
                 }
@@ -3669,11 +3669,11 @@ label.error {
                     border-radius: 0 .25rem .25rem 0;
                 }
             }
-            
+
             tbody td{
                 text-align: center;
                 padding: .24rem 0;
-                
+
                 div{
                     font-size: .28rem;
                     width: .5rem;
@@ -3686,7 +3686,7 @@ label.error {
                         color: $primary-color;
                         border: .02rem solid $primary-color;
                         border-radius: 50%;
-                        
+
                         i{
                             display: block;
                             width: .22rem;
@@ -3704,12 +3704,12 @@ label.error {
             }
         }
     }
-    
+
 }
 .signIn-dialog{
     .am-modal-header{
         border-bottom: 1px solid $border-color;
-        
+
         p{
             font-size: .3rem;
         }
@@ -3717,11 +3717,11 @@ label.error {
     .am-modal-body{
         padding: .2rem .6rem 0;
     }
-    
+
 }
 .zmCredit-form{
     padding: .7rem .7rem 0;
-    
+
     .logo{
         padding: .4rem .2rem;
     }
@@ -3734,26 +3734,26 @@ label.error {
     form{
         width: 100%;
         border: 1px solid $border-color;
-        
+
         .wrap{
             padding: .3rem 0;
             border-bottom: 1px solid #F5F5F5;
             position: relative;
-            
+
             input{
                 width: 100%;
                 font-size: .28rem;
                 line-height: 1.5;
                 padding: 0 .3rem;
             }
-            
+
             &:last-child{
                 border-bottom: none;
             }
         }
-        
+
     }
-    
+
     .am-button{
         margin-top: 1.5rem;
     }
@@ -3763,7 +3763,7 @@ label.error {
     text-align: center;
     color: #fff;
     padding-top: .7rem;
-    
+
     .tit{
         color: #fff;
         font-size: .26rem;
@@ -3772,7 +3772,7 @@ label.error {
         font-size: 1rem;
         margin: .5rem 0 1rem;
     }
-    
+
     .txt{
         color: #fff;
         font-size: .28rem;
@@ -3782,20 +3782,20 @@ label.error {
     width: 100%;
     padding: 0 .4rem;
     margin-top: .9rem;
-    
+
     .wrap{
         background-color: #fff;
         padding: .3rem .3rem;
         border: 1px solid #ccc;
         box-shadow: .06rem .06rem .06rem .06rem rgba(190,190,190,.1);
-        
+
         h3{
             color: $primary-color;
             font-weight: normal;
             font-size: .3rem;
             line-height: 2;
         }
-        
+
         p{
             font-size: .28rem;
             line-height: 1.6;
@@ -3807,23 +3807,23 @@ label.error {
 
 .styCredit-wrap{
     padding: 0 .3rem;
-    
+
     .txt{
         font-size: .3rem;
         padding: .35rem 0 .15rem;
     }
-    
+
     .picWrap{
         height: 3rem;
         margin-top: .2rem;
         position: relative;
-        
+
         .pic{
             background-position: center;
             background-repeat: no-repeat;
             background-size: 100%;
         }
-        
+
         .addxuexinPic{
             width: 100%;
             height: 100%;
@@ -3837,27 +3837,27 @@ label.error {
             background-repeat: no-repeat;
             background-size: 1.6rem;
         }
-        
+
         .moxie-shim{
             width: 100% !important;
             height: 3rem !important;
         }
     }
-    
+
     .subBtn{
         margin-top: 2rem;
     }
-    
+
     .styCredit-rules{
         font-size: .28rem;
         color: $primary-color;
         text-align: right;
     }
-    
+
 }
 .styCreditAccredit-wrap{
     padding: 0;
-    
+
     .txt{
         padding: .35rem .3rem .15rem;
     }
@@ -3872,24 +3872,24 @@ label.error {
     height: 4.3rem !important;
     text-align: left;
     line-height: 2;
-    
+
     h3{
         font-size: .3rem;
         font-weight: normal;
         color: #484848;
         padding: .1rem 0;
-        
+
         a{
             color: $primary-color;
             font-size: .24rem;
         }
     }
-    
+
     p{
         padding-left: .2rem;
         font-size: .28rem;
     }
-    
+
     samp{
         display: inline-block;
         color: $red-color;
@@ -3902,7 +3902,7 @@ label.error {
 .student-dialog{
     .am-modal{
         width: 6.6rem;
-        
+
         .am-modal-body{
             padding: .2rem .3rem;
             min-height: 6rem;
@@ -3913,7 +3913,7 @@ label.error {
     }
 }
 .zhiMaCreditt-dialog{
-    
+
     .am-modal{
         .am-modal-body{
             .title{
@@ -3923,7 +3923,7 @@ label.error {
                 line-height: 1;
                 color: $red-color;
                 padding: .4rem 0 .5rem;
-                
+
                 i{
                     display: inline-block;
                     width: 1rem;
@@ -3931,7 +3931,7 @@ label.error {
                     background-color: $red-color;
                     position: relative;
                     top: -.13rem;
-                    
+
                     &:nth-of-type(1){
                         margin-right: .4rem;
                     }
@@ -3939,7 +3939,7 @@ label.error {
                         margin-left: .4rem;
                     }
                 }
-                
+
             }
         }
         .am-modal-footer{
@@ -3960,7 +3960,7 @@ label.error {
 .xjk-button{
     text-align: center;
     margin-top: .3rem;
-    
+
     .am-button{
         width: 2rem;
         font-size: .28rem;
@@ -3970,19 +3970,19 @@ label.error {
         height: .7rem;
         line-height: .7rem;
         border: 1px solid #fff;
-        
+
     }
 }
 .no-data-img{
     width: 100%;
     text-align: center;
     padding-top: 2rem;
-    
+
     img{
         width: 2.1rem;
         margin-left: .56rem;
     }
-    
+
     p{
         font-size: .28rem;
         color: #999;
@@ -3994,11 +3994,11 @@ label.error {
     width: 100%;
     text-align: center;
     padding-top: 3rem;
-    
+
     img{
         width: 2.1rem;
     }
-    
+
     p{
         font-size: .28rem;
         color: #999;
@@ -4009,16 +4009,16 @@ label.error {
         font-size: .28rem;
         color: #999;
         margin-top: .1rem;
-        
+
         i{
             font-style: normal;
         }
-        
+
         &.service1{
             margin-top: .3rem;
         }
     }
-    
+
 }
 .goIndex{
     width: .84rem;
@@ -4026,18 +4026,18 @@ label.error {
     bottom: 3.6rem;
     background-color: rgba(255,255,255,.4);
     border-radius: .08rem 0 0 .08rem;
-    
+
     .mallfloat{
         background-color: transparent;
         background-image: url('../images/home-白.png');
-    }       
+    }
 
 }
 .leaseRuleBtn-wrap{
     width: 100%;
     margin: .4rem 0 .3rem;
     text-align: center;
-    
+
     .leaseRuleBtn{
         display: inline-block;
         border: .03rem solid $primary-color;
@@ -4084,7 +4084,7 @@ label.error {
     z-index: 1000;
     top: .9rem;
     border-top: 1px solid $border-color;
-    
+
     ul{
         padding: 0 .3rem;
         li.current {
@@ -4128,28 +4128,28 @@ label.error {
     -moz-text-size-adjust: none;
     -ms-text-size-adjust: none;
     -o-text-size-adjust: none;
-    
+
     ul {
         list-style: none;
         padding: 0;
         margin: 0;
         display: inline-block;
         height: 100%;
-        
+
         li {
             float: left;
             height: 100%;
             font-size: .28rem;
             padding: 0 .3rem;
-            
-            
+
+
             &.current {
                 border-bottom: .04rem solid $primary-color;
                 color: $primary-color;
             }
         }
     }
-} 
+}
 
 .mall_list_top .mall-up-down {
     z-index: 1001;
@@ -4179,19 +4179,19 @@ label.error {
     z-index: 998;
     background-color: #fff;
     box-shadow: 0 .05rem .05rem 0 rgba(119,119,119,.2);
-    
+
     ul{
         overflow: hidden;
         margin: .2rem 0;
         padding: 0 .2rem;
-        
+
         li{
             float: left;
             height: .5rem;
             line-height: .5rem;
             border-radius: .3rem;
             font-size: .24rem;
-            
+
             &.active{
                 background-color:  $primary-color;
                 color: white;
@@ -4207,7 +4207,7 @@ label.error {
     padding: .2rem .3rem;
     font-size: .26rem;
     border-bottom: 0.04rem solid transparent;
-    
+
     &.active{
         border-bottom: 0.04rem solid $primary-color;
     }
@@ -4217,12 +4217,12 @@ label.error {
     width: 100%;
     text-align: center;
     padding: 1rem .3rem .3rem;
-    
+
     img{
         width: 4rem;
         margin-bottom: .2rem;
     }
-    
+
     p{
         font-size: .28rem;
     }
@@ -4233,20 +4233,20 @@ label.error {
     width: 100%;
     background-color: #fff;
     margin-bottom: .2rem;
-    
+
     .wrap{
         display: block;
         width: 100%;
         overflow: hidden;
         padding-bottom: .1rem;
     }
-    
+
     .userWrap{
         width: 100%;
         padding: .3rem .3rem .2rem;
         overflow: hidden;
         position: relative;
-        
+
         .userPic{
             width: .8rem;
             height: .8rem;
@@ -4263,7 +4263,7 @@ label.error {
             float: left;
             overflow: hidden;
             margin-left: .3rem;
-            
+
             p{
                 font-size: .28rem;
             }
@@ -4278,23 +4278,23 @@ label.error {
             color: $red-color;
         }
     }
-    
+
     .conWrap{
         width: 100%;
-        
+
         .description{
             padding: .1rem .3rem;
-            
+
             .all{
                 color: $primary-color;
             }
         }
-        
+
     }
     .picWrap{
         overflow: hidden;
         padding: .1rem .3rem;
-        
+
         img{
             height: 2.2rem;
         }
@@ -4302,7 +4302,7 @@ label.error {
     .picWraps{
         overflow: hidden;
         padding: .1rem .21rem;
-        
+
         .pic{
             width: 2.2rem;
             height: 2.2rem;
@@ -4313,20 +4313,20 @@ label.error {
             background-size: cover;
         }
     }
-    
+
     .bottomWrap{
         width: 100%;
         overflow: hidden;
         padding: .17rem 0;
         border-top: 1px solid $border-color;
-        
+
         .btn{
             float: left;
             width: 2.5rem;
             height: .36rem;
             border-left: 1px solid $border-color;
             text-align: center;
-            
+
             .icon{
                 display: inline-block;
                 width: .5rem;
@@ -4344,9 +4344,9 @@ label.error {
                 top: -.06rem;
                 margin-left: .1rem;
                 text-align: left;
-                
+
             }
-            
+
             &.dsTimes{
                 .icon{
                     background-image: url('../images/打赏@2x.png');
@@ -4370,25 +4370,25 @@ label.error {
                     }
                 }
             }
-            
+
             &:nth-of-type(1){
                 border-left: 0;
             }
         }
     }
-    
+
 }
 /*游记详情*/
 .tNotes-detail{
     background-color: #fff;
     padding-bottom: .1rem;
-    
+
     .title{
         font-size: .32rem;
         line-height: 1.5;
         padding: .3rem .3rem .2rem;
     }
-    
+
     .picWrap{
         img{
             width: 100%;
@@ -4396,17 +4396,17 @@ label.error {
             margin-bottom: .1rem;
         }
     }
-    
+
     .bottomWrap{
         width: 100%;
         overflow: hidden;
-        
+
         .btn{
             float: left;
             height: .7rem;
             overflow: hidden;
             margin-left: .3rem;
-            
+
             .icon{
                 display: inline-block;
                 width: .4rem;
@@ -4425,9 +4425,9 @@ label.error {
                 top: .04rem;
                 margin-left: .06rem;
                 text-align: left;
-                
+
             }
-            
+
             &.dsTimes{
                 .icon{
                     background-image: url('../images/打赏@2x.png');
@@ -4451,7 +4451,7 @@ label.error {
                     }
                 }
             }
-            
+
         }
     }
 }
@@ -4459,7 +4459,7 @@ label.error {
     width: 100%;
     overflow: hidden;
     padding: .3rem 0 0;
-    
+
     .title{
         text-align: center;
         font-size: .3rem;
@@ -4468,7 +4468,7 @@ label.error {
     .wrap{
         display: block;
         padding: 0 .3rem .2rem;
-    } 
+    }
     .allTNotesComment{
         display: block;
         width: 2.2rem;
@@ -4485,7 +4485,7 @@ label.error {
     border-radius: .08rem;
     background-color: rgba(0, 0, 0, 0.4);
     bottom: 1.6rem;
-    
+
     .mallfloat{
         width: .78rem;
     }
@@ -4496,14 +4496,14 @@ label.error {
     background-color: #fff;
     border-top: 1px solid #eee;
     padding: .15rem .3rem;
-    
+
     .inputWrap{
         width: 6rem;
         height: 100%;
         border: 1px solid $border-color;
         padding: .1rem .2rem;
         border-radius: .08rem;
-        
+
         .tNotesForm-comCon{
             resize: none;
             width: 100%;
@@ -4511,9 +4511,9 @@ label.error {
             color: #333;
             font-size: .26rem;
         }
-        
+
     }
-    
+
     .comBtn{
         width: .8rem;
         height: .98rem;
@@ -4540,11 +4540,11 @@ label.error {
     overflow: hidden;
     padding: .2rem 0;
     border-bottom: 1px solid $border-color;
-    
+
     .userPicWrap{
         width: .9rem;
         float: left;
-        
+
         .userPic{
             width: .6rem;
             height: .6rem;
@@ -4555,19 +4555,19 @@ label.error {
             background-position: center;
             background-size: cover;
         }
-        
+
     }
-    
+
     .info{
         width: 6rem;
         float: left;
-        
+
         .userInfo{
             height: .6rem;
             padding-top: .05rem;
             margin-bottom: .2rem;
             position: relative;
-            
+
             p{
                 font-size: .26rem;
                 line-height: 1;
@@ -4578,7 +4578,7 @@ label.error {
                 line-height: 1;
             }
         }
-        
+
         .toComment{
             width: 100%;
             margin-bottom: .2rem;
@@ -4587,7 +4587,7 @@ label.error {
             font-size: .26rem;
             padding: .1rem .15rem;
             border-radius: .08rem;
-            
+
             .toNickName{
                 margin-bottom: .05rem;
                 samp{
@@ -4596,23 +4596,23 @@ label.error {
                 }
             }
         }
-        
+
         .content{
             font-size: .26rem;
         }
-        
+
         .bottomWrap{
             width: 100%;
             overflow: hidden;
             margin-top: .1rem;
-            
+
             .reply{
                 height: .5rem;
                 line-height: 1;
                 color: #666;
                 font-size: .26rem;
                 float: right;
-                
+
                 .icon{
                     display: inline-block;
                     width: .5rem;
@@ -4631,7 +4631,7 @@ label.error {
                 }
             }
         }
-        
+
     }
 }
 /*发布游记*/
@@ -4640,15 +4640,15 @@ label.error {
     background-color: #fff;
     padding: .3rem 0 .4rem;
     margin-bottom: .7rem;
-    
+
     .tNotesForm{
         position: relative;
-        
+
         label.error{
             top: .2rem;
         }
     }
-    
+
     .textarea{
         width: 100%;
         height: 3rem;
@@ -4660,7 +4660,7 @@ label.error {
         width: 100%;
         overflow: hidden;
         padding: .1rem .21rem;
-        
+
         .pic{
             width: 2.2rem;
             height: 2.2rem;
@@ -4670,7 +4670,7 @@ label.error {
             background-position: center;
             background-size: cover;
             position: relative;
-            
+
             .delete{
                 display: inline-block;
                 width: .5rem;
@@ -4692,7 +4692,7 @@ label.error {
         float: left;
         position: relative;
         margin: .1rem .08rem;
-        
+
         .fileBtn{
             width: 100%;
             height: 100%;
@@ -4700,11 +4700,11 @@ label.error {
             position: relative;
             z-index: 99;
         }
-        
+
         .pic img{
             height: 100%;
         }
-        
+
         .addbackPdf{
             width: 100%;
             height: 2.2rem;
@@ -4716,7 +4716,7 @@ label.error {
             background-repeat: no-repeat;
             background-size: 100%;
         }
-        
+
         .moxie-shim{
             width: 2.2rem !important;
             height: 2.2rem !important;
@@ -4746,7 +4746,7 @@ label.error {
     .tNotes-dsDialog-top{
         height: .6rem;
         text-align: center;
-        
+
         img{
             height: 100%;
         }
@@ -4757,14 +4757,14 @@ label.error {
             font-size: .36rem;
             color: #484848;
             overflow: hidden;
-            
+
         }
     }
     .am-modal-footer{
         text-align: center;
         padding-top: .5rem;
         padding-bottom: .5rem;
-        
+
         .am-button{
             width: 1.6rem;
             display: inline-block;
@@ -4774,9 +4774,9 @@ label.error {
             background-color: #DDDDDD;
             margin-right: .5rem;
         }
-        
+
     }
-    
+
     .tNotes-dsDialog-input{
         width: 4.6rem;
         height: .88rem;
@@ -4786,7 +4786,7 @@ label.error {
         color: #999;
         padding: .24rem .3rem;
         position: relative;
-        
+
         input[type="text"]{
             width: 100%;
             background-color: #f7f7f7;
@@ -4800,11 +4800,11 @@ label.error {
 .myTravelNotes{
     .tNotes-item .bottomWrap .btn{
         width: 2rem;
-        
+
         samp{
             width: .8rem;
         }
-        
+
         &.edit{
             .icon{
                 background-image: url('../images/编辑@2x.png');
@@ -4815,13 +4815,13 @@ label.error {
                 background-image: url('../images/删除@2x.png');
             }
         }
-        
+
     }
 }
 /*活动*/
 .activity-search{
     background-color: #fff;
-    
+
     .searchWrap{
         background-color: #f5f5f5;
     }
@@ -4835,13 +4835,13 @@ label.error {
     top: 1rem;
     left: 0;
     z-index: 11;
-    
+
     .activity-filter-item{
         height: 100%;
         line-height: 1rem;
         text-align: center;
         position: relative;
-        
+
         .icon{
             display: inline-block;
             width: .15rem;
@@ -4854,12 +4854,12 @@ label.error {
             top: .05rem;
             margin-left: .2rem;
         }
-        
+
         .reset{
             display: inline-block;
             height: 1rem;
             padding: 0 .15rem;
-            
+
             i{
                 display: inline-block;
                 width: .3rem;
@@ -4869,12 +4869,12 @@ label.error {
                 background-image: url('../images/close.png');
                 background-position: center;
                 background-repeat: no-repeat;
-                background-size: .2rem; 
+                background-size: .2rem;
                 position: relative;
                 top: .05rem;
             }
         }
-        
+
         samp{
             line-height: 1;
             font-size: .28rem;
@@ -4882,12 +4882,12 @@ label.error {
         select{
             max-width: 1.2rem;
             font-size: .28rem;
-            
+
             option{
                 font-size: .28rem;
             }
         }
-        
+
         .wrap{
             width: auto;
             display: inline-block;
@@ -4912,7 +4912,7 @@ label.error {
     border-bottom: 1px solid $border-color;
     padding: .2rem .3rem;
     position: relative;
-    
+
     &:last-child{
         border-bottom: 0;
     }
@@ -4928,14 +4928,14 @@ label.error {
         background-repeat: no-repeat;
         background-size: cover;
     }
-    
+
     .content{
         width: 3.7rem;
         height: 2.1rem;
         line-height: 1.1;
         padding-top: .1rem;
         position: relative;
-        
+
         .name{
             font-size: .28rem;
             width: 100%;
@@ -4943,10 +4943,10 @@ label.error {
             text-overflow: ellipsis;
             overflow: hidden;
         }
-        
+
         .info{
             margin-top: .12rem;
-            
+
             samp{
                 font-size: .24rem;
                 color: #999;
@@ -4959,10 +4959,10 @@ label.error {
                 overflow: hidden;
             }
         }
-        
+
         .care{
             margin-top: .1rem;
-            
+
             .icon{
                 display: inline-block;
                 width: .26rem;
@@ -4975,21 +4975,21 @@ label.error {
                 top: .03rem;
                 margin-right: .1rem;
             }
-            
+
             samp{
                 color: #999;
                 font-size: .22rem;
-                
+
             }
         }
-        
+
         .priceWrap{
             width: 100%;
             overflow: hidden;
             position: absolute;
             right: 0;
             bottom: 0;
-            
+
             .price{
                 font-size: .34rem;
                 line-height: .46rem;
@@ -5014,41 +5014,41 @@ label.error {
 /*活动详情*/
 .activityDetail-swiper{
     height: 3.6rem;
-    
+
     .swiper-slide{
         height: 3.6rem;
     }
 }
 .activityDetail-title{
     padding-right: .3rem;
-    
+
     .slogan{
         color: #999;
         line-height: 1.5;
     }
-    
+
     .info{
         overflow: hidden;
         margin-top: .1rem;
         padding-bottom: .1rem;
-        
+
         p{
             display: inline-block;
             line-height: 1;
             overflow: hidden;
-                        
+
             samp{
                 font-size: .26rem;
                 line-height: .3rem;
                 color: #8c8c8c;
-                
+
                 i{
                     font-style: normal;
                     position: relative;
                     top: .01rem;
                 }
             }
-            
+
             .icon{
                 display: inline-block;
                 width: .3rem;
@@ -5058,7 +5058,7 @@ label.error {
                 margin-right: .13rem;
                 position: relative;
                 top: .05rem;
-                
+
                 &.icon-data{
                     background-image: url('../images/日期@2x.png');
                     background-size: .26rem;
@@ -5067,12 +5067,12 @@ label.error {
                     background-image: url('../images/人数@2x.png');
                     background-size: .28rem;
                 }
-                
+
                 &.icon-address{
                     background-image: url('../images/收货地址@2x.png');
                     background-size: .2rem;
                 }
-                
+
             }
         }
     }
@@ -5080,7 +5080,7 @@ label.error {
 
 .activity-titleWrap{
     border-bottom: 0;
-    
+
     .text samp{
         line-height: 1;
         color: $primary-color;
@@ -5090,7 +5090,7 @@ label.error {
     width: 100%;
     overflow: hidden;
     padding: 0 .17rem .2rem;
-    
+
     .photo-item{
         width: .72rem;
         height: .72rem;
@@ -5106,12 +5106,12 @@ label.error {
 }
 .difficulty{
     padding-bottom: .1rem;
-    
+
     .wrap{
         width: 100%;
         padding: 0 .3rem .2rem;
         overflow: hidden;
-        
+
         samp{
             display: inline-block;
             float: left;
@@ -5127,7 +5127,7 @@ label.error {
             margin-right: .2rem;
             background-image: url('../images/系数@2x.png');
             background-size: .3rem;
-            
+
             &.active{
                 background-image: url('../images/系数选中@2x.png');
             }
@@ -5137,11 +5137,11 @@ label.error {
 
 .activityDetail-tag{
     padding: .08rem 0 0 .3rem;
-    
+
     .nav{
         padding: .2rem;
         margin-left: .38rem;
-        
+
         &:first-child{
             margin-left: 0;
         }
@@ -5153,7 +5153,7 @@ label.error {
     border-radius: .08rem;
     background-color: none;
     bottom: 1.6rem;
-    
+
     .mallfloat{
         width: .78rem;
         background-color: rgba(0, 0, 0, 0.4);
@@ -5161,24 +5161,24 @@ label.error {
 }
 .activity-detail{
     width: 100%;
-    
+
     .title{
         width: 100%;
         overflow: hidden;
         padding: 0 .3rem;
         height: .9rem;
-        
+
         .text{
             font-size: .28rem;
             overflow: hidden;
             line-height: .9rem;
-            
+
             samp{
                 display: inline-block;
                 float: left;
                 line-height: .9rem;
             }
-            
+
             .icon{
                 display: inline-block;
                 width: .3rem;
@@ -5188,54 +5188,54 @@ label.error {
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: .3rem;
-                
+
                 &.icon-liuyan{
                     background-image: url('../images/活动留言@2x.png');
                 }
-                
+
                 &.icon-baoming{
                     background-image: url('../images/报名须知@2x.png');
                 }
-                
+
                 &.icon-mianze{
                     background-image: url('../images/免责申明@2x.png');
                 }
-                
+
                 &.icon-zhuyi{
                     background-image: url('../images/注意事项@2x.png');
                 }
-                
+
                 &.icon-confirm{
                     background-image: url('../images/未选择@2x.png');
                 }
-                
+
                 &.icon-tel{
                     background-image: url('../images/咨询电话@2x.png');
                 }
-                
-                
+
+
             }
         }
         .confirm.active .icon-confirm {
             background-image: url('../images/选择@2x.png');
         }
     }
-    
+
 }
 .actLiuyan-item{
     width: 100%;
     overflow: hidden;
     padding: .2rem .3rem;
     border-top: 1px solid $border-color;
-    
+
     &:first-child{
         border-top: 0;
     }
-    
+
     .userWrap{
         width: .88rem;
         float: left;
-        
+
         .userPic{
             width: .88rem;
             height: .88rem;
@@ -5251,11 +5251,11 @@ label.error {
     .info{
         width: 5.8rem;
         float: right;
-        
+
         .nickName{
             font-size: .28rem;
         }
-        
+
         .content{
             font-size: .24rem;
             line-height: 1.6;
@@ -5273,20 +5273,20 @@ label.error {
     height: 1.2rem;
     border-top: 1px solid $border-color;
     padding: .18rem .3rem;
-    
+
     .am-button{
         width: 3.3rem;
     }
 }
 .activity-chooseDialog{
-    
+
     .am-modal-body{
         padding-top: .5rem;
-        
+
         .title{
             height: .5rem;
             text-align: center;
-            
+
             img{
                 height: 100%;
             }
@@ -5297,17 +5297,17 @@ label.error {
                 color: #484848;
                 overflow: hidden;
                 margin-left: .12rem;
-            } 
+            }
         }
     }
-    
+
     .am-modal-footer{
         text-align: center;
         padding-bottom: .5rem;
         .am-button{
             font-size: .32rem;
         }
-        
+
         .am-button-ghost{
             margin-top: .4rem;
         }
@@ -5318,7 +5318,7 @@ label.error {
         width: 100%;
         overflow: hidden;
         padding: .15rem 0;
-        
+
         .text{
             display: inline-block;
             font-size: .32rem;
@@ -5326,18 +5326,18 @@ label.error {
             overflow: hidden;
             position: relative;
             padding-left: .5rem;
-            
+
             samp{
                 display: inline-block;
                 float: left;
                 color: #888;
                 line-height: 1;
-                
+
                 &#leaderTel{
                     margin-top: .1rem;
                 }
             }
-            
+
             .icon{
                 display: inline-block;
                 width: .4rem;
@@ -5362,7 +5362,7 @@ label.error {
     height: 1.1rem;
     padding: .15rem .3rem 0;
     border-top: 1px solid $border-color;
-    
+
     .am-button{
         font-size: .32rem;
     }
@@ -5370,7 +5370,7 @@ label.error {
 .choose-moduleWrap{
     overflow-y: scroll;
     overflow-x: hidden;
-    
+
     .right-left-cont-title{
         width: 100%;
         position: fixed;
@@ -5378,16 +5378,16 @@ label.error {
         left: 100%;
         z-index: 11;
     }
-    
+
     .right-left-content{
         width: 100%;
         overflow: hidden;
     }
-    
+
     .right-left-btn{
         height: 1rem;
         padding: .15rem .3rem;
-        
+
         .am-button{
             width: 3.3rem;
             height: .7rem;
@@ -5395,7 +5395,7 @@ label.error {
             font-size: .32rem;
         }
     }
-    
+
     .mall_list_top{
         top: .8rem;
         left: 100%;
@@ -5421,17 +5421,17 @@ label.error {
 .chooseMallList-wrap,
 .actChoose-mall{
     .mall-item{
-        
+
         .mall-item-img{
             width: 2rem;
             height: 2rem;
             margin-right: .2rem;
         }
-        
+
         .mall-item-con{
             width: 4.25rem;
             height: 2rem;
-            
+
             .slogan{
                 line-height: 1;
                 white-space: nowrap;
@@ -5439,7 +5439,7 @@ label.error {
                 overflow: hidden;
             }
         }
-        
+
         .choose{
             width: .56rem;
             height: 2rem;
@@ -5448,7 +5448,7 @@ label.error {
             background-size: .36rem;
             background-image: url('../images/未选择@2x.png');
         }
-        
+
         &.active{
             .choose{
                 background-image: url('../images/选择@2x.png');
@@ -5464,17 +5464,17 @@ label.error {
 }
 
 .actChoose-mall{
-    
+
     .mall-item{
         padding-left: .2rem;
         padding-right: 0;
-        
+
         .deleteWrap{
             width: .8rem;
             height: 2rem;
             position: relative;
             z-index: 99;
-            
+
             .delete{
                 width: .8rem;
                 height: .8rem;
@@ -5488,7 +5488,7 @@ label.error {
                 z-index: 99;
             }
         }
-        
+
         .mall-item-con .price .samp1{
             margin-right: .05rem;
         }
@@ -5504,7 +5504,7 @@ label.error {
 .textarea-wrap{
     padding-left: 1.4rem;
     position: relative;
-    
+
     .item-title{
         position: absolute;
         top: 0;
@@ -5514,11 +5514,11 @@ label.error {
 
 #activityList.orderPro-list .mall-item .mall-item-con{
     line-height: 1;
-    
+
     .name{
         line-height: 1.4;
     }
-    
+
     .slogan{
         line-height: 1.2;
     }
@@ -5535,13 +5535,13 @@ label.error {
     overflow: hidden;
     padding: .2rem .3rem;
     background-color: #fff;
-    
+
     .amount{
         font-size: .24rem;
-        
+
         i{
             font-style: normal;
-            color: #999;   
+            color: #999;
         }
     }
     .totalAmount{
@@ -5550,7 +5550,7 @@ label.error {
         i{
             font-size: .24rem;
             font-style: normal;
-            color: #999;   
+            color: #999;
         }
     }
 }
@@ -5571,7 +5571,7 @@ label.error {
 }
 .actMsgWrap{
     width: 5.6rem;
-    
+
     p{
         font-size: .28rem;
         color: $red-color;
@@ -5638,7 +5638,7 @@ label.error {
         background-image: url('../images/未选择@2x.png');
         position: relative;
         top: .05rem;
-        
+
     }
     .active .icon-confirm{
         background-image: url('../images/选择@2x.png');
@@ -5649,7 +5649,7 @@ label.error {
     width: 100%;
     background-color: #fff;
     padding: .02rem;
-    
+
     .cate-item{
         width: 2.5rem;
         height: 1.8rem;
@@ -5657,7 +5657,7 @@ label.error {
         background-position: center;
         background-size: cover;
         margin: 0 .02rem;
-        
+
         &.cate-item-lease{
             @include bg-image('租赁');
         }
@@ -5670,14 +5670,32 @@ label.error {
         &.cate-item-travelNotes{
             @include bg-image('游记');
         }
-        
+
     }
-    
-    
+
+
 }
 
-
-
-
-
-
+.pic-extra-wrapper {
+  .global-loading-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -10px;
+    margin-left: -10px;
+  }
+  .pic-extra-mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    background: #999;
+    opacity: 0.4;
+  }
+  .upload-progress {
+    position: absolute;
+    bottom: 0;
+    height: 4px;
+    background: #ffc300;
+  }
+}

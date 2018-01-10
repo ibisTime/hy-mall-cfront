@@ -60,15 +60,15 @@ define([
                 auto_start: true, //选择文件后自动上传，若关闭需要自己绑定事件触发上传
                 init: {
                     'FilesAdded': function(up, files) {
-                        plupload.each(files, function(file) {
-                            option.fileAdd && option.fileAdd(file, up);
+                        plupload.each(files, function(file, i) {
+                            option.fileAdd && option.fileAdd(file, up, files[i]);
                         });
                     },
                     'BeforeUpload': function(up, file) {
                         // 每个文件上传前,处理相关的事情
                         //printLog('on BeforeUpload');
                         if(file.type=='image/jpg' || file.type=='image/jpeg'  || file.type=='image/gif'  || file.type=='image/png'  || file.type=='image/bmp'){
-                        	
+
                         }else{
                         	uploader.stop();
                         	up.removeFile(file);//清除file缓存

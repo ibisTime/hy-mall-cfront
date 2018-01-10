@@ -18,7 +18,7 @@ define([
         return;
       }
       base.showLoading("登录中...");
-      
+
       var param = {
 	        code,
 	        companyCode: SYSTEM_CODE
@@ -29,7 +29,7 @@ define([
       	wxLogin(param),
 	      getQiniuUrl()
       )
-      
+
     } else { // 已登陆
       location.href = "../index.html";
     }
@@ -56,7 +56,7 @@ define([
 	        base.setSessionQiniuUrl(data.cvalue+'/');
 	    });
   }
-  
+
   // 微信登录
   function wxLogin(param) {
     UserCtr.wxLogin(param).then(function(data) {
@@ -71,7 +71,7 @@ define([
           location.href = "../index.html"
         }
     }, function() {
-    	base.showMsg('登录失败:'+msg);
+    	base.showMsg('登录失败');
     });
   }
 });
