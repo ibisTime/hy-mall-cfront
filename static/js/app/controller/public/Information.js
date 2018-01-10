@@ -6,7 +6,7 @@ define([
   var _tmpl = __inline('../../ui/information-list-item.handlebars');
   var config = {
       start: 1,
-      limit: 15
+      limit: 5
     },
     isEnd = false,
     canScrolling = false;
@@ -31,10 +31,9 @@ define([
           isEnd = true;
         }
         if (data.list.length) {
-          $("#content").append(_tmpl({
-            items: data.list
-          }));
+          $("#content").append(_tmpl({items: data.list}));
           isEnd && $("#loadAll").removeClass("hidden");
+          config.start++;
         } else if (config.start == 1) {
           $("#content").html('<li class="no-data">暂无资讯</li>')
         } else {
