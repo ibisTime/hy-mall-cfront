@@ -118,6 +118,7 @@ define([
             if(lcate){
                 base.showLoading();
                 $("#content").empty();
+                category = c;
                 getPageProduct(lcate, c).then(base.hideLoading);
             }else{
             	//默认选中第一个
