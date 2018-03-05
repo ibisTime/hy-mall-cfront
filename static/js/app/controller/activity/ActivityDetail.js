@@ -99,8 +99,14 @@ define([
 			$(".detail-title .enrollEndDatetime").text(base.formatDate(data.enrollEndDatetime, "yyyy-MM-dd"))
 			$(".detail-title .data").text(base.formatDate(data.startDatetime, "yyyy-MM-dd")+"至"+base.formatDate(data.endDatetime, "yyyy-MM-dd"))
 			$(".detail-title .userNum").text(data.groupNum)
-			$(".detail-title .placeAsse").text(data.placeAsseProvince+" "+data.placeAsseCity+" "+data.placeAsse)
-			$(".detail-title .placeDest").text(data.placeDestProvince+" "+data.placeDestCity+" "+data.placeDest)
+			
+			var placeAsseProvince = data.placeAsseProvince=='其他'?'':data.placeAsseProvince+" ";
+			var placeAsseCity = data.placeAsseCity=='其他'?'':data.placeAsseCity+" ";
+			var placeDestProvince = data.placeDestProvince=='其他'?'':data.placeDestProvince+" ";
+			var placeDestCity = data.placeDestCity=='其他'?'':data.placeDestCity+" ";
+			
+			$(".detail-title .placeAsse").text(placeAsseProvince+placeAsseCity+data.placeAsse)
+			$(".detail-title .placeDest").text(placeDestProvince+placeDestCity+data.placeDest)
 			
 			startActive($("#indexQd"),data.indexQd)
 			startActive($("#indexNd"),data.indexNd)
@@ -110,6 +116,8 @@ define([
 			$("#amountDesc").html(data.amountDesc)
 			$("#scheduling").html(data.scheduling)
 			$("#equipment").html(data.equipment)
+			$("#placeDesc").html(data.placeDesc)
+			
 			
 			if(data.enrollNum!='0'){
 				
@@ -325,8 +333,22 @@ define([
         	}
         })
         
-        //免责申明 查看更多 点击
+        //报名须知 查看更多 点击
         $("#act_enroll_more").click(function(){
+        	if($(this).hasClass("active")){
+        		$(this).removeClass("active");
+        		$(this).html("查看更多")
+        		$(this).css("max-height","10rem")
+        		$("#act_enroll").css("max-height","10rem")
+        	}else{
+        		$("#act_enroll").css("max-height","none")
+        		$(this).addClass("active");
+        		$(this).html("收起")
+        	}
+        })
+        
+        //地方介绍 查看更多 点击
+        $("#placeDesc_more").click(function(){
         	if($(this).hasClass("active")){
         		$(this).removeClass("active");
         		$(this).html("查看更多")
