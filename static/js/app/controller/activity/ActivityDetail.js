@@ -67,7 +67,7 @@ define([
 			
 			if(strs.length>1){
 				strs.forEach(function(d, i){
-					html+=`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(d)}')"></div></div>`;
+					html+=`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(d,'?imageMogr2/auto-orient/thumbnail/!1500x720')}')"></div></div>`;
 				})
 				$("#top-swiper").html(html);
 				var mySwiper = new Swiper('#swiper-container', {
@@ -77,7 +77,7 @@ define([
 	                'pagination': '.swiper-pagination'
 	            });
 			}else{
-				$("#top-swiper").html(`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(dpic)}')"></div></div>`);
+				$("#top-swiper").html(`<div class="swiper-slide"><div class="mallDetail-img" style="background-image: url('${base.getImg(dpic,'?imageMogr2/auto-orient/thumbnail/!1500x720')}')"></div></div>`);
 			}
 			actName  = data.name;
 			

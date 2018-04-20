@@ -29,7 +29,7 @@ define([
       	wxLogin(param),
 	      getQiniuUrl()
       )
-
+333
     } else { // 已登陆
       location.href = "../index.html";
     }
