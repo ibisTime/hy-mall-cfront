@@ -99,33 +99,33 @@ define([
 						$("#" + file.id).find(".upload-progress").css("width", parseInt(file.percent, 10) + "%");
 					},
 					fileAdd: function(up, file, oriFile){
-            var url = URL.createObjectURL(oriFile.getNative());
-            var picHtml = `<div id="${oriFile.id}" style="background-image: url('${url}');" class="pic">
-              <i class="delete"></i>
-              <div class="pic-extra-wrapper">
-                <i class="global-loading-icon"></i>
-                <div class="pic-extra-mask"></div>
-                <div class="upload-progress"></div>
-              </div>
-            </div>`;
-            $("#uploadContainer").before(picHtml);
+			            var url = URL.createObjectURL(oriFile.getNative());
+			            var picHtml = `<div id="${oriFile.id}" style="background-image: url('${url}');" class="pic">
+			              <i class="delete"></i>
+			              <div class="pic-extra-wrapper">
+			                <i class="global-loading-icon"></i>
+			                <div class="pic-extra-mask"></div>
+			                <div class="upload-progress"></div>
+			              </div>
+			            </div>`;
+			            $("#uploadContainer").before(picHtml);
 					},
 					fileUploaded: function(up, url, key, file){
-            $("#" + file.id).attr('data-url', key).find('.pic-extra-wrapper').remove();
+						$("#" + file.id).attr('data-url', key).find('.pic-extra-wrapper').remove();
 					}
 				});
 
-				setTimeout(function(){
-
-					$("#uploadContainer").find("input[type='file']").attr("accept","image/*");
-					$("#uploadContainer").find("input[type='file']").attr("multiple","multiple");
-					//判断浏览器终端 为安卓input[type='file']添加可调起相机的属性
-					if(base.getUserBrowser()){//ios
-						$("#uploadContainer").find("input[type='file']").removeAttr("capture");
-					}else{//android
-						$("#uploadContainer").find("input[type='file']").attr("capture","camera");
-					}
-				}, 100)
+//				setTimeout(function(){
+//
+//					$("#uploadContainer").find("input[type='file']").attr("accept","image/*");
+//					$("#uploadContainer").find("input[type='file']").attr("multiple","multiple");
+//					//判断浏览器终端 为安卓input[type='file']添加可调起相机的属性
+//					if(base.getUserBrowser()){//ios
+//						$("#uploadContainer").find("input[type='file']").removeAttr("capture");
+//					}else{//android
+//						$("#uploadContainer").find("input[type='file']").attr("capture","camera");
+//					}
+//				}, 100)
 
 			}, () => {})
 	}
