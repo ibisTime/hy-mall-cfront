@@ -3605,7 +3605,6 @@ label.error {
             }
         }
 
-
     }
 
 
@@ -4720,6 +4719,11 @@ label.error {
         .moxie-shim{
             width: 2.2rem !important;
             height: 2.2rem !important;
+            z-index: 99 !important;
+        }
+        .uploadBtn{
+            position: relative !important;
+            z-index: 98 !important;
         }
     }
 }
