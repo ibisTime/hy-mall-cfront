@@ -100,6 +100,10 @@ define([
 					fileAdd: function(up, file, oriFile){
 						base.showLoading('上传中')
 					},
+					error: function(up, err, errTip){
+			            base.hideLoading();
+			            base.showMsg("上传失败！请刷新页面重新上传！");
+					},
 					fileUploaded: function(up, url, key, file){
 			            var picHtml = `<div data-url="${key}" style="background-image: url('${PIC_PREFIX+key}?imageMogr2/auto-orient/thumbnail/!400x400r');" class="pic">
 			              <i class="delete"></i>
