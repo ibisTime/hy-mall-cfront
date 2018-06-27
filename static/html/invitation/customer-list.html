@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>会员管理</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+	<div class="customerList-wrap">
+		<div class="total wp100" id="total"></div>
+		<div class="wp100" id="content">
+			<!--<div class="customerList-item">
+				<div class="photo fl"></div>
+				<div class="content fr">
+					<p class="nickName"></p>
+					<p class="txt">
+						<samp>会员号：</samp>
+						<samp>加入日期：</samp>
+					</p>
+				</div>
+			</div>-->
+		</div>
+		<div id="loadAll" class="load-all hidden">
+	        <img src="../../images/end.png">
+	        <span>已经全部加载完毕</span>
+	    </div>
+    </div>
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/invitation/CustomerList']);
+    </script>
+</body>
+
+</html>

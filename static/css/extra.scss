@@ -2000,6 +2000,25 @@ label.error {
 
 .mallDetail-title{
     min-height: 1.3rem;
+    padding: .2rem .3rem;
+    
+    .slogan{
+        display: inline-block;
+        margin-top: .1rem;
+    }
+    
+    .recommendBtn-wrap{
+        width: 1.8rem;
+        position: absolute;
+        right: .3rem;
+        bottom: .2rem;
+        
+        .am-button{
+            font-size: .26rem;
+            height: .54rem;
+            line-height: .54rem;
+        }
+    }
 }
 
 .collect{
@@ -3333,6 +3352,7 @@ label.error {
 .leaseDetail-title{
     min-height: 2.4rem;
     border-bottom: 1px solid $border-color;
+    padding: .2rem .3rem;
 }
 .lease-submit-item{
     position: relative;
@@ -5678,6 +5698,9 @@ label.error {
         &.cate-item-travelNotes{
             @include bg-image('游记');
         }
+        &.cate-item-mall{
+            @include bg-image('商城');
+        }
 
     }
 
@@ -5706,4 +5729,103 @@ label.error {
     height: 4px;
     background: #ffc300;
   }
+}
+.recommend-wrap {
+    padding: 0 0 .3rem;
+    .login-btn {
+        padding: 0 0.3rem;
+        margin-top: 1.5rem;
+        .reg-a {
+            display: block;
+            width: 4rem;
+            overflow: hidden;
+            text-align: center;
+            padding: .1rem 0;
+            color: $primary-color;
+        }
+    }
+    .am-flexbox{
+        position: relative;
+    }
+}
+.sale-wrap{
+    .sale-item{
+        width: 100%;
+        padding: .3rem .3rem;
+        .item{
+            width: 100%;
+            overflow: hidden;
+            
+            p{
+                font-size: .28rem;
+                color: #484848;
+                margin-bottom: .15rem;
+                
+                samp{
+                color: #484848;
+                    font-size: .28rem;
+                }
+                
+                &.remark{
+                    color: $red-color;
+                    samp{
+                        color: $red-color; 
+                    }
+                }
+            }
+        }
+    }
+    
+    .btn{
+        padding: 0 0.3rem;
+        margin-top: 1.5rem;
+        
+        .am-button {
+            font-size: .3rem;
+        }
+    }
+}
+.customerList-wrap{
+    .total{
+        font-size: .24rem;
+        color: #999;
+        text-align: center;
+        line-height: .7rem;
+        height: .7rem;
+    }
+    .customerList-item{
+        padding: .3rem;
+        border-top: 1px solid $border-color;
+        
+        .photo{
+            width: .9rem;
+            height: .9rem;
+            border-radius: 50%;
+            overflow: hidden;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin-right: .2rem;
+        }
+        .content{
+            width: 5.8rem;
+            
+            .nickName{
+                font-size: .32rem;
+                color: #333;
+                margin-bottom: .05rem;
+                margin-top: .05rem;
+            }
+            .txt{
+                samp{
+                    font-size: .24rem;
+                    color: #666;
+                }
+            }
+        }
+        
+        &:first-child{
+            border: none;
+        }
+    }
 }

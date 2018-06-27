@@ -5,6 +5,14 @@ define([
     'app/util/ajax'
 ], function(dialog, CookieUtil, loading, Ajax) {
 	
+	$("body").on("click", "a", function(e) {
+		var herf = this.href;
+		if(this.href){
+			Base.gohref(herf);
+		}
+		e.preventDefault();
+	});
+	
     Date.prototype.format = function(format) {
         var o = {
             "M+": this.getMonth() + 1, //month
@@ -42,6 +50,41 @@ define([
         }
         return o;
     };
+    
+    //给form表单赋值
+    $.fn.setForm = function(jsonValue) {  
+	    var obj=this;  
+	    $.each(jsonValue, function (name, ival) { 
+	    	if(obj.find("#" + name).length){
+	    		var $oinput = obj.find("#" + name);
+	    		if ($oinput.attr("type")== "radio" || $oinput.attr("type")== "checkbox"){  
+		            $oinput.each(function(){  
+		                if(Object.prototype.toString.apply(ival) == '[object Array]'){//是复选框，并且是数组  
+		                    for(var i=0;i<ival.length;i++){  
+		                        if($(this).val()==ival[i])  
+		                        $(this).attr("checked", "checked");  
+		                    }  
+		                }else{  
+		                    if($(this).val()==ival){
+		                        $(this).attr("checked", "checked")
+		                    };
+		                }  
+		            });  
+		        }else if($oinput.attr("type")== "textarea"){//多行文本框  
+		            obj.find("[name="+name+"]").html(ival);  
+		        }else{
+		        	if($oinput.attr("data-format")){ //需要格式化的日期 如:data-format="yyyy-MM-dd"
+		        		obj.find("[name="+name+"]").val(Base.formatDate(ival,$oinput.attr("data-format")));   
+		        	}else if($oinput.attr("data-amount")){ //需要格式化的日期 如:data-format="yyyy-MM-dd"
+		        		obj.find("[name="+name+"]").val(Base.formatMoney(ival));   
+		        	}else{
+		        		obj.find("[name="+name+"]").val(ival);   
+		        	}
+		        }  
+	    	}
+	   });  
+	};
+    
     var Base = {
         // simple encrypt information with ***
         encodeInfo: function(info, headCount, tailCount, space) {
@@ -296,6 +339,8 @@ define([
         	Ajax.get("805121", {
                 "userId": Base.getUserId()
             }, true).then(function(data){
+            	
+            	CookieUtil.set("isLeader", data.isLeader || '');
         		if(data.status=='2'){
         			
         			Base.showMsg('用户已被锁定，请联系管理员',1200)
@@ -307,8 +352,63 @@ define([
         		}
         	})
         },
+        getIsLeader: function(){
+        	return CookieUtil.get('isLeader') == '1' ? true : false;
+        },
+        /* 
+		 * url 目标url 
+		 * arg 需要替换的参数名称 
+		 * arg_val 替换后的参数的值 
+		 * return url 参数替换后的url 
+		 */
+		changeURLArg: function(url, arg, arg_val) {
+			var pattern = arg + '=([^&]*)';
+			var replaceText = arg + '=' + arg_val;
+			if(url.match(pattern)) {
+				var tmp = '/(' + arg + '=)([^&]*)/gi';
+				tmp = url.replace(eval(tmp), replaceText);
+				return tmp;
+			} else {
+				if(url.match('[\?]')) {
+					return url + '&' + replaceText;
+				} else {
+					return url + '?' + replaceText;
+				}
+			}
+			return url + '\n' + arg + '\n' + arg_val;
+		},
+        //跳转 location.href
+		gohref: function(href) {
+			var timestamp = new Date().getTime();
+			//判断链接后是否有带参数
+			if(href.split("?")[1]) {
+				//判断是否有带v的参数，有则替换v的参数
+				if(Base.getUrlParam("v", href) != "" && Base.getUrlParam("v", href)) {
+					location.href = Base.changeURLArg(href, "v", timestamp)
+				} else {
+					location.href = href + "&v=" + timestamp
+				}
+			} else {
+				location.href = href + "?v=" + timestamp
+			}
+		},
+		//跳转 location.replace
+		gohrefReplace: function(href) {
+			var timestamp = new Date().getTime();
+			//判断链接后是否有带参数
+			if(href.split("?")[1]) {
+				//判断是否有带v的参数，有则替换v的参数
+				if(Base.getUrlParam("v", href) != "" && Base.getUrlParam("v", href)) {
+					location.replace(Base.changeURLArg(href, "v", timestamp))
+				} else {
+					location.replace(href + "&v=" + timestamp)
+				}
+			} else {
+				location.replace(href + "?v=" + timestamp)
+			}
+		}
     };
-	if (!/\/redirect\.html/.test(location.href)) {
+	if (!/\/redirect\.html/.test(location.href) && !/\/login\.html/.test(location.href)) {
 		if(Base.isLogin()){
 			Base.isRock()
 		}

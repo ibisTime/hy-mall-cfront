@@ -286,5 +286,41 @@ define([
             	refMobile:mobile
             },true);
         },
+        //申请推客
+        applySale(config){
+            return Ajax.get("805250",{
+            	applyUser: base.getUserId(),
+            	...config
+            },true);
+        },
+        // 重新申请推客
+        applySaleAgain(config){
+            return Ajax.get("805252",{
+            	applyUser: base.getUserId(),
+            	...config
+            },true);
+        },
+        // 分页查询我的推客
+        getPageSale(config){
+            return Ajax.get("805255",{
+            	applyUser: base.getUserId(),
+            	start: 1,
+            	limit: 1,
+            	...config
+            },true);
+        },
+        //推客申请详情
+        getDetailSale(code){
+            return Ajax.get("805256",{
+            	code
+            },true);
+        },
+        // 分页获取领队会员
+        getPageUser(config, refresh) {
+            return Ajax.get("805120", { 
+                saleLeaderReferee: base.getUserId(),
+                ...config
+            }, refresh);
+        },
     };
 })

@@ -17,7 +17,7 @@ define([
         orderDir:'asc'
     }, isEnd = false, canScrolling = false;
     
-    var contentType = 1;//1推荐租赁，2推荐商品
+    var contentType = 2;//1推荐租赁，2推荐商品
 
     init();
     

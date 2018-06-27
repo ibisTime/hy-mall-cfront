@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>申请推客</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body class="bg_fff">
+	<div class="recommend-wrap">
+        <form id="formWrapper" class="form-wrapper">
+            <div class="form-item b_e_b realName-wrap">
+                <div class="am-flexbox">
+                    <span class="item-title">姓名</span>
+                    <input type="text" placeholder="请输入姓名" id="realName" name="realName" class="input-item"/>
+                    <i class="form-mask hidden"></i>
+                </div>
+            </div>
+            <div class="form-item b_e_b mobile-wrap">
+                <div class="am-flexbox">
+                    <span class="item-title">手机号</span>
+                    <input type="text" placeholder="请输入手机号码" id="mobile" name="mobile" class="input-item"/>
+                    <i class="form-mask hidden"></i>
+                </div>
+            </div>
+        </form>
+        <div class="login-btn wp100">
+            <button id="subBtn" class="am-button am-button-primary wp100">申请</button>
+        </div>
+    </div>
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/invitation/SaleApply']);
+    </script>
+</body>
+
+</html>

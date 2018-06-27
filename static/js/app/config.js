@@ -14,7 +14,7 @@ var LEADER_URL = "http://wxld.renbeihw.com";
 
 (function() {
 // 判断是否登录
-if (!/\/redirect\.html/.test(location.href)) {
+if (!/\/redirect\.html/.test(location.href) && !/\/login\.html/.test(location.href)) {
     var arr,
       reg = new RegExp(
         "(^| )userId=([^;]*)(;|$)"),

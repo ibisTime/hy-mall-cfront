@@ -5,42 +5,58 @@ define([
     'app/module/qiniu',
   	'app/interface/UserCtr',
 ], function(base, Ajax, Validate, qiniu, UserCtr) {
-	var token, nickname, mobile;
+	var token, nickname, mobile, isApply = false;
 	
 	init();
 	function init(){
 		
     	base.showLoading("加载中...", 1);
-		UserCtr.getUser()
-			.then(function(data){
-				$("#showAvatar").css("background-image", "url('"+base.getWXAvatar(data.photo)+"')");
-				$("#mobile").text(data.mobile?data.mobile:'点击绑定手机号')
-				if(data.mobile){
-					$("#mobileWrap").attr("href",'./change-mobile.html')
-				}else{
-					$("#mobileWrap").attr("href",'./change-mobile.html?bindMobile=1')
-				}
-				
-				if(data.refereeUser){
-					$("#setUserReferee").attr('href','javascript:void(0)')
-					$("#userRefereeMobile").text(data.refereeUser.mobile)
-				}else{
-					$("#userRefereeMobile").text("点击设置推荐人")
-					$("#setUserReferee").attr('href','./set-userReferee.html')
-				}
-				
-				base.hideLoading();
-				
-				addListener();
-				initUpload();
-			}, function(){
-				
-				base.hideLoading();
-				base.showMsg("用户信息获取失败");
-			});
+    	$.when(
+    		UserCtr.getPageSale(),
+    		UserCtr.getUser()
+    	).then(function(saleData,data){
+    		if(saleData.list.length < 1){
+    			isApply = true;
+    		}
+    		
+    		if(data.isLeader == '1'){
+    			$("#customerList").removeClass('hidden');
+    		}
+			$("#showAvatar").css("background-image", "url('"+base.getWXAvatar(data.photo)+"')");
+			$("#mobile").text(data.mobile?data.mobile:'点击绑定手机号')
+			if(data.mobile){
+				$("#mobileWrap").attr("href",'./change-mobile.html')
+			}else{
+				$("#mobileWrap").attr("href",'./change-mobile.html?bindMobile=1')
+			}
+			
+			if(data.refereeUser){
+				$("#setUserReferee").attr('href','javascript:void(0)')
+				$("#userRefereeMobile").text(data.refereeUser.mobile)
+			}else{
+				$("#userRefereeMobile").text("点击设置推荐人")
+				$("#setUserReferee").attr('href','./set-userReferee.html')
+			}
+			
+			base.hideLoading();
+			
+			addListener();
+			initUpload();
+		}, function(){
+			
+			base.hideLoading();
+			base.showMsg("用户信息获取失败");
+		});
 	}
-
+	
 	function addListener(){
+		$("#sale").click(function(){
+			if(isApply){
+				base.gohref("../invitation/sale-apply.html?isApply=1");
+			} else {
+				base.gohref("../invitation/sale-list.html");
+			}
+		})
   	}
 
 	function initUpload(){

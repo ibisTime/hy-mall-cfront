@@ -45,7 +45,9 @@ define([
 				if(type==JFPRODUCTTYPE){
 					$(".mallBottom-right .buyBtn").removeClass('hidden').css('width','100%')
 				}else{
-					
+					if(base.getIsLeader()){
+				    	$(".recommendBtn-wrap").removeClass("hidden");
+				    }
 					$(".mallBottom-right .addShoppingCarBtn").removeClass('hidden')
 					$(".mallBottom-right .buyBtn").removeClass('hidden')
 				}
@@ -613,6 +615,11 @@ define([
 			
 			$("#mask").addClass('hidden');
 			$("#productSpecs").removeClass('active');
+		})
+		
+		//我要推荐
+		$("#recommendBtn").click(function(){
+			base.gohref("./mallDetail-sale.html?sLRfee=" + base.getUserId()+"&code="+code);
 		})
 		
 	}
