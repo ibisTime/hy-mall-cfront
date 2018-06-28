@@ -418,7 +418,7 @@ define([
 			}
 		}
     };
-	if (!/\/redirect\.html/.test(location.href) && !/\/login\.html/.test(location.href)) {
+	if (!/\/redirect\.html/.test(location.href)) {
 		if(Base.isLogin()){
 			Base.isRock()
 		}
