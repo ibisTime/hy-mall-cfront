@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title></title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body class="bg_fff">
+	<div class="mallDetail-imgShare wp100">
+		<div class="top-wrap">
+			<div class="top"><div class="icon icon-help"></div>分享说明<div class="icon icon-up"></div></div>
+			<div class="explain bg_fff wp100">
+				<p>1、长按二维码，选择扫描即可；</p>
+				<p>2、长按二维码图片保存到手机，发送到朋友圈。和商品图片一起发送到朋友圈效果更佳哦。</p>
+			</div>
+			<div class="mask"></div>
+		</div>
+		<div class="img-wrap  over-hide wp100" id="content"></div>
+	</div>
+	
+    <link rel="import" href="../footer.html?__inline">
+	<script src="../../js/lib/qrcode.js"></script>
+    <script>
+        require(['app/controller/mall/MallDetailImgShare']);
+    </script>
+</body>
+
+</html>

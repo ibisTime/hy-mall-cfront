@@ -21,6 +21,8 @@ define([
     		
     		if(data.isLeader == '1'){
     			$("#customerList").removeClass('hidden');
+    		} else {
+    			$("#saleWrap").removeClass('hidden');
     		}
 			$("#showAvatar").css("background-image", "url('"+base.getWXAvatar(data.photo)+"')");
 			$("#mobile").text(data.mobile?data.mobile:'点击绑定手机号')
@@ -56,6 +58,12 @@ define([
 			} else {
 				base.gohref("../invitation/sale-list.html");
 			}
+		})
+		
+		$("#clearBtn").click(function(){
+			base.confirm("确定清除？").then(()=>{
+        		base.clearAllInfo();
+        	},()=>{})
 		})
   	}
 

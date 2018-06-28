@@ -14,7 +14,7 @@ define([
     	
         weixin.initShare({
             title: document.title,
-            desc: "任贝旅行",
+            desc: "任贝SPORTS",
             link: SHARE_URL+'index.html?share='+share,
 //          link: SHARE_URL+'/public/WeChatOA.html',
             imgUrl: base.getShareImg()

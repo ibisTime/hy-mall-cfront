@@ -9,6 +9,7 @@ define([
 ], function(base, Foot, MallCtr, UserCtr, AddressList, ExpressList, BindMobile) {
 	var code = base.getUrlParam("code")||'';
 	var spec = base.getUrlParam("spec")||'';
+	var sLRfee = base.getUrlParam("sLRfee") || ''; // 推客推荐
 	var quantity = base.getUrlParam("quantity")||'';
 	var submitType = base.getUrlParam("s");//1为购物车，2为立即下单
 	var isBindMobile = false;//是否绑定手机号
@@ -28,7 +29,8 @@ define([
 	        applyUser: base.getUserId(),
 	        companyCode: SYSTEM_CODE,
 	        systemCode: SYSTEM_CODE
-		}
+		},
+		saleUserId: sLRfee
 	},
 		configYunFei = {
 			productList: [],

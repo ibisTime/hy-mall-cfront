@@ -946,6 +946,30 @@ label.error {
     }
 }
 
+.mask-rightArrow{
+    background-color: rgba(0,0,0,.7);
+    
+    .rightArrow{
+        width: 100%;
+        margin-top: .2rem;
+        padding-right: .6rem;
+
+        p{
+            position: absolute;
+            top: 2rem;
+            right: 2.4rem;
+            color: #fff;
+            text-align: center;
+            font-size: .28rem;
+        }
+
+        img{
+            width: 2rem;
+            float: right;
+        }
+    }
+}
+
 //推荐
 .invitation-wrap {
     background-image: url('../images/invitation.png');
@@ -971,29 +995,6 @@ label.error {
         img {
             vertical-align: middle;
             width: 0.3rem;
-        }
-    }
-
-    .mask{
-        background-color: rgba(0,0,0,.6);
-    }
-    .rightArrow{
-        width: 100%;
-        margin-top: .2rem;
-        padding-right: .6rem;
-
-        p{
-            position: absolute;
-            top: 2rem;
-            right: 2.4rem;
-            color: #fff;
-            text-align: center;
-            font-size: .28rem;
-        }
-
-        img{
-            width: 2rem;
-            float: right;
         }
     }
 
@@ -5826,6 +5827,172 @@ label.error {
         
         &:first-child{
             border: none;
+        }
+    }
+}
+.mallDetailSale-wrap{
+    .userInfo{
+        text-align: center;
+        padding: 0 .3rem;
+        
+        .photo{
+            width: .9rem;
+            height: .9rem;
+            margin: .3rem auto 0;
+            border-radius: 50%;
+            overflow: hidden;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .nickname{
+            font-size: .32rem;
+            color: #484848;
+            margin-top: .16rem;
+        }
+        .txt{
+            font-size: .28rem;
+            margin-top: .12rem;
+            color: #666;
+            padding: 0 .2rem;
+            
+            samp{
+                color: #2f2fe0;
+            }
+        }
+    }
+    
+    .bottom{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        
+        .backAmount-wrap{
+            height: .9rem;
+            
+            .icon-backAmount{
+                display: block;
+                width: .9rem;
+                height: .9rem;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: .3rem;
+                background-image: url('../images/佣金@2x.png');
+            }
+            .txt{
+                line-height: .9rem;
+                font-size: .28rem;
+                color: #999;
+                
+                samp{
+                    color: $red-color;
+                    margin: 0 .1rem;
+                }
+            }
+        }
+        .btn-wrap{
+           .am-button{
+               width: 50%;
+               height: .9rem;
+               line-height: .9rem;
+               font-size: .32rem;
+               border-radius: 0;
+           } 
+        }
+    }
+}
+.mallDetail-imgShare{
+    .top-wrap{
+        position: relative;
+        .top{
+            height: .7rem;
+            line-height: .7rem;
+            font-size: .24rem;
+            color: #fff;
+            background-color: #faa27a;
+            position: relative;
+            z-index: 99;
+            
+            .icon{
+                width: .7rem;
+                height: .7rem;
+                display: inline-block;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            .icon-help{
+                float: left;
+                background-image: url('../images/说明@2x.png');
+                background-size: .3rem;
+            }
+            .icon-up{
+                float: right;
+                background-image: url('../images/上拉@2x.png');
+                background-size: .16rem;
+            }
+        }
+        
+        .explain{
+            padding: .1rem .3rem;
+            height: 1.8rem;
+            position: absolute;
+            left: 0;
+            top: -1.8rem;
+            z-index: 98;
+            transition: .05s;
+            
+            p{
+                font-size: .24rem;
+                color: #666;
+                margin: .1rem 0;
+            }
+        }
+        
+        .mask{
+            z-index: 97;
+            display: none;
+            transition: .05s;
+        }
+        
+        &.on{
+            .explain{
+                top: .7rem;
+            }
+            .icon-up{
+                background-image: url('../images/下拉-白@2x.png');
+            }
+            .mask{
+                display: block !important;
+            }
+        }
+    }
+    
+    .img-wrap{
+        padding: .15rem .15rem;
+        .img{
+            width: 2.2rem;
+            height: 2.2rem;
+            overflow: hidden;
+            float: left;
+            margin: .15rem .1rem;
+            border: 1px solid $border-color;
+            
+            img{
+                width: 100%;
+                vertical-align: bottom;
+            }
+        }
+        .qrcode{
+            width: 2.2rem;
+            height: 2.2rem;
+            float: left;
+            margin: .15rem .1rem;
+            border: 1px solid $border-color;
+            
+            img{
+                width: 100%;
+                vertical-align: bottom;
+            }
         }
     }
 }

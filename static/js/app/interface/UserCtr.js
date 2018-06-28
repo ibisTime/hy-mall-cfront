@@ -322,5 +322,12 @@ define([
                 ...config
             }, refresh);
         },
+        // 设置领队推客
+        setLeaderSale(saleUserId, refresh) {
+            return Ajax.get("805097", { 
+                saleUserId,
+                userId: base.getUserId()
+            }, refresh);
+        },
     };
 })

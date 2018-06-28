@@ -6,6 +6,8 @@ define([
   'app/interface/UserCtr'
 ], function(base, JudgeBindMobile, BindMobileSms, GeneralCtr, UserCtr) {
 	var share = sessionStorage.getItem("share") || "";
+	var sLRfee = sessionStorage.getItem("sLRfee") || "";
+	var proCode = sessionStorage.getItem("proCode") || "";
 
 	init();
 
@@ -64,11 +66,16 @@ define([
         base.setSessionUser(data);
         var returnFistUrl = sessionStorage.getItem("l-return");
         if(share&&share=='1'){
-        	location.href = "../public/WeChatOA.html"
+        	base.gohrefReplace("../public/WeChatOA.html");
+    			sessionStorage.removeItem("share");
+        }else if (sLRfee && proCode) {
+        	base.gohrefReplace("../mall/mallDetail.html?code="+proCode+'&sLRfee='+sLRfee);
+	    		sessionStorage.removeItem("proCode");
+	    		sessionStorage.removeItem("sLRfee");
         }else if (returnFistUrl) {
-          location.href = returnFistUrl;
+          base.gohrefReplace(returnFistUrl);
         } else {
-          location.href = "../index.html"
+          base.gohrefReplace("../index.html");
         }
     }, function() {
     	base.showMsg('登录失败');

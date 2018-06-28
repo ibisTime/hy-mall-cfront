@@ -35,8 +35,6 @@ define([
 	                var html = "";
 	                lists.forEach((item,i) => {
 	                    html += buildHtml(item,i);
-	                    html += buildHtml(item,i);
-	                    html += buildHtml(item,i);
 	                });
                     $("#content").append(html);
                     isEnd && $("#loadAll").removeClass("hidden");

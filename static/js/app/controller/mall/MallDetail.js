@@ -5,8 +5,10 @@ define([
     'app/interface/GeneralCtr',
     'app/util/handlebarsHelpers',
     'app/module/weixin',
-], function(base, Swiper, MallCtr, GeneralCtr, Handlebars, weixin) {
+    'app/interface/UserCtr',
+], function(base, Swiper, MallCtr, GeneralCtr, Handlebars, weixin, UserCtr) {
 	var code = base.getUrlParam("code");
+	var sLRfee = base.getUrlParam("sLRfee") || ''; // 推客推荐
 	var type,
 		btnType;// 1: 加入购物车，2：立即下单
 		
@@ -27,7 +29,17 @@ define([
         	getPageComment(),
         	getPageCarProduct()
         )
+        
+		// 设置领队推客
+        if(sLRfee){
+        	setLeaderSale();
+        }
         addListener();
+	}
+	
+	// 设置领队推客
+	function setLeaderSale(){
+		return UserCtr.setLeaderSale(sLRfee).then(function(){},function(){});
 	}
 	
 	//获取商品详情
@@ -540,10 +552,10 @@ define([
 			if($("#specs2").hasClass('hidden')){//只有规格1
 				var productSpecsCode=$("#specs1 .spec p.active").attr("data-code");
 				
-				location.href = './submitOrder.html?s=2&code='+code+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html();
+				location.href = './submitOrder.html?s=2&code='+code+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html()+'&sLRfee='+sLRfee;
 			}else{
 				var productSpecsCode=specsArray2[$("#specs2 .spec p.active").attr('data-name')][$("#specs1 .spec p.active").text()];
-				location.href = './submitOrder.html?s=2&code='+code+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html();
+				location.href = './submitOrder.html?s=2&code='+code+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html()+'&sLRfee='+sLRfee;
 			}
 
 		})

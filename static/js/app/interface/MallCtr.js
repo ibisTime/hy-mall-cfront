@@ -143,5 +143,9 @@ define([
         getDKAmount(code) {
             return Ajax.get("808071", {code}, true);
         },
+        // 查询当前产品推荐奖励
+        getBackAmount(productCode){
+            return Ajax.get("808038", {productCode}, true);
+        }
     };
 })

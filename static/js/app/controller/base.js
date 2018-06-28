@@ -185,6 +185,13 @@ define([
             CookieUtil.del("token"); //token
             CookieUtil.del("qiniuUrl"); //qiniuUrl
         },
+		clearAllInfo: function(){
+            CookieUtil.del("userId"); //userId
+            CookieUtil.del("token"); //token
+            CookieUtil.del("qiniuUrl"); //qiniuUrl
+            CookieUtil.del("isLeader"); //isLeader
+			Base.goLogin();
+		},
         isLogin: function() {
             return !!Base.getUserId();
         },
@@ -339,8 +346,8 @@ define([
         	Ajax.get("805121", {
                 "userId": Base.getUserId()
             }, true).then(function(data){
-            	
-            	CookieUtil.set("isLeader", data.isLeader || '');
+            	sessionStorage.setItem("userInfo", JSON.stringify(data));
+            	CookieUtil.set("isLeader", data.saleStatus || '');
         		if(data.status=='2'){
         			
         			Base.showMsg('用户已被锁定，请联系管理员',1200)
@@ -354,6 +361,9 @@ define([
         },
         getIsLeader: function(){
         	return CookieUtil.get('isLeader') == '1' ? true : false;
+        },
+        getUserInfo: function(){
+        	return JSON.parse(sessionStorage.getItem('userInfo'));
         },
         /* 
 		 * url 目标url 
