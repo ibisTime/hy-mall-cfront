@@ -6,7 +6,13 @@
 	    <!--SCRIPT_PLACEHOLDER-->
 	</head>
 	<body>
-		<div id="content" class="wp100"></div>
+		<form class="activity-filter am-flexbox" id="formWrapper" style="top: 0;">
+			<div class="am-flexbox-item activity-filter-item"><select id="runTeamList"><option value="">跑团</option></select><i class="icon"></i></div>
+			<div class="am-flexbox-item activity-filter-item"><div class="startDatetime" id="dateStart"></div><samp id="dateStartVal">日期</samp><i class="icon"></i></div>
+		</form>
+		<div class="wp100" style="height: 1rem;"></div>
+		
+		<div id="content" class="wp100 mt20"></div>
 	    
 	    <div id="loadAll" class="load-all hidden">
 	        <img src="../../images/end.png">
@@ -39,6 +45,7 @@
 	    </div>
 		
 	    <link rel="import" href="../footer.html?__inline">
+    	<script src="../../js/lib/laydate/laydate.dev.js"></script>
 	    <script>
         	require(['app/controller/travelNotes/TravelNotesList']);
 	    </script>

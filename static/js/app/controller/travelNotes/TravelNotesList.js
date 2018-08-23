@@ -3,24 +3,51 @@ define([
     'app/module/foot',
 	'app/module/validate',
     'app/interface/TravelNotesStr',
-], function(base, Foot, Validate, TravelNotesStr) {
+    'app/interface/GeneralCtr',
+], function(base, Foot, Validate, TravelNotesStr, GeneralCtr) {
+    var runTeamList = base.getUrlParam('runTeam') || "";
+    var dateStart = base.getUrlParam('sDate') || "";
     var config = {
         start: 1,
-        limit: 10
+        limit: 10,
+        runTeamList: runTeamList,
+        dateStart: dateStart,
+        dateEnd: dateStart
     }, isEnd = false, canScrolling = false;
 	
     init();
 
 	function init(){
         Foot.addFoot(0);
-        getPageTravelNotes();
+		base.showLoading();
+		
+    	dateStart&&$("#dateStart").text(dateStart)
+    	dateStart&&$("#dateStartVal").text(dateStart)
+    	
+		//获取类型数据字典
+		GeneralCtr.getDictList({parentKey:'run_team_list'},'801907').then((data)=>{
+			var html = ""
+    		data.forEach(function(d, i){
+    			html+=`<option value="${d.dkey}">${d.dvalue}</option>`
+    		})
+    		$("#runTeamList").append(html);
+    		runTeamList&& $("#runTeamList").val(runTeamList)
+			
+        	getPageTravelNotes();
+		},base.hideLoading);
         addListener();
 	}
 	
-	// 分页查询我的游记
+    //筛选
+    function filter(){
+    	location.replace("./travelNotes-list.html?runTeam="+runTeamList+"&sDate="+dateStart)
+    }
+	
+	// 分页查询游记
     function getPageTravelNotes(refresh) {
         return TravelNotesStr.getPageTravelNotes(config, refresh)
             .then((data) => {
+            	base.hideLoading();
                 var lists = data.list;
                 var totalCount = +data.totalCount;
                 if (totalCount <= config.limit || lists.length < config.limit) {
@@ -193,6 +220,31 @@ define([
         	}
         })
         
+        var start = {
+            elem: '#dateStart',
+            format: 'YYYY-MM-DD',
+            isclear: true, //是否显示清空
+            istoday: false,
+            choose: function(datas) {
+            	var d = new Date(datas);
+                d.setDate(d.getDate());
+                d = d.format('yyyy-MM-dd');
+                
+                datas ? dateStart = d : dateStart = '';
+                filter();
+            }
+        };
+        
+        setTimeout(function(){
+        	laydate(start);
+        },0)
+        
+        //类型
+        $("#runTeamList").change(function(){
+        	
+        	runTeamList = $(this).val();
+        	filter();
+        })
         
 	}
 })

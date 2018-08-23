@@ -146,6 +146,14 @@ define([
         // 查询当前产品推荐奖励
         getBackAmount(productCode){
             return Ajax.get("808038", {productCode}, true);
+        },
+        // 申请退款
+        applyReturnProduct(config){
+            return Ajax.get("808080", config, true);
+        },
+        // 退货信息
+        deliverReturnProduct(config){
+            return Ajax.get("808082", config, true);
         }
     };
 })

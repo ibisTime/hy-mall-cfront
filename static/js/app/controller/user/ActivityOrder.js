@@ -45,11 +45,30 @@ define([
     		})
     		
 			$.when(
-	        	getPageOrders()
+	        	getPageOrders(),
+	        	getContact()
 	        )
 		},base.hideLoading);
         
         addListener();
+    }
+    
+    // 获取联系客服方式
+    function getContact(){
+    	return GeneralCtr.getPageUserSysConfig()
+			.then(function(data){
+                base.hideLoading();
+                data.list.forEach((item) => {
+                    if(item.ckey == "custom_center") {
+                    	$("#description").html(item.cvalue);
+                    } else if(item.ckey == "telephone") {
+                        $("#tel span").text(item.cvalue);
+                        $("#tel").attr('href','tel://'+item.cvalue)
+                    } else if(item.ckey == "time") {
+                        $("#time span").text(item.cvalue);
+                    }
+                });
+			});
     }
     
     //导航滑动
@@ -128,6 +147,8 @@ define([
     	if(item.status == "1"){
     		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="../pay/pay.html?code=${item.code}&type=activity">立即支付</a>
                             <button class="am-button am-button-small cancel-order" data-code="${item.code}">取消订单</button></div>`
+    	} else {
+    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-glost contact-btn">联系客服</button></div>`
     	}
         return `<div class="order-item">
                     <div class="order-item-header">
@@ -213,6 +234,15 @@ define([
                 }, () => {});
         });
         
+        //联系客服
+        $("#orderWrapper").on("click", ".contact-btn", function() {
+        	$("#contactDialog").removeClass("hidden")
+        });
+        
+        //联系客服弹窗-关闭
+        $("#contactDialog .canlce").click(function(){
+        	$("#contactDialog").addClass("hidden")
+        })
     }
     
 });

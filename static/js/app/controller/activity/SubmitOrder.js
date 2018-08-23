@@ -29,6 +29,40 @@ define([
 	var isBindMobile= false; //是否绑定手机号
 	var amountType = 0;//收费类型 ： 0=免费， 1=收费
 	var isUserInfo = false;//是否有用户信息(outName,realName,idNo,mobile)
+	var isWxGroupQrcode = '0'; // 是否有领队微信群二维码
+	// form 校验
+	var rules={
+		outName: {
+            required: true,
+        },
+        realName: {
+            required: true,
+            chinese: true
+        },
+        idNo: {
+            required: true,
+            isIdCardNo: true
+        },
+        mobile: {
+            required: true,
+            mobile: true
+        },
+        gender: {
+            required: true,
+        }
+	}
+	
+	// 用户报名信息 form
+	var _formWrapper = $("#formWrapper");
+	
+	// 同行好友弹窗form
+	var _enrollForm = $("#enrollForm");
+	
+	// 存储自定义字段
+	var customKey = {};
+	
+	// 同行好友数据
+	var enrollListTmpl = [];
 	
     init();
 
@@ -80,6 +114,10 @@ define([
 				$("#realName").val(data.realName)
 				$("#realName").parents(".form-item").find('.inputMask').removeClass("hidden");
 			}
+			if(data.gender){
+				$("#gender").val(data.gender).trigger("change");
+				$("#gender").parents(".form-item").find('.inputMask').removeClass("hidden");
+			}
 		});
 	}
 	
@@ -103,6 +141,139 @@ define([
 			
 			getAmount();
 			
+			// 是否有领队二维码
+			if(data.wxGroupQrcode){
+				isWxGroupQrcode = '1';
+			}
+			
+			// 自定义字段
+			var html1 = ''; // 当前用户
+			var html2 = ''; // 同行好友
+			
+			if(data.customKey1){
+				rules = {
+					...rules,
+					customKey1: {
+            			required: true
+					}
+				}
+				html1 += `<div class="form-item b_e_b">
+			                <div class="am-flexbox">
+			                    <span class="item-title">${data.customKey1}</span>
+			                    <input type="text" placeholder="请输入${data.customKey1}" id="customKey1" name="customKey1" class="input-item">
+			                </div>
+			            </div>`;
+			    html2 += `<div class="wrap">
+                			<samp class="fl tit">${data.customKey1}：</samp>
+                			<div class="fr conWrap">
+                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey1}" id="enroll-customKey1" name="customKey1" />
+                			</div>
+                		</div>`;
+			}
+			if(data.customKey2){
+				rules = {
+					...rules,
+					customKey2: {
+            			required: true
+					}
+				}
+				
+				html1 +=`<div class="form-item b_e_b">
+			                <div class="am-flexbox">
+			                    <span class="item-title">${data.customKey2}</span>
+			                    <input type="text" placeholder="请输入${data.customKey2}" id="customKey2" name="customKey2" class="input-item">
+			                </div>
+			            </div>`;
+			    html2 += `<div class="wrap">
+                			<samp class="fl tit">${data.customKey2}：</samp>
+                			<div class="fr conWrap">
+                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey2}" id="enroll-customKey2" name="customKey2" />
+                			</div>
+                		</div>`;
+			}
+			if(data.customKey3){
+				rules = {
+					...rules,
+					customKey3: {
+            			required: true
+					}
+				}
+				
+				html1 +=`<div class="form-item b_e_b">
+			                <div class="am-flexbox">
+			                    <span class="item-title">${data.customKey3}</span>
+			                    <input type="text" placeholder="请输入${data.customKey3}" id="customKey3" name="customKey3" class="input-item">
+			                </div>
+			            </div>`;
+			    html2 += `<div class="wrap">
+                			<samp class="fl tit">${data.customKey3}：</samp>
+                			<div class="fr conWrap">
+                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey3}" id="enroll-customKey3" name="customKey3" />
+                			</div>
+                		</div>`;
+			}
+			if(data.customKey4){
+				rules = {
+					...rules,
+					customKey4: {
+            			required: true
+					}
+				}
+				
+				html1 +=`<div class="form-item b_e_b">
+			                <div class="am-flexbox">
+			                    <span class="item-title">${data.customKey4}</span>
+			                    <input type="text" placeholder="请输入${data.customKey4}" id="customKey4" name="customKey4" class="input-item">
+			                </div>
+			            </div>`;
+			    html2 += `<div class="wrap">
+                			<samp class="fl tit">${data.customKey4}：</samp>
+                			<div class="fr conWrap">
+                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey4}" id="enroll-customKey4" name="customKey4" />
+                			</div>
+                		</div>`;
+			}
+			if(data.customKey5){
+				rules = {
+					...rules,
+					customKey5: {
+            			required: true
+					}
+				}
+				
+				html1 +=`<div class="form-item b_e_b">
+			                <div class="am-flexbox">
+			                    <span class="item-title">${data.customKey5}</span>
+			                    <input type="text" placeholder="请输入${data.customKey5}" id="customKey5" name="customKey5" class="input-item">
+			                </div>
+			            </div>`;
+			    html2 += `<div class="wrap">
+                			<samp class="fl tit">${data.customKey5}：</samp>
+                			<div class="fr conWrap">
+                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey5}" id="enroll-customKey5" name="customKey5" />
+                			</div>
+                		</div>`;
+			}
+			
+			$(".userForm-wrap").append(html1);
+			$("#enrollForm").append(html2);
+			
+	        _formWrapper.validate({
+	            'rules': {
+	            	...rules,
+	            	iceName:{},
+	            	iceMobile:{
+	            		mobile: true
+	            	},
+	            	applyNote:{}
+	            },
+	            onkeyup: false
+	        });
+			
+			_enrollForm.validate({
+	            'rules': rules,
+	            onkeyup: false
+	        })
 			base.hideLoading()
 		}, base.hideLoading)
 	}
@@ -157,6 +328,7 @@ define([
 					<div class="deleteWrap fl"><div class="delete chooseList-delete"></div></div>
 				</div>`
 	}
+	
 	//租赁列表
 	function leaseBuildHtml(item){
 		
@@ -236,25 +408,34 @@ define([
 	
 	//提交订单
 	function submitOrder(params){
+		console.log(params);
 		return ActivityStr.placeOrder(params).then((data)=>{
 			
 			//免费
 			if(amountType==0 && type!=2){
 				base.showMsg("报名成功！")
 				setTimeout(() => {
-                    location.replace("../user/user.html");
+					if(isWxGroupQrcode=='1'){
+                		base.gohrefReplace("../activity/doSuccess.html?code="+code);
+					} else {
+                		base.gohrefReplace("../user/activity-orders.html");
+					}
                 }, 500);
 			//收费
 			}else if(amountType== 0 && type==2 && params.prodList.length==0&&params.rprodList.length==0){
 				base.showMsg("报名成功！")
 				setTimeout(() => {
-                    location.replace("../user/user.html");
+					if(isWxGroupQrcode=='1'){
+                		base.gohrefReplace("../activity/doSuccess.html?code="+code);
+					} else {
+                		base.gohrefReplace("../user/activity-orders.html");
+					}
                 }, 500);
 			//有选择装备
 			}else{
 				base.showMsg("提交成功！")
 				setTimeout(() => {
-				location.href = '../pay/pay.html?code='+data.code+'&type=activity';
+					location.href = '../pay/pay.html?code='+data.code+'&type=activity&isWxGroupQrcode='+isWxGroupQrcode;
                 }, 500);
 			}
 			
@@ -268,7 +449,14 @@ define([
 		//收费活动需填写真实信息
 		if(amountType=='1'){
 			var enrollList = [];
-			enrollList.push($('#formWrapper').serializeObject());
+			var formData = $('#formWrapper').serializeObject();
+			config.iceName = formData.iceName;
+			config.iceMobile = formData.iceMobile;
+			delete formData.iceName;
+			delete formData.iceMobile;
+			
+			enrollList.push(formData);
+			enrollList = enrollList.concat(enrollListTmpl);
 			
 			config.enrollList = enrollList;
 		}
@@ -318,6 +506,114 @@ define([
 			
 	}
 	
+	// 同行好友 弹窗-关闭
+	function enrollDialogClose(){
+		$("#enrollDialog").addClass('hidden');	
+    	$("#enrollForm").get(0).reset();
+	}
+	
+	//添加同行好友
+	function addEnroll(params){
+		base.showLoading();
+		var html = '';
+		var gender1 = '', gender2 = '';
+		
+		if(params.gender == '1'){
+			gender1 = 'selected'
+		} else {
+			gender2 = 'selected'
+		}
+		
+		html = `<div class="enrollList-item ${enrollListTmpl.length >=1 ? 'mt20' : ''} enrollList-item-${enrollListTmpl.length}" data-index="${enrollListTmpl.length}">
+					<div class="form-item b_e_b">
+		                <div class="am-flexbox">
+		                    <span class="item-title">户外昵称</span>
+		                    <input type="text" placeholder="请输入户外昵称" value="${params.outName}" class="input-item">
+		                </div>
+		                <div class="inputMask"></div>
+		            </div>
+		            <div class="form-item b_e_b">
+		                <div class="am-flexbox">
+		                    <span class="item-title">联系电话</span>
+		                    <input type="tel" placeholder="请输入联系电话" pattern="[0-9]*" value="${params.mobile}" class="input-item">
+		                </div>
+		                <div class="inputMask"></div>
+		            </div>
+		            <div class="form-item b_e_b">
+		                <div class="am-flexbox">
+		                    <span class="item-title">真实姓名</span>
+		                    <input type="text" placeholder="请输入真实姓名" value="${params.realName}" class="input-item">
+		                </div>
+		                <div class="inputMask"></div>
+		            </div>
+		            <div class="form-item b_e_b">
+		                <div class="am-flexbox">
+		                    <span class="item-title">身份证号</span>
+		                    <input type="text" placeholder="请输入身份证号" value="${params.idNo}" class="input-item">
+		                </div>
+		                <div class="inputMask hidden"></div>
+		            </div>
+		            <div class="form-item b_e_b">
+		                <div class="am-flexbox">
+		                    <span class="item-title">性别</span>
+		                    <select class="select-item">
+		                    	<option value="1" selected='${gender1}'>男</option>
+		                    	<option value="2" selected='${gender2}'>女</option>
+		                    </select>
+		                </div>
+		                <div class="inputMask"></div>
+		            </div>`;
+		if(params.customKey1){
+			html += `<div class="form-item b_e_b">
+	                <div class="am-flexbox">
+	                    <span class="item-title">名称1</span>
+	                    <input type="text" placeholder="请输入名称1" value="${params.customKey1}" class="input-item">
+	                </div>
+	            </div>`;
+		}
+		if(params.customKey2){
+			html += `<div class="form-item b_e_b">
+	                <div class="am-flexbox">
+	                    <span class="item-title">名称2</span>
+	                    <input type="text" placeholder="请输入名称2" value="${params.customKey2}" class="input-item">
+	                </div>
+	            </div>`;
+		}
+		if(params.customKey3){
+			html += `<div class="form-item b_e_b">
+	                <div class="am-flexbox">
+	                    <span class="item-title">名称3</span>
+	                    <input type="text" placeholder="请输入名称3" value="${params.customKey3}" class="input-item">
+	                </div>
+	            </div>`;
+		}
+		if(params.customKey4){
+			html += `<div class="form-item b_e_b">
+	                <div class="am-flexbox">
+	                    <span class="item-title">名称4</span>
+	                    <input type="text" placeholder="请输入名称4" value="${params.customKey4}" class="input-item">
+	                </div>
+	            </div>`;
+		}
+		if(params.customKey5){
+			html += `<div class="form-item b_e_b">
+	                <div class="am-flexbox">
+	                    <span class="item-title">名称5</span>
+	                    <input type="text" placeholder="请输入名称5" value="${params.customKey5}" class="input-item">
+	                </div>
+	            </div>`;
+		}
+		html += `<div class="form-item b_e_b over-hide">
+		    		<div class="am-button am-button-red am-button-small fr delete-btn" data-index="${enrollListTmpl.length}">删除</div>
+	            </div>
+			</div>`;
+		
+		enrollListTmpl.push(params);
+		$(".enrollList-wrap").append(html);
+		enrollDialogClose();
+		
+		base.hideLoading();
+	}
 	
 	function addListener(){
 		BindMobile.addMobileCont({
@@ -402,7 +698,6 @@ define([
 		
 		//配送方式
 		$("#toUser").click(function(){
-        
 			ExpressList.showCont();
 		})
         
@@ -434,28 +729,6 @@ define([
         	},()=>{})
         })
         
-		var _formWrapper = $("#formWrapper");
-        _formWrapper.validate({
-            'rules': {
-                outName: {
-                    required: true,
-                },
-                realName: {
-                    required: true,
-                    chinese: true
-                },
-                idNo: {
-                    required: true,
-                    isIdCardNo: true
-                },
-                mobile: {
-                    required: true,
-                    mobile: true
-                },
-            },
-            onkeyup: false
-        });
-		
 		//提交
 		$("#subBtn").click(function(){
 			if(!isBindMobile){
@@ -472,6 +745,7 @@ define([
 								+'<samp>联系号码： '+$("#mobile").val()+'</samp>'
 								+'<samp>真实姓名： '+$("#realName").val()+'</samp>'
 								+'<samp>身份证号： '+$("#idNo").val()+'</samp>'
+								+'<samp>性别： '+$("#gender").val()+'</samp>'
 								+'</div>'
 							
 							base.confirm(msg).then(()=>{
@@ -485,5 +759,46 @@ define([
 				
 			}
 		})
+		
+		// 同行好友
+		
+		var touchFalg=false;
+		
+        //同行好友 弹窗-取消
+        $("#enrollDialog .canlce").click(function(){
+        	touchFalg = false
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        	
+            enrollDialogClose();
+        })
+        
+        //同行好友 弹窗-确定
+        $("#enrollDialog .confirm").click(function(){
+        	var params = _enrollForm.serializeObject();
+        	if(_enrollForm.valid()){
+        		addEnroll(params);
+        	}
+        })
+		
+		// 添加按钮
+		$("#addEnrollBtn").click(function(){
+			$("#enrollDialog").removeClass('hidden');
+		})
+		
+		// 同行好友列表 删除按钮 点击事件
+		$(".enrollList-wrap").on('click', '.enrollList-item .delete-btn', function(){
+			var index = $(this).attr("data-index");
+			base.confirm("确定删除这个同行好友记录？").then(()=>{
+				$(".enrollList-item-"+index).remove();
+				delete enrollListTmpl[index];
+				base.showMsg("操作成功");
+			},()=>{})
+		})
+		
+		
 	}
 })

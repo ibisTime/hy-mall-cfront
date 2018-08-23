@@ -41,7 +41,7 @@
         <button id="commentBtn" class="am-button am-button-red reminderBtn wp100 hidden">立即评价</button>
 	</div>
 	
-	<!-- 退货信息弹窗 -->
+	<!-- 申请退货弹窗 -->
     <div class="return-dialog hidden" id="applyReturnDialog">
     	<div class="am-modal-mask"></div>
         <div class="am-modal-wrap">
@@ -51,7 +51,7 @@
                     	<p>申请退货</p>
                     </div>
                     <div class="am-modal-body">
-                    	<form>
+                    	<form id="applyReturnForm">
                     		<div class="wrap">
                     			<samp class="fl tit">退货原因：</samp>
                     			<div class="fr conWrap">
@@ -87,7 +87,7 @@
     </div>
 	
 	<!-- 退货信息弹窗 -->
-    <div class="return-dialog hidden" id="returnDialog">
+    <div class="return-dialog hidden" id="deliverDialog">
     	<div class="am-modal-mask"></div>
         <div class="am-modal-wrap">
             <div role="document" class="am-modal">
@@ -96,49 +96,43 @@
                     	<p>请填写退货信息</p>
                     </div>
                     <div class="am-modal-body">
-                    	<form>
-                    		<div class="wrap backLogisticsCompany hidden">
+                    	<form id="deliverReturnForm">
+                    		<div class="wrap">
                     			<samp class="fl tit">物流公司：</samp>
                     			<div class="fr conWrap">
-                    				<select class="wp100 con" id="backLogisticsCompany" name="backLogisticsCompany">
+                    				<select class="wp100 con" id="logisticsCompany" name="logisticsCompany">
 	                    				<option value=''>请选择</option>
 	                    			</select>
-	                    			<samp class="error hidden">请选择物流公司</samp>
                     			</div>
                     		</div>
-                    		<div class="wrap backLogisticsCode hidden">
+                    		<div class="wrap">
                     			<samp class="fl tit">物流单号：</samp>
                     			<div class="fr conWrap">
-                    				<input class="wp100 con"  type="number" pattern="[0-9]*" id="backLogisticsCode" name="backLogisticsCode" placeholder="请输入物流单号" />
-	                    			<samp class="error hidden">不能为空</samp>
+                    				<input class="wp100 con"  type="number" pattern="[0-9]*" id="logisticsCode" name="logisticsCode" placeholder="请输入物流单号" />
                     			</div>
                     		</div>
-                    		<div class="wrap backLogisticsCode hidden">
+                    		<div class="wrap">
                     			<samp class="fl tit">物<i></i>流<i></i>单：</samp>
-                    			<div id="uploadContainer" class="fr fileWrap">
-								    	<div id="uploadBtn" class="wp100 hp100">
+                    			<div id="uploadContainerD" class="fr fileWrap">
+								    	<div id="uploadBtnD" class="wp100 hp100">
 								            <div class="wp100 hp100 pic" id="backPdf"></div>
 								            <div class="addbackPdf"></div>
 								        </div>
                     			</div>
                     		</div>
                     		
-                    		<div class="wrap backLogisticsCode hidden">
+                    		<div class="wrap">
                     			<samp class="fl tit">发货时间：</samp>
-								<div class="fr conWrap">
-									<div class="startDatetime" id="startDatetime"></div>
+								<div class="fr conWrap sendDatetime-wrap">
+									<div class="startDatetime wp100 hp100" id="sendDatetime"></div>
+									<samp class="error hidden">不能为空</samp>
 								</div>
                     		</div>
                     	</form>
-                    	
-                		<div class="orderApplyNote hidden" id="dialog-returnAddress2">
-							<div class="fl title">平台地址：</div>
-							<div class="textarea"></div>
-						</div>
                     </div>
                     <div class="am-modal-footer">
-                    	<div class="am-button am-button-small am-button-cancel fl" id="canlce">取消</div>
-                    	<div class="am-button am-button-small am-button-red fr" id="confirm">提交</div>
+                    	<div class="am-button am-button-small am-button-cancel fl canlce">取消</div>
+                    	<div class="am-button am-button-small am-button-red fr confirm">提交</div>
                     </div>
                 </div>
             </div>
@@ -148,6 +142,7 @@
     <link rel="import" href="../footer.html?__inline">
     <script type="text/javascript" src="../../js/lib/qiniu/plupload.full.min.js"></script>
     <script type="text/javascript" src="../../js/lib/qiniu/qiniu.min.js"></script>
+    <script src="../../js/lib/laydate/laydate.dev.js"></script>
     <script>
         require(['app/controller/user/MallOrderDetail']);
     </script>

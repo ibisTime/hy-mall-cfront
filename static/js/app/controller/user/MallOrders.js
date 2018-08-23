@@ -3,7 +3,8 @@ define([
     'app/util/dict',
     'app/module/scroll',
     'app/interface/MallCtr',
-], function(base, Dict, scroll, MallCtr) {
+    'app/interface/GeneralCtr',
+], function(base, Dict, scroll, MallCtr, GeneralCtr) {
     var config = {
         start: 1,
         limit: 10
@@ -34,8 +35,29 @@ define([
     function init(){
     	initScroll()
         base.showLoading();
-        getPageOrders();
+        $.when(
+        	getContact(),
+        	getPageOrders()
+        )
         addListener();
+    }
+    
+    // 获取联系客服方式
+    function getContact(){
+    	return GeneralCtr.getPageUserSysConfig()
+			.then(function(data){
+                base.hideLoading();
+                data.list.forEach((item) => {
+                    if(item.ckey == "custom_center") {
+                    	$("#description").html(item.cvalue);
+                    } else if(item.ckey == "telephone") {
+                        $("#tel span").text(item.cvalue);
+                        $("#tel").attr('href','tel://'+item.cvalue)
+                    } else if(item.ckey == "time") {
+                        $("#time span").text(item.cvalue);
+                    }
+                });
+			});
     }
     
     //导航滑动
@@ -118,15 +140,24 @@ define([
     	
     	// 已支付，待发货
     	}else if(item.status == "2"){
-    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red " data-code="${item.code}">待发货</button></div>`
+    		tmplbtnHtml += `<div class="order-item-footer">
+    							<button class="am-button am-button-small am-button-red " data-code="${item.code}">待发货</button>
+    							<button class="am-button am-button-small am-button-glost contact-btn">联系客服</button>
+							</div>`
     	
     	//已发货
     	}else if(item.status == "3"){
-    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-red confirm-order" data-code="${item.code}">确认收货</button></div>`
+    		tmplbtnHtml += `<div class="order-item-footer">
+    							<button class="am-button am-button-small am-button-red confirm-order" data-code="${item.code}">确认收货</button>
+    							<button class="am-button am-button-small am-button-glost contact-btn">联系客服</button>
+							</div>`
     	
     	// 已收货
     	}else if(item.status == "4"){
-    		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small" href="./order-comment.html?type=mall&code=${item.code}">待评价</button></a></div>`
+    		tmplbtnHtml += `<div class="order-item-footer">
+    							<a class="am-button am-button-small" href="./order-comment.html?type=mall&code=${item.code}">待评价</button></a>
+    							<button class="am-button am-button-small am-button-glost contact-btn">联系客服</button>
+							</div>`
     	
     	//91：用户异常 ，92：商户异常， 93：快递异常
     	}else if(item.status == "91"||item.status == "92"||item.status == "93"){
@@ -242,6 +273,16 @@ define([
                 }, () => {});
         });
         
+        
+        //联系客服
+        $("#orderWrapper").on("click", ".contact-btn", function() {
+        	$("#contactDialog").removeClass("hidden")
+        });
+        
+        //联系客服弹窗-关闭
+        $("#contactDialog .canlce").click(function(){
+        	$("#contactDialog").addClass("hidden")
+        })
         
         $(window).on("scroll", function() {
             if (canScrolling && !isEnd && ($(document).height() - $(window).height() - 10 <= $(document).scrollTop())) {

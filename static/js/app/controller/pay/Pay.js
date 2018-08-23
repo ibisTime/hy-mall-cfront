@@ -10,6 +10,7 @@ define([
     const BALANCE_PAY = 1, WX_PAY = 5;
     var code = base.getUrlParam("code"),
         type = base.getUrlParam("type"),//类型  
+        isWxGroupQrcode = base.getUrlParam("isWxGroupQrcode") == '1',
         pay_type = 1;
     var dkAmount = 0;
     
@@ -234,7 +235,11 @@ define([
                         	base.gohrefReplace("../user/lease-orders.html");
 			            //活动订单
 			            } else if(type == ACTIVITY_ORDER) {
-                        	base.gohrefReplace("../user/activity-orders.html");
+							if(isWxGroupQrcode=='1'){
+		                		base.gohrefReplace("../activity/doSuccess.html?code="+code);
+							} else {
+		                		base.gohrefReplace("../user/activity-orders.html");
+							}
 			            } 
                     }, 500);
                 }

@@ -1,20 +1,26 @@
 define([
     'app/controller/base',
+    'app/module/validate',
     'app/module/qiniu',
     'app/interface/MallCtr',
     'app/util/dict',
     'app/interface/GeneralCtr'
-], function(base, qiniu, MallCtr, Dict, GeneralCtr) {
+], function(base, Validate, qiniu, MallCtr, Dict, GeneralCtr) {
     var code = base.getUrlParam("code"),
         orderStatus = Dict.get("mallOrderStatus"),
-    	expressDict = {};
+    	expressDict = {},
+    	productOrderStatus={};
 
     init();
     
     function init(){
         addListener();
         base.showLoading();
-        $.when(
+        productOrderStatusDict().then(loadDate,loadDate)
+    }
+    
+    function loadDate(){
+    	$.when(
         	getReturnReason(),
         	getBackLogisticsCompany(),
         	initUpload()
@@ -23,12 +29,24 @@ define([
         })
     }
     
+    // 获取订单详情商品状态数据字典
+    function productOrderStatusDict(){
+    	return GeneralCtr.getDictList({parentKey:'product_order_status'},'801907').then((data)=>{
+    		data.forEach(v => {
+    			productOrderStatus[v.dkey] = v.dvalue;
+    		})
+    	},()=>{})
+    }
+    
     //获取物流公司列表
     function getBackLogisticsCompany(){
     	return GeneralCtr.getDictList({parentKey:'kd_company'},'801907').then((data)=>{
+    		var html = ''
     		data.forEach(function(d, i){
-    			expressDict[d.dkey] = d.dvalue
+    			expressDict[d.dkey] = d.dvalue;
+    			html += `<option value='${d.dkey}'>${d.dvalue}</option>`;
     		})
+    		$("#logisticsCompany").html(html)
     	},()=>{})
     }
     
@@ -53,6 +71,22 @@ define([
 				//商品详情
                 var htmlPro = '';
 				data.productOrderList.forEach(function(d, i){
+					var returnHtml = '';
+					if(data.status == "4"){
+						var btnClass='';
+						
+						// 可退货
+						if(d.status == '0'){
+							btnClass = 'applyReturn-goods';
+							
+						// 待发货
+						} else if(d.status == '2'){
+							btnClass = 'deliver-goods'
+						}
+						
+						returnHtml = `<div class="wp100 return-wrap"><button class=" fr am-button am-button-small am-button-red ${btnClass}" data-code="${d.code}">${productOrderStatus[d.status]}</button></div>`
+					}
+					
 					var price = d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)
 					
 					htmlPro += `<div class="mall-item"><a class="wp100" href="../mall/mallDetail.html?code=${d.productCode}">
@@ -64,7 +98,7 @@ define([
 		    				<samp class="samp1 fl">${price}</samp>
 		    				<samp class="samp2 fr">x${d.quantity}</samp>
 		    			</div></div></a>
-		    			<div class="wp100 return-wrap"><button class=" fr am-button am-button-small am-button-red return-goods" data-code="${d.code}">退货</button></div>
+		    			${returnHtml}
 		    			</div>`;
 				})
 				$(".orderPro-list").html(htmlPro);
@@ -195,11 +229,6 @@ define([
 		}, 800)
 	}
 	
-	//申请退货弹窗-取消
-	function applyReturnDialogClose(){
-    	$("#applyReturnDialog").addClass('hidden');
-	}
-	
 	//七牛初始化图片
 	function initUpload(){
 		qiniu.getQiniuToken()
@@ -211,19 +240,88 @@ define([
 					containerId: "uploadContainer",
 					multi_selection: false,
 					showUploadProgress: function(up, file){
-						$(".upload-progress").css("width", parseInt(file.percent, 10) + "%");
+						$("#applyReturnDialog .upload-progress").css("width", parseInt(file.percent, 10) + "%");
 					},
 					fileAdd: function(up, file){
-						$(".upload-progress-wrap").show();
+						$("#applyReturnDialog .upload-progress-wrap").show();
 					},
 					fileUploaded: function(up, url, key){
-						$(".upload-progress-wrap").hide().find(".upload-progress").css("width", 0);
-						$(".addbackPdf").addClass('hidden')
+						$("#applyReturnDialog .upload-progress-wrap").hide().find(".upload-progress").css("width", 0);
+						$("#applyReturnDialog .addbackPdf").addClass('hidden')
+						$("#returnPdf").html("<img src='"+url+"'>");
+						$('#returnPdf').attr('data-key',key)
+					}
+				});
+			}, () => {})
+		qiniu.getQiniuToken()
+			.then((data) =>{
+				var token = data.uploadToken;
+				qiniu.uploadInit({
+					token: token,
+					btnId: "uploadBtnD",
+					containerId: "uploadContainerD",
+					multi_selection: false,
+					showUploadProgress: function(up, file){
+						$("#deliverDialog .upload-progress").css("width", parseInt(file.percent, 10) + "%");
+					},
+					fileAdd: function(up, file){
+						$("#deliverDialog .upload-progress-wrap").show();
+					},
+					fileUploaded: function(up, url, key){
+						$("#deliverDialog .upload-progress-wrap").hide().find(".upload-progress").css("width", 0);
+						$("#deliverDialog .addbackPdf").addClass('hidden')
 						$("#backPdf").html("<img src='"+url+"'>");
 						$('#backPdf').attr('data-key',key)
 					}
 				});
 			}, () => {})
+	}
+	
+	//申请退货弹窗-关闭
+	function applyReturnDialogClose(){
+    	$("#applyReturnDialog").addClass('hidden');
+    	$("#applyReturnDialog .confirm").attr("data-code", '');
+    	$("#applyReturnForm").get(0).reset();
+    	$("#applyReturnDialog .addbackPdf").removeClass('hidden')
+		$("#returnPdf").html("");
+		$('#returnPdf').attr('data-key','')
+	}
+	
+	// 申请退款
+	function applyReturnProduct(params){
+		return MallCtr.applyReturnProduct(params).then(()=>{
+			applyReturnDialogClose();
+			base.hideLoading();
+			base.showMsg('操作成功！')
+			
+			setTimeout(function(){
+				location.reload(true);
+			},800)
+		}, base.hideLoading)
+	}
+	
+	// 退货信息弹窗 - 关闭
+	function deliverDialogClose(){
+    	$("#deliverDialog").addClass('hidden');
+    	$("#applyReturnDialog .confirm").attr("data-code", '');
+    	$("#applyReturnForm").get(0).reset();
+    	$("#deliverDialog .addbackPdf").removeClass('hidden')
+		$("#backPdf").html("");
+		$('#backPdf').attr('data-key','')
+		$("#sendDatetime").html("");
+	}
+	
+	// 填写退货信息
+	function deliverReturnProduct(params){
+		return MallCtr.deliverReturnProduct(params).then(()=>{
+			deliverDialogClose();
+			base.hideLoading();
+			base.showMsg('操作成功！')
+			
+			setTimeout(function(){
+				location.reload(true);
+			},800)
+		}, base.hideLoading)
 	}
 	
     function addListener(){
@@ -293,6 +391,20 @@ define([
         
 		var touchFalg=false;
 		
+		
+		//申请退货---- start
+        var _applyReturnForm = $("#applyReturnForm");
+        _applyReturnForm.validate({
+            'rules': {
+                returnReason: {
+                    required: true
+                },
+                returnNote: {
+                }
+            },
+            onkeyup: false
+        });
+        
         //申请退货弹窗-取消
         $("#applyReturnDialog .canlce").click(function(){
         	touchFalg = false
@@ -304,5 +416,114 @@ define([
         	
             applyReturnDialogClose();
         })
+        
+        //申请退货弹窗-确定
+        $("#applyReturnDialog .confirm").click(function(){
+        	var productCode =$(this).attr('data-code');
+        	var params = _applyReturnForm.serializeObject();
+        	if(_applyReturnForm.valid()){
+        		params.returnPdf =  $('#returnPdf').attr('data-key');
+        		params.code = productCode;
+        		base.showLoading();
+        		applyReturnProduct(params);
+        	}
+        })
+        //申请退货---- end
+        
+        //申请退货按钮
+        $('.orderPro-list').on('click', '.applyReturn-goods', function(){
+        	$("#applyReturnDialog .confirm").attr("data-code", $(this).attr("data-code"));
+    		$("#applyReturnDialog").removeClass('hidden');
+    		
+    		touchFalg = true
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        })
+        
+        //待发货按钮
+        $('.orderPro-list').on('click', '.deliver-goods', function(){
+        	$("#deliverDialog .confirm").attr("data-code", $(this).attr("data-code"));
+    		$("#deliverDialog").removeClass('hidden');
+    		
+    		touchFalg = true
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        })
+        
+        //填写退货信息 --- start
+        var startDate = {
+            elem: '#sendDatetime',
+            format: 'YYYY-MM-DD hh:mm:ss',
+            isclear: true, //是否显示清空
+            istoday: false,
+            istime: true,
+            choose: function(datas) {
+            	if(datas){
+            		var d = new Date(datas);
+	                d.setDate(d.getDate());
+	                d = d.format('yyyy-MM-dd hh:mm:ss');
+	                $("#sendDatetime").text(d);
+                	$(".sendDatetime-wrap .error").addClass('hidden');
+            	} else {
+	                $("#sendDatetime").text('');
+                	$(".sendDatetime-wrap .error").removeClass('hidden');
+            	}
+            }
+        };
+        
+        setTimeout(function(){
+        	laydate(startDate);
+        },0)
+        
+        var _deliverReturnForm = $("#deliverReturnForm");
+        _deliverReturnForm.validate({
+            'rules': {
+                logisticsCompany: {
+                    required: true
+                },
+                logisticsCode: {
+                    required: true
+                }
+            },
+            onkeyup: false
+        });
+        
+        
+        //退货信息 弹窗-取消
+        $("#deliverDialog .canlce").click(function(){
+        	touchFalg = false
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        	
+            deliverDialogClose();
+        })
+        
+        //申请退货弹窗-确定
+        $("#deliverDialog .confirm").click(function(){
+        	var productCode =$(this).attr('data-code');
+        	var params = _deliverReturnForm.serializeObject();
+        	if(_deliverReturnForm.valid()){
+        		if(!$("#sendDatetime").text() || $("#sendDatetime").text() == ''){
+        			$(".sendDatetime-wrap .error").removeClass('hidden');
+        			return ;
+        		}
+        		params.logisticsPdf =  $('#backPdf').attr('data-key');
+        		params.code = productCode;
+        		params.sendDatetime = $("#sendDatetime").text();
+        		base.showLoading();
+        		deliverReturnProduct(params);
+        	}
+        })
+        
+        //填写退货信息 --- end
     }
 });

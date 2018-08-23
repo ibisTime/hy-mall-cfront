@@ -91,7 +91,12 @@ define([
 	        });
 	        
 			//收藏
-			data.isCollect=='1'?$("#collect").addClass("active"):$("#collect").removeClass("active")
+			data.isCollect=='1'?$("#collect").addClass("active"):$("#collect").removeClass("active");
+			
+			//角标
+			if(data.cornerPic){
+				$("#cornerPic").html(`<img src="${base.getImg(data.cornerPic, '?imageMogr2/auto-orient/thumbnail/!800x600r')}">`);
+			}
 	        
 	        $(".detail-title .name").html(data.name)
 			$(".detail-title .slogan").html(data.slogan?data.slogan:'')
@@ -118,6 +123,10 @@ define([
 			$("#equipment").html(data.equipment)
 			$("#placeDesc").html(data.placeDesc)
 			
+			if(data.platformAdv){
+				$("#platformAdv").html(data.platformAdv)
+				$("#platformAdv-wrap").removeClass('hidden')
+			}
 			
 			if(data.enrollNum!='0'){
 				
