@@ -67,7 +67,7 @@ define([
                     'BeforeUpload': function(up, file) {
                         // 每个文件上传前,处理相关的事情
                         //printLog('on BeforeUpload');
-                        if(file.type=='image/jpg' || file.type=='image/jpeg'  || file.type=='image/gif'  || file.type=='image/png'  || file.type=='image/bmp'){
+                        if(file.type=='image/jpg' || file.type=='image/jpeg' || file.type=='image/gif' || file.type=='image/png' || file.type=='image/bmp' || file.type=='image/raw'){
 
                         }else{
                         	uploader.stop();

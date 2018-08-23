@@ -4,7 +4,6 @@ define([
     'app/module/addOrEditBankCard',
     'app/util/handlebarsHelpers'
 ], function(base, UserCtr, addOrEditBankCard, Handlebars) {
-    var _tmpl = __inline('../../ui/bank-item.handlebars');
     var config = {
         start: 1,
         limit: 10
@@ -28,8 +27,12 @@ define([
                     isEnd = true;
                 }
     			if(data.list.length) {
+    				var html = "";
+                    lists.forEach((item, i) => {
+                        html += buildHtml(item, i);
+                    });
     				$("#addBtn").addClass('hidden')
-                    $("#content")[refresh ? "html" : "append"](_tmpl({items: data.list}));
+                    $("#content")[refresh ? "html" : "append"](html);
                     isEnd && $("#loadAll").removeClass("hidden");
                     config.start++;
     			} else if(config.start == 1) {
@@ -41,6 +44,18 @@ define([
                 }
                 canScrolling = true;
         	}, hideLoading);
+    }
+    function buildHtml(item){
+    	return `<li data-code="${item.code}">
+        <div class="am-flexbox am-flexbox-align-top">
+            <i class="bank-icon"></i>
+            <div class="am-flexbox-item">
+                <h2>${item.bankName}</h2>
+                <p class="type">${item.bankCode != 'alipay' ? '储蓄卡' : '支付宝'}</p>
+                <p class="bank-code">${item.bankcardNumber}</p>
+            </div>
+        </div>
+    </li>`
     }
     function addListener() {
         addOrEditBankCard.addCont({

@@ -68,6 +68,16 @@ define([
                 userId: base.getUserId(),
                 status: "1"
             });
+        },
+        // 积分转为小金库
+        JFTransferXJK(amount){
+            return Ajax.post("802413", {
+            	fromUserId: base.getUserId(),
+            	toUserId: base.getUserId(),
+            	fromCurrency: 'JF',
+            	toCurrency: 'XJK',
+            	amount
+            });
         }
     };
 })

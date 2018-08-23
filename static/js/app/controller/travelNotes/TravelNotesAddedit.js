@@ -5,7 +5,8 @@ define([
     'app/interface/TravelNotesStr',
     'app/interface/UserCtr',
     'app/module/bindMobile',
-], function(base, Validate, qiniu, TravelNotesStr, UserCtr, BindMobile) {
+    'app/interface/GeneralCtr',
+], function(base, Validate, qiniu, TravelNotesStr, UserCtr, BindMobile, GeneralCtr) {
     var code = base.getUrlParam("code") || '';
 	var isBindMobile = false;//是否绑定手机号
 
@@ -17,17 +18,30 @@ define([
 			base.showLoading();
 
         	$.when(
+        		getRunTeamList(),
 	        	getUserInfo(),
 	        	getTravelNotesDetail()
 	        ).then(base.hideLoading,base.hideLoading)
 		}else{
 			$.when(
+        		getRunTeamList(),
 	        	getUserInfo()
 	        ).then(base.hideLoading,base.hideLoading)
 		}
 		initUpload();
 
         addListener();
+	}
+	
+	//获取跑团列表
+	function getRunTeamList(){
+		GeneralCtr.getDictList({parentKey:'run_team_list'},'801907').then(function(data) {
+			var html = ''
+			data.forEach(function(v, i){
+				html=`<option value="${v.dkey}">${v.dvalue}</option>`;
+			})
+			$("#runTeam").html(html);
+		});
 	}
 
 	//获取用户详情 查看是否绑定手机号
@@ -69,7 +83,7 @@ define([
 			base.hideLoading();
 			base.showMsg("发布成功");
 			setTimeout(function(){
-				location.href = "../travelNotes/myTravelNotes.html"
+				base.gohref("../travelNotes/travelNotes-list.html");
 			},800)
 		},()=>{})
 	}
@@ -142,7 +156,7 @@ define([
 	    	},
 	    	onkeyup: false
 	    });
-
+	    
 	    //发布
 	    $("#subBtn").click(function(){
 
@@ -161,19 +175,19 @@ define([
 	      			})
 
 					base.showLoading();
+					
+	    			var params={
+		    			description:$("#description").val(),
+		    			runTeam:$("#runTeam").val(),
+		    			pic:pic
+		    		}
 		    		if(code){
-		    			var params={
-			    			description:$("#description").val(),
-			    			pic:pic,
-			    			code: code
-			    		}
-		    			editTravelNotes(params)
+		    			var params1 = {
+		    				code: code,
+		    				...params
+		    			}
+		    			editTravelNotes(params1)
 		    		}else{
-
-		    			var params={
-			    			description:$("#description").val(),
-			    			pic:pic
-			    		}
 		    			addTravelNotes(params)
 		    		}
 

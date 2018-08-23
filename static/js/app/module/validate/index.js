@@ -99,6 +99,12 @@
         var mobile = /^1[3|4|5|7|8|9]\d{9}$/;
         return this.optional(element) || (mobile.test(value));
     }, "手机格式错误");
+    
+    $.validator.addMethod("bankCardOrMobile", function(value, element) {
+        var reg = /^(\d{16}|\d{19})$/;
+        var mobile = /^1[3|4|5|7|8|9]\d{9}$/;
+        return this.optional(element) || (reg.test(value) || mobile.test(value));
+    }, "格式错误");
 
     //邮箱或手机验证规则
     jQuery.validator.addMethod("mm", function(value, element) {

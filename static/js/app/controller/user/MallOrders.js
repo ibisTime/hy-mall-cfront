@@ -126,7 +126,7 @@ define([
     	
     	// 已收货
     	}else if(item.status == "4"){
-    		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="./order-comment.html?type=mall&code=${item.code}">待评价</button></a>`
+    		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small" href="./order-comment.html?type=mall&code=${item.code}">待评价</button></a></div>`
     	
     	//91：用户异常 ，92：商户异常， 93：快递异常
     	}else if(item.status == "91"||item.status == "92"||item.status == "93"){
@@ -212,6 +212,22 @@ define([
         
         //删除订单
         $("#orderWrapper").on("click", ".delete-order", function() {
+            var orderCode = $(this).attr("data-code");
+            base.confirm('确认删除订单吗？')
+                .then(() => {
+                    base.showLoading("删除中...");
+                    MallCtr.deleteOrder(orderCode)
+                        .then(() => {
+                            base.showMsg("操作成功");
+                            base.showLoading();
+                            config.start = 1;
+                            getPageOrders(true);
+                        });
+                }, () => {});
+        });
+        
+        //申请退货
+        $("#orderWrapper").on("click", ".return-goods", function() {
             var orderCode = $(this).attr("data-code");
             base.confirm('确认删除订单吗？')
                 .then(() => {

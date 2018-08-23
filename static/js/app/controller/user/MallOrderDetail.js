@@ -1,9 +1,10 @@
 define([
     'app/controller/base',
+    'app/module/qiniu',
     'app/interface/MallCtr',
     'app/util/dict',
     'app/interface/GeneralCtr'
-], function(base, MallCtr, Dict, GeneralCtr) {
+], function(base, qiniu, MallCtr, Dict, GeneralCtr) {
     var code = base.getUrlParam("code"),
         orderStatus = Dict.get("mallOrderStatus"),
     	expressDict = {};
@@ -13,8 +14,11 @@ define([
     function init(){
         addListener();
         base.showLoading();
-        
-        getBackLogisticsCompany().then(()=>{
+        $.when(
+        	getReturnReason(),
+        	getBackLogisticsCompany(),
+        	initUpload()
+        ).then(()=>{
         	getOrderDetail();
         })
     }
@@ -28,6 +32,19 @@ define([
     	},()=>{})
     }
     
+    //获取退货原因
+    function getReturnReason(){
+    	GeneralCtr.getDictList({parentKey:'return_reason'},'801907').then((data)=>{
+    		var html = ''
+    		data.forEach(function(d, i){
+    			html += `<option value='${d.dkey}'>${d.dvalue}</option>`;
+    		})
+    		
+    		$("#returnReason").append(html)
+    	},()=>{})
+    }
+    
+    //商品详情
     function getOrderDetail() {
         MallCtr.getOrderDetail(code, true)
             .then((data) => {
@@ -38,7 +55,7 @@ define([
 				data.productOrderList.forEach(function(d, i){
 					var price = d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)
 					
-					htmlPro += `<a class="mall-item" href="../mall/mallDetail.html?code=${d.productCode}">
+					htmlPro += `<div class="mall-item"><a class="wp100" href="../mall/mallDetail.html?code=${d.productCode}">
 		    		<div class="mall-item-img fl" style="background-image: url('${base.getImg(d.product.advPic)}');"></div>
 		    		<div class="mall-item-con fr">
 		    			<p class="name">${d.product.name}</p>
@@ -46,7 +63,9 @@ define([
 		    			<div class="price wp100">
 		    				<samp class="samp1 fl">${price}</samp>
 		    				<samp class="samp2 fr">x${d.quantity}</samp>
-		    			</div></div></a>`;
+		    			</div></div></a>
+		    			<div class="wp100 return-wrap"><button class=" fr am-button am-button-small am-button-red return-goods" data-code="${d.code}">退货</button></div>
+		    			</div>`;
 				})
 				$(".orderPro-list").html(htmlPro);
 				
@@ -169,12 +188,44 @@ define([
             });
     }
 
+	//操作成功
 	function operateSuccess(){
 		setTimeout(function(){
 			location.reload(true)
 		}, 800)
 	}
-
+	
+	//申请退货弹窗-取消
+	function applyReturnDialogClose(){
+    	$("#applyReturnDialog").addClass('hidden');
+	}
+	
+	//七牛初始化图片
+	function initUpload(){
+		qiniu.getQiniuToken()
+			.then((data) =>{
+				var token = data.uploadToken;
+				qiniu.uploadInit({
+					token: token,
+					btnId: "uploadBtn",
+					containerId: "uploadContainer",
+					multi_selection: false,
+					showUploadProgress: function(up, file){
+						$(".upload-progress").css("width", parseInt(file.percent, 10) + "%");
+					},
+					fileAdd: function(up, file){
+						$(".upload-progress-wrap").show();
+					},
+					fileUploaded: function(up, url, key){
+						$(".upload-progress-wrap").hide().find(".upload-progress").css("width", 0);
+						$(".addbackPdf").addClass('hidden')
+						$("#backPdf").html("<img src='"+url+"'>");
+						$('#backPdf').attr('data-key',key)
+					}
+				});
+			}, () => {})
+	}
+	
     function addListener(){
     	//取消订单
         $("#cancelBtn").on("click", function() {
@@ -239,5 +290,19 @@ define([
                         });
                 }, () => {});
         });
+        
+		var touchFalg=false;
+		
+        //申请退货弹窗-取消
+        $("#applyReturnDialog .canlce").click(function(){
+        	touchFalg = false
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        	
+            applyReturnDialogClose();
+        })
     }
 });

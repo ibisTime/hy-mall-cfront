@@ -62,7 +62,7 @@ define([
                 if(data.length){
                     var html = "";
                     data.forEach(function(item){
-                        html += `<option data-name="${item.bankName}" value="${item.bankcardNumber}">${item.bankcardNumber}</option>`;
+                        html += `<option data-name="${item.bankName}" value="${item.bankcardNumber}">${item.bankcardNumber}-${item.bankName}</option>`;
                     });
                     $("#payCardNo").html(html);
                 }else{

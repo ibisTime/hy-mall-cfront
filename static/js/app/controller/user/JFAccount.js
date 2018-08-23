@@ -2,6 +2,7 @@ define([
     'app/controller/base',
     'app/interface/AccountCtr'
 ], function(base, AccountCtr) {
+	var isLeader = base.getUrlParam("isLeader");
     var config = {
         start: 1,
         limit: 20
@@ -11,6 +12,12 @@ define([
 
     function init() {
         base.showLoading();
+        
+        if(isLeader == '1'){
+        	$(".jf-account-wrap").addClass("jf-account-wrap1");
+        	$(".xjk-button").removeClass("hidden");
+        }
+        
         getAccount();
         addListener();
     }
@@ -90,6 +97,11 @@ define([
                 getPageFlow();
             }
         });
+        
+        // 转账
+        $("#transferAccountsBtn").click(function() {
+        	location.href = '../user/transferAccounts.html?currency=JF'
+        })
     }
     function showLoading() {
         $("#loadingWrap").removeClass("hidden");

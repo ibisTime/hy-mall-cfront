@@ -358,14 +358,14 @@ label.error {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url("../images/user-bg.png");
+    background-image: url("../images/user-bg青色.png");
     background-size: cover;
     position: relative;
 
     .top-infos {
         width: 100%;
-        padding-top: .6rem;
         padding-left: .3rem;
+        margin: auto;
 
         .top-img {
             width: 1.2rem;
@@ -482,9 +482,12 @@ label.error {
 
 .account-wrap {
     height: 3.4rem;
-
+    
     &.jf-account-wrap {
         height: 2rem;
+    }
+    &.jf-account-wrap1 {
+        height: 3rem !important;
     }
 
     .top-infos {
@@ -2003,6 +2006,20 @@ label.error {
     min-height: 1.3rem;
     padding: .2rem .3rem;
     
+    .minPrice{
+        font-size: .34rem;
+        color: #ff5000;
+        margin-right: .2rem;
+        i{
+            font-size: .24rem;
+            font-style: normal;
+        }
+    }
+    .boughtCount{
+        font-size: .24rem;
+        color: #999;
+    }
+    
     .slogan{
         display: inline-block;
         margin-top: .1rem;
@@ -2345,6 +2362,7 @@ label.error {
 
     .mall-item{
         padding: .3rem 0;
+        position: relative;
 
         .mall-item-img{
             width: 1.8rem;
@@ -2366,7 +2384,7 @@ label.error {
             .slogan{
                 color: #666;
             }
-
+            
             .price {
                 .samp1{
                     font-size: .3rem;
@@ -2379,7 +2397,20 @@ label.error {
                 }
             }
         }
-
+        
+        .return-wrap{
+            position: absolute;
+            right: 0;
+            bottom: .86rem;
+            z-index: 9;
+            
+            .am-button{
+                font-size: .24rem;
+                height: .4rem;
+                line-height: .4rem;
+                padding: 0 .2rem;
+            }
+        }
     }
 
 }
@@ -4660,6 +4691,15 @@ label.error {
     background-color: #fff;
     padding: .3rem 0 .4rem;
     margin-bottom: .7rem;
+    
+    .form-wrapper{
+        padding: 0 .3rem;
+        margin-top: .3rem;
+        
+        .form-item{
+            padding: .3rem 0 0;
+        }
+    }
 
     .tNotesForm{
         position: relative;
@@ -5995,4 +6035,13 @@ label.error {
             }
         }
     }
+}
+.xjk-withdraw-wrap{
+    .form-wrapper .form-item .item-title{
+        width: 1.7rem;
+    }
+}
+.register-btn {
+    margin-top: 0.7rem;
+    padding: 0 0.3rem;
 }

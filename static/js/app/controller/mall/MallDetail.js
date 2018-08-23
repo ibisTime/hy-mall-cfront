@@ -154,8 +154,14 @@ define([
 				}
 			}
 			
-			
+			var minPrice = type==JFPRODUCTTYPE ? sortSpecsList[0].price2 : sortSpecsList[0].price1;
 			sortSpecsList.forEach(function(d, i){
+				// 最低价
+				if(type==JFPRODUCTTYPE) {
+					minPrice = d.price2 > minPrice ? minPrice : d.price2;
+				}else{
+					minPrice = d.price1 > minPrice ? minPrice : d.price1;
+				}
 
 				productSpecsListArray[d.code]=d
 				if(data.specsName2){
@@ -202,8 +208,11 @@ define([
 					specsName2List[d.specsVal2]=d.specsVal2;
 				}
 			})
+			$(".mallDetail-title .minPrice").html('<i>￥</i>'+ base.formatMoney(minPrice)+'<i>起</i>')
+			$(".mallDetail-title .boughtCount").html('已售'+data.boughtCount)
 			$("#specs1 .spec").html(specHtml1);
 			$("#specs2 .spec").html(specHtml2);
+			
 			
 			if(data.specsName2){
 				//有规格2时为规格1绑定点击事件

@@ -53,7 +53,7 @@ define([
                 loading.hideLoading();
                 ModuleObj.hideCont(defaultOpt.success);
             }, function(msg){
-                defaultOpt.error && defaultOpt.error(msg || "添加银行卡失败");
+                defaultOpt.error && defaultOpt.error(msg || "添加账号失败");
             });
     }
     // 修改银行卡
@@ -66,7 +66,7 @@ define([
                 loading.hideLoading();
                 ModuleObj.hideCont(defaultOpt.success);
             }, function(msg){
-                defaultOpt.error && defaultOpt.error(msg || "添加银行卡失败");
+                defaultOpt.error && defaultOpt.error(msg || "添加账号失败");
             });
     }
 
@@ -136,13 +136,20 @@ define([
                         },
                         bankcardNumber: {
                             required: true,
-                            bankCard: true
+                            bankCardOrMobile: true
                         }
                     },
                     onkeyup: false
                 });
                 $("#bankName").on("change", function(){
                     $("#bankCode").val($("#bankName option:selected").attr("code"));
+                    if($("#bankName option:selected").attr("code") == 'alipay'){
+                    	$("#bankcardNumber").val("")
+                    	$(".bank-wrap").addClass('hidden');
+                    }else {
+                    	$("#bankcardNumber").val("")
+                    	$(".bank-wrap").removeClass('hidden')
+                    }
                 });
             }
 
@@ -156,10 +163,10 @@ define([
             if(this.hasCont()){
                 if(option.code) {
                     defaultOpt.code = option.code;
-                    $("#addOrEditBankCardContainer").find(".right-left-cont-title-name").text("修改银行卡");
+                    $("#addOrEditBankCardContainer").find(".right-left-cont-title-name").text("修改账号");
                 } else {
                     defaultOpt.code = "";
-                    $("#addOrEditBankCardContainer").find(".right-left-cont-title-name").text("绑定银行卡");
+                    $("#addOrEditBankCardContainer").find(".right-left-cont-title-name").text("绑定账号");
                 }
                 initData().then(function(){
                     ModuleObj._showCont();

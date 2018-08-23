@@ -84,7 +84,7 @@ define([
 			$('title').html(data.name+'-活动详情');
 			//微信分享
 	        weixin.initShare({
-	            title: data.name+'-活动详情',
+	            title: data.name,
 	            desc: data.slogan?data.slogan:data.name,
 	            link: location.href,
 	            imgUrl: base.getImg(data.advPic)
@@ -121,8 +121,8 @@ define([
 			
 			if(data.enrollNum!='0'){
 				
-				$("#enrollNum").html(data.enrollNum)
-				$("#enrollNumWrap").removeClass('hidden')
+				$(".enrollNum").html(data.enrollNum)
+				$(".enrollNumWrap").removeClass('hidden')
 			}
 			
 			base.hideLoading()
