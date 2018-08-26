@@ -20,6 +20,9 @@ define([
 
 	function init() {
 		Foot.addFoot(3);
+		if(USER_LEASE_ISHIDDEN == '1'){
+			$("#leaseWrap").removeClass("hidden");
+		}
 		base.showLoading("加载中...", 1);
 		$.when(
 			getUserInfo(),

@@ -7,10 +7,12 @@ define([
     'app/interface/GeneralCtr',
 ], function(base, Foot, scroll, Handlebars, MallCtr, GeneralCtr) {
     var searchVal = base.getUrlParam('searchVal') || "";
+    var status = base.getUrlParam('status') || "1";
     var config = {
         start: 1,
         limit: 10,
         productName: searchVal,
+        status: status
     }, isEnd = false, canScrolling = false;
 	var v = 6;
     var myScroll;
@@ -21,6 +23,7 @@ define([
         Foot.addFoot();
         base.showLoading()
     	$("#search .searchText").val(searchVal)
+    	$("#hotTitle .status"+status).addClass('active');
     	getPageGroupPurchaseProduct()
         
         addListener();
@@ -62,7 +65,7 @@ define([
 							<samp class="grayTxt">${item.quantity}件成团</samp><br/>
 							<samp class="grayTxt">${base.formatDate(item.startDatetime, 'yyyy-MM-dd')}至${base.formatDate(item.endDatetime, 'yyyy-MM-dd')}</samp>
 							<div class="price">
-								<samp class="samp1">￥${base.forformatMoney(item.price)}</samp>
+								<samp class="samp1">￥${base.formatMoney(item.price)}</samp>
 							</div>
 						</div>
 					</a>
@@ -83,7 +86,7 @@ define([
     		$(document).keyup(function(event){
 				if(event.keyCode==13){
 					if($("#search .searchText").val()&&$("#search .searchText").val()!=''){
-						location.href = '../groupPurchase/groupPurchase-list.html?searchVal='+$("#search .searchText").val()
+						base.gohrefReplace('../groupPurchase/groupPurchase-list.html?searchVal='+$("#search .searchText").val())
 					}
 				}
 			}); 
@@ -92,32 +95,10 @@ define([
 			if (window.event.keyCode==13) window.event.keyCode=0 ;
     	})
 		
-		
-		//收藏
-		$("#content").on('click', '.lease-item .collect',function(){
-			
-			base.showLoading();
-			if($(this).hasClass('active')){
-				//取消收藏
-				GeneralCtr.cancelCollecte($(this).attr('data-code'),'RP').then(()=>{
-					$(this).removeClass('active')
-					base.hideLoading();
-					base.showMsg('取消成功')
-				},()=>{
-					base.hideLoading();
-				})		
-			}else{
-				
-				//收藏
-				GeneralCtr.addCollecte($(this).attr('data-code'),'RP').then(()=>{
-					$(this).addClass('active')
-					base.hideLoading();
-					base.showMsg('收藏成功')
-				},()=>{
-					base.hideLoading();
-				})	
-			}
-		})
+		//标题点击
+        $("#hotTitle .title").click(function(){
+			base.gohrefReplace('../groupPurchase/groupPurchase-list.html?searchVal='+$("#search .searchText").val()+"&status="+$(this).attr("data-status"))
+        })
 		
     }
 });

@@ -14,8 +14,22 @@
 			<input class="fl searchText" type="text" placeholder="请输入您感兴趣的商品" />
 		</div>
 	</div>
+	
 	<div class="wp100" style="height: 1rem;"></div>
-    <div id="content" class="mall-content">
+   <div class="home-content groupPurchaseList-wrap">
+    	<div class="hot-title-wrap">
+    		<div class="hot-title" id="hotTitle">
+	        	<div class="title tc fl status1" data-status ='1'><div>团购中</div></div>
+	        	<div class="title tc fl status0"  data-status ='0'><div>待开始</div></div>
+	        </div>
+    	</div>
+    	
+        <div class="hot-content clearfix mt20" id="content"></div>
+        
+		<div id="loadAll" class="load-all hidden">
+	        <img src="../images/end.png">
+	        <span>已经全部加载完毕</span>
+	    </div>
     </div>
 	
 	<div id="loadAll" class="load-all hidden">

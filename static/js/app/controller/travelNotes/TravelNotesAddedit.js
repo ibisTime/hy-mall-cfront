@@ -178,7 +178,7 @@ define([
 					
 	    			var params={
 		    			description:$("#description").val(),
-		    			runTeam:$("#runTeam").val(),
+		    			runTeamlist:$("#runTeam").val(),
 		    			pic:pic
 		    		}
 		    		if(code){

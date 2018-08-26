@@ -64,6 +64,9 @@ define([
 	// 同行好友数据
 	var enrollListTmpl = [];
 	
+	// 报名人数
+	var peopleNum = 1;
+	
     init();
 
 	function init(){
@@ -355,7 +358,7 @@ define([
 		
 		//直接报名
 		if(type==1){
-			amount = actAmount;
+			amount = base.formatMoney(actAmount*peopleNum*1000);
 			
 			amount==0? amountType = 0 : amountType = 1;//收费类型
 			
@@ -401,7 +404,8 @@ define([
 	function getYunfei(params){
 		base.showLoading()
 		return ActivityStr.getYunfei(params).then((data)=>{
-			$("#totalAmount").html('￥'+base.formatMoney(data.totalAmount))
+			var actAmount = $("#activityWrap #price").attr('data-prict');//活动金额
+			$("#totalAmount").html('￥'+base.formatMoney(data.totalAmount+(actAmount*(peopleNum-1)*1000)))
 			base.hideLoading()
 		}, base.hideLoading)
 	}
@@ -516,7 +520,7 @@ define([
 	function addEnroll(params){
 		base.showLoading();
 		var html = '';
-		var gender1 = '', gender2 = '';
+		var gender1 = '',gender2 = '';
 		
 		if(params.gender == '1'){
 			gender1 = 'selected'
@@ -556,9 +560,9 @@ define([
 		            <div class="form-item b_e_b">
 		                <div class="am-flexbox">
 		                    <span class="item-title">性别</span>
-		                    <select class="select-item">
-		                    	<option value="1" selected='${gender1}'>男</option>
-		                    	<option value="2" selected='${gender2}'>女</option>
+		                    <select class="select-item" value="${params.gender}">
+		                    	<option value="1" ${gender1}>男</option>
+		                    	<option value="2" ${gender2}>女</option>
 		                    </select>
 		                </div>
 		                <div class="inputMask"></div>
@@ -610,6 +614,8 @@ define([
 		
 		enrollListTmpl.push(params);
 		$(".enrollList-wrap").append(html);
+		peopleNum ++;
+		getAmount();
 		enrollDialogClose();
 		
 		base.hideLoading();
@@ -795,6 +801,8 @@ define([
 			base.confirm("确定删除这个同行好友记录？").then(()=>{
 				$(".enrollList-item-"+index).remove();
 				delete enrollListTmpl[index];
+				peopleNum --;
+				getAmount();
 				base.showMsg("操作成功");
 			},()=>{})
 		})
