@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>团购</title>
+    <!--SCRIPT_PLACEHOLDER-->
+</head>
+
+<body>
+	<div id="search" class="search">
+		<div class="searchWrap">
+			<div class="fl searchIcon"><img src="../../images/搜索@2x.png" /></div>
+			<input class="fl searchText" type="text" placeholder="请输入您感兴趣的商品" />
+		</div>
+	</div>
+	<div class="wp100" style="height: 1rem;"></div>
+    <div id="content" class="mall-content">
+    </div>
+	
+	<div id="loadAll" class="load-all hidden">
+        <img src="../../images/end.png">
+        <span>已经全部加载完毕</span>
+    </div>
+	
+	<div class="mallfloatWrap">
+		<a class="mallfloat customerService" href="#"></a>
+		<a class="mallfloat goTop" id="goTop" href="javascript: void(0)"></a>
+	</div>
+
+    <link rel="import" href="../footer.html?__inline">
+    <script>
+        require(['app/controller/groupPurchase/GroupPurchaseLIst']);
+    </script>
+</body>
+
+</html>

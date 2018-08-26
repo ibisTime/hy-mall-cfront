@@ -17,7 +17,7 @@ define([
         orderDir:'asc'
     }, isEnd = false, canScrolling = false;
     
-    var contentType = 2;//1推荐租赁，2推荐商品
+    var contentType = $("#hotTitle .active").attr("data-contentType");//1推荐租赁，2推荐商品，3限时特卖
 
     init();
     
@@ -140,7 +140,7 @@ define([
 	                }
 	                canScrolling = true;
 	        	}, base.hideLoading);
-    	}else{
+    	}else if(contentType==1){
     		//分页获取推荐的租赁商品
     		LeaseCtr.getPageLeaseProduct(config, true)
             .then(function(data) {
@@ -162,6 +162,28 @@ define([
                 }
                 canScrolling = true;
         	}, base.hideLoading);
+    	}else if(contentType==3){
+    		//分页获取限时特卖商品
+	    	MallCtr.getPageProduct({...config,location: '3'}, true)
+	            .then(function(data) {
+	                base.hideLoading();
+	                var lists = data.list;
+	                var totalCount = data.totalCount;//+lists.totalCount;
+	                if (totalCount <= config.limit || lists.length < config.limit) {
+	                    isEnd = true;
+	                }
+	    			if(lists.length) {
+	    				
+	                    $("#content").append(_proTmpl({items: lists}));
+	                    isEnd && $("#loadAll").removeClass("hidden");
+	                    config.start++;
+	    			} else if(config.start == 1) {
+	                    $("#content").html('<div class="no-data-img"><img src="/static/images/no-data.png"/><p>暂无限时特卖</p></div>')
+	                } else {
+	                    $("#loadAll").removeClass("hidden");
+	                }
+	                canScrolling = true;
+	        	}, base.hideLoading);
     	}
 	}
     

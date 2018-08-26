@@ -9,6 +9,8 @@ define([
 ], function(base, Swiper, MallCtr, GeneralCtr, Handlebars, weixin, UserCtr) {
 	var code = base.getUrlParam("code");
 	var sLRfee = base.getUrlParam("sLRfee") || ''; // 推客推荐
+	var gCode = base.getUrlParam("gCode") || '';//团购code
+	var isGP = !!base.getUrlParam("isGP");// 是否是团购
 	var type,
 		btnType;// 1: 加入购物车，2：立即下单
 		
@@ -24,11 +26,20 @@ define([
 
 	function init(){
 		base.showLoading();
-        $.when(
-        	getProductDetail(code),
-        	getPageComment(),
-        	getPageCarProduct()
-        )
+		if(isGP){
+	        $.when(
+	        	getProductDetail(code),
+	        	getGroupPurchaseDetail(gCode),
+	        	getPageComment(),
+	        	getPageCarProduct()
+	        )
+		} else {
+	        $.when(
+	        	getProductDetail(code),
+	        	getPageComment(),
+	        	getPageCarProduct()
+	        )
+		}
         
 		// 设置领队推客
         if(sLRfee){
@@ -40,6 +51,18 @@ define([
 	// 设置领队推客
 	function setLeaderSale(){
 		return UserCtr.setLeaderSale(sLRfee).then(function(){},function(){});
+	}
+	
+	// 获取团购详情
+	function getGroupPurchaseDetail(c){
+		return MallCtr.getGroupPurchaseDetail(c).then((data)=>{
+			var html = `<p class="txt wp100">团购开始时间: ${base.formatDate(data.startDatetime, 'yyyy-MM-dd hh:mm')}</p>
+						<p class="txt wp100">团购结束时间: ${base.formatDate(data.endDatetime, 'yyyy-MM-dd hh:mm')}</p>
+						<p class="txt wp100">${data.quantity}件成团</p>
+						<p class="txt wp100">每人最多购买${data.buyMaxCount}件</p>
+						`;
+			$(".groupPurchaseInfo-wrap").html(html).removeClass("hidden");
+		},()=>{})
 	}
 	
 	//获取商品详情
@@ -54,7 +77,7 @@ define([
 				$(".mallBottom-right .addShoppingCarBtn").addClass('hidden')
 				$(".mallBottom-right .buyBtn").addClass('hidden')
 			}else{
-				if(type==JFPRODUCTTYPE){
+				if(type==JFPRODUCTTYPE || isGP){
 					$(".mallBottom-right .buyBtn").removeClass('hidden').css('width','100%')
 				}else{
 					if(base.getIsLeader()){
@@ -561,10 +584,10 @@ define([
 			if($("#specs2").hasClass('hidden')){//只有规格1
 				var productSpecsCode=$("#specs1 .spec p.active").attr("data-code");
 				
-				location.href = './submitOrder.html?s=2&code='+code+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html()+'&sLRfee='+sLRfee;
+				location.href = './submitOrder.html?s=2&code='+code+'&gCode='+gCode+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html()+'&sLRfee='+sLRfee;
 			}else{
 				var productSpecsCode=specsArray2[$("#specs2 .spec p.active").attr('data-name')][$("#specs1 .spec p.active").text()];
-				location.href = './submitOrder.html?s=2&code='+code+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html()+'&sLRfee='+sLRfee;
+				location.href = './submitOrder.html?s=2&code='+code+'&gCode='+gCode+'&spec='+ productSpecsCode +'&quantity='+$('#productSpecs .productSpecs-number .sum').html()+'&sLRfee='+sLRfee;
 			}
 
 		})

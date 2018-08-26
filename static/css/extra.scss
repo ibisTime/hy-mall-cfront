@@ -1756,6 +1756,11 @@ label.error {
             font-size: .24rem;
             color: $red-color;
         }
+        .grayTxt{
+            font-size: .24rem;
+            color: #999;
+            display: inline-block;
+        }
         .price{
             position: absolute;
             left: 0;
@@ -5084,7 +5089,7 @@ label.error {
         width: 1.6rem;
         line-height: .54rem;
         text-align: center;
-        background-color: $primary-color;
+        background-color: #a2de22;
         border-radius: .27rem;
         font-size: .28rem;
         color: #fff;
@@ -6114,4 +6119,12 @@ label.error {
     .detail-description1{
         padding: 0 .9rem;
     }
+}
+
+.groupPurchaseInfo-wrap{
+    margin-top: .16rem;
+   .txt{
+        font-size: .26rem;
+        color: #8c8c8c;
+    } 
 }

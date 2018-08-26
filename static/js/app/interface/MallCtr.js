@@ -154,6 +154,18 @@ define([
         // 退货信息
         deliverReturnProduct(config){
             return Ajax.get("808082", config, true);
-        }
+        },
+        // 分页获取商品
+        getPageGroupPurchaseProduct(config) {
+            return Ajax.get("808098", {
+                ...config
+            }, true);
+        },
+        // 获取团购详情
+        getGroupPurchaseDetail(code) {
+            return Ajax.get("808096", {
+            	code,
+            }, true);
+        },
     };
 })

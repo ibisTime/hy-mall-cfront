@@ -8,6 +8,7 @@ define([
     'app/module/bindMobile',
 ], function(base, Foot, MallCtr, UserCtr, AddressList, ExpressList, BindMobile) {
 	var code = base.getUrlParam("code")||'';
+	var gCode = base.getUrlParam("gCode")||'';
 	var spec = base.getUrlParam("spec")||'';
 	var sLRfee = base.getUrlParam("sLRfee") || ''; // 推客推荐
 	var quantity = base.getUrlParam("quantity")||'';
@@ -30,6 +31,7 @@ define([
 	        companyCode: SYSTEM_CODE,
 	        systemCode: SYSTEM_CODE
 		},
+		groupCode: gCode,
 		saleUserId: sLRfee
 	},
 		configYunFei = {

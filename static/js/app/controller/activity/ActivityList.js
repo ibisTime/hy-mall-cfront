@@ -1,10 +1,11 @@
 define([
     'app/controller/base',
+    'app/module/foot',
     'picker',
     'app/util/handlebarsHelpers',
     'app/interface/GeneralCtr',
     'app/interface/ActivityStr'
-], function(base, Picker, Handlebars, GeneralCtr, ActivityStr) {
+], function(base, Foot, Picker, Handlebars, GeneralCtr, ActivityStr) {
     var searchVal = base.getUrlParam('searchVal') || "";
     var placeDestCity = base.getUrlParam('city') || "";
     var type = base.getUrlParam('type') || "";
@@ -30,6 +31,7 @@ define([
     init();
 
 	function init(){
+        Foot.addFoot(2);
 		base.showLoading();
     	searchVal&&$("#search .searchText").val(searchVal)
     	placeDestCity&&$("#cityWrap").find("samp").text(placeDestCity);
