@@ -4029,12 +4029,12 @@ label.error {
     }
 }
 .xjk-top-wrap{
-    height: 3rem !important;
+    height: 2.46rem !important;
 }
 .xjk-button{
     text-align: center;
     margin-top: .3rem;
-
+    
     .am-button{
         width: 2rem;
         font-size: .28rem;
@@ -4044,9 +4044,54 @@ label.error {
         height: .7rem;
         line-height: .7rem;
         border: 1px solid #fff;
-
+        
     }
 }
+.xjk-top-wrap{
+    .xjk-button{
+        text-align: center;
+        margin-top: 0;
+        position: absolute;
+        top: .28rem;
+        right: .28rem;
+        
+        .am-button{
+            width: 1.04rem;
+            font-size: .28rem;
+            background-color: transparent;
+            display: inline-block;
+            color: #fff;
+            height: .5rem;
+            line-height: .5rem;
+            border: 1px solid #fff;
+            border-radius: .25rem;
+        }
+    }
+}
+.user-income-wrap{
+    width: 100%;
+    overflow: hidden;
+    
+    div{
+        width: 50%;
+        padding: .3rem 0;
+        
+        &:first-child{
+            border-right: 1px solid $border-color;
+        }
+        
+        samp{
+            font-size: .24rem;
+            color: #999;
+        }
+        p{
+            font-size: .44rem;
+            margin-top: .15rem;
+            color: #484848;
+        }
+    }
+}
+
 .no-data-img{
     width: 100%;
     text-align: center;

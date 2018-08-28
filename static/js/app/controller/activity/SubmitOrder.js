@@ -570,7 +570,7 @@ define([
 		if(params.customKey1){
 			html += `<div class="form-item b_e_b">
 	                <div class="am-flexbox">
-	                    <span class="item-title">名称1</span>
+	                    <span class="item-title">${params.customKey1}</span>
 	                    <input type="text" placeholder="请输入名称1" value="${params.customKey1}" class="input-item">
 	                </div>
 	            </div>`;
@@ -578,7 +578,7 @@ define([
 		if(params.customKey2){
 			html += `<div class="form-item b_e_b">
 	                <div class="am-flexbox">
-	                    <span class="item-title">名称2</span>
+	                    <span class="item-title">${params.customKey2}</span>
 	                    <input type="text" placeholder="请输入名称2" value="${params.customKey2}" class="input-item">
 	                </div>
 	            </div>`;
@@ -586,7 +586,7 @@ define([
 		if(params.customKey3){
 			html += `<div class="form-item b_e_b">
 	                <div class="am-flexbox">
-	                    <span class="item-title">名称3</span>
+	                    <span class="item-title">${params.customKey3}</span>
 	                    <input type="text" placeholder="请输入名称3" value="${params.customKey3}" class="input-item">
 	                </div>
 	            </div>`;
@@ -594,7 +594,7 @@ define([
 		if(params.customKey4){
 			html += `<div class="form-item b_e_b">
 	                <div class="am-flexbox">
-	                    <span class="item-title">名称4</span>
+	                    <span class="item-title">${params.customKey4}</span>
 	                    <input type="text" placeholder="请输入名称4" value="${params.customKey4}" class="input-item">
 	                </div>
 	            </div>`;
@@ -602,7 +602,7 @@ define([
 		if(params.customKey5){
 			html += `<div class="form-item b_e_b">
 	                <div class="am-flexbox">
-	                    <span class="item-title">名称5</span>
+	                    <span class="item-title">${params.customKey5}</span>
 	                    <input type="text" placeholder="请输入名称5" value="${params.customKey5}" class="input-item">
 	                </div>
 	            </div>`;
@@ -751,7 +751,7 @@ define([
 								+'<samp>联系号码： '+$("#mobile").val()+'</samp>'
 								+'<samp>真实姓名： '+$("#realName").val()+'</samp>'
 								+'<samp>身份证号： '+$("#idNo").val()+'</samp>'
-								+'<samp>性别： '+$("#gender").val()+'</samp>'
+								+'<samp>性别： '+$("#gender option:selected").text()+'</samp>'
 								+'</div>'
 							
 							base.confirm(msg).then(()=>{
