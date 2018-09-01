@@ -1,10 +1,11 @@
 define([
     'app/controller/base',
     'app/util/dict',
+    'app/module/validate',
     'app/interface/ActivityStr',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr'
-], function(base, Dict, ActivityStr, GeneralCtr, UserCtr) {
+], function(base, Dict, validate, ActivityStr, GeneralCtr, UserCtr) {
     var code = base.getUrlParam("code"),
         orderStatus = {},
     	expressDict = {},
@@ -18,7 +19,6 @@ define([
         //获取状态数据字典
 		GeneralCtr.getDictList({parentKey:'act_order_status'},'801907').then((data)=>{
     		data.forEach(function(d, i){
-    			base.hideLoading()
     			orderStatus[d.dkey]=d.dvalue
     		})
     		
@@ -174,6 +174,11 @@ define([
 					$("#payBtn").removeClass('hidden')
 					$("#cancelBtn").removeClass('hidden')
 				
+				//申请退款
+				}else if(data.status=='2' && data.activity.amountType != "0"){
+					$('.mallBottom').removeClass('hidden')
+					$("#returnBtn").removeClass('hidden')
+					
 				//用户取消 
 				}else if(data.status=='91'){
 					$('.mallBottom').removeClass('hidden')
@@ -185,6 +190,27 @@ define([
 		setTimeout(function(){
 			location.replace('./activity-orders.html')
 		}, 800)
+	}
+
+ 
+	//申请退款弹窗-关闭
+	function applyReturnDialogClose(){
+    	$("#applyReturnDialog").addClass('hidden');
+    	$("#applyReturnDialog .confirm").attr("data-code", '');
+    	$("#applyReturnForm").get(0).reset();
+	}
+	
+	// 申请退款
+	function returnOrder(params){
+		return ActivityStr.returnOrder(params).then(()=>{
+			applyReturnDialogClose();
+			base.hideLoading();
+			base.showMsg('操作成功！')
+			
+			setTimeout(function(){
+				location.reload(true);
+			},800)
+		}, base.hideLoading)
 	}
 
     function addListener(){
@@ -212,5 +238,52 @@ define([
 			location.href='./order-comment.html?type=lease&code='+code
         });
         
+        var touchFalg = false;
+        //申请退货---- start
+        var _applyReturnForm = $("#applyReturnForm");
+        _applyReturnForm.validate({
+            'rules': {
+                remark: {
+                }
+            },
+            onkeyup: false
+        });
+        
+        //申请退货弹窗-取消
+        $("#applyReturnDialog .canlce").click(function(){
+        	touchFalg = false
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        	
+            applyReturnDialogClose();
+        })
+        
+        //申请退货弹窗-确定
+        $("#applyReturnDialog .confirm").click(function(){
+        	var productCode = code;
+        	var params = _applyReturnForm.serializeObject();
+        	if(_applyReturnForm.valid()){
+        		params.code = productCode;
+        		base.showLoading();
+        		returnOrder(params);
+        	}
+        })
+        //申请退货---- end
+        
+        //申请退款按钮
+        $("#returnBtn").on('click', function(){
+        	$("#applyReturnDialog .confirm").attr("data-code", $(this).attr("data-code"));
+    		$("#applyReturnDialog").removeClass('hidden');
+    		
+    		touchFalg = true
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        })
     }
 });

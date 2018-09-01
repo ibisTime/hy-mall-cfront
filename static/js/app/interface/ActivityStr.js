@@ -61,5 +61,18 @@ define([
         getActJoinIn(code) {
             return Ajax.get("808709", {code});
         },
+        // 查询报名人员列表
+        getActivitySignInList(code) {
+            return Ajax.get("808709", {
+                code
+            }, true);
+        },
+        // 申请退款
+        returnOrder(params) {
+            return Ajax.get("808725", {
+                userId: base.getUserId(),
+                ...params
+            }, true);
+        },
     };
 })

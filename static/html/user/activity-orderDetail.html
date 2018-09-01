@@ -57,8 +57,36 @@
 	<div class="mallBottom hidden">
         <button id="cancelBtn" class="am-button am-button-red cancelBtn fl  hidden">取消报名</button>
         <button id="payBtn" class="am-button am-button-primary payBtn fr hidden">确认支付</button>
+        <button id="returnBtn" class="am-button am-button-red wp100 fl  hidden">申请退款</button>
 	</div>
 	
+	<!-- 申请退款弹窗 -->
+    <div class="return-dialog hidden" id="applyReturnDialog">
+    	<div class="am-modal-mask"></div>
+        <div class="am-modal-wrap">
+            <div role="document" class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-header">
+                    	<p>申请退款</p>
+                    </div>
+                    <div class="am-modal-body">
+                    	<form id="applyReturnForm">
+                    		<div class="wrap">
+                    			<samp class="fl tit">备注：</samp>
+                    			<div class="fr conWrap">
+                    				<input type="text" class="wp100 con" placeholder="请输入申请退款说明..." id="remark" name="remark" />
+                    			</div>
+                    		</div>
+                    	</form>
+                    </div>
+                    <div class="am-modal-footer">
+                    	<div class="am-button am-button-small am-button-cancel fl canlce">取消</div>
+                    	<div class="am-button am-button-small am-button-red fr confirm">提交</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <link rel="import" href="../footer.html?__inline">
     <script>
         require(['app/controller/user/ActivityOrderDetail']);

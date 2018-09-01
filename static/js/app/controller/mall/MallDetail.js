@@ -10,7 +10,6 @@ define([
 	var code = base.getUrlParam("code");
 	var sLRfee = base.getUrlParam("sLRfee") || ''; // 推客推荐
 	var gCode = base.getUrlParam("gCode") || '';//团购code
-	var isGP = !!base.getUrlParam("isGP");// 是否是团购
 	var type,
 		btnType;// 1: 加入购物车，2：立即下单
 		
@@ -20,7 +19,18 @@ define([
 	//为点击事件搭建关系
 	var specsArray1 ={};//规格1['规格1':{['规格2'：'code']},'规格1':{['规格2'：'code']}]
 	var specsArray2 ={};//规格2['规格2':{['规格1'：'规格1']},'规格2':{['规格1'：'规格1']}]
-	var productSpecsListArray={}
+	var productSpecsListArray={};
+	
+	// 团购状态
+	var gStatus = '0';
+	//团购价格
+	var gPrice = 0;
+	
+	// 是否是团购
+	var isGP = false;
+	if(gCode){
+		isGP = true;
+	}
 	
     init();
 
@@ -28,7 +38,6 @@ define([
 		base.showLoading();
 		if(isGP){
 	        $.when(
-	        	getProductDetail(code),
 	        	getGroupPurchaseDetail(gCode),
 	        	getPageComment(),
 	        	getPageCarProduct()
@@ -56,12 +65,20 @@ define([
 	// 获取团购详情
 	function getGroupPurchaseDetail(c){
 		return MallCtr.getGroupPurchaseDetail(c).then((data)=>{
+			
+			gPrice = data.price;
+			gStatus = data.status;
+			
+			$(".mallDetail-title .minPrice").html('<i>￥</i>'+ base.formatMoney(data.price)+'<i>起</i>')
+			
 			var html = `<p class="txt wp100">团购开始时间: ${base.formatDate(data.startDatetime, 'yyyy-MM-dd hh:mm')}</p>
 						<p class="txt wp100">团购结束时间: ${base.formatDate(data.endDatetime, 'yyyy-MM-dd hh:mm')}</p>
 						<p class="txt wp100">${data.quantity}件成团</p>
 						<p class="txt wp100">每人最多购买${data.buyMaxCount}件</p>
 						`;
 			$(".groupPurchaseInfo-wrap").html(html).removeClass("hidden");
+			
+        	getProductDetail(code);
 		},()=>{})
 	}
 	
@@ -77,9 +94,9 @@ define([
 				$(".mallBottom-right .addShoppingCarBtn").addClass('hidden')
 				$(".mallBottom-right .buyBtn").addClass('hidden')
 			}else{
-				if(type==JFPRODUCTTYPE || isGP){
+				if(type==JFPRODUCTTYPE || (isGP && gStatus=="1")){
 					$(".mallBottom-right .buyBtn").removeClass('hidden').css('width','100%')
-				}else{
+				}else if(!isGP){
 					if(base.getIsLeader()){
 				    	$(".recommendBtn-wrap").removeClass("hidden");
 				    }
@@ -87,7 +104,12 @@ define([
 					$(".mallBottom-right .buyBtn").removeClass('hidden')
 				}
 				
-				$(".mallBottom-right .offSelf").addClass('hidden');
+				if(isGP && gStatus!="1") {
+					$(".mallBottom-right .offSelf").html('敬请期待').addClass("yellow").removeClass("hidden");
+				} else {
+					$(".mallBottom-right .offSelf").addClass('hidden');
+				}
+				
 			}
 			
 			var dpic = data.pic;
@@ -136,7 +158,12 @@ define([
 			}
 			
 			$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(data.advPic)+'")').attr("data-default",data.advPic)
-			$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(data.productSpecsList[0].price2)+'积分' : '￥'+base.formatMoney(data.productSpecsList[0].price1))
+			// 是否是团购产品
+			if(isGP){
+				$("#productSpecs .price").html('￥'+base.formatMoney(gPrice));
+			} else {
+				$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(data.productSpecsList[0].price2)+'积分' : '￥'+base.formatMoney(data.productSpecsList[0].price1))
+			}
 			$("#productSpecs .price").attr("data-default",$("#productSpecs .price").html())
 			$("#productSpecs .quantity").html('库存 ' + data.productSpecsList[0].quantity).attr('data-quantity',data.productSpecsList[0].quantity).attr("data-default",data.productSpecsList[0].quantity)
 			$("#productSpecs .choice i").html(data.productSpecsList[0].name).attr("data-default",data.productSpecsList[0].name)
@@ -180,10 +207,12 @@ define([
 			var minPrice = type==JFPRODUCTTYPE ? sortSpecsList[0].price2 : sortSpecsList[0].price1;
 			sortSpecsList.forEach(function(d, i){
 				// 最低价
-				if(type==JFPRODUCTTYPE) {
-					minPrice = d.price2 > minPrice ? minPrice : d.price2;
-				}else{
-					minPrice = d.price1 > minPrice ? minPrice : d.price1;
+				if(!isGP){
+					if(type==JFPRODUCTTYPE) {
+						minPrice = d.price2 > minPrice ? minPrice : d.price2;
+					}else{
+						minPrice = d.price1 > minPrice ? minPrice : d.price1;
+					}
 				}
 
 				productSpecsListArray[d.code]=d
@@ -210,7 +239,7 @@ define([
 				}else{
 					specHtml1+=`<p class='${d.quantity=="0"?"":"inStock"}' 
 						data-code='${d.code}'
-						data-price='${type==JFPRODUCTTYPE ? d.price2 : d.price1}' 
+						data-price='${isGP ? gPrice : type==JFPRODUCTTYPE ? d.price2 : d.price1}' 
 						data-quantity="${d.quantity}" 
 						data-name="${d.specsVal1}" 
 						data-pic="${d.pic}" >${d.specsVal1}</p>`;
@@ -231,7 +260,9 @@ define([
 					specsName2List[d.specsVal2]=d.specsVal2;
 				}
 			})
-			$(".mallDetail-title .minPrice").html('<i>￥</i>'+ base.formatMoney(minPrice)+'<i>起</i>')
+			if(!isGP){
+				$(".mallDetail-title .minPrice").html('<i>￥</i>'+ base.formatMoney(minPrice)+'<i>起</i>')
+			}
 			$(".mallDetail-title .boughtCount").html('已售'+data.boughtCount)
 			$("#specs1 .spec").html(specHtml1);
 			$("#specs2 .spec").html(specHtml2);
@@ -338,7 +369,13 @@ define([
 						var specsCode = specsArray2[_specPChoice2][_specPChoice1]
 						var specsData = productSpecsListArray[specsCode];
 						
-						$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(specsData.price2)+'积分' : '￥'+base.formatMoney(specsData.price1))
+						// 是否是团购产品
+						if(isGP){
+							$("#productSpecs .price").html('￥'+base.formatMoney(gPrice));
+						} else {
+							$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(specsData.price2)+'积分' : '￥'+base.formatMoney(specsData.price1))
+						}
+						
 						$("#productSpecs .quantity").html('库存 ' + specsData.quantity).attr('data-quantity',specsData.quantity)
 					}
 					$('#productSpecs .productSpecs-number .sum').html(1)
@@ -354,7 +391,12 @@ define([
 					var _specP = $(this);
 					
 					_specP.addClass('active').siblings().removeClass('active');
-					$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP.attr("data-price")))
+					// 是否是团购产品
+					if(isGP){
+						$("#productSpecs .price").html('￥'+base.formatMoney(gPrice));
+					} else {
+						$("#productSpecs .price").html(type==JFPRODUCTTYPE ? base.formatMoney(_specP.attr("data-price"))+'积分' : '￥'+base.formatMoney(_specP.attr("data-price")))
+					}
 					$("#productSpecs .quantity").html('库存 ' + _specP.attr("data-quantity")).attr('data-quantity',_specP.attr("data-quantity"))
 					$("#productSpecs .choice i").html(_specP.attr("data-name"))
 					$("#productSpecs .productSpecs-img").css('background-image','url("'+base.getImg(_specP.attr("data-pic"))+'")')

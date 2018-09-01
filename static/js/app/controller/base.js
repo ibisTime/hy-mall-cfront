@@ -416,12 +416,17 @@ define([
 			} else {
 				location.replace(href + "?v=" + timestamp)
 			}
+		},
+		//隐藏手机号中间4位
+		hideMobile: function(mobile) {
+			var mobile = mobile.substring(0, 3) + "****" + mobile.substring(7, 11)
+			return mobile;
 		}
     };
 	if (!/\/redirect\.html/.test(location.href)) {
-		if(Base.isLogin()){
-			Base.isRock()
-		}
+//		if(Base.isLogin()){
+//			Base.isRock()
+//		}
 	}
 	
     return Base;

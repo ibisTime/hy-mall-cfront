@@ -9,19 +9,28 @@ define([
     var code = base.getUrlParam("code"),
         orderStatus = Dict.get("mallOrderStatus"),
     	expressDict = {},
-    	productOrderStatus={};
+    	productOrderStatus={},
+    	productReturnStatus = {
+    		"1": "退货申请中",
+    		"2": "待发货",
+    		"3": "退货失败",
+    		"4": "已发货",
+    		"5": "已退款",
+    		"6": "不可退货"
+    	};
 
     init();
     
     function init(){
         addListener();
         base.showLoading();
-        productOrderStatusDict().then(loadDate,loadDate)
+        	productOrderStatusDict().then(loadDate,loadDate)
     }
     
     function loadDate(){
     	$.when(
         	getReturnReason(),
+        	getReturnAddress(),
         	getBackLogisticsCompany(),
         	initUpload()
         ).then(()=>{
@@ -62,11 +71,22 @@ define([
     	},()=>{})
     }
     
+    //归还邮寄地址
+	function getReturnAddress(){
+		$.when(
+			GeneralCtr.getDictList({key:'back_info_person'},'808917'),
+			GeneralCtr.getDictList({key:'back_info_address'},'808917')
+		).then((data,data2, data3)=>{
+			$("#returnAddress .textarea").html(data.cvalue+'<br/>'+data2.cvalue);
+    	},()=>{})
+	}
+    
     //商品详情
     function getOrderDetail() {
         MallCtr.getOrderDetail(code, true)
             .then((data) => {
                 base.hideLoading();
+                var productReturnFlag = false;
                 
 				//商品详情
                 var htmlPro = '';
@@ -78,18 +98,22 @@ define([
 						// 可退货
 						if(d.status == '0'){
 							btnClass = 'applyReturn-goods';
-							
 						// 待发货
 						} else if(d.status == '2'){
-							btnClass = 'deliver-goods'
+							btnClass = 'deliver-goods';
+						} 
+						
+						// 是否显示寄还地址
+						if(productReturnStatus[d.status] && !productReturnFlag) {
+							productReturnFlag = true;
 						}
 						
 						returnHtml = `<div class="wp100 return-wrap"><button class=" fr am-button am-button-small am-button-red ${btnClass}" data-code="${d.code}">${productOrderStatus[d.status]}</button></div>`
 					}
 					
-					var price = d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)
+					var price = d.price2 ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1);
 					
-					htmlPro += `<div class="mall-item"><a class="wp100" href="../mall/mallDetail.html?code=${d.productCode}">
+					htmlPro += `<div class="mall-item"><a class="wp100" href="../mall/mallDetail.html?code=${d.productCode}&gCode=${data.groupCode ? data.groupCode : ''}">
 		    		<div class="mall-item-img fl" style="background-image: url('${base.getImg(d.product.advPic)}');"></div>
 		    		<div class="mall-item-con fr">
 		    			<p class="name">${d.product.name}</p>
@@ -185,6 +209,10 @@ define([
 				
 				$("#orderInfo").html(htmlOrder);
 				
+				// 寄还地址
+				if(productReturnFlag){
+					$("#returnAddress").removeClass('hidden');
+				}
 				
 				//按钮
 				//待付款
@@ -467,7 +495,7 @@ define([
             	if(datas){
             		var d = new Date(datas);
 	                d.setDate(d.getDate());
-	                d = d.format('yyyy-MM-dd hh:mm:ss');
+	                d = base.formatDate(d,'yyyy-MM-dd hh:mm:ss');
 	                $("#sendDatetime").text(d);
                 	$(".sendDatetime-wrap .error").addClass('hidden');
             	} else {
@@ -479,6 +507,7 @@ define([
         
         setTimeout(function(){
         	laydate(startDate);
+        	$("#sendDatetime").text(base.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'))
         },0)
         
         var _deliverReturnForm = $("#deliverReturnForm");

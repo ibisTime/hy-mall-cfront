@@ -58,7 +58,7 @@ define([
 	
 	function buildHtml(item){
 		return `<div class="mall-item bg_fff" >
-					<a class="wp100" href="../mall/mallDetail.html?isGP=1&code=${item.productCode}&gCode=${item.code}">
+					<a class="wp100" href="../mall/mallDetail.html?code=${item.productCode}&gCode=${item.code}">
 						<div class="mall-item-img fl" style="background-image: url('${base.getImg(item.product.advPic)}');"></div>
 						<div class="mall-item-con fr">
 							<p class="name pr60">${item.product.name}</p>

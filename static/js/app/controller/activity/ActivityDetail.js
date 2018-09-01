@@ -172,7 +172,7 @@ define([
 			var html = ''
 			data.length && data.forEach(function(d, i){
 				if(i<=14){
-					html+=`<div class="photo-item" style="background-image: url('${base.getAvatar(d.photo)}');"></div>`
+					html+=`<div class="photo-item" style="background-image: url('${base.getAvatar(d.userInfo ? d.userInfo.photo : '')}');"></div>`
 				}else{
 					return false;
 				}
@@ -304,19 +304,19 @@ define([
 		//“直接报名” 点击
 		$("#subBtn").click(function(){
 			//免费
-			if(amountType==0){
-				
-				if(!isBindMobile){
-					BindMobile.showMobileCont();
-				}else{
-					var params = {};
-					params.applyNote = '用户直接报名';
-					params.actCode = code;
-					submitOrder(params)
-				}
-			}else{
+//			if(amountType==0){
+//				
+//				if(!isBindMobile){
+//					BindMobile.showMobileCont();
+//				}else{
+//					var params = {};
+//					params.applyNote = '用户直接报名';
+//					params.actCode = code;
+//					submitOrder(params)
+//				}
+//			}else{
 				location.href="../activity/submitOrder.html?type=1&code="+code
-			}
+//			}
 		})
 		
 		//留言点击
@@ -395,5 +395,9 @@ define([
 			}
 		})
         
+    	// 活动报名列表点击
+    	$(".activitySignInList").click(function(){
+    		base.gohref("../activity/activity-signInList.html?code="+code);
+    	})
 	}
 })

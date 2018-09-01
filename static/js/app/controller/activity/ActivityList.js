@@ -20,8 +20,6 @@ define([
         startDatetimeStart: startDatetime
     }, isEnd = false, canScrolling = false;
     
-    var _actTmpl = __inline('../../ui/activity-list-item.handlebars');
-    
     var first1 = []; /* 省，直辖市 */
 	var second1 = []; /* 市 */
 	var selectedIndex1 = [0, 0, 0]; /* 默认选中的地区 */
@@ -73,7 +71,11 @@ define([
                 isEnd = false;
             }
             if(data.list.length) {
-                $("#content")[refresh || config.start == 1 ? "html" : "append"](_actTmpl({items: lists}));
+            	var html = '';
+            	lists.forEach(item => {
+            		html += buildHtml(item);
+            	})
+                $("#content")[refresh || config.start == 1 ? "html" : "append"](html);
                 isEnd && $("#loadAll").removeClass("hidden");
                 config.start++;
             } else if(config.start == 1) {
@@ -86,6 +88,31 @@ define([
             canScrolling = true;
             base.hideLoading()
         }, () => base.hideLoading());
+    }
+    
+    function buildHtml(item){
+    	var cornerHtml = '';
+    	if(item.cornerPic){
+    		cornerHtml = `<img src="${base.getImg(item.cornerPic, '?imageMogr2/auto-orient/thumbnail/!800x600r')}">`
+    	}
+    	return `<div class="activity-item">
+					<a href="../activity/activity-detail.html?code=${item.code}">
+			    		<div class="pic fl" style="background-image: url('${base.getImg(item.advPic, '?imageMogr2/auto-orient/thumbnail/!580x420r')}');"></div>
+			    		<div class="content fr">
+			    			<div class="name">${item.name}</div>
+			    			<div class="info">
+			    				<samp class="address  wp100">${item.placeDest}</samp>
+			    				<samp class="data wp100">${base.formatDate(item.startDatetime,'yyyy-MM-dd')}至${base.formatDate(item.endDatetime,'yyyy-MM-dd')}</samp>
+			    			</div>
+			    			<div class="care"><samp>${item.groupNum}人成行</samp></div>
+			    			<div class="priceWrap">
+			    				<div class="price">￥${base.formatMoney(item.amount)}</div>
+			    			</div>
+			    		</div>
+			    		<div class="cornerPic">${cornerHtml}</div>
+					</a>
+					<div class="joinInBtn" data-code="${item.code}">一键报名</div>
+				</div>`
     }
     
     //筛选
@@ -163,7 +190,6 @@ define([
     		placeDestCity = ''
 			filter();
         })
-    	
 	}
 	
 	//省市区选择

@@ -19,6 +19,7 @@ define([
     	jf: 0,
     	xjk: 0,
     }
+    var actCode = '';
 
     init();
     function init(){
@@ -154,6 +155,7 @@ define([
         ActivityStr.getOrderDetail(code)
             .then((data) => {
                 base.hideLoading();
+                actCode = data.activity.code;
                 var price = 0;
             	price = '￥ '+base.formatMoney(data.totalAmount1);
             	
@@ -227,20 +229,7 @@ define([
                     base.hideLoading();
                     base.showMsg("支付成功");
                     setTimeout(() => {
-                    	//商城订单
-                    	if(type == MALL_ORDER) {
-                        	base.gohrefReplace("../user/mall-orders.html");
-			            //租赁订单
-			            } else if(type == LEASE_ORDER) {
-                        	base.gohrefReplace("../user/lease-orders.html");
-			            //活动订单
-			            } else if(type == ACTIVITY_ORDER) {
-							if(isWxGroupQrcode=='1'){
-		                		base.gohrefReplace("../activity/doSuccess.html?code="+code);
-							} else {
-		                		base.gohrefReplace("../user/activity-orders.html");
-							}
-			            } 
+                    	base.gohrefReplace("../user/mall-orders.html");
                     }, 500);
                 }
             });
@@ -265,7 +254,7 @@ define([
                     base.hideLoading();
                     base.showMsg("支付成功");
                     setTimeout(() => {
-                        location.replace("../user/user.html");
+                    	base.gohrefReplace("../user/lease-orders.html");
                     }, 500);
                 }
             });
@@ -285,7 +274,11 @@ define([
                     base.hideLoading();
                     base.showMsg("支付成功");
                     setTimeout(() => {
-                        location.replace("../user/user.html");
+                        if(isWxGroupQrcode=='1'){
+	                		base.gohrefReplace("../activity/doSuccess.html?code="+actCode);
+						} else {
+	                		base.gohrefReplace("../user/activity-orders.html");
+						}
                     }, 500);
                 }
             });

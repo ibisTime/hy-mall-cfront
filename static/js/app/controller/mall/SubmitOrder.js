@@ -16,7 +16,8 @@ define([
 	var isBindMobile = false;//是否绑定手机号
 	var totalAmount = {
 		amount1:0,//人民币总价
-		amount2:0//积分总价
+		amount2:0,//积分总价
+		expressFee: 0 // 运费
 	};
 	var config = {
 		productSpecsCode: spec,
@@ -40,7 +41,16 @@ define([
 		},
 		configYunFeiProductList = [];
 	var cartCodeList =[];
-    
+	
+	//团购价格
+	var gPrice = 0;
+	
+	// 是否是团购
+	var isGP = false;
+	if(gCode){
+		isGP = true;
+	}
+	
     if(base.getUserId()){
     	
     	init();
@@ -62,17 +72,36 @@ define([
 	        	getUserInfo()
 	        )
         }else{
-        	$.when(
-	        	getProductDetail(code),
-	        	isDefaultAddress(),
-	        	getUserInfo()
-	        )
+        	if(isGP){
+		        $.when(
+	        		getGroupPurchaseDetail(gCode),
+		        	isDefaultAddress(),
+		        	getUserInfo()
+		        )
+			} else {
+				
+	        	$.when(
+		        	getProductDetail(code),
+		        	isDefaultAddress(),
+		        	getUserInfo()
+		        )
+			}
         }
         
     	$("#toUser").attr('data-toUser',SYS_USER)
     	$("#toUser .toUserName samp").html(SYS_USERNAME)
         base.hideLoading();
         addListener()
+	}
+	
+	// 获取团购详情
+	function getGroupPurchaseDetail(c){
+		return MallCtr.getGroupPurchaseDetail(c).then((data)=>{
+			
+			gPrice = data.price;
+			
+        	getProductDetail(code);
+		},()=>{})
 	}
 	
 	//获取用户详情 查看是否绑定手机号
@@ -148,12 +177,16 @@ define([
 					}else{
 						specName = d.specsVal1;
 					}
+					if(isGP){
+						d.price1 = gPrice;
+					}
+					
 					price = type==JFPRODUCTTYPE ? base.formatMoney(d.price2)+'积分' : '￥'+base.formatMoney(d.price1)
 					totalAmount.amount1 = d.price1 || 0;
 					totalAmount.amount2 = d.price2 || 0;
 				}
 			})
-			html = `<a class="mall-item" href="./mallDetail.html?code=${data.code}">
+			html = `<a class="mall-item" href="./mallDetail.html?code=${data.code}&gCode=${gCode}">
     		<div class="mall-item-img fl" style="background-image: url('${base.getImg(data.advPic)}');"></div>
     		<div class="mall-item-con fr">
     			<p class="name">${data.name}</p>
@@ -164,7 +197,7 @@ define([
     			</div></div></a>`;
     			
 			$(".orderPro-list").html(html);
-			$("#totalAmount").html(type==JFPRODUCTTYPE ? base.formatMoney(totalAmount.amount2*quantity)+'积分' : '￥'+base.formatMoney(totalAmount.amount1*quantity))
+			$("#totalAmount").html(type==JFPRODUCTTYPE ? base.formatMoney(totalAmount.amount2*quantity)+'积分' : '￥'+base.formatMoney(totalAmount.amount1*quantity + totalAmount.expressFee))
 			
 		},()=>{})
 	}
@@ -306,7 +339,7 @@ define([
 				
 				$('.yunfeiWrap').removeClass('hidden')
 				$("#yunfei samp").html('￥'+base.formatMoney(data.expressFee));
-				
+				totalAmount.expressFee = data.expressFee;
 				if(submitType == 2){
 					$("#totalAmount").html( totalAmount.amount2&&totalAmount.amount2!=0 ? '￥'+base.formatMoney(totalAmount.amount1*quantity+data.expressFee)+'+'+base.formatMoney(totalAmount.amount2*quantity)+'积分': '￥'+base.formatMoney(totalAmount.amount1*quantity+data.expressFee))
 				}else{

@@ -130,8 +130,11 @@ define([
 			
 			amountType = data.amountType;
 			
-			if(amountType=='1'){
+//			if(amountType=='1'){
 				$("#amountType1").removeClass("hidden")
+//			}
+			if(amountType == '0'){
+				$(".amountType1-wrap").addClass("hidden");
 			}
 			
 			$("#activityWrap .pic").css({"background-image":"url('"+base.getImg(data.advPic)+"')"})
@@ -156,27 +159,27 @@ define([
 			if(data.customKey1){
 				rules = {
 					...rules,
-					customKey1: {
+					customValues1: {
             			required: true
 					}
 				}
 				html1 += `<div class="form-item b_e_b">
 			                <div class="am-flexbox">
 			                    <span class="item-title">${data.customKey1}</span>
-			                    <input type="text" placeholder="请输入${data.customKey1}" id="customKey1" name="customKey1" class="input-item">
+			                    <input type="text" placeholder="请输入${data.customKey1}" id="customValues1" name="customValues1" class="input-item">
 			                </div>
 			            </div>`;
 			    html2 += `<div class="wrap">
                 			<samp class="fl tit">${data.customKey1}：</samp>
                 			<div class="fr conWrap">
-                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey1}" id="enroll-customKey1" name="customKey1" />
+                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey1}" id="enroll-customValues1" name="customValues1" />
                 			</div>
                 		</div>`;
 			}
 			if(data.customKey2){
 				rules = {
 					...rules,
-					customKey2: {
+					customValues2: {
             			required: true
 					}
 				}
@@ -184,20 +187,20 @@ define([
 				html1 +=`<div class="form-item b_e_b">
 			                <div class="am-flexbox">
 			                    <span class="item-title">${data.customKey2}</span>
-			                    <input type="text" placeholder="请输入${data.customKey2}" id="customKey2" name="customKey2" class="input-item">
+			                    <input type="text" placeholder="请输入${data.customKey2}" id="customValues2" name="customValues2" class="input-item">
 			                </div>
 			            </div>`;
 			    html2 += `<div class="wrap">
                 			<samp class="fl tit">${data.customKey2}：</samp>
                 			<div class="fr conWrap">
-                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey2}" id="enroll-customKey2" name="customKey2" />
+                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey2}" id="enroll-customValues2" name="customValues2" />
                 			</div>
                 		</div>`;
 			}
 			if(data.customKey3){
 				rules = {
 					...rules,
-					customKey3: {
+					customValues3: {
             			required: true
 					}
 				}
@@ -205,20 +208,20 @@ define([
 				html1 +=`<div class="form-item b_e_b">
 			                <div class="am-flexbox">
 			                    <span class="item-title">${data.customKey3}</span>
-			                    <input type="text" placeholder="请输入${data.customKey3}" id="customKey3" name="customKey3" class="input-item">
+			                    <input type="text" placeholder="请输入${data.customKey3}" id="customValues3" name="customValues3" class="input-item">
 			                </div>
 			            </div>`;
 			    html2 += `<div class="wrap">
                 			<samp class="fl tit">${data.customKey3}：</samp>
                 			<div class="fr conWrap">
-                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey3}" id="enroll-customKey3" name="customKey3" />
+                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey3}" id="enroll-customValues3" name="customValues3" />
                 			</div>
                 		</div>`;
 			}
 			if(data.customKey4){
 				rules = {
 					...rules,
-					customKey4: {
+					customValues4: {
             			required: true
 					}
 				}
@@ -226,20 +229,20 @@ define([
 				html1 +=`<div class="form-item b_e_b">
 			                <div class="am-flexbox">
 			                    <span class="item-title">${data.customKey4}</span>
-			                    <input type="text" placeholder="请输入${data.customKey4}" id="customKey4" name="customKey4" class="input-item">
+			                    <input type="text" placeholder="请输入${data.customKey4}" id="customValues4" name="customValues4" class="input-item">
 			                </div>
 			            </div>`;
 			    html2 += `<div class="wrap">
                 			<samp class="fl tit">${data.customKey4}：</samp>
                 			<div class="fr conWrap">
-                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey4}" id="enroll-customKey4" name="customKey4" />
+                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey4}" id="enroll-customKey4" name="customValues4" />
                 			</div>
                 		</div>`;
 			}
 			if(data.customKey5){
 				rules = {
 					...rules,
-					customKey5: {
+					customValues5: {
             			required: true
 					}
 				}
@@ -247,13 +250,13 @@ define([
 				html1 +=`<div class="form-item b_e_b">
 			                <div class="am-flexbox">
 			                    <span class="item-title">${data.customKey5}</span>
-			                    <input type="text" placeholder="请输入${data.customKey5}" id="customKey5" name="customKey5" class="input-item">
+			                    <input type="text" placeholder="请输入${data.customKey5}" id="customValues5" name="customValues5" class="input-item">
 			                </div>
 			            </div>`;
 			    html2 += `<div class="wrap">
                 			<samp class="fl tit">${data.customKey5}：</samp>
                 			<div class="fr conWrap">
-                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey5}" id="enroll-customKey5" name="customKey5" />
+                				<input type="text" class="wp100 con" placeholder="请输入${data.customKey5}" id="enroll-customValues5" name="customValues5" />
                 			</div>
                 		</div>`;
 			}
@@ -394,15 +397,14 @@ define([
 	        
 			params.prodList = prodList;
 			params.rprodList = rprodList;
-			
 			getYunfei(params);
-			
 		}
 		
 	}
 	//获取金额
 	function getYunfei(params){
 		base.showLoading()
+		params.enrollList = getEnrollList();
 		return ActivityStr.getYunfei(params).then((data)=>{
 			var actAmount = $("#activityWrap #price").attr('data-prict');//活动金额
 			$("#totalAmount").html('￥'+base.formatMoney(data.totalAmount+(actAmount*(peopleNum-1)*1000)))
@@ -410,6 +412,19 @@ define([
 		}, base.hideLoading)
 	}
 	
+	//获取报名列表
+	function getEnrollList(){
+		var enrollList = [];
+		var formData = $('#formWrapper').serializeObject();
+		config.iceName = formData.iceName;
+		config.iceMobile = formData.iceMobile;
+		delete formData.iceName;
+		delete formData.iceMobile;
+		
+		enrollList.push(formData);
+		enrollList = enrollList.concat(enrollListTmpl);
+		return enrollList;
+	}
 	//提交订单
 	function submitOrder(params){
 		console.log(params);
@@ -451,20 +466,7 @@ define([
 	function goSubmitOrder(){
 		var params = {};
 		//收费活动需填写真实信息
-		if(amountType=='1'){
-			var enrollList = [];
-			var formData = $('#formWrapper').serializeObject();
-			config.iceName = formData.iceName;
-			config.iceMobile = formData.iceMobile;
-			delete formData.iceName;
-			delete formData.iceMobile;
-			
-			enrollList.push(formData);
-			enrollList = enrollList.concat(enrollListTmpl);
-			
-			config.enrollList = enrollList;
-		}
-		
+		config.enrollList = getEnrollList();
 		config.applyNote = $("#applyNote").val();
 		
 		//直接报名
@@ -542,8 +544,9 @@ define([
 		                    <input type="tel" placeholder="请输入联系电话" pattern="[0-9]*" value="${params.mobile}" class="input-item">
 		                </div>
 		                <div class="inputMask"></div>
-		            </div>
-		            <div class="form-item b_e_b">
+		            </div>`
+		if(amountType=='1'){
+			html += `<div class="form-item b_e_b">
 		                <div class="am-flexbox">
 		                    <span class="item-title">真实姓名</span>
 		                    <input type="text" placeholder="请输入真实姓名" value="${params.realName}" class="input-item">
@@ -556,8 +559,9 @@ define([
 		                    <input type="text" placeholder="请输入身份证号" value="${params.idNo}" class="input-item">
 		                </div>
 		                <div class="inputMask hidden"></div>
-		            </div>
-		            <div class="form-item b_e_b">
+		            </div>`
+		}
+		    html += `<div class="form-item b_e_b">
 		                <div class="am-flexbox">
 		                    <span class="item-title">性别</span>
 		                    <select class="select-item" value="${params.gender}">

@@ -37,6 +37,9 @@
 .ptb20lr30{
     padding: .2rem .3rem;
 }
+.height90{
+    height: .9rem;
+}
 .b_e_b{
     border-bottom: 1px solid $border-color;
 }
@@ -2191,6 +2194,10 @@ label.error {
                 left: 0;
                 z-index: 11;
                 color: #474747;
+            }
+            &.yellow{
+                background-color: #ffc300 !important;
+                color: #fff !important;;
             }
         }
     }
@@ -4348,6 +4355,43 @@ label.error {
 }
 
 /*游记*/
+.userWrap{
+    width: 100%;
+    padding: .3rem .3rem .2rem;
+    overflow: hidden;
+    position: relative;
+
+    .userPic{
+        width: .8rem;
+        height: .8rem;
+        border-radius: 50%;
+        overflow: hidden;
+        float: left;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        border: 1px solid $border-color;
+    }
+    .userInfo{
+        height: .8rem;
+        float: left;
+        overflow: hidden;
+        margin-left: .3rem;
+
+        p{
+            font-size: .28rem;
+        }
+        samp{
+            font-size: .24rem;
+        }
+    }
+    .status{
+        position: absolute;
+        top: .32rem;
+        right: .32rem;
+        color: $red-color;
+    }
+}
 .tNotes-item{
     width: 100%;
     background-color: #fff;
@@ -4358,44 +4402,6 @@ label.error {
         width: 100%;
         overflow: hidden;
         padding-bottom: .1rem;
-    }
-
-    .userWrap{
-        width: 100%;
-        padding: .3rem .3rem .2rem;
-        overflow: hidden;
-        position: relative;
-
-        .userPic{
-            width: .8rem;
-            height: .8rem;
-            border-radius: 50%;
-            overflow: hidden;
-            float: left;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            border: 1px solid $border-color;
-        }
-        .userInfo{
-            height: .8rem;
-            float: left;
-            overflow: hidden;
-            margin-left: .3rem;
-
-            p{
-                font-size: .28rem;
-            }
-            samp{
-                font-size: .24rem;
-            }
-        }
-        .status{
-            position: absolute;
-            top: .32rem;
-            right: .32rem;
-            color: $red-color;
-        }
     }
 
     .conWrap{
@@ -5136,6 +5142,10 @@ label.error {
         position: absolute;
         right: .3rem;
         bottom: .2rem;
+    }
+    .cornerPic{
+        top: .2rem;
+        left: .3rem;
     }
 }
 
@@ -6192,6 +6202,18 @@ label.error {
         .photo{
             width: .6rem;
             height: .6rem;
+        }
+    }
+}
+/*报名列表*/
+.activity-signInList{
+    padding: .1rem .3rem;
+    .userWrap{
+        padding: .3rem 0;
+        border-bottom: 1px solid $border-color;
+        
+        &:first-child{
+            border-bottom: none;
         }
     }
 }

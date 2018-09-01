@@ -1,11 +1,12 @@
 define([
     'app/controller/base',
     'app/util/dict',
+    'app/module/validate',
     'app/module/scroll',
     'app/interface/ActivityStr',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr'
-], function(base, Dict, scroll, ActivityStr, GeneralCtr, UserCtr) {
+], function(base, Dict, Validate, scroll, ActivityStr, GeneralCtr, UserCtr) {
     var config = {
         start: 1,
         limit: 10
@@ -18,7 +19,7 @@ define([
             "2": ['2'],
             "3": ['4'],
             "4": ['3'],
-            "5": ['8','9'],
+            "5": ['8','9','6'],
             "6": ['5'],
         };
     var myScroll;
@@ -40,7 +41,6 @@ define([
         //获取状态数据字典
 		GeneralCtr.getDictList({parentKey:'act_order_status'},'801907').then((data)=>{
     		data.forEach(function(d, i){
-    			base.hideLoading()
     			orderStatus[d.dkey]=d.dvalue
     		})
     		
@@ -57,7 +57,6 @@ define([
     function getContact(){
     	return GeneralCtr.getPageUserSysConfig()
 			.then(function(data){
-                base.hideLoading();
                 data.list.forEach((item) => {
                     if(item.ckey == "custom_center") {
                     	$("#description").html(item.cvalue);
@@ -100,6 +99,7 @@ define([
             ...config
         }, refresh)
             .then((data) => {
+                base.hideLoading();
                 var lists = data.list;
                 var totalCount = +data.totalCount;
                 if (totalCount <= config.limit || lists.length < config.limit) {
@@ -148,7 +148,12 @@ define([
     		tmplbtnHtml += `<div class="order-item-footer"><a class="am-button am-button-small am-button-red" href="../pay/pay.html?code=${item.code}&type=activity">立即支付</a>
                             <button class="am-button am-button-small cancel-order" data-code="${item.code}">取消订单</button></div>`
     	} else {
-    		tmplbtnHtml += `<div class="order-item-footer"><button class="am-button am-button-small am-button-glost contact-btn">联系客服</button></div>`
+    		tmplbtnHtml += `<div class="order-item-footer">`
+    		
+    		if(item.status == '2' && item.activity.amountType != '0'){
+    			tmplbtnHtml += `<button class="am-button am-button-small return-order am-button-red" data-code="${item.code}">申请退款</button>`
+    		}
+    		tmplbtnHtml += `<button class="am-button am-button-small am-button-glost contact-btn">联系客服</button></div>`
     	}
         return `<div class="order-item">
                     <div class="order-item-header">
@@ -160,28 +165,25 @@ define([
 
     }
     
-    //弹窗取消
-    function dialgoClose(){
-    	$("#dialog").addClass('hidden');
-            
-        $("#backType option").eq(0).prop("selected", 'selected');
-		$("#backLogisticsCompany option").eq(0).prop("selected", 'selected');
-		$("#backLogisticsCode").val("");
-		$("#backAddress").val("");
-    	$(".addbackPdf").removeClass('hidden')
-		$("#backPdf").html("");
-		$('#backPdf').attr('data-key','')
-		$('#backStore option').eq(0).attr('selected','selected')
-		$("#backStoreAddress .textarea").html($('#backStore option').eq(0).attr('data-address'))
-		
-		$("#dialog-returnAddress2").addClass('hidden')
-		$("#returnAddressType").addClass('hidden')
-		$('#returnAddressType select').val('2')
-		
-        $(".backLogisticsCompany").removeClass('hidden')
-		$(".backLogisticsCode").removeClass('hidden')
-		$(".backAddress").addClass('hidden')
-    }
+	//申请退款弹窗-关闭
+	function applyReturnDialogClose(){
+    	$("#applyReturnDialog").addClass('hidden');
+    	$("#applyReturnDialog .confirm").attr("data-code", '');
+    	$("#applyReturnForm").get(0).reset();
+	}
+	
+	// 申请退款
+	function returnOrder(params){
+		return ActivityStr.returnOrder(params).then(()=>{
+			applyReturnDialogClose();
+			base.hideLoading();
+			base.showMsg('操作成功！')
+			
+			setTimeout(function(){
+				location.reload(true);
+			},800)
+		}, base.hideLoading)
+	}
     
     function addListener(){
         // tabs切换事件
@@ -242,6 +244,54 @@ define([
         //联系客服弹窗-关闭
         $("#contactDialog .canlce").click(function(){
         	$("#contactDialog").addClass("hidden")
+        })
+        
+        var touchFalg = false;
+        //申请退货---- start
+        var _applyReturnForm = $("#applyReturnForm");
+        _applyReturnForm.validate({
+            'rules': {
+                remark: {
+                }
+            },
+            onkeyup: false
+        });
+        
+        //申请退货弹窗-取消
+        $("#applyReturnDialog .canlce").click(function(){
+        	touchFalg = false
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
+        	
+            applyReturnDialogClose();
+        })
+        
+        //申请退货弹窗-确定
+        $("#applyReturnDialog .confirm").click(function(){
+        	var productCode =$(this).attr('data-code');
+        	var params = _applyReturnForm.serializeObject();
+        	if(_applyReturnForm.valid()){
+        		params.code = productCode;
+        		base.showLoading();
+        		returnOrder(params);
+        	}
+        })
+        //申请退货---- end
+        
+        //申请退款按钮
+        $("#orderWrapper").on('click', '.return-order', function(){
+        	$("#applyReturnDialog .confirm").attr("data-code", $(this).attr("data-code"));
+    		$("#applyReturnDialog").removeClass('hidden');
+    		
+    		touchFalg = true
+        	$('body').on('touchmove',function(e){
+				if(touchFalg){
+					e.preventDefault();
+				}
+			})
         })
     }
     
