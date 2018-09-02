@@ -92,7 +92,7 @@ define([
                 var htmlPro = '';
 				data.productOrderList.forEach(function(d, i){
 					var returnHtml = '';
-					if(data.status == "4"){
+					if(data.status == "4" || data.status == "5" ){
 						var btnClass='';
 						
 						// 可退货

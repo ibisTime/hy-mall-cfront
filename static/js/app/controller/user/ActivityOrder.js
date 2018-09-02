@@ -137,7 +137,7 @@ define([
 			<p class="name">${item.activity.name}</p>
 				<samp class="slogan">集合地:${item.activity.placeAsse}</samp>
 				<samp class="slogan">目的地:${item.activity.placeDest}</samp>
-				<samp class="slogan">${base.formatDate(item.activity.startDatetime, "yyyy-MM-dd")}至${base.formatDate(item.activity.endDatetime, "yyyy-MM-dd")}</samp>
+				<samp class="slogan">${base.formatDate(item.activity.startDatetime, "yyyy-MM-dd hh:mm")}至${base.formatDate(item.activity.endDatetime, "yyyy-MM-dd hh:mm")}</samp>
 				<div class="orderList-price">
     				<p>${orderStatus[item.status]}</p>
     			</div>

@@ -35,20 +35,20 @@ define([
     function buildHtml(item){
     	if(item.identity == '1'){
     		return `<div class="userWrap">
-					<div class="userPic" style="background-image: url('${base.getImg(item.userInfo.photo)}');"></div>
-					<div class="userInfo">
-						<p class="nickName">${item.userInfo.nickname}</p>
-						<samp class="updateTime">${base.hideMobile(item.userInfo.mobile)}</samp>
-					</div>
-				</div>`
+						<div class="userPic" style="background-image: url('${base.getAvatar(item.userInfo.photo)}');"></div>
+						<div class="userInfo">
+							<p class="nickName">${item.userInfo.nickname}</p>
+							<samp class="updateTime">${base.hideMobile(item.userInfo.mobile)}</samp>
+						</div>
+					</div>`
     	} else {
     		return `<div class="userWrap">
-					<div class="userPic" style="background-image: url('${base.getImg(item.photo)}');"></div>
-					<div class="userInfo">
-						<p class="nickName">${item.realName}</p>
-						<samp class="updateTime">${base.hideMobile(item.mobile)}</samp>
-					</div>
-				</div>`
+						<div class="userPic" style="background-image: url('${base.getAvatar(item.photo)}');"></div>
+						<div class="userInfo">
+							<p class="nickName">${item.realName}</p>
+							<samp class="updateTime">${base.hideMobile(item.mobile)}</samp>
+						</div>
+					</div>`
     	}
     }
     

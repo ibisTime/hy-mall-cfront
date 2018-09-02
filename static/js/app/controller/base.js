@@ -424,9 +424,9 @@ define([
 		}
     };
 	if (!/\/redirect\.html/.test(location.href)) {
-//		if(Base.isLogin()){
-//			Base.isRock()
-//		}
+		if(Base.isLogin()){
+			Base.isRock()
+		}
 	}
 	
     return Base;

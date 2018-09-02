@@ -101,8 +101,8 @@ define([
 	        $(".detail-title .name").html(data.name)
 			$(".detail-title .slogan").html(data.slogan?data.slogan:'')
 			$("#price").html('<i>￥</i>'+base.formatMoney(data.amount))
-			$(".detail-title .enrollEndDatetime").text(base.formatDate(data.enrollEndDatetime, "yyyy-MM-dd"))
-			$(".detail-title .data").text(base.formatDate(data.startDatetime, "yyyy-MM-dd")+"至"+base.formatDate(data.endDatetime, "yyyy-MM-dd"))
+			$(".detail-title .enrollEndDatetime").text(base.formatDate(data.enrollEndDatetime, "yyyy-MM-dd hh:mm"))
+			$(".detail-title .data").text(base.formatDate(data.startDatetime, "yyyy-MM-dd hh:mm")+"至"+base.formatDate(data.endDatetime, "yyyy-MM-dd hh:mm"))
 			$(".detail-title .userNum").text(data.groupNum)
 			
 			var placeAsseProvince = data.placeAsseProvince=='其他'?'':data.placeAsseProvince+" ";

@@ -63,27 +63,27 @@ define([
             }
             return cache[code][cache_url].pipe(function(res) {
             	
-//              if (res.errorCode == "4") {
-//                  clearSessionUser();
-//                  sessionStorage.setItem("l-return", location.pathname + location.search);
-//                  loading.hideLoading();
-//                  setTimeout(function() {
-//                      location.replace("../user/redirect.html");
-//                  }, 800);
-//                  return $.Deferred().reject("登录超时，请重新登录");
-//              }
-//              if(res.errorInfo == "用户状态异常"){
-//  				location.replace("../user/isRock.html?isRock=1");
-//              }
-//              if(res.errorBizCode == "li01004"){
-//                  clearSessionUser();
-//                  sessionStorage.setItem("l-return", location.pathname + location.search);
-//                  loading.hideLoading();
-//                  setTimeout(function() {
-//                      location.replace("../user/redirect.html");
-//                  }, 800);
-//                  return $.Deferred().reject("登录异常，请重新登录");
-//              }
+                if (res.errorCode == "4") {
+                    clearSessionUser();
+                    sessionStorage.setItem("l-return", location.pathname + location.search);
+                    loading.hideLoading();
+                    setTimeout(function() {
+                        location.replace("../user/redirect.html");
+                    }, 800);
+                    return $.Deferred().reject("登录超时，请重新登录");
+                }
+                if(res.errorInfo == "用户状态异常"){
+    				location.replace("../user/isRock.html?isRock=1");
+                }
+                if(res.errorBizCode == "li01004"){
+                    clearSessionUser();
+                    sessionStorage.setItem("l-return", location.pathname + location.search);
+                    loading.hideLoading();
+                    setTimeout(function() {
+                        location.replace("../user/redirect.html");
+                    }, 800);
+                    return $.Deferred().reject("登录异常，请重新登录");
+                }
                 if(res.errorCode != "0"){
                     loading.hideLoading();
                     return $.Deferred().reject(res.errorInfo);

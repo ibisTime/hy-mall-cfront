@@ -40,13 +40,15 @@ define([
 	        $.when(
 	        	getGroupPurchaseDetail(gCode),
 	        	getPageComment(),
-	        	getPageCarProduct()
+	        	getPageCarProduct(),
+	        	getUser()
 	        )
 		} else {
 	        $.when(
 	        	getProductDetail(code),
 	        	getPageComment(),
-	        	getPageCarProduct()
+	        	getPageCarProduct(),
+	        	getUser()
 	        )
 		}
         
@@ -62,6 +64,15 @@ define([
 		return UserCtr.setLeaderSale(sLRfee).then(function(){},function(){});
 	}
 	
+	//获取用户详情
+	function getUser(){
+		return UserCtr.getUser().then((data)=>{
+			if(!isGP && data.isLeader == '1'){
+	    		$(".recommendBtn-wrap").removeClass("hidden");
+			}
+		})
+	}
+	
 	// 获取团购详情
 	function getGroupPurchaseDetail(c){
 		return MallCtr.getGroupPurchaseDetail(c).then((data)=>{
@@ -70,6 +81,7 @@ define([
 			gStatus = data.status;
 			
 			$(".mallDetail-title .minPrice").html('<i>￥</i>'+ base.formatMoney(data.price)+'<i>起</i>')
+			$(".mallDetail-title .boughtCount").html('已售'+data.nowQuantity)
 			
 			var html = `<p class="txt wp100">团购开始时间: ${base.formatDate(data.startDatetime, 'yyyy-MM-dd hh:mm')}</p>
 						<p class="txt wp100">团购结束时间: ${base.formatDate(data.endDatetime, 'yyyy-MM-dd hh:mm')}</p>
@@ -97,9 +109,6 @@ define([
 				if(type==JFPRODUCTTYPE || (isGP && gStatus=="1")){
 					$(".mallBottom-right .buyBtn").removeClass('hidden').css('width','100%')
 				}else if(!isGP){
-					if(base.getIsLeader()){
-				    	$(".recommendBtn-wrap").removeClass("hidden");
-				    }
 					$(".mallBottom-right .addShoppingCarBtn").removeClass('hidden')
 					$(".mallBottom-right .buyBtn").removeClass('hidden')
 				}
@@ -263,7 +272,9 @@ define([
 			if(!isGP){
 				$(".mallDetail-title .minPrice").html('<i>￥</i>'+ base.formatMoney(minPrice)+'<i>起</i>')
 			}
-			$(".mallDetail-title .boughtCount").html('已售'+data.boughtCount)
+			if(!isGP){
+				$(".mallDetail-title .boughtCount").html('已售'+data.boughtCount)
+			}
 			$("#specs1 .spec").html(specHtml1);
 			$("#specs2 .spec").html(specHtml2);
 			

@@ -12,7 +12,11 @@ define([
     init();
     
     function init() {
-    	
+    	if(currency=='JF'){
+    		$("#subBtn").val('转入小金库');
+		}else if(currency=='XJK'){
+    		$("#subBtn").val('转入积分');
+		}
         base.showLoading();
         $.when(
         	getAccount(),
@@ -25,7 +29,12 @@ define([
     // 获取兑换比例
     function getAccountSysConfig(){
     	GeneralCtr.getAccountSysConfig("XJK2JF").then(function(data){
+    		
+    	if(currency=='JF'){
+        	$("#rate").text(data.cvalue+'积分兑换1小金库');
+		}else if(currency=='XJK'){
         	$("#rate").text('1小金库兑换'+data.cvalue+'积分');
+		}
     	}, function(){})
     }
     
@@ -56,6 +65,7 @@ define([
 	//划转
 	function transferAccounts(amount){
 		return AccountCtr.JFTransferXJK(amount).then(function(data) {
+			base.hideLoading();
 			base.showMsg("操作成功")
 			
 			setTimeout(function(){
@@ -72,6 +82,7 @@ define([
         
         $("#subBtn").click(function(){
         	if(_formWrapper.valid()){
+        		base.showLoading();
         		transferAccounts($("#amount").val()*1000)
         	}
         })

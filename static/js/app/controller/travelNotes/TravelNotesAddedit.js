@@ -36,9 +36,9 @@ define([
 	//获取跑团列表
 	function getRunTeamList(){
 		GeneralCtr.getDictList({parentKey:'run_team_list'},'801907').then(function(data) {
-			var html = ''
+			var html = '<option value="">请选择</option>';
 			data.forEach(function(v, i){
-				html=`<option value="${v.dkey}">${v.dvalue}</option>`;
+				html+=`<option value="${v.dkey}">${v.dvalue}</option>`;
 			})
 			$("#runTeam").html(html);
 		});
@@ -178,7 +178,7 @@ define([
 					
 	    			var params={
 		    			description:$("#description").val(),
-		    			runTeamlist:$("#runTeam").val(),
+		    			runTeamList:$("#runTeam").val(),
 		    			pic:pic
 		    		}
 		    		if(code){

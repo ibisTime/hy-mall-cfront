@@ -62,7 +62,7 @@ define([
 						<div class="mall-item-img fl" style="background-image: url('${base.getImg(item.product.advPic)}');"></div>
 						<div class="mall-item-con fr">
 							<p class="name pr60">${item.product.name}</p>
-							<samp class="grayTxt">${item.quantity}件成团</samp><br/>
+							<samp class="grayTxt">${item.quantity}件成团 / ${item.nowQuantity}件已出售</samp><br/>
 							<samp class="grayTxt">${base.formatDate(item.startDatetime, 'yyyy-MM-dd')}至${base.formatDate(item.endDatetime, 'yyyy-MM-dd')}</samp>
 							<div class="price">
 								<samp class="samp1">￥${base.formatMoney(item.price)}</samp>

@@ -104,7 +104,7 @@ define([
 			    				<samp class="address  wp100">${item.placeDest}</samp>
 			    				<samp class="data wp100">${base.formatDate(item.startDatetime,'yyyy-MM-dd')}至${base.formatDate(item.endDatetime,'yyyy-MM-dd')}</samp>
 			    			</div>
-			    			<div class="care"><samp>${item.groupNum}人成行</samp></div>
+			    			<div class="care"><samp>${item.groupNum}人成行 / ${item.enrollNum}人已报名</samp></div>
 			    			<div class="priceWrap">
 			    				<div class="price">￥${base.formatMoney(item.amount)}</div>
 			    			</div>

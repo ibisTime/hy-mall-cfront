@@ -45,7 +45,7 @@ define([
 		    			<p class="name">${data.activity.name}</p>
 		    			<samp class="slogan">集合地:${data.activity.placeAsse}</samp>
 						<samp class="slogan">目的地:${data.activity.placeDest}</samp>
-						<samp class="slogan">${base.formatDate(data.activity.startDatetime, "yyyy-MM-dd")}至${base.formatDate(data.activity.endDatetime, "yyyy-MM-dd")}</samp>
+						<samp class="slogan">${base.formatDate(data.activity.startDatetime, "yyyy-MM-dd hh:mm")}至${base.formatDate(data.activity.endDatetime, "yyyy-MM-dd hh:mm")}</samp>
 		    			<div class="price wp100">
 		    				<samp class="samp1 fl">￥${base.formatMoney(data.activity.amount)}</samp>
 		    			</div></div></a>`;
@@ -157,7 +157,12 @@ define([
 				$(".actOrderAmount .totalAmount samp").html('￥'+base.formatMoney(data.totalAmount1))
 				
 				//下单说明
-				$("#applyNote").html(data.applyNote?data.applyNote:'无')
+				if(data.status=='91' || data.status=='9'){
+					$("#applyNote").html(data.remark?data.remark:'无')
+				} else {
+					
+					$("#applyNote").html(data.applyNote?data.applyNote:'无')
+				}
 				
 				//订单信息
 				var htmlOrder = '';

@@ -6192,9 +6192,11 @@ label.error {
         z-index: 99;
     }
 }
+/*报名列表*/
 .activity-signInList{
     width: 100%;
     overflow: hidden;
+    padding: .1rem .3rem;
     .signInList-item{
         width: 50%;
         float: left;
@@ -6204,16 +6206,18 @@ label.error {
             height: .6rem;
         }
     }
-}
-/*报名列表*/
-.activity-signInList{
-    padding: .1rem .3rem;
     .userWrap{
         padding: .3rem 0;
         border-bottom: 1px solid $border-color;
         
-        &:first-child{
+        &:last-child{
             border-bottom: none;
         }
+    }
+}
+
+.doSuccess-goIndex{
+    .mallfloat{
+        border-radius: .1rem !important;
     }
 }
