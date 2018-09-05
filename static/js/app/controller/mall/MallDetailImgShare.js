@@ -30,7 +30,7 @@ define([
 				})
 				html+=`<div class="qrcode" id="qrcode"></div>`
 				$("#content").html(html);
-				var href = SHARE_URL + "mall/mallDetail-sale.html?sLRfee=" + base.getUserId()+"&code="+code;
+				var href = SHARE_URL + "mall/mallDetail.html?sLRfee=" + base.getUserId()+"&code="+code;
 				var qrcode = new QRCode('qrcode', href);
 			}
 			

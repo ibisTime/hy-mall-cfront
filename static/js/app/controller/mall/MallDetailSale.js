@@ -52,7 +52,7 @@ define([
 			$(".userInfo").html(`
 				<div class="photo" style="background-image: url('${base.getWXAvatar(userData.photo)}')"></div>
 				<div class="nickname">我是${userData.nickname}</div>
-				<div class="txt">为你推荐<samp>${data.name}</samp></div>`);
+				<div class="txt">为你推荐<samp id="goDetail">${data.name}</samp></div>`);
 			
 			if(backData.backMinAmount == backData.backMaxAmount){
 				$(".backAmount-wrap .txt").html(`分销佣金每件<samp>${base.formatMoney(backData.backMinAmount)}</samp>元`)
@@ -83,6 +83,10 @@ define([
     	
     	$("#shareImgBtn").click(function(){
     		base.gohref("./mallDetail-imgShare.html?code="+code);
+    	})
+    	
+    	$(".userInfo").on("click", '#goDetail',function(){
+    		base.gohref("../mall/mallDetail.html?sLRfee=" + base.getUserId()+"&code="+code);
     	})
     	
 	}

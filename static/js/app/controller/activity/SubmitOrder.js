@@ -122,7 +122,6 @@ define([
 			}
 			if(data.gender){
 				$("#gender").val(data.gender).trigger("change");
-				$("#gender").parents(".form-item").find('.inputMask').removeClass("hidden");
 			}
 		});
 	}
