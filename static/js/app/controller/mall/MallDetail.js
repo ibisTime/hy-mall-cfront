@@ -67,7 +67,7 @@ define([
 	//获取用户详情
 	function getUser(){
 		return UserCtr.getUser().then((data)=>{
-			if(!isGP && data.isLeader == '1'){
+			if(data.saleStatus == '1'){
 	    		$(".recommendBtn-wrap").removeClass("hidden");
 			}
 		})
@@ -716,7 +716,7 @@ define([
 		
 		//我要推荐
 		$("#recommendBtn").click(function(){
-			base.gohref("./mallDetail-sale.html?sLRfee=" + base.getUserId()+"&code="+code);
+			base.gohref("./mallDetail-sale.html?sLRfee=" + base.getUserId()+"&code="+code+'&gCode='+gCode);
 		})
 		
 	}

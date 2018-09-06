@@ -6,6 +6,7 @@ define([
     'app/module/weixin',
 ], function(base, Swiper, MallCtr, GeneralCtr, weixin) {
 	var code = base.getUrlParam("code");
+	var gCode = base.getUrlParam('gCode') || '';
 	var userInfo = base.getUserInfo();
 	
     init();
@@ -30,7 +31,7 @@ define([
 				})
 				html+=`<div class="qrcode" id="qrcode"></div>`
 				$("#content").html(html);
-				var href = SHARE_URL + "mall/mallDetail.html?sLRfee=" + base.getUserId()+"&code="+code;
+				var href = SHARE_URL + "mall/mallDetail.html?sLRfee=" + base.getUserId()+"&code="+code+'&gCode='+gCode;
 				var qrcode = new QRCode('qrcode', href);
 			}
 			

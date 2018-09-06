@@ -22,9 +22,10 @@
                 else
                     docEl.style.fontSize = '100px';
             };
-        if (!doc.addEventListener) return;
-        win.addEventListener(resizeEvt, recalc, false);
-        doc.addEventListener('DOMContentLoaded', recalc, false)
+            recalc();
+//      if (!doc.addEventListener) return;
+//      win.addEventListener(resizeEvt, recalc, false);
+//      doc.addEventListener('DOMContentLoaded', recalc, false)
     })(document, window);
 </script>
 <script data-loader src="../js/app/config.js"></script>

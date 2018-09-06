@@ -7,6 +7,7 @@ define([
     'app/module/weixin',
 ], function(base, Swiper, MallCtr, UserCtr, Handlebars, weixin) {
 	var code = base.getUrlParam("code");
+	var gCode = base.getUrlParam('gCode') || '';
 	var userInfo = base.getUserInfo();
 	
     init();
@@ -82,11 +83,11 @@ define([
     	})
     	
     	$("#shareImgBtn").click(function(){
-    		base.gohref("./mallDetail-imgShare.html?code="+code);
+    		base.gohref("./mallDetail-imgShare.html?code="+code+'&gCode='+gCode);
     	})
     	
     	$(".userInfo").on("click", '#goDetail',function(){
-    		base.gohref("../mall/mallDetail.html?sLRfee=" + base.getUserId()+"&code="+code);
+    		base.gohref("../mall/mallDetail.html?sLRfee=" + base.getUserId()+"&code="+code+'&gCode='+gCode);
     	})
     	
 	}
